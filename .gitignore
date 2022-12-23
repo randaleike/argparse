@@ -1,0 +1,14 @@
+# OS junk files
+
+# Vscode files
+*.code-workspace
+.vscode/
+
+# Cmake files
+[Bb]uild/
+*.Cmake
+MakeFile
+
+# Build files
+*.o
+*.lst

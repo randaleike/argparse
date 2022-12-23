@@ -1,0 +1,2 @@
+AC_INIT([cvtmkv-mp4],[1.0])
+AM_INIT_AUTOMAKE
