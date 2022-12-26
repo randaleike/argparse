@@ -17,6 +17,8 @@ set (envparseInclude
     )
 
 set (envparseSrc
+    ${CMAKE_CURRENT_LIST_DIR}/../parser_base/src/parser_base.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/../parser_base/src/parser_string_list.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/envparse.cpp
     )
 

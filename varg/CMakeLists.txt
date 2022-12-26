@@ -19,6 +19,7 @@ set (vargInclude
     )
 
 set (vargSrc
+    ${CMAKE_CURRENT_LIST_DIR}/../varg_intf/src/varg_intf.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/varg.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/vargincrement.cpp
     )

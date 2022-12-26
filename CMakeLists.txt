@@ -60,8 +60,7 @@ add_custom_target(argparse
     COMMAND ar -x $<TARGET_FILE:parser_base>
     COMMAND ar -x $<TARGET_FILE:cmd_line_parse>
     COMMAND ar -x $<TARGET_FILE:envparse>
-    COMMAND ar -qcs ${C_LIB} *.o
+    COMMAND ar rcs ${C_LIB} *.o
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS ${argparse_libs}
-    )    
-    
+    )

@@ -1,22 +1,22 @@
-/* 
+/*
 Copyright (c) 2022 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -51,7 +51,7 @@ static varg<bool> helpFlag(false, true);
 
 /**
  * @brief Test if the next command line argument is a key switch
- * 
+ *
  * @return true  - Next command line argument is a key switch
  * @return false - Next argument is a value
  */
@@ -61,7 +61,7 @@ bool cmd_line_parse::isCurrentArgKeySwitch()
 }
 
 /**
- * @brief Add the default help arguments 
+ * @brief Add the default help arguments
  */
 void cmd_line_parse::addDefaultHelpArgument()
 {
@@ -103,10 +103,10 @@ void cmd_line_parse::addDefaultHelpArgument()
 
 /**
  * @brief Break the input value list into it's parts
- * 
+ *
  * @param valueString - delimited list of value data
  * @param valueList  - Reference to the current value string list
- * 
+ *
  * @return size_t - number of elements in the list
  */
 size_t cmd_line_parse::getInitialValueList(parserstr& valueString, std::list<parserstr>& valueList)
@@ -126,10 +126,10 @@ size_t cmd_line_parse::getInitialValueList(parserstr& valueString, std::list<par
 
 /**
  * @brief Find the argument object that matches the input string
- * 
+ *
  * @param keystring   - Input string to match
  * @param found       - Set to true if match was found, else false
- * 
+ *
  * @return ArgEntry - Reference to the ArgEntry from the ArgEntry if match was found. Or nullptr if not.
  */
 ArgEntry& cmd_line_parse::findMatchingArg(const char* keystring, bool& found)
@@ -147,11 +147,11 @@ ArgEntry& cmd_line_parse::findMatchingArg(const char* keystring, bool& found)
 
 /**
  * @brief Assign the flag value to the key argument
- * 
+ *
  * @param currentArg - Pointer to the argument to set
  * @param keyString  - Key value that was matched
  * @param valueString - Reference to the embedded value string if present, else empty string
- * 
+ *
  * @return bool - False = assignment worked, true = assignment failed
  */
 bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyString, parserstr& valueString)
@@ -173,24 +173,24 @@ bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyStr
 
 
 /**
- * @brief Assign multiple values to a list argument storeage.  
- * 
+ * @brief Assign multiple values to a list argument storeage.
+ *
  * @param currentArg - Pointer to the argument to set
  * @param keyString  - Key value that was matched
  * @param valueString - Reference to the embedded value string if present, else empty string
- * 
+ *
  * @return bool - False = assignment worked, true = assignment failed
  */
 bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString, parserstr& valueString)
 {
-    if (debugMsgLevel > 5) 
+    if (debugMsgLevel > 5)
     {
         std::cout << "Initial value string: " << valueString << std::endl;
     }
     std::list<parserstr> assignmentValues;
     size_t valueCount = getInitialValueList(valueString, assignmentValues);
     size_t requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
-    if (debugMsgLevel > 5) 
+    if (debugMsgLevel > 5)
     {
         std::cout << "Value string post get: " << valueString << std::endl;
         std::cout << "Initial value count: " << valueCount << " Required Count(abs): " << requiredValueCount << " Narg: " << currentArg.nargs << std::endl;
@@ -198,7 +198,7 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
     }
 
     // Argument list is the input values list
-    while (((valueCount < requiredValueCount) || (currentArg.nargs == -1)) && 
+    while (((valueCount < requiredValueCount) || (currentArg.nargs == -1)) &&
            (currentArgumentIndex < argcount) &&
            !isCurrentArgKeySwitch()
           )
@@ -209,7 +209,7 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
         size_t addCount = parser_base::getValueList(currentValueString, assignmentValues);
         if (debugMsgLevel > 5) std::cout << "Next addCount: " << addCount << std::endl;
 
-        if (addCount == 0) 
+        if (addCount == 0)
         {
             // Negative number required == max count
             break;
@@ -253,7 +253,7 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
 
 /**
  * @brief Find the matching argument and assign the value
- * 
+ *
  * @param searchString - Key argument value to find and set
  * @param valueString - Value string from the argument or empty string
  */
@@ -298,9 +298,9 @@ void cmd_line_parse::parseKeyArg()
     std::size_t valuePos = currentArg.find(assignmentDelimeter);
     parserstr valueString;
     if (valuePos != parserstr::npos)
-    { 
+    {
         // Copy the assignment string into valueString and truncate the currentArg string
-        // to just the argument protion 
+        // to just the argument protion
         valueString = currentArg.substr(valuePos + sizeof(char), parserstr::npos);
         currentArg.erase(valuePos);
     }
@@ -349,7 +349,7 @@ void cmd_line_parse::parsePositionalArg()
         {
             if ((currentArg->position == positionNumber) || (currentArg->position == 0))
             {
-                if (currentArg->position != 0) 
+                if (currentArg->position != 0)
                 {
                     positionNumber++;
                 }
@@ -372,8 +372,8 @@ void cmd_line_parse::parsePositionalArg()
 //============================================================================================================================
 cmd_line_parse::cmd_line_parse(parserstr usage, parserstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
     parser_base(abortOnError, debugLevel),
-    programName(""), usageText(usage), descriptionText(description), epilogText(""), 
-    keyPrefix("-"), displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp), ignoreUnknownKey(false), 
+    programName(""), usageText(usage), descriptionText(description), epilogText(""),
+    keyPrefix("-"), displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp), ignoreUnknownKey(false),
     singleCharArgListAllowed(true), positionNumber(0),currentArgumentIndex(0), argcount(0), argvArray(nullptr),
     debugMsgLevel(debugLevel)
 {
@@ -402,7 +402,7 @@ cmd_line_parse::~cmd_line_parse()
 
 /**
  * @brief Add a new key based command line argument to the argument list
- * 
+ *
  * @param arg      - Pointer to the defined var argument to fill
  * @param name     - Name of the argument
  * @param argKeys  - Delimieted list of argument key values
@@ -410,9 +410,9 @@ cmd_line_parse::~cmd_line_parse()
  * @param nargs    - Number of argument values that follow
  *                   0 : Argument is a flag with no following values
  *                   1 : Simple argument with a single value
- *                   N : List argument with exactly N arguments, if less than N arguments 
+ *                   N : List argument with exactly N arguments, if less than N arguments
  *                       are found it is flagged as an error
- *                  -N : List argument with up to N arguments, if more than N arguments 
+ *                  -N : List argument with up to N arguments, if more than N arguments
  *                       are found it is flagged as an error
  * @param required - True if argument is required, false if arguemnt is optional
  */
@@ -444,7 +444,7 @@ void cmd_line_parse::addKeyArgument(varg_intf* arg, parserstr name, parserstr ar
         if (nargs != 0)
         {
             optionString += assignmentDelimeter;
- 
+
             if (nargs > 0)
             {
                 optionString += newKeyArg.name;
@@ -481,7 +481,7 @@ void cmd_line_parse::addKeyArgument(varg_intf* arg, parserstr name, parserstr ar
 
 /**
  * @brief Add a new key based flag command line argument to the argument list
- * 
+ *
  * @param arg      - Pointer to the defined var argument to fill
  * @param name     - Name of the argument
  * @param argKeys  - Delimieted list of argument key values
@@ -495,16 +495,16 @@ void cmd_line_parse::addFlagArgument(varg_intf* arg, parserstr name, parserstr a
 
 /**
  * @brief Add a new positinal based command line argument to the argument list
- * 
+ *
  * @param arg      - Pointer to the defined var argument to fill
  * @param name     - Name of the argument
  * @param helpText - Help text to be printed in the help message
  * @param nargs    - Number of argument values that follow
  *                   0 : Argument is a flag with no following values
  *                   1 : Simple argument with a single value
- *                   N : List argument with exactly N arguments, if less than N arguments 
+ *                   N : List argument with exactly N arguments, if less than N arguments
  *                       are found it is flagged as an error
- *                  -N : List argument with up to N arguments, if more than N arguments 
+ *                  -N : List argument with up to N arguments, if more than N arguments
  *                       are found it is flagged as an error
  * @param required - True if argument is required, false if arguemnt is optional
  */
@@ -568,10 +568,10 @@ void cmd_line_parse::addPositionalArgument(varg_intf* arg, parserstr name, parse
 
 /**
  * @brief Parse the input arguments
- * 
+ *
  * @param argc - Number of input arguments
  * @param argv - Array of char* input command line arguments
- * 
+ *
  * @return true  - No error parsing
  * @return false - Error in the input parameters that caused a parsing failure
  */
@@ -629,7 +629,7 @@ bool cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int end
                     optionString += "|";
                 }
                 optionString.resize(optionString.size() - 1);
- 
+
                 parserStringList->printMissingArgumentMessage(std::cerr, optionString.c_str());
                 parsingError = true;
             }
@@ -651,7 +651,7 @@ bool cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int end
 //=================================================================================================
 /**
  * @brief Print the formatted option help message to the input stream
- * 
+ *
  * @param outStream - Output streem to use for text output.  Default is the standard error stream
  */
 void cmd_line_parse::displayOptionHelp(std::ostream &outStream)
@@ -674,7 +674,7 @@ void cmd_line_parse::displayOptionHelp(std::ostream &outStream)
 
 /**
  * @brief Print the formatted environment help message to the input stream
- * 
+ *
  * @param outStream - Output streem to use for text output.  Default is the standard error stream
  */
 void cmd_line_parse::displayPositionHelp(std::ostream &outStream)
@@ -697,7 +697,7 @@ void cmd_line_parse::displayPositionHelp(std::ostream &outStream)
 
 /**
  * @brief Print the formatted help message to the input stream
- * 
+ *
  * @param outStream - Output streem to use for text output.  Default is the standard error stream
  */
 void cmd_line_parse::displayHelp(std::ostream &outStream)

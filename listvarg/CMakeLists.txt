@@ -17,6 +17,7 @@ set (listvargInclude
     )
 
 set (listvargSrc
+    ${CMAKE_CURRENT_LIST_DIR}/../varg_intf/src/varg_intf.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/listvarg.cpp
     )
 
