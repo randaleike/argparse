@@ -347,14 +347,21 @@ void cmd_line_parse::parsePositionalArg()
         parserstr valueString = argvArray[currentArgumentIndex++];
         for (std::list<ArgEntry>::iterator currentArg = positionalArgList.begin(); currentArg != positionalArgList.end(); ++currentArg)
         {
-            if ((currentArg->position == positionNumber) || (currentArg->position == 0))
+            if ((currentArg->position == parseingPositionNumber) || (currentArg->position == 0))
             {
+                if (debugMsgLevel > 5)
+                {
+                    std::cout << "Positional Argument Name: " << currentArg->name << ", position: " << currentArg->position << std::endl;
+                    std::cout << "Current Parsing Position: " << parseingPositionNumber << std::endl;
+                }
+
                 if (currentArg->position != 0)
                 {
-                    positionNumber++;
+                    parseingPositionNumber++;
                 }
                 currentArg->isFound = true;
                 parsingError = assignKeyValue(*currentArg, currentArg->name.c_str(), valueString);
+                break;
             }
         }
     }
@@ -374,7 +381,7 @@ cmd_line_parse::cmd_line_parse(parserstr usage, parserstr description, bool abor
     parser_base(abortOnError, debugLevel),
     programName(""), usageText(usage), descriptionText(description), epilogText(""),
     keyPrefix("-"), displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp), ignoreUnknownKey(false),
-    singleCharArgListAllowed(true), positionNumber(0),currentArgumentIndex(0), argcount(0), argvArray(nullptr),
+    singleCharArgListAllowed(true), positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0), argvArray(nullptr),
     debugMsgLevel(debugLevel)
 {
     positionalArgList.clear();
@@ -589,7 +596,6 @@ bool cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int end
     argcount = ((endingArgIndex > 0) ? endingArgIndex : argc);
     argvArray = argv;
     parsingError = false;
-    positionNumber = 1;
 
     while ((currentArgumentIndex < argcount) && ((parsingError && errorAbort) == false))
     {
