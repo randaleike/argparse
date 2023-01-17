@@ -1,22 +1,22 @@
-/* 
+/*
 Copyright (c) 2022 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -30,10 +30,11 @@ Copyright (c) 2022 Randal Eike
 // Includes
 #include <cstring>
 #include <string>
+#include <sstream>
 #include "parser_string_list.h"
 #if defined(DYNAMIC_INTERNATIONALIZATION)
   #if defined(__linux__) || defined(__unix__)
-    #include <stdlib.h> 
+    #include <stdlib.h>
   #elif defined(_WIN64) || defined(_WIN32)
     #include <Windows.h>
   #else
@@ -42,6 +43,7 @@ Copyright (c) 2022 Randal Eike
 #endif
 
 using namespace argparser;
+typedef std::stringstream parser_str_stream;
 
 #if defined(ENGLISH_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
 /**
@@ -50,32 +52,32 @@ using namespace argparser;
 class BaseParserStringListEnglish : public BaseParserStringList
 {
     public:
-        virtual void printNotListTypeMessage(std::ostream &outStream, int nargs) 
-        {outStream << "Only list type arguments can have an argument count of " << nargs << std::endl;}
-        
-        virtual void printUnknownArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "Unkown argument " << keyString << std::endl;}
-        
-        virtual void printInvalidAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" invalid assignment" << std::endl;}
-        
-        virtual void printAssignmentFailedMessage(std::ostream &outStream, const parserchar* keyString, parserstr valueString)
-        {outStream << "\"" << keyString << " " << valueString << "\" assignment failed" << std::endl;}
+        virtual parserstr getNotListTypeMessage(int nargs)
+        {parser_str_stream parserstr;  parserstr << "Only list type arguments can have an argument count of " << nargs; return parserstr.str();}
 
-        virtual void printMissingAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" missing assignment value" << std::endl;}
+        virtual parserstr getUnknownArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "Unkown argument " << keyString; return parserstr.str();}
 
-        virtual void printMissingListAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" missing assignment. Expected: " << expected << " found: " << found << " arguments" << std::endl;}
+        virtual parserstr getInvalidAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" invalid assignment"; return parserstr.str();}
 
-        virtual void printTooManyAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" too many assignment values. Expected: " << expected << " found: " << found << " arguments" << std::endl;}
+        virtual parserstr getAssignmentFailedMessage(const parserchar* keyString, parserstr valueString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << " " << valueString << "\" assignment failed"; return parserstr.str();}
 
-        virtual void printMissingArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" required argument missing" << std::endl;}
+        virtual parserstr getMissingAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" missing assignment value"; return parserstr.str();}
 
-        virtual void printArgumentCreationError(std::ostream &outStream, parserstr keyString)
-        {outStream << "Argument add failed: " << keyString << std::endl;}
+        virtual parserstr getMissingListAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" missing assignment. Expected: " << expected << " found: " << found << " arguments"; return parserstr.str();}
+
+        virtual parserstr getTooManyAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" too many assignment values. Expected: " << expected << " found: " << found << " arguments"; return parserstr.str();}
+
+        virtual parserstr getMissingArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" required argument missing"; return parserstr.str();}
+
+        virtual parserstr getArgumentCreationError(parserstr keyString)
+        {parser_str_stream parserstr;  parserstr << "Argument add failed: " << keyString; return parserstr.str();}
 
         virtual parserstr getUsageMessage() const
         {return "Usage:";}
@@ -92,8 +94,8 @@ class BaseParserStringListEnglish : public BaseParserStringList
         virtual parserstr getEnvArgumentsMessage()
         {return "Environment values:";}
 
-        virtual void printEnvironmentNoFlags(std::ostream &outStream, parserstr argKey)
-        {outStream << "Environment value " << argKey << " narg must be > 0" << std::endl;}
+        virtual parserstr getEnvironmentNoFlags(parserstr argKey)
+        {parser_str_stream parserstr;  parserstr << "Environment value " << argKey << " narg must be > 0"; return parserstr.str();}
 };
 #endif
 
@@ -104,32 +106,32 @@ class BaseParserStringListEnglish : public BaseParserStringList
 class BaseParserStringListSpanish : public BaseParserStringList
 {
     public:
-        virtual void printNotListTypeMessage(std::ostream &outStream, int nargs) 
-        {outStream << "Solo los argumentos de tipo lista pueden tener un recuento de argumentos de " << nargs << std::endl;}
-        
-        virtual void printUnknownArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "Argumento desconocidoreturn " << keyString << std::endl;}
-        
-        virtual void printInvalidAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" asignación inválida" << std::endl;}
-        
-        virtual void printAssignmentFailedMessage(std::ostream &outStream, const parserchar* keyString, parserstr valueString)
-        {outStream << "\"" << keyString << " " << valueString << "\" asignación fallida" << std::endl;}
+        virtual parserstr getNotListTypeMessage(int nargs)
+        {parser_str_stream parserstr;  parserstr << "Solo los argumentos de tipo lista pueden tener un recuento de argumentos de " << nargs; return parserstr.str();}
 
-        virtual void printMissingAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" valor de asignación faltante" << std::endl;}
+        virtual parserstr getUnknownArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "Argumento desconocidoreturn " << keyString; return parserstr.str();}
 
-        virtual void printMissingListAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" tarea faltante. Esperado: " << expected << " encontrado: " << found << " argumentos" << std::endl;}
+        virtual parserstr getInvalidAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" asignación inválida"; return parserstr.str();}
 
-        virtual void printTooManyAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" demasiados valores de asignación. Esperado: " << expected << " encontrado: " << found << " argumentos" << std::endl;}
+        virtual parserstr getAssignmentFailedMessage(const parserchar* keyString, parserstr valueString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << " " << valueString << "\" asignación fallida"; return parserstr.str();}
 
-        virtual void printMissingArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" falta el argumento requerido" << std::endl;}
+        virtual parserstr getMissingAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" valor de asignación faltante"; return parserstr.str();}
 
-        virtual void printArgumentCreationError(std::ostream &outStream, parserstr keyString)
-        {outStream << "No se pudo agregar el argumento: " << keyString << std::endl;}
+        virtual parserstr getMissingListAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" tarea faltante. Esperado: " << expected << " encontrado: " << found << " argumentos"; return parserstr.str();}
+
+        virtual parserstr getTooManyAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" demasiados valores de asignación. Esperado: " << expected << " encontrado: " << found << " argumentos"; return parserstr.str();}
+
+        virtual parserstr getMissingArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" falta el argumento requerido"; return parserstr.str();}
+
+        virtual parserstr getArgumentCreationError(parserstr keyString)
+        {parser_str_stream parserstr;  parserstr << "No se pudo agregar el argumento: " << keyString; return parserstr.str();}
 
         virtual parserstr getUsageMessage() const
         {return "Uso:";}
@@ -146,8 +148,8 @@ class BaseParserStringListSpanish : public BaseParserStringList
         virtual parserstr getEnvArgumentsMessage()
         {return "Valores ambientales:";}
 
-        virtual void printEnvironmentNoFlags(std::ostream &outStream, parserstr argKey)
-        {outStream << "Valores ambiental " << argKey << " narg debe ser > 0" << std::endl;}
+        virtual parserstr getEnvironmentNoFlags(parserstr argKey)
+        {parser_str_stream parserstr;  parserstr << "Valores ambiental " << argKey << " narg debe ser > 0"; return parserstr.str();}
 };
 #endif
 
@@ -158,32 +160,32 @@ class BaseParserStringListSpanish : public BaseParserStringList
 class BaseParserStringListFrench : public BaseParserStringList
 {
     public:
-        virtual void printNotListTypeMessage(std::ostream &outStream, int nargs) 
-        {outStream << "Seuls les arguments de type liste peuvent avoir un nombre d'arguments de " << nargs << std::endl;}
-        
-        virtual void printUnknownArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "Argument inconnu " << keyString << std::endl;}
-        
-        virtual void printInvalidAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" affectation invalide" << std::endl;}
-        
-        virtual void printAssignmentFailedMessage(std::ostream &outStream, const parserchar* keyString, parserstr valueString)
-        {outStream << "\"" << keyString << " " << valueString << "\" l'affectation a échoué" << std::endl;}
+        virtual parserstr getNotListTypeMessage(int nargs)
+        {parser_str_stream parserstr;  parserstr << "Seuls les arguments de type liste peuvent avoir un nombre d'arguments de " << nargs; return parserstr.str();}
 
-        virtual void printMissingAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" valeur d'affectation manquante" << std::endl;}
+        virtual parserstr getUnknownArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "Argument inconnu " << keyString; return parserstr.str();}
 
-        virtual void printMissingListAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" devoir manquant. Attendu: " << expected << " trouvé : " << found << " arguments" << std::endl;}
+        virtual parserstr getInvalidAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" affectation invalide"; return parserstr.str();}
 
-        virtual void printTooManyAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" trop de valeurs d'affectation. Attendu: " << expected << " trouvé : " << found << " arguments" << std::endl;}
+        virtual parserstr getAssignmentFailedMessage(const parserchar* keyString, parserstr valueString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << " " << valueString << "\" l'affectation a échoué"; return parserstr.str();}
 
-        virtual void printMissingArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" argument obligatoire manquant" << std::endl;}
+        virtual parserstr getMissingAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" valeur d'affectation manquante"; return parserstr.str();}
 
-        virtual void printArgumentCreationError(std::ostream &outStream, parserstr keyString)
-        {outStream << "Échec de l'ajout d'arguments:" << keyString << std::endl;}
+        virtual parserstr getMissingListAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" devoir manquant. Attendu: " << expected << " trouvé : " << found << " arguments"; return parserstr.str();}
+
+        virtual parserstr getTooManyAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" trop de valeurs d'affectation. Attendu: " << expected << " trouvé : " << found << " arguments"; return parserstr.str();}
+
+        virtual parserstr getMissingArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" argument obligatoire manquant"; return parserstr.str();}
+
+        virtual parserstr getArgumentCreationError(parserstr keyString)
+        {parser_str_stream parserstr;  parserstr << "Échec de l'ajout d'arguments:" << keyString; return parserstr.str();}
 
         virtual parserstr getUsageMessage() const
         {return "Usage:";}
@@ -200,8 +202,8 @@ class BaseParserStringListFrench : public BaseParserStringList
         virtual parserstr getEnvArgumentsMessage()
         {return "Valeurs environnementales:";}
 
-        virtual void printEnvironmentNoFlags(std::ostream &outStream, parserstr argKey)
-        {outStream << "Valeurs environnementale " << argKey << " narg doit être > 0" << std::endl;}
+        virtual parserstr getEnvironmentNoFlags(parserstr argKey)
+        {parser_str_stream parserstr;  parserstr << "Valeurs environnementale " << argKey << " narg doit être > 0"; return parserstr.str();}
 };
 #endif
 
@@ -212,35 +214,35 @@ class BaseParserStringListFrench : public BaseParserStringList
 class BaseParserStringListChineseSimplified : public BaseParserStringList
 {
     public:
-        BaseParserStringListChineseSimplified() 
+        BaseParserStringListChineseSimplified()
         {defaultBreakList.clear();}
 
-        virtual void printNotListTypeMessage(std::ostream &outStream, int nargs) 
-        {outStream << "只有列表类型的参数可以有一个参数计数 " << nargs << std::endl;}
-        
-        virtual void printUnknownArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "未知参数 " << keyString << std::endl;}
-        
-        virtual void printInvalidAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" 无效分配" << std::endl;}
-        
-        virtual void printAssignmentFailedMessage(std::ostream &outStream, const parserchar* keyString, parserstr valueString)
-        {outStream << "\"" << keyString << " " << valueString << "\" 分配失败" << std::endl;}
+        virtual parserstr getNotListTypeMessage(int nargs)
+        {parser_str_stream parserstr;  parserstr << "只有列表类型的参数可以有一个参数计数 " << nargs; return parserstr.str();}
 
-        virtual void printMissingAssignmentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" 缺少赋值" << std::endl;}
+        virtual parserstr getUnknownArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "未知参数 " << keyString; return parserstr.str();}
 
-        virtual void printMissingListAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" 缺少任务。 预期的： " << expected << " 成立: " << found << " 论据" << std::endl;}
+        virtual parserstr getInvalidAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" 无效分配"; return parserstr.str();}
 
-        virtual void printTooManyAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found)
-        {outStream << "\"" << keyString << "\" 分配值过多。 预期的： " << expected << " 成立: " << found << " 论据" << std::endl;}
+        virtual parserstr getAssignmentFailedMessage(const parserchar* keyString, parserstr valueString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << " " << valueString << "\" 分配失败"; return parserstr.str();}
 
-        virtual void printMissingArgumentMessage(std::ostream &outStream, const parserchar* keyString)
-        {outStream << "\"" << keyString << "\" 缺少必要的参数" << std::endl;}
+        virtual parserstr getMissingAssignmentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" 缺少赋值"; return parserstr.str();}
 
-        virtual void printArgumentCreationError(std::ostream &outStream, parserstr keyString)
-        {outStream << "参数添加失败： " << keyString << std::endl;}
+        virtual parserstr getMissingListAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" 缺少任务。 预期的： " << expected << " 成立: " << found << " 论据"; return parserstr.str();}
+
+        virtual parserstr getTooManyAssignmentMessage(const parserchar* keyString, int expected, int found)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" 分配值过多。 预期的： " << expected << " 成立: " << found << " 论据"; return parserstr.str();}
+
+        virtual parserstr getMissingArgumentMessage(const parserchar* keyString)
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" 缺少必要的参数"; return parserstr.str();}
+
+        virtual parserstr getArgumentCreationError(parserstr keyString)
+        {parser_str_stream parserstr;  parserstr << "参数添加失败： " << keyString; return parserstr.str();}
 
         virtual parserstr getUsageMessage() const
         {return "用法：";}
@@ -257,8 +259,8 @@ class BaseParserStringListChineseSimplified : public BaseParserStringList
         virtual parserstr getEnvArgumentsMessage()
         {return "环境值：";}
 
-        virtual void printEnvironmentNoFlags(std::ostream &outStream, parserstr argKey)
-        {outStream << "环境价值 " << argKey << " narg 必须 > 0" << std::endl;}
+        virtual parserstr getEnvironmentNoFlags(parserstr argKey)
+        {parser_str_stream parserstr;  parserstr << "环境价值 " << argKey << " narg 必须 > 0"; return parserstr.str();}
 };
 #endif
 
@@ -270,11 +272,11 @@ class BaseParserStringListChineseSimplified : public BaseParserStringList
 
 /**
  * @brief Find the best position to break the sting given the input list of break characters to choose from
- * 
+ *
  * @param workingString - Current working string
  * @param breakCharList - List of characters to position the break on
  * @param maxLength     - Maximum character length
- * 
+ *
  * @return size_t  - best breack position found
  */
 size_t BaseParserStringList::findBestBreakPos(parserstr workingString, std::list<parserchar> breakCharList, size_t maxLength)
@@ -299,7 +301,7 @@ size_t BaseParserStringList::findBestBreakPos(parserstr workingString, std::list
             while((workingBreakPos > maxLength) && (workingBreakPos != parserstr::npos));
 
             // Record the break position for that character
-            if (workingBreakPos <= maxLength) 
+            if (workingBreakPos <= maxLength)
             {
                 breakPos.push_back(workingBreakPos);
             }
@@ -335,15 +337,15 @@ BaseParserStringList::BaseParserStringList() : defaultBreakList({' '}), debugMsg
 { }
 
 /**
- * @brief Format the input string to the required width.  Break the string 
+ * @brief Format the input string to the required width.  Break the string
  *        if longer than maxWidth at the nearest break charater.  Pad any
  *        output strings to the minwidth with spaces.
- * 
+ *
  * @param baseString     - Input string
  * @param breakCharList  - Character list to break the string at if the input string is to be broken
  * @param maxLength      - maximum length of a string in the output list
- * 
- * @return std::list<parserstr> 
+ *
+ * @return std::list<parserstr>
  */
 std::list<parserstr> BaseParserStringList::formatStringToLength(parserstr baseString, std::list<parserchar> breakCharList, size_t maxLength)
 {
@@ -388,7 +390,7 @@ std::list<parserstr> BaseParserStringList::formatStringToLength(parserstr baseSt
 
 /**
  * @brief Set the Debug Msg Level
- * 
+ *
  * @param msgLevel - Debug level, normal = 0
  */
 void BaseParserStringList::setDebugMsgLevel(int msgLevel)
@@ -398,7 +400,7 @@ void BaseParserStringList::setDebugMsgLevel(int msgLevel)
 
 /**
  * @brief Get the specialized international string class based on the current OS language setting
- * 
+ *
  * @return BaseParserStringList* - Pointer to the specialized language string table
  */
 BaseParserStringList* BaseParserStringList::getInternationalizedClass()

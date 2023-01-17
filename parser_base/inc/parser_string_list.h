@@ -38,7 +38,6 @@ Copyright (c) 2022 Randal Eike
 #include <iostream>
 
 #define DYNAMIC_INTERNATIONALIZATION
-//#define ENGLISH_ERRORS
 typedef std::string parserstr;          ///< Standard parser string definition
 typedef char parserchar;                ///< Standard parser character definition
 
@@ -107,15 +106,15 @@ class BaseParserStringList
         virtual std::list<parserchar> getDefaultBreakCharList()     {return defaultBreakList;}
 
         // Generic error messages
-        virtual void printNotListTypeMessage(std::ostream &outStream, int nargs) = 0;
-        virtual void printUnknownArgumentMessage(std::ostream &outStream, const parserchar* keyString) = 0;
-        virtual void printInvalidAssignmentMessage(std::ostream &outStream, const parserchar* keyString) = 0;
-        virtual void printAssignmentFailedMessage(std::ostream &outStream, const parserchar* keyString, parserstr valueString) = 0;
-        virtual void printMissingAssignmentMessage(std::ostream &outStream, const parserchar* keyString) = 0;
-        virtual void printMissingListAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found) = 0;
-        virtual void printTooManyAssignmentMessage(std::ostream &outStream, const parserchar* keyString, int expected, int found) = 0;
-        virtual void printMissingArgumentMessage(std::ostream &outStream, const parserchar* keyString) = 0;
-        virtual void printArgumentCreationError(std::ostream &outStream, parserstr keyString) = 0;
+        virtual parserstr getNotListTypeMessage(int nargs) = 0;
+        virtual parserstr getUnknownArgumentMessage(const parserchar* keyString) = 0;
+        virtual parserstr getInvalidAssignmentMessage(const parserchar* keyString) = 0;
+        virtual parserstr getAssignmentFailedMessage(const parserchar* keyString, parserstr valueString) = 0;
+        virtual parserstr getMissingAssignmentMessage(const parserchar* keyString) = 0;
+        virtual parserstr getMissingListAssignmentMessage(const parserchar* keyString, int expected, int found) = 0;
+        virtual parserstr getTooManyAssignmentMessage(const parserchar* keyString, int expected, int found) = 0;
+        virtual parserstr getMissingArgumentMessage(const parserchar* keyString) = 0;
+        virtual parserstr getArgumentCreationError(parserstr keyString) = 0;
 
         // Command line parser specific strings
         virtual parserstr getUsageMessage() const = 0;
@@ -125,7 +124,7 @@ class BaseParserStringList
 
         // Environment parser specific strings and messages
         virtual parserstr getEnvArgumentsMessage() = 0;
-        virtual void printEnvironmentNoFlags(std::ostream &outStream, parserstr argKey) = 0;
+        virtual parserstr getEnvironmentNoFlags(parserstr argKey) = 0;
 };
 
 }; // end of namespace argparser

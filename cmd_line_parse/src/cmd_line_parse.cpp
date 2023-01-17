@@ -139,7 +139,7 @@ ArgEntry& cmd_line_parse::findMatchingArg(const char* keystring, bool& found)
     // Unknown argument key
     if ((false == found) && ((false == ignoreUnknownKey) || (debugMsgLevel > 0)))
     {
-        parserStringList->printUnknownArgumentMessage(std::cerr, keystring);
+        std::cerr << parserStringList->getUnknownArgumentMessage(keystring) << std::endl;
         parsingError |= (ignoreUnknownKey ? false : true);
     }
     return returnArg;
@@ -158,13 +158,13 @@ bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyStr
 {
     if (!valueString.empty())
     {
-        parserStringList->printInvalidAssignmentMessage(std::cerr, keyString);
+        std::cerr << parserStringList->getInvalidAssignmentMessage(keyString) << std::endl;
         return true;
     }
 
     if (eAssignSuccess != parser_base::assignKeyFlagValue(currentArg))
     {
-        parserStringList->printAssignmentFailedMessage(std::cerr, keyString, valueString);
+        std::cerr << parserStringList->getAssignmentFailedMessage(keyString, valueString) << std::endl;
         return true;
     }
 
@@ -230,23 +230,23 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
 
         case eAssignTooMany:
             // Not enough values to meet the minimum required
-            parserStringList->printTooManyAssignmentMessage(std::cerr, keyString, requiredValueCount, valueCount);
+            std::cerr << parserStringList->getTooManyAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
             return true;
 
         case eAssignNoValue:
             // Need at least one value
-            parserStringList->printMissingAssignmentMessage(std::cerr, keyString);
+            std::cerr << parserStringList->getMissingAssignmentMessage(keyString) << std::endl;
             return true;
 
         case eAssignTooFew:
             // More values than required
-            parserStringList->printMissingListAssignmentMessage(std::cerr, keyString, requiredValueCount, valueCount);
+            std::cerr << parserStringList->getMissingListAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
             return true;
 
         case eAssignFailed:
         default:
             // Failed an assignment
-            parserStringList->printAssignmentFailedMessage(std::cerr, keyString, failedValue);
+            std::cerr << parserStringList->getAssignmentFailedMessage(keyString, failedValue) << std::endl;
             return true;
     }
 }
@@ -277,7 +277,7 @@ void cmd_line_parse::parseSingleKeyArg(const char* searchString, parserstr value
     else if (!ignoreUnknownKey)
     {
         parsingError = true;
-        parserStringList->printUnknownArgumentMessage(std::cerr, searchString);
+        std::cerr << parserStringList->getUnknownArgumentMessage(searchString) << std::endl;
     }
 }
 
@@ -368,7 +368,7 @@ void cmd_line_parse::parsePositionalArg()
     else
     {
         parsingError = true;
-        parserStringList->printUnknownArgumentMessage(std::cerr, argvArray[currentArgumentIndex++]);
+        std::cerr << parserStringList->getUnknownArgumentMessage(argvArray[currentArgumentIndex++]) << std::endl;
     }
 }
 
@@ -428,7 +428,7 @@ void cmd_line_parse::addKeyArgument(varg_intf* arg, parserstr name, parserstr ar
     // Only list type varg_intf are allowed more than 1 value
     if ((nargs != 0) && (nargs != 1) && !arg->isList())
     {
-        parserStringList->printNotListTypeMessage(std::cerr, nargs);
+        std::cerr << parserStringList->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -520,7 +520,7 @@ void cmd_line_parse::addPositionalArgument(varg_intf* arg, parserstr name, parse
     // Only list type varg_intf are allowed more than 1 value
     if ((nargs != 0) && (nargs != 1) && !arg->isList())
     {
-        parserStringList->printNotListTypeMessage(std::cerr, nargs);
+        std::cerr << parserStringList->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -618,7 +618,7 @@ bool cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int end
         {
             if ((positionalArg.isRequired) && !(positionalArg.isFound))
             {
-                parserStringList->printMissingArgumentMessage(std::cerr, positionalArg.name.c_str());
+                std::cerr << parserStringList->getMissingArgumentMessage(positionalArg.name.c_str()) << std::endl;
                 parsingError = true;
             }
         }
@@ -636,7 +636,7 @@ bool cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int end
                 }
                 optionString.resize(optionString.size() - 1);
 
-                parserStringList->printMissingArgumentMessage(std::cerr, optionString.c_str());
+                std::cerr << parserStringList->getMissingArgumentMessage(optionString.c_str()) << std::endl;
                 parsingError = true;
             }
         }

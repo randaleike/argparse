@@ -1,22 +1,22 @@
-/* 
+/*
 Copyright (c) 2022 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -28,7 +28,7 @@ Copyright (c) 2022 Randal Eike
  */
 
 // Includes
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <cstring>
 #include <string>
 #include "varg_intf.h"
@@ -67,16 +67,16 @@ envparser::~envparser()         {}
 
 /**
  * @brief Add a new key based environment argument
- * 
+ *
  * @param arg      - Pointer to the defined var argument to fill
  * @param argKey   - Argument key value
  * @param helpText - Help text to be printed in the help message
  * @param nargs    - Number of argument values that follow
  *                   0 : Argument is a flag with no following values
  *                   1 : Simple argument with a single value
- *                   N : List argument with exactly N arguments, if less than N arguments 
+ *                   N : List argument with exactly N arguments, if less than N arguments
  *                       are found it is flagged as an error
- *                  -N : List argument with up to N arguments, if more than N arguments 
+ *                  -N : List argument with up to N arguments, if more than N arguments
  *                       are found it is flagged as an error
  * @param required - True if argument is required, false if arguemnt is optional
  */
@@ -85,11 +85,11 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
     // Only list type varg_intf are allowed more than 1 value
     if (nargs == 0)
     {
-        parserStringList->printEnvironmentNoFlags(std::cerr, argKey);
+        std::cerr << parserStringList->getEnvironmentNoFlags(argKey) << std::endl;
     }
     else if ((nargs != 1) && !arg->isList())
     {
-        parserStringList->printNotListTypeMessage(std::cerr, nargs);
+        std::cerr << parserStringList->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -132,7 +132,7 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
 
 /**
  * @brief Parse the input arguments
- * 
+ *
  * @return true  - No error parsing
  * @return false - Error in the input parameters that caused a parsing failure
  */
@@ -159,7 +159,7 @@ bool envparser::parse()
             // Assign the values
             currentArg->isFound = true;
             parserstr failedAssignment = valueString;
-            eAssignmentReturn status = ((valueCount > 1) ? 
+            eAssignmentReturn status = ((valueCount > 1) ?
                                             parser_base::assignListKeyValue(*currentArg, assignmentValues, failedAssignment) :
                                             parser_base::assignKeyValue(*currentArg, valueString));
 
@@ -171,26 +171,26 @@ bool envparser::parse()
 
                 case eAssignTooMany:
                     // Not enough values to meet the minimum required
-                    parserStringList->printTooManyAssignmentMessage(std::cerr, currentArg->name.c_str(), requiredValueCount, valueCount);
+                    std::cerr << parserStringList->getTooManyAssignmentMessage(currentArg->name.c_str(), requiredValueCount, valueCount) << std::endl;
                     parsingError = true;
                     break;
 
                 case eAssignNoValue:
                     // Need at least one value
-                    parserStringList->printMissingAssignmentMessage(std::cerr, currentArg->name.c_str());
+                    std::cerr << parserStringList->getMissingAssignmentMessage(currentArg->name.c_str()) << std::endl;
                     parsingError = true;
                     break;
 
                 case eAssignTooFew:
                     // More values than required
-                    parserStringList->printMissingListAssignmentMessage(std::cerr, currentArg->name.c_str(), requiredValueCount, valueCount);
+                    std::cerr << parserStringList->getMissingListAssignmentMessage(currentArg->name.c_str(), requiredValueCount, valueCount) << std::endl;
                     parsingError = true;
                     break;
 
                 case eAssignFailed:
                 default:
                     // Failed an assignment
-                    parserStringList->printAssignmentFailedMessage(std::cerr, currentArg->name.c_str(), failedAssignment);
+                    std::cerr << parserStringList->getAssignmentFailedMessage(currentArg->name.c_str(), failedAssignment) << std::endl;
                     parsingError = true;
                     break;
             } // end of switch status
@@ -205,7 +205,7 @@ bool envparser::parse()
         {
             if ((keyArg.isRequired) && !(keyArg.isFound))
             {
-                parserStringList->printMissingArgumentMessage(std::cerr, keyArg.name.c_str());
+                std::cerr << parserStringList->getMissingArgumentMessage(keyArg.name.c_str()) << std::endl;
                 parsingError = true;
             }
         }
@@ -217,7 +217,7 @@ bool envparser::parse()
 
 /**
  * @brief Print the formatted help message to the input stream
- * 
+ *
  * @param outStream - Output streem to use for text output.  Default is the standard error stream
  */
 void envparser::displayHelp(std::ostream &outStream)
