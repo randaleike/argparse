@@ -1,22 +1,22 @@
-/* 
+/*
 Copyright (c) 2022 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -27,7 +27,7 @@ Copyright (c) 2022 Randal Eike
  * @{
  */
 
-// Includes 
+// Includes
 #include <string>
 #include "listvarg.h"
 
@@ -40,17 +40,17 @@ using namespace argparser;
 //============================================================================================================================
 /**
  * @brief Set the Element Value object
- * 
+ *
  * @param newValue - input argument string
  * @param typeStr - scanf type string
- * 
+ *
  * @return true if scanf conversion succeeded
  * @return false if scanf conversion failed
  */
 template <typename T> bool listvarg<T>::setElementValue(const char* newValue, const char* typeStr)
 {
     T element;
-    int ret = sscanf(newValue, typeStr, &(element)); 
+    int ret = sscanf(newValue, typeStr, &(element));
     if (ret == 1)
     {
         value.push_back(element);
@@ -64,9 +64,9 @@ template <typename T> bool listvarg<T>::setElementValue(const char* newValue, co
 
 /**
  * @brief Set the Element Value object
- * 
+ *
  * @param newValue - input argument string
- * 
+ *
  * @return true if scanf conversion succeeded
  * @return false if scanf conversion failed
  */
@@ -86,9 +86,9 @@ template <> bool listvarg<char>::setCharElementValue(const char* newValue)
 
 /**
  * @brief Set the Bool Value object
- * 
+ *
  * @param newValue - input argument string
- * 
+ *
  * @return true if scanf conversion succeeded
  * @return false if scanf conversion failed
  */
@@ -109,9 +109,9 @@ template <typename T> bool listvarg<T>::setBoolValue(const char* newValue)      
 
 /**
  * @brief Set the string Value object
- * 
+ *
  * @param newValue - input argument string
- * 
+ *
  * @return true if scanf conversion succeeded
  * @return false if scanf conversion failed
  */
@@ -121,30 +121,8 @@ template <> bool listvarg<std::string>::setStringValue(const char* newValue)
     value.push_back(element);
     return true;
 }
+
 template <typename T> bool listvarg<T>::setStringValue(const char* newValue)        {return false;}
-
-//============================================================================================================================
-//============================================================================================================================
-//  Constructor/Destructor functions
-//============================================================================================================================
-//============================================================================================================================
-template <> listvarg<short int>::listvarg() : varg_intf(), defaultValue(0)          {value.clear();}
-template <> listvarg<int>::listvarg() : varg_intf(), defaultValue(0)                {value.clear();}
-template <> listvarg<long int>::listvarg() : varg_intf(), defaultValue(0)           {value.clear();}
-template <> listvarg<long long int>::listvarg() : varg_intf(), defaultValue(0)      {value.clear();}
-
-template <> listvarg<short unsigned>::listvarg() : varg_intf(), defaultValue(0)     {value.clear();}
-template <> listvarg<unsigned>::listvarg() : varg_intf(), defaultValue(0)           {value.clear();}
-template <> listvarg<long unsigned>::listvarg() : varg_intf(), defaultValue(0)      {value.clear();}
-template <> listvarg<long long unsigned>::listvarg() : varg_intf(), defaultValue(0) {value.clear();}
-
-template <> listvarg<float>::listvarg() : varg_intf(), defaultValue(0.0)            {value.clear();}
-template <> listvarg<double>::listvarg() : varg_intf(), defaultValue(0.0)           {value.clear();}
-template <> listvarg<long double>::listvarg() : varg_intf(), defaultValue(0.0)      {value.clear();}
-
-template <> listvarg<char>::listvarg() : varg_intf(), defaultValue('\0')            {value.clear();}
-template <> listvarg<std::string>::listvarg() : varg_intf(), defaultValue("")       {value.clear();}
-template <> listvarg<bool>::listvarg() : varg_intf(), defaultValue(false)           {value.clear();}
 
 //============================================================================================================================
 //============================================================================================================================
@@ -153,9 +131,9 @@ template <> listvarg<bool>::listvarg() : varg_intf(), defaultValue(false)       
 //============================================================================================================================
 /**
  * @brief Set value from input string specializations
- * 
+ *
  * @param newValue - Input string to parse
- * 
+ *
  * @return true - if argment string was parsed
  * @return false - if argment string failed to properly parse
  */
@@ -179,7 +157,7 @@ template <> bool listvarg<bool>::setValue(const char* newValue)               {r
 
 /**
  * @brief Get the base argument type as a string
- * 
+ *
  * @return char* - Base type string
  */
 template <> const char* listvarg<short int>::getTypeString()            {return "<[+|-]int>";}

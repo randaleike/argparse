@@ -16,6 +16,7 @@ project(varg VERSION 1.0.0.0 DESCRIPTION "Varg Library" HOMEPAGE_URL "grocsoftwa
 set (vargInclude
     ${CMAKE_CURRENT_LIST_DIR}/inc/varg.h
     ${CMAKE_CURRENT_LIST_DIR}/inc/vargincrement.h
+    ${CMAKE_CURRENT_LIST_DIR}/inc/vargenum.h
     )
 
 set (vargSrc

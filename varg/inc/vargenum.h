@@ -21,7 +21,7 @@ Copyright (c) 2022 Randal Eike
 */
 
 /**
- * @file varg.h
+ * @file vargenum.h
  * @ingroup argparser
  * @defgroup Argument parsing utilities
  * @{
@@ -32,71 +32,46 @@ Copyright (c) 2022 Randal Eike
 // Includes
 #include <stdlib.h>
 #include <unistd.h>
+#include <map>
 #include <string>
 #include "varg_intf.h"
 
 namespace argparser
 {
 /**
- * @brief Variable argument type template class
+ * @brief Variable argument enum type template class
  */
-template <typename T> class varg : public varg_intf
+template <typename T> class vargenum : public varg_intf
 {
     private:
-        T       flagSetValue;       ///< Value to set when flag key value is found
-
-        /**
-         * @brief Set the value from the input string
-         *
-         * @param newValue - Input value as a C string
-         * @param typeStr  - scanf type string
-         *
-         * @return true - Scanf string to value conversion succeeded
-         * @return false - Scanf string to value conversion failed
-         */
-        bool setNewValue(const char* newValue, const char* typeStr);
-
-        /**
-         * @brief Set the New character object value
-         *
-         * @param newValue - input argument string
-         *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
-         */
-        bool setNewCharValue(const char* newValue);
-
-        /**
-         * @brief Set the Bool Value object
-         *
-         * @param newValue - input argument string
-         *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
-         */
-        bool setBoolValue(const char* newValue);
+        std::map< std::string, T >  enumNameMap;    ///< Map of enum strings to value
+        std::string                 enumName;       ///< Enum name
 
     public:
-        T       value;              ///< Current saved value
+        T                           value;          ///< Current saved value
 
         /**
-         * @brief Construct a varg_intf object
+         * @brief Construct a vargenum object
+         *
+         * @param name - name of the enum
          */
-        varg(T defaultValue, T flagValue) : varg_intf(), value(defaultValue), flagSetValue(flagValue)   {}
-
-        varg(T defaultValue);
+        vargenum(T defaultValue, const char* name = ""): varg_intf(), value(defaultValue), enumName(name)    {enumNameMap.clear();}
 
         /**
-         * @brief Destroy the varg object
+         * @brief Destroy the vargenum object
          */
-        virtual ~varg()                                                                                 {}
+        virtual ~vargenum()                                             {enumNameMap.clear(); enumName.clear();}
 
         /**
          * @brief Get the base argument type as a string
          *
          * @return const char* - Base type string
          */
-        virtual const char* getTypeString();
+        virtual const char* getTypeString()
+        {
+            if (enumName.empty()) return "enum value";
+            else return enumName.c_str();
+        }
 
         /**
          * @brief Return if varg is a list of elements or a single element type
@@ -104,7 +79,7 @@ template <typename T> class varg : public varg_intf
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual const bool isList()                         {return false;}
+        virtual const bool isList()                                     {return false;}
 
         /**
          * @brief Virtual interface method implementation for the template variable implementation setValue with input function
@@ -114,22 +89,48 @@ template <typename T> class varg : public varg_intf
          * @return true - if value was successsfully set
          * @return false - if input string could not
          */
-        virtual bool setValue(const char* newValue);
+        virtual bool setValue(const char* newValue)
+        {
+            std::string searchString = newValue;
+            for (auto const & [key, val] : enumNameMap)
+            {
+                if (key == searchString)
+                {
+                    value = val;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return false - enum type must have an input string to map to the enum value
          */
-        virtual bool setValue();
+        virtual bool setValue()                                         {return false;}
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function
          *
          * @return true - Base variable is never empty
          */
-        virtual bool isEmpty()                              {return false;}
+        virtual bool isEmpty()                                          {return false;}
+
+        /**
+         * @brief Assign enum map values
+         *
+         * @param entryName - Name of the enum value
+         * @param enumValue - Value to assign for the name
+         */
+        void setEnumValue(const char* entryName, T enumValue)
+        {
+            std::string entryNameStr = entryName;
+            enumNameMap.emplace(entryNameStr, enumValue);
+        }
+
 }; // end of class definition
 
 }; // end of namespace argparser

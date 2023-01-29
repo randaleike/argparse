@@ -1,22 +1,22 @@
-/* 
+/*
 Copyright (c) 2022 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -27,558 +27,492 @@ Copyright (c) 2022 Randal Eike
  * @{
  */
 
-// Includes 
+// Includes
 #include "listvarg.h"
 #include <gtest/gtest.h>
 
-#define VARLIST_INT_TEST_SUITE(type) \
-    TEST(listvarg_##type, ConstructorDefault) { \
-        const argparser::listvarg<type> testvar; \
-        EXPECT_EQ(0, testvar.defaultValue); \
-        EXPECT_TRUE(testvar.value.empty()); } \
-    TEST(listvarg_##type, ConstructorValuePos) { \
-        argparser::listvarg<type> testvar(10); \
-        EXPECT_EQ(10, testvar.defaultValue); \
-        EXPECT_TRUE(testvar.value.empty()); } \
-    TEST(listvarg_##type, ConstructorValueNeg) { \
-        argparser::listvarg<type> testvar(-10); \
-        EXPECT_EQ(-10, testvar.defaultValue); \
-        EXPECT_TRUE(testvar.value.empty()); } \
-    TEST(listvarg_##type, ValueSetPassSignedPos) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.setValue("33")); \
-        EXPECT_FALSE(testvar.value.empty()); \
-        EXPECT_EQ(1, testvar.value.size()); \
-        EXPECT_EQ(33, testvar.value.front()); } \
-    TEST(listvarg_##type, ValueSetPassSignedNeg) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.setValue("-55")); \
-        EXPECT_FALSE(testvar.value.empty()); \
-        EXPECT_EQ(1, testvar.value.size()); \
-        EXPECT_EQ(-55, testvar.value.front()); } \
-    TEST(listvarg_##type, ValueSetFail) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_FALSE(testvar.setValue("foo")); } \
-    TEST(listvarg_##type, ValueSetNullFail) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_FALSE(testvar.setValue()); } \
-    TEST(listvarg_##type, IsListTest) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.isList()); } \
-    TEST(listvarg_##type, getTypeString) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_STREQ("<[+|-]int>", testvar.getTypeString()); } \
-    TEST(listvarg_##type, ValueSetPassDoubleEntry) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.setValue("-55")); \
-        EXPECT_TRUE(testvar.setValue("33")); \
-        EXPECT_FALSE(testvar.value.empty()); \
-        EXPECT_EQ(2, testvar.value.size()); \
-        EXPECT_EQ(-55, testvar.value.front()); \
-        testvar.value.pop_front(); \
-        EXPECT_EQ(33, testvar.value.front()); } \
-    TEST(listvarg_##type, ValueSetPassTripleEntry) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.setValue("-11")); \
-        EXPECT_TRUE(testvar.setValue("28")); \
-        EXPECT_TRUE(testvar.setValue("17")); \
-        EXPECT_FALSE(testvar.value.empty()); \
-        EXPECT_EQ(3, testvar.value.size()); \
-        EXPECT_EQ(-11, testvar.value.front()); \
-        testvar.value.pop_front(); \
-        EXPECT_EQ(28, testvar.value.front()); \
-        testvar.value.pop_front(); \
-        EXPECT_EQ(17, testvar.value.front()); } 
+/*
+* listvarg base function test
+*/
+template <typename T> class ListBaseUnitTest : public testing::Test
+{
+    public:
+        ListBaseUnitTest() {}
+        ~ListBaseUnitTest() override {}
+};
 
-#define VARLIST_UINT_TEST_SUITE(type) \
-    TEST(listvarg_##type, ConstructorDefault) { \
-        const argparser::listvarg<type> testvar; \
-        EXPECT_EQ(0, testvar.defaultValue); \
-        EXPECT_TRUE(testvar.value.empty()); } \
-    TEST(listvarg_##type, ConstructorValuePos) { \
-        argparser::listvarg<type> testvar(10); \
-        EXPECT_EQ(10, testvar.defaultValue); \
-        EXPECT_TRUE(testvar.value.empty()); } \
-    TEST(listvarg_##type, ValueSetPassSignedPos) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.setValue("33")); \
-        EXPECT_FALSE(testvar.value.empty()); \
-        EXPECT_EQ(1, testvar.value.size()); \
-        EXPECT_EQ(33, testvar.value.front()); } \
-    TEST(listvarg_##type, ValueSetFail) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_FALSE(testvar.setValue("foo")); } \
-    TEST(listvarg_##type, ValueSetNullFail) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_FALSE(testvar.setValue()); } \
-    TEST(listvarg_##type, IsListTest) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.isList()); } \
-    TEST(listvarg_##type, getTypeString) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_STREQ("<[+]int>", testvar.getTypeString()); } \
-    TEST(listvarg_##type, ValueSetPassDoubleEntry) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.setValue("55")); \
-        EXPECT_TRUE(testvar.setValue("33")); \
-        EXPECT_FALSE(testvar.value.empty()); \
-        EXPECT_EQ(2, testvar.value.size()); \
-        EXPECT_EQ(55, testvar.value.front()); \
-        testvar.value.pop_front(); \
-        EXPECT_EQ(33, testvar.value.front()); } \
-    TEST(listvarg_##type, ValueSetPassTripleEntry) { \
-        argparser::listvarg<type> testvar; \
-        EXPECT_TRUE(testvar.setValue("13")); \
-        EXPECT_TRUE(testvar.setValue("45")); \
-        EXPECT_TRUE(testvar.setValue("12")); \
-        EXPECT_FALSE(testvar.value.empty()); \
-        EXPECT_EQ(3, testvar.value.size()); \
-        EXPECT_EQ(13, testvar.value.front()); \
-        testvar.value.pop_front(); \
-        EXPECT_EQ(45, testvar.value.front()); \
-        testvar.value.pop_front(); \
-        EXPECT_EQ(12, testvar.value.front()); } 
+TYPED_TEST_SUITE_P(ListBaseUnitTest);
+TYPED_TEST_P(ListBaseUnitTest, ConstructorTest)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.value.empty());
+    EXPECT_TRUE(testvar.isEmpty());
+}
 
-typedef short int shortint;
-typedef signed int signedint;
-typedef long int longint;
-typedef long long int longlongint;
+TYPED_TEST_P(ListBaseUnitTest, ValueSetNullFail)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_FALSE(testvar.setValue());
+}
 
-typedef short unsigned shortuint;
-typedef unsigned uint;
-typedef long unsigned longuint;
-typedef long long unsigned longlonguint;
+TYPED_TEST_P(ListBaseUnitTest, IsListTest)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.isList());
+}
+
+REGISTER_TYPED_TEST_SUITE_P(ListBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest);
+
+typedef testing::Types<short int, int, long int, long long int,
+                       unsigned short, unsigned, unsigned long, unsigned long long,
+                       double, bool, char, std::string> allTypes;
+INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_base, ListBaseUnitTest, allTypes);
 
 /*
 * Integer listvarg test
 */
-VARLIST_INT_TEST_SUITE(shortint)
-VARLIST_INT_TEST_SUITE(signedint)
-VARLIST_INT_TEST_SUITE(longint)
-VARLIST_INT_TEST_SUITE(longlongint)
+template <typename T> class IntegerUnitTest : public testing::Test
+{
+    public:
+        IntegerUnitTest() {}
+        ~IntegerUnitTest() override {}
+};
+
+TYPED_TEST_SUITE_P(IntegerUnitTest);
+
+TYPED_TEST_P(IntegerUnitTest, ValueSetPassSignedPos)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(33, testvar.value.front());
+}
+
+TYPED_TEST_P(IntegerUnitTest, ValueSetPassSignedNeg)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("-55"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(-55, testvar.value.front());
+}
+
+TYPED_TEST_P(IntegerUnitTest, ValueSetFail)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_FALSE(testvar.setValue("foo"));
+    EXPECT_TRUE(testvar.value.empty());
+    EXPECT_TRUE(testvar.isEmpty());
+    EXPECT_EQ(0, testvar.value.size());
+}
+
+TYPED_TEST_P(IntegerUnitTest, GetTypeString)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_STREQ("<[+|-]int>", testvar.getTypeString());
+}
+
+TYPED_TEST_P(IntegerUnitTest, ValueSetPassDoubleEntry)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("-55"));
+    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(-55, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(33, testvar.value.front());
+}
+
+TYPED_TEST_P(IntegerUnitTest, ValueSetPassTripleEntry)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("-11"));
+    EXPECT_TRUE(testvar.setValue("28"));
+    EXPECT_TRUE(testvar.setValue("17"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(-11, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(28, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(17, testvar.value.front());
+}
+
+REGISTER_TYPED_TEST_SUITE_P(IntegerUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetFail,
+                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry);
+
+typedef testing::Types<short int, int, long int, long long int> intTypes;
+INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_int, IntegerUnitTest, intTypes);
 
 /*
-* Unsigned Integer listvarg test
+* Unsigned Integer varg test
 */
-VARLIST_UINT_TEST_SUITE(shortuint)
-VARLIST_UINT_TEST_SUITE(uint)
-VARLIST_UINT_TEST_SUITE(longuint)
-VARLIST_UINT_TEST_SUITE(longlonguint)
+template <typename T> class UIntegerUnitTest : public testing::Test
+{
+    public:
+        UIntegerUnitTest() {}
+        ~UIntegerUnitTest() override {}
+};
+
+TYPED_TEST_SUITE_P(UIntegerUnitTest);
+TYPED_TEST_P(UIntegerUnitTest, ValueSetPass)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(33, testvar.value.front());
+}
+
+TYPED_TEST_P(UIntegerUnitTest, ValueSetFail)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_FALSE(testvar.setValue("foo"));
+    EXPECT_TRUE(testvar.value.empty());
+    EXPECT_TRUE(testvar.isEmpty());
+    EXPECT_EQ(0, testvar.value.size());
+}
+
+TYPED_TEST_P(UIntegerUnitTest, GetTypeString)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_STREQ("<[+]int>", testvar.getTypeString());
+}
+
+TYPED_TEST_P(UIntegerUnitTest, ValueSetPassDoubleEntry)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("55"));
+    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(55, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(33, testvar.value.front());
+}
+
+TYPED_TEST_P(UIntegerUnitTest, ValueSetPassTripleEntry)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("11"));
+    EXPECT_TRUE(testvar.setValue("28"));
+    EXPECT_TRUE(testvar.setValue("17"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(11, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(28, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(17, testvar.value.front());
+}
+
+
+REGISTER_TYPED_TEST_SUITE_P(UIntegerUnitTest, ValueSetPass, ValueSetFail,
+                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry);
+
+typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;
+INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_uint, UIntegerUnitTest, uintTypes);
 
 /*
 * Double listvarg test
 */
-TEST(listvarg_double, ConstructorDefault) 
-{ 
-    const argparser::listvarg<double> testvar; 
-    EXPECT_EQ(0.0, testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty()); 
-} 
-
-TEST(listvarg_double, ConstructorValuePos)
+template <typename T> class DoubleUnitTest : public testing::Test
 {
-    argparser::listvarg<double> testvar(3.1415); 
-    EXPECT_EQ(3.1415, testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty()); 
-} 
+    public:
+        DoubleUnitTest() {}
+        ~DoubleUnitTest() override {}
+};
 
-TEST(listvarg_double, ConstructorValueNeg)
+TYPED_TEST_SUITE_P(DoubleUnitTest);
+TYPED_TEST_P(DoubleUnitTest, ValueSetPassSignedPos)
 {
-    argparser::listvarg<double> testvar(-3.1415); 
-    EXPECT_EQ(-3.1415, testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty()); 
-}
-
-TEST(listvarg_double, ValueSetNullFail) 
-{
-    argparser::listvarg<double> testvar; 
-    EXPECT_FALSE(testvar.setValue()); 
-}
-
-TEST(listvarg_double, IsListTest) 
-{
-    argparser::listvarg<double> testvar; 
-    EXPECT_TRUE(testvar.isList()); 
-}
-
-TEST(listvarg_double, getTypeString) 
-{ 
-    argparser::listvarg<double> testvar; 
-    EXPECT_STREQ("<float>", testvar.getTypeString()); 
-}
-
-TEST(listvarg_double, ValueSetPassSignedPos) 
-{
-    argparser::listvarg<double> testvar;
+    argparser::listvarg< TypeParam > testvar;
     EXPECT_TRUE(testvar.setValue("3.1415"));
     EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(3.1415, testvar.value.front());
 }
 
-TEST(listvarg_double, ValueSetPassSignedNeg) 
+TYPED_TEST_P(DoubleUnitTest, ValueSetPassSignedNeg)
 {
-    argparser::listvarg<double> testvar; 
+    argparser::listvarg< TypeParam > testvar;
     EXPECT_TRUE(testvar.setValue("-3.1415"));
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(1, testvar.value.size()); 
-    EXPECT_EQ(-3.1415, testvar.value.front()); 
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(-3.1415, testvar.value.front());
 }
 
-TEST(listvarg_double, ValueSetPassExponent) 
+TYPED_TEST_P(DoubleUnitTest, ValueSetPassExponent)
 {
-    argparser::listvarg<double> testvar; 
+    argparser::listvarg< TypeParam > testvar;
     EXPECT_TRUE(testvar.setValue("3.1415e7"));
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(1, testvar.value.size()); 
-    EXPECT_EQ(3.1415e7, testvar.value.front()); 
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(3.1415e7, testvar.value.front());
 }
 
-TEST(listvarg_double, ValueSetPassInteger) 
+TYPED_TEST_P(DoubleUnitTest, ValueSetPassInteger)
 {
-    argparser::listvarg<double> testvar; 
+    argparser::listvarg< TypeParam > testvar;
     EXPECT_TRUE(testvar.setValue("3"));
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(1, testvar.value.size()); 
-    EXPECT_EQ(3.0, testvar.value.front()); 
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(3.0, testvar.value.front());
 }
 
-TEST(listvarg_double, ValueSetFail) 
-{ 
-    argparser::listvarg<double> testvar; 
-    EXPECT_FALSE(testvar.setValue("foo")); 
-}
-
-TEST(listvarg_double, ValueSetPassDoubleEntry) 
+TYPED_TEST_P(DoubleUnitTest, ValueSetFail)
 {
-    argparser::listvarg<double> testvar; 
-    EXPECT_TRUE(testvar.setValue("-2.72355"));
-    EXPECT_TRUE(testvar.setValue("3.1415")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(2, testvar.value.size()); 
-    EXPECT_EQ(-2.72355, testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ(3.1415, testvar.value.front()); 
-} 
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_FALSE(testvar.setValue("foo"));
+    EXPECT_TRUE(testvar.value.empty());
+    EXPECT_TRUE(testvar.isEmpty());
+    EXPECT_EQ(0, testvar.value.size());
+}
 
-TEST(listvarg_double, ValueSetPassTripleEntry) 
-{ 
-    argparser::listvarg<double> testvar; 
+TYPED_TEST_P(DoubleUnitTest, GetTypeString)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_STREQ("<float>", testvar.getTypeString());
+}
+
+TYPED_TEST_P(DoubleUnitTest, ValueSetPassDoubleEntry)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_TRUE(testvar.setValue("-2.72355"));
+    EXPECT_TRUE(testvar.setValue("3.1415"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(-2.72355, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(3.1415, testvar.value.front());
+}
+
+TYPED_TEST_P(DoubleUnitTest, ValueSetPassTripleEntry)
+{
+    argparser::listvarg< TypeParam > testvar;
     EXPECT_TRUE(testvar.setValue("-11.5"));
-    EXPECT_TRUE(testvar.setValue("28.4")); 
-    EXPECT_TRUE(testvar.setValue("17.9")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(3, testvar.value.size()); 
-    EXPECT_EQ(-11.5, testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ(28.4, testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ(17.9, testvar.value.front()); 
-} 
+    EXPECT_TRUE(testvar.setValue("28.4"));
+    EXPECT_TRUE(testvar.setValue("17.9"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(-11.5, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(28.4, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(17.9, testvar.value.front());
+}
+
+REGISTER_TYPED_TEST_SUITE_P(DoubleUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetPassExponent,
+                            ValueSetPassInteger, ValueSetFail, GetTypeString, ValueSetPassDoubleEntry,
+                            ValueSetPassTripleEntry);
+
+typedef testing::Types<double> doubleTypes;
+INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_double, DoubleUnitTest, doubleTypes);
 
 /*
 * Bool listvarg test
 */
-TEST(listvarg_bool, ConstructorDefault) 
-{ 
-    const argparser::listvarg<bool> testvar; 
-    EXPECT_EQ(false, testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty()); 
-} 
-
-TEST(listvarg_bool, ConstructorValueTrue)
+class BoolUnitTestWithParams : public ::testing::TestWithParam< std::tuple<const char*, bool> >
 {
-    argparser::listvarg<bool> testvar(true); 
-    EXPECT_EQ(true, testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty()); 
-} 
+    protected:
+        argparser::listvarg<bool> testvar;
+};
 
-TEST(listvarg_bool, ConstructorValueFalse)
+TEST_P(BoolUnitTestWithParams, ValueSet)
 {
-    argparser::listvarg<bool> testvar(false); 
-    EXPECT_EQ(false, testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty()); 
-} 
+    bool        expected   = std::get<1>(GetParam());
+    const char* inpVal     = std::get<0>(GetParam());
 
-TEST(listvarg_bool, ValueSetPass_true_singlechar)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("t"));
+    EXPECT_TRUE(testvar.setValue(inpVal));
     EXPECT_FALSE(testvar.value.empty());
+    EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(true, testvar.value.front());
+    EXPECT_EQ(expected, testvar.value.front());
 }
 
-TEST(listvarg_bool, ValueSetPass_true_singlechar_cap)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("T"));
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(true, testvar.value.front());
-}
+INSTANTIATE_TEST_CASE_P(listvarg_bool, BoolUnitTestWithParams,
+        ::testing::Values(
+                std::make_tuple("t", true),
+                std::make_tuple("T", true),
+                std::make_tuple("true", true),
+                std::make_tuple("T", true),
+                std::make_tuple("TRUE", true),
+                std::make_tuple("1", true),
+                std::make_tuple("f", false),
+                std::make_tuple("F", false),
+                std::make_tuple("false", false),
+                std::make_tuple("F", false),
+                std::make_tuple("FALSE", false),
+                std::make_tuple("0", false)
+                ));
 
-TEST(listvarg_bool, ValueSetPass_true_word)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("true"));
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(true, testvar.value.front());
-}
 
-TEST(listvarg_bool, ValueSetPass_true_word_cap)
+class BoolUnitTestWithBadParams : public ::testing::TestWithParam< const char* >
 {
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("TRUE"));
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(true, testvar.value.front());
-}
+    protected:
+        argparser::listvarg<bool> testvar;
+};
 
-TEST(listvarg_bool, ValueSetPass_true_digit)
+TEST_P(BoolUnitTestWithBadParams, ValueSet)
 {
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("1")); 
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(true, testvar.value.front());
-}
+    const char* inpVal     = GetParam();
 
-TEST(listvarg_bool, ValueSetPass_false_singlechar)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("f")); 
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(false, testvar.value.front());
-}
-
-TEST(listvarg_bool, ValueSetPass_false_singlechar_cap)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("F")); 
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(false, testvar.value.front());
-}
-TEST(listvarg_bool, ValueSetPass_false_word)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("false")); 
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(false, testvar.value.front());
-}
-TEST(listvarg_bool, ValueSetPass_false_word_cap)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("FALSE")); 
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(false, testvar.value.front());
-}
-TEST(listvarg_bool, ValueSetPass_false_digit)
-{
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("0")); 
-    EXPECT_FALSE(testvar.value.empty());
-    EXPECT_EQ(1, testvar.value.size());
-    EXPECT_EQ(false, testvar.value.front());
-}
-
-TEST(listvarg_bool, ValueSetFail)
-{
-    argparser::listvarg<bool> testvar(true); 
-    EXPECT_FALSE(testvar.setValue("goo")); 
-}
-
-TEST(listvarg_bool, ValueSetFail_digit)
-{
-    argparser::listvarg<bool> testvar(true); 
-    EXPECT_FALSE(testvar.setValue("2")); 
+    EXPECT_FALSE(testvar.setValue(inpVal));
     EXPECT_TRUE(testvar.value.empty());
+    EXPECT_TRUE(testvar.isEmpty());
+    EXPECT_EQ(0, testvar.value.size());
 }
 
-TEST(listvarg_bool, IsListTest) 
-{ 
-    argparser::listvarg<bool> testvar(false);
-    EXPECT_TRUE(testvar.isList()); 
-} 
+INSTANTIATE_TEST_CASE_P(listvarg_bool, BoolUnitTestWithBadParams, ::testing::Values("goo", "2", "-1"));
 
-TEST(listvarg_bool, GetTypeString) 
-{ 
-    argparser::listvarg<bool> testvar(false); 
-    EXPECT_STREQ("<t|T|f|F>", testvar.getTypeString()); 
-} 
-
-TEST(listvarg_bool, ValueSetPassDoubleEntry) 
+TEST(listvarg_bool, GetTypeString)
 {
-    argparser::listvarg<bool> testvar; 
-    EXPECT_TRUE(testvar.setValue("t"));
-    EXPECT_TRUE(testvar.setValue("f")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(2, testvar.value.size()); 
-    EXPECT_EQ(true, testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ(false, testvar.value.front()); 
-} 
+    argparser::listvarg<bool> testvar;
+    EXPECT_STREQ("<t|T|f|F>", testvar.getTypeString());
+}
 
-TEST(listvarg_bool, ValueSetPassTripleEntry) 
-{ 
-    argparser::listvarg<bool> testvar; 
+TEST(listvarg_bool, ValueSetPassDoubleEntry)
+{
+    argparser::listvarg<bool> testvar;
     EXPECT_TRUE(testvar.setValue("t"));
-    EXPECT_TRUE(testvar.setValue("f")); 
-    EXPECT_TRUE(testvar.setValue("0")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(3, testvar.value.size()); 
-    EXPECT_EQ(true, testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ(false, testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ(false, testvar.value.front()); 
-} 
+    EXPECT_TRUE(testvar.setValue("f"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(true, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(false, testvar.value.front());
+}
 
+TEST(listvarg_bool, ValueSetPassTripleEntry)
+{
+    argparser::listvarg<bool> testvar;
+    EXPECT_TRUE(testvar.setValue("t"));
+    EXPECT_TRUE(testvar.setValue("f"));
+    EXPECT_TRUE(testvar.setValue("0"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(true, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(false, testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ(false, testvar.value.front());
+}
 
 /*
 * Character listvarg test
 */
-TEST(listvarg_char, ConstructorTest) 
-{ 
-    const argparser::listvarg<char> testvar;
-    EXPECT_EQ('\0', testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty());
-} 
-
-TEST(listvarg_char, ConstructorDefaultSet) 
-{ 
-    const argparser::listvarg<char> testvar('a');
-    EXPECT_EQ('a', testvar.defaultValue); 
-    EXPECT_TRUE(testvar.value.empty());
-} 
 
 TEST(listvarg_char, ValueSetPass)
 {
-    argparser::listvarg<char> testvar; 
-    EXPECT_TRUE(testvar.setValue("b")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(1, testvar.value.size()); 
-    EXPECT_EQ('b', testvar.value.front()); 
+    argparser::listvarg<char> testvar;
+    EXPECT_TRUE(testvar.setValue("b"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ('b', testvar.value.front());
 }
 
 TEST(listvarg_char, ValueSetFail)
 {
-    argparser::listvarg<char> testvar; 
-    EXPECT_FALSE(testvar.setValue("goo")); 
-    EXPECT_TRUE(testvar.value.empty()); 
+    argparser::listvarg<char> testvar;
+    EXPECT_FALSE(testvar.setValue("goo"));
+    EXPECT_TRUE(testvar.value.empty());
 }
 
-TEST(listvarg_char, IsListTest) 
-{ 
-    argparser::listvarg<char> testvar;
-    EXPECT_TRUE(testvar.isList()); 
-} 
-
-TEST(listvarg_char, GetTypeString) 
-{ 
-    argparser::listvarg<char> testvar; 
-    EXPECT_STREQ("<char>", testvar.getTypeString()); 
-} 
-
-TEST(listvarg_char, ValueSetPassDoubleEntry) 
+TEST(listvarg_char, GetTypeString)
 {
-    argparser::listvarg<char> testvar; 
-    EXPECT_TRUE(testvar.setValue("t"));
-    EXPECT_TRUE(testvar.setValue("f")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(2, testvar.value.size()); 
-    EXPECT_EQ('t', testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ('f', testvar.value.front()); 
-} 
+    argparser::listvarg<char> testvar;
+    EXPECT_STREQ("<char>", testvar.getTypeString());
+}
 
-TEST(listvarg_char, ValueSetPassTripleEntry) 
-{ 
-    argparser::listvarg<char> testvar; 
+TEST(listvarg_char, ValueSetPassDoubleEntry)
+{
+    argparser::listvarg<char> testvar;
+    EXPECT_TRUE(testvar.setValue("t"));
+    EXPECT_TRUE(testvar.setValue("f"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ('t', testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ('f', testvar.value.front());
+}
+
+TEST(listvarg_char, ValueSetPassTripleEntry)
+{
+    argparser::listvarg<char> testvar;
     EXPECT_TRUE(testvar.setValue("a"));
-    EXPECT_TRUE(testvar.setValue("b")); 
-    EXPECT_TRUE(testvar.setValue("c")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(3, testvar.value.size()); 
-    EXPECT_EQ('a', testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ('b', testvar.value.front()); 
-    testvar.value.pop_front(); 
-    EXPECT_EQ('c', testvar.value.front()); 
-} 
+    EXPECT_TRUE(testvar.setValue("b"));
+    EXPECT_TRUE(testvar.setValue("c"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ('a', testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ('b', testvar.value.front());
+    testvar.value.pop_front();
+    EXPECT_EQ('c', testvar.value.front());
+}
 
 /*
 * String varg test
 */
-TEST(listvarg_string, ConstructorTest) 
-{ 
-    const argparser::listvarg<std::string> testvar;
-    EXPECT_TRUE(testvar.defaultValue.empty()); 
-    EXPECT_TRUE(testvar.value.empty());
-} 
-
-TEST(listvarg_string, ConstructorDefaultSet) 
-{ 
-    const argparser::listvarg<std::string> testvar("default String");
-    EXPECT_STREQ("default String", testvar.defaultValue.c_str()); 
-    EXPECT_TRUE(testvar.value.empty());
-} 
-
 TEST(listvarg_string, ValueSetPass)
 {
-    argparser::listvarg<std::string> testvar; 
-    EXPECT_TRUE(testvar.setValue("Test String")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(1, testvar.value.size()); 
-    EXPECT_STREQ("Test String", testvar.value.front().c_str()); 
+    argparser::listvarg<std::string> testvar;
+    EXPECT_TRUE(testvar.setValue("Test String"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(1, testvar.value.size());
+    EXPECT_STREQ("Test String", testvar.value.front().c_str());
 }
 
-TEST(listvarg_string, IsListTest) 
-{ 
-    argparser::listvarg<std::string> testvar;
-    EXPECT_TRUE(testvar.isList()); 
-} 
-
-TEST(listvarg_string, GetTypeString) 
-{ 
-    argparser::listvarg<std::string> testvar; 
-    EXPECT_STREQ("<string>", testvar.getTypeString()); 
-} 
-
-TEST(listvarg_string, ValueSetPassDoubleEntry) 
+TEST(listvarg_string, GetTypeString)
 {
-    argparser::listvarg<std::string> testvar; 
+    argparser::listvarg<std::string> testvar;
+    EXPECT_STREQ("<string>", testvar.getTypeString());
+}
+
+TEST(listvarg_string, ValueSetPassDoubleEntry)
+{
+    argparser::listvarg<std::string> testvar;
     EXPECT_TRUE(testvar.setValue("test1 string"));
-    EXPECT_TRUE(testvar.setValue("test2 string")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(2, testvar.value.size()); 
-    EXPECT_STREQ("test1 string", testvar.value.front().c_str()); 
-    testvar.value.pop_front(); 
-    EXPECT_STREQ("test2 string", testvar.value.front().c_str()); 
-} 
+    EXPECT_TRUE(testvar.setValue("test2 string"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(2, testvar.value.size());
+    EXPECT_STREQ("test1 string", testvar.value.front().c_str());
+    testvar.value.pop_front();
+    EXPECT_STREQ("test2 string", testvar.value.front().c_str());
+}
 
-TEST(listvarg_string, ValueSetPassTripleEntry) 
-{ 
-    argparser::listvarg<std::string> testvar; 
+TEST(listvarg_string, ValueSetPassTripleEntry)
+{
+    argparser::listvarg<std::string> testvar;
     EXPECT_TRUE(testvar.setValue("test1 string"));
-    EXPECT_TRUE(testvar.setValue("test2 string")); 
-    EXPECT_TRUE(testvar.setValue("test3 string")); 
-    EXPECT_FALSE(testvar.value.empty()); 
-    EXPECT_EQ(3, testvar.value.size()); 
-    EXPECT_STREQ("test1 string", testvar.value.front().c_str()); 
-    testvar.value.pop_front(); 
-    EXPECT_STREQ("test2 string", testvar.value.front().c_str()); 
-    testvar.value.pop_front(); 
-    EXPECT_STREQ("test3 string", testvar.value.front().c_str()); 
-} 
+    EXPECT_TRUE(testvar.setValue("test2 string"));
+    EXPECT_TRUE(testvar.setValue("test3 string"));
+    EXPECT_FALSE(testvar.value.empty());
+    EXPECT_EQ(3, testvar.value.size());
+    EXPECT_STREQ("test1 string", testvar.value.front().c_str());
+    testvar.value.pop_front();
+    EXPECT_STREQ("test2 string", testvar.value.front().c_str());
+    testvar.value.pop_front();
+    EXPECT_STREQ("test3 string", testvar.value.front().c_str());
+}
 
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
