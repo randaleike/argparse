@@ -360,6 +360,11 @@ void cmd_line_parse::parsePositionalArg()
                     parseingPositionNumber++;
                 }
                 currentArg->isFound = true;
+                if (currentArg->name == positionalStop)
+                {
+                    positionalStopArgumentFound = true;
+                }
+
                 parsingError = assignKeyValue(*currentArg, currentArg->name.c_str(), valueString);
                 break;
             }
@@ -382,7 +387,7 @@ cmd_line_parse::cmd_line_parse(parserstr usage, parserstr description, bool abor
     programName(""), usageText(usage), descriptionText(description), epilogText(""),
     keyPrefix("-"), displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp), ignoreUnknownKey(false),
     singleCharArgListAllowed(true), positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0), argvArray(nullptr),
-    debugMsgLevel(debugLevel)
+    debugMsgLevel(debugLevel), positionalStop(""), positionalStopArgumentFound(false)
 {
     positionalArgList.clear();
 
@@ -572,6 +577,15 @@ void cmd_line_parse::addPositionalArgument(varg_intf* arg, parserstr name, parse
 //=================================================================================================
 //======================= Parse interface methods =================================================
 //=================================================================================================
+/*
+ * @brief Set the name of the positional argument to stop parsing
+ *
+ * @param positionalArgumentName - Positional name to find
+ */
+void cmd_line_parse::setPositionalNameStop(const char* positionalArgumentName)
+{
+    positionalStop = positionalArgumentName;
+}
 
 /**
  * @brief Parse the input arguments
@@ -596,7 +610,7 @@ int cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endi
     argvArray = argv;
     parsingError = false;
 
-    while ((currentArgumentIndex < argcount) && ((parsingError && errorAbort) == false))
+    while ((currentArgumentIndex < argcount) && ((parsingError && errorAbort) == false) && (positionalStopArgumentFound == false))
     {
         // Check for key delimiter
         if (isCurrentArgKeySwitch())

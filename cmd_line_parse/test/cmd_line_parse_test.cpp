@@ -915,6 +915,61 @@ TEST(cmd_line_parse, parseTestThreePhasedParse)
     EXPECT_STREQ("george", testoutname.value.c_str());
 }
 
+TEST(cmd_line_parse, parseTestTwPhasedTwoParserPositionalStop)
+{
+    argparser::cmd_line_parse testvar("testprog [global options] subcommand [subcommand options]", "Description of the test program");
+
+    argparser::varg<bool> testflgvarg(false, true);
+    testvar.addFlagArgument(&testflgvarg, "tstflg", "-i,--val", "This is the test flag0 argument");
+
+    argparser::varg<bool> testflgvarg1(false, true);
+    testvar.addFlagArgument(&testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument");
+
+    argparser::varg<bool> testflgvarg2(true, false);
+    testvar.addFlagArgument(&testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument");
+
+    argparser::varg<std::string> testsubarg("");
+    testvar.addPositionalArgument(&testsubarg, "subcmd", "This is the test subcmd argument");
+
+
+    parserchar progname[] = "runprog";
+    parserchar opt1[] = "-i";
+    parserchar opt2[] = "-f";
+    parserchar opt3[] = "-g";
+    parserchar opt4[] = "cmd1";
+    parserchar opt5[] = "-x";
+    parserchar opt6[] = "-y";
+    parserchar opt7[] = "13";
+    parserchar opt8[] = "-o";
+    parserchar opt9[] = "myfile";
+    parserchar* argv[] = {progname, opt1, opt2, opt3, opt4, opt5, opt6, opt7, opt8, opt9};
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    // Phase 1
+    testvar.setPositionalNameStop("subcmd");
+    EXPECT_EQ(5, testvar.parse(argc, argv));
+    EXPECT_TRUE(testflgvarg.value);
+    EXPECT_TRUE(testflgvarg1.value);
+    EXPECT_FALSE(testflgvarg2.value);
+    EXPECT_STREQ("cmd1", testsubarg.value.c_str());
+
+    // Phase 2, Parser 2
+    argparser::cmd_line_parse cmd1Parser("testprog [global options] cmd1 [subcommand options]", "Description of the subcommand test program");
+    argparser::varg<bool> testCmd1flgvarg(false, true);
+    cmd1Parser.addFlagArgument(&testCmd1flgvarg, "testCmd1flg", "-x", "This is the cmd1 test flag argument");
+
+    argparser::varg<int> testCmd1Valuevarg(0);
+    cmd1Parser.addKeyArgument(&testCmd1Valuevarg, "testCmd1Value", "-y", "This is the cmd1 test value argument");
+
+    argparser::varg<std::string> testCmd1OutArg("");
+    cmd1Parser.addKeyArgument(&testCmd1OutArg, "testCmd1OutArg", "-o, --output", "This is the cmd1 test output argument");
+
+    EXPECT_EQ(argc, cmd1Parser.parse(argc, argv, 5));
+    EXPECT_TRUE(testCmd1flgvarg.value);
+    EXPECT_EQ(13, testCmd1Valuevarg.value);
+    //EXPECT_STREQ("myfile", testCmd1OutArg.value.c_str());
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

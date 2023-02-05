@@ -75,6 +75,8 @@ class cmd_line_parse : public parser_base
         int                     argcount;                       ///< argc value from the parse call
         char**                  argvArray;                      ///< argv value from the parse call
         int                     debugMsgLevel;                  ///< debugging message level
+        parserstr               positionalStop;                 ///< Name of the positional argument to stop parsing on
+        bool                    positionalStopArgumentFound;    ///< Flag to abort processing
 
         /**
          * @brief Test if the current command line argument is a key switch
@@ -268,6 +270,13 @@ class cmd_line_parse : public parser_base
         //=================================================================================================
         //======================= Commandline parser interface methods ====================================
         //=================================================================================================
+        /**
+         * @brief Set the name of the positional argument to stop parsing
+         *
+         * @param positionalArgumentName - Positional name to find
+         */
+        void setPositionalNameStop(const char* positionalArgumentName);
+
         /**
          * @brief Parse the input command line arguments
          *
