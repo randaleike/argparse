@@ -51,9 +51,7 @@ set (parser_baseUnitTestMock
     )
 
 set (parser_baseExternalLib
-    vargintf
     varg
-    listvarg
     )
 
 find_package(PkgConfig)

@@ -276,13 +276,9 @@ class cmd_line_parse : public parser_base
          * @param startingArgIndex - argv index to start parsing arguments
          * @param endingArgIndex - argv index to stop parsing arguments, -1 == argc
          *
-         * @return true - All command line arguments were parsed correctly and
-         *                all command line required arguments were found
-         * @return false - An error occured parsing the input command line
-         *                 arguments or one or more required arguments were
-         *                 not found
+         * @return int - Index of the last argument parsed or -1 if an error occured
          */
-        bool parse(int argc, char* argv[], int startingArgIndex = 1, int endingArgIndex = -1);
+        int parse(int argc, char* argv[], int startingArgIndex = 1, int endingArgIndex = -1);
 
         /**
          * @brief Print the formatted option help message to the input stream

@@ -46,9 +46,7 @@ set (cmd_line_parseUnitTestMock
     )
 
 set (cmd_line_parseExternalLib
-    vargintf
     varg
-    listvarg
     parser_base
     )
 

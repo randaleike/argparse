@@ -47,9 +47,7 @@ set (envparseUnitTestMock
     )
 
 set (envparseExternalLib
-    vargintf
     varg
-    listvarg
     parser_base
     )
 

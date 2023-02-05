@@ -511,10 +511,4 @@ TEST(listvarg_string, ValueSetPassTripleEntry)
     EXPECT_STREQ("test3 string", testvar.value.front().c_str());
 }
 
-
-int main(int argc, char **argv)
-{
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
 /** @} */

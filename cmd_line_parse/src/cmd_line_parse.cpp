@@ -579,10 +579,9 @@ void cmd_line_parse::addPositionalArgument(varg_intf* arg, parserstr name, parse
  * @param argc - Number of input arguments
  * @param argv - Array of char* input command line arguments
  *
- * @return true  - No error parsing
- * @return false - Error in the input parameters that caused a parsing failure
+ * @return int  - Number of arguments parsed or -1 on error
  */
-bool cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endingArgIndex)
+int cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endingArgIndex)
 {
     // Check for program name default
     if(programName.empty())
@@ -648,7 +647,8 @@ bool cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int end
         displayHelp(std::cerr);
     }
 
-    return (!parsingError);
+    // Return the number of arguments parsed or -1 for error
+    return ((!parsingError) ? currentArgumentIndex : -1);
 }
 
 
