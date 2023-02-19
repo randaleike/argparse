@@ -30,6 +30,7 @@ Copyright (c) 2022 Randal Eike
 // Includes
 #include <cstring>
 #include <string>
+#include <algorithm>
 #include "varg_intf.h"
 #include "varg.h"
 #include "cmd_line_parse.h"
@@ -607,6 +608,7 @@ int cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endi
     // Parse the rest of the arguments
     currentArgumentIndex = startingArgIndex;
     argcount = ((endingArgIndex > 0) ? endingArgIndex : argc);
+    argcount = std::min(argcount, argc);
     argvArray = argv;
     parsingError = false;
 
@@ -662,7 +664,7 @@ int cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endi
     }
 
     // Return the number of arguments parsed or -1 for error
-    return ((!parsingError) ? currentArgumentIndex : -1);
+    return ((parsingError) ? -1 : currentArgumentIndex);
 }
 
 

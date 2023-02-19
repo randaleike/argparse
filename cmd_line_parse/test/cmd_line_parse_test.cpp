@@ -781,7 +781,6 @@ TEST(cmd_line_parse, parseTestMissingRequired)
     EXPECT_EQ(42, testvalvarg2.value);
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"-i|--val\" required argument missing\n", output.c_str());
-
 }
 
 TEST(cmd_line_parse, parseTestMultiplePositionalArgs)
@@ -968,6 +967,30 @@ TEST(cmd_line_parse, parseTestTwPhasedTwoParserPositionalStop)
     EXPECT_TRUE(testCmd1flgvarg.value);
     EXPECT_EQ(13, testCmd1Valuevarg.value);
     //EXPECT_STREQ("myfile", testCmd1OutArg.value.c_str());
+}
+
+TEST(cmd_line_parse, parseTestMissingRequiredSubcommand)
+{
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program", false, false, 5);
+
+    argparser::varg<bool>        flagArg(false, true);          // Default = false, set to true if command line option found
+    testvar.addFlagArgument(&flagArg, "version", "-V,--version", "Example of a simple true/false flag argument");
+
+    argparser::varg<std::string> subcommand("none");            // Default = none
+    testvar.addPositionalArgument(&subcommand, "subcommand", "Example of a positional argument as subcommand", 1, true); // sub command argument
+
+    parserchar progname[] = "runprog";
+    parserchar* argv[] = {progname};
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    testing::internal::CaptureStderr();
+    testvar.disableHelpDisplayOnError();
+
+    EXPECT_EQ(-1, testvar.parse(argc, argv, 1, 2));
+    EXPECT_FALSE(flagArg.value);
+    EXPECT_STREQ("none", subcommand.value.c_str());
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("\"subcommand\" required argument missing\n", output.c_str());
 }
 
 int main(int argc, char **argv)
