@@ -56,6 +56,8 @@ Copyright (c) 2023 Randal Eike
 /**
  * @brief Main Entry point
  *
+ * Example of simple parser with required arguments
+ *
  * @param argc - Non-negative value representing the number of arguments passed to
  *               the program from the environment in which the program is run.
  * @param argv - Pointer to the first element of an array of argc + 1 pointers,
