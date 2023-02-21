@@ -57,5 +57,4 @@ add_executable(${PROJECT_NAME}_test ${cmd_line_parseUnitTestSrc} ${cmd_line_pars
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})
 target_link_libraries(${PROJECT_NAME}_test ${cmd_line_parseExternalLib} ${GTEST_LDFLAGS})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
-
 gtest_discover_tests(${PROJECT_NAME}_test)

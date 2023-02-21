@@ -68,6 +68,20 @@ add_custom_target(argparse
     )
 
 ####
+# Library unit testing
+####
+add_custom_target(unittest
+    COMMENT "Run unittest"
+    COMMAND ./varg_test
+    COMMAND ./cmd_line_parse_test
+    COMMAND ./envparse_test
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    DEPENDS ${CMAKE_BINARY_DIR}/varg_test
+    DEPENDS ${CMAKE_BINARY_DIR}/cmd_line_parse_test
+    DEPENDS ${CMAKE_BINARY_DIR}/envparse_test
+    )
+
+####
 # Install package
 ####
 include(InstallRequiredSystemLibraries)
