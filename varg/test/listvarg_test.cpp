@@ -345,7 +345,7 @@ TEST_P(BoolUnitTestWithParams, ValueSet)
     EXPECT_EQ(expected, testvar.value.front());
 }
 
-INSTANTIATE_TEST_CASE_P(listvarg_bool, BoolUnitTestWithParams,
+INSTANTIATE_TEST_SUITE_P(listvarg_bool, BoolUnitTestWithParams,
         ::testing::Values(
                 std::make_tuple("t", true),
                 std::make_tuple("T", true),
@@ -378,7 +378,7 @@ TEST_P(BoolUnitTestWithBadParams, ValueSet)
     EXPECT_EQ(0, testvar.value.size());
 }
 
-INSTANTIATE_TEST_CASE_P(listvarg_bool, BoolUnitTestWithBadParams, ::testing::Values("goo", "2", "-1"));
+INSTANTIATE_TEST_SUITE_P(listvarg_bool, BoolUnitTestWithBadParams, ::testing::Values("goo", "2", "-1"));
 
 TEST(listvarg_bool, GetTypeString)
 {

@@ -14,13 +14,16 @@ project(cmd_line_parse VERSION 1.0.0.0 DESCRIPTION "Command Line Parser Library"
 ####
 set (cmd_line_parseInclude
     ${CMAKE_CURRENT_LIST_DIR}/inc/cmd_line_parse.h
+    ${CMAKE_CURRENT_LIST_DIR}/inc/cmd_line_parse_api.h
     )
 
 set (cmd_line_parseSrc
     ${CMAKE_CURRENT_LIST_DIR}/../parser_base/src/parser_base.cpp
     ${CMAKE_CURRENT_LIST_DIR}/../parser_base/src/parser_string_list.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/cmd_line_parse.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/cmd_line_parse_api_lib.cpp
     )
+
 
 ####
 # cmd_line_parse library
