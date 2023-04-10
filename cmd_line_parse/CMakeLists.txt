@@ -37,6 +37,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set (cmd_line_parseUnitTestSrc
     ${cmd_line_parseSrc}
     ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_api_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_unittest.cpp
     )
 
 set (cmd_line_parseMockIncude

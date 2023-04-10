@@ -21,7 +21,7 @@ Copyright (c) 2022 Randal Eike
 */
 
 /**
- * @file listvarg_test.cpp
+ * @file parser_base_test.cpp
  * @ingroup argparser_unittest
  * @defgroup Argument parsing utilities unit test
  * @{
@@ -553,10 +553,4 @@ TEST(parser_base, displayArgHelpBlockBothWrap1)
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());
 }
 
-
-int parser_base_main(int argc, char **argv) 
-{
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
 /** @} */

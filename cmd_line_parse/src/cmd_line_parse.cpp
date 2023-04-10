@@ -319,9 +319,11 @@ void cmd_line_parse::parseKeyArg()
             // parse the single character key list backwards
             for (size_t n = currentArg.size() - 1; n > 0; n--)
             {
-                char searchArg[2];
+                char searchArg[3];
                 searchArg[0] = currentArg[0];
                 searchArg[1] = currentArg[n];
+                searchArg[2] = '\0';
+
 
                 // Parse the current single character
                 parseSingleKeyArg(searchArg, valueString);

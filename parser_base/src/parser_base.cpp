@@ -195,7 +195,8 @@ ArgEntry& parser_base::findMatchingArg(const parserchar* keystring, bool& found)
         for (auto const& argumentKey : argument->keyList)
         {
             // Check if the input key string matches this argument key list entry
-            if(debugMsgLevel > 4) std::cerr << "Testing var: " << argument->name << " key: " << argumentKey << std::endl;
+            if(debugMsgLevel > 4) std::cerr << "Testing var: " << argument->name << " test key: " << argumentKey << " input key: " << testKey << std::endl;
+            if(debugMsgLevel > 4) std::cerr << "Test key size: " << argumentKey.size() << " input key size: " << testKey.size() << std::endl;
             if (argumentKey == testKey)
             {
                 // Found a match

@@ -32,8 +32,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 # parser_base Unit testing
 ####
 set (parser_baseTest
-    ${CMAKE_CURRENT_LIST_DIR}/test/parser_base_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/parser_string_list_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/parser_base_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/parser_base_unittest.cpp
     )
 
 set (parser_baseMockIncude

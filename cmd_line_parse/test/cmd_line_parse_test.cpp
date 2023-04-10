@@ -670,6 +670,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailAssignment)
 TEST(cmd_line_parse, parseTestDualSingleCharFlag)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    testvar.disableHelpDisplayOnError();
 
     argparser::varg<bool> testflgvarg(false, true);
     testvar.addFlagArgument(&testflgvarg, "tstflg", "-i,--val", "This is the test flag0 argument");
@@ -993,9 +994,4 @@ TEST(cmd_line_parse, parseTestMissingRequiredSubcommand)
     EXPECT_STREQ("\"subcommand\" required argument missing\n", output.c_str());
 }
 
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
 /** @} */

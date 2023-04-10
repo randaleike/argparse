@@ -21,7 +21,7 @@ Copyright (c) 2022 Randal Eike
 */
 
 /**
- * @file listvarg_test.cpp
+ * @file parser_string_list_test.cpp
  * @ingroup argparser_unittest
  * @defgroup Argument parsing utilities unit test
  * @{
@@ -209,9 +209,4 @@ TEST(BaseParserStringList, formatToLengthDoubleBreak)
     EXPECT_STREQ("will be broken into two strings", strList.front().c_str());
 }
 
-int parser_string_list_main(int argc, char **argv)
-{
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
 /** @} */
