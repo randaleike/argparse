@@ -115,3 +115,9 @@ add_custom_target(samples
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS argparse
     )
+
+####
+# cmd_line_parse doxygen generation
+####
+find_package(Doxygen REQUIRED dot)
+doxygen_add_docs(argparse_docs)
