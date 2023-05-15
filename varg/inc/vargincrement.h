@@ -75,18 +75,16 @@ class vargincrement : public varg_intf
          *
          * @param newValue - Input character string
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - increment variables don't take in input
          */
-        virtual bool setValue(const char* newValue);
+        virtual valueParseStatus_e setValue(const char* newValue);
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully incremented
          */
-        virtual bool setValue();
+        virtual valueParseStatus_e setValue();
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function

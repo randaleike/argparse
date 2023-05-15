@@ -32,6 +32,7 @@ Copyright (c) 2022 Randal Eike
 #include <unistd.h>
 #include <algorithm>
 #include <string>
+#include <limits>
 #include "varg_intf.h"
 
 namespace argparser
@@ -54,10 +55,10 @@ namespace argparser
  * @param newValue - input argument string
  * @param parsedValue - parsed boolean value if parsing succeeded
  * 
- * @return true if conversion succeeded
- * @return false if conversion failed
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-bool varg_intf::setBoolValue(const char* newValue, bool& parsedValue)
+valueParseStatus_e varg_intf::setBoolValue(const char* newValue, bool& parsedValue)
 {
     if (newValue[1] != 0)
     {
@@ -67,16 +68,16 @@ bool varg_intf::setBoolValue(const char* newValue, bool& parsedValue)
         if (testValue == "TRUE")
         {
             parsedValue = true;
-            return true;
+            return valueParseStatus_e::PARSE_SUCCESS_e;
         }
         else if (testValue == "FALSE")
         {
             parsedValue = false;
-            return true;
+            return valueParseStatus_e::PARSE_SUCCESS_e;
         }
         else
         {
-            return false;
+            return valueParseStatus_e::PARSE_INVALID_INPUT_e;
         }
     }
     else
@@ -88,14 +89,14 @@ bool varg_intf::setBoolValue(const char* newValue, bool& parsedValue)
             case 'T':
             case '1':
                 parsedValue = true;
-                return true;
+                return valueParseStatus_e::PARSE_SUCCESS_e;
             case 'f':
             case 'F':
             case '0':
                 parsedValue = false;
-                return true;
+                return valueParseStatus_e::PARSE_SUCCESS_e;
             default:
-                return false;
+                return valueParseStatus_e::PARSE_INVALID_INPUT_e;
         }
     }
 }
@@ -106,30 +107,40 @@ bool varg_intf::setBoolValue(const char* newValue, bool& parsedValue)
  * @param newValue - input argument string
  * @param parsedValue - parsed character value if parsing succeeded
  * 
- * @return true if conversion succeeded
- * @return false if conversion failed
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-bool varg_intf::setCharValue(const char* newValue, char& parsedValue)
+valueParseStatus_e varg_intf::setCharValue(const char* newValue, char& parsedValue)
 {
     std::string inputValue(newValue);
     if ((inputValue.length() > 1) || (inputValue.empty()))
     {
-        return false;
+        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
     else
     {
         parsedValue = inputValue[0];
-        return true;
+        return valueParseStatus_e::PARSE_SUCCESS_e;
     }
 }
-
 
 //============================================================================================================================
 //============================================================================================================================
 //  Constructor/Destructor functions
 //============================================================================================================================
 //============================================================================================================================
-varg_intf::varg_intf()      {}
+/**
+ * @brief Construct a varg_intf object
+ */
+varg_intf::varg_intf()
+{
+    maxSignedValue = LLONG_MAX;
+    minSignedValue = LLONG_MIN;
+    maxUnsignedValue = ULLONG_MAX;
+    minUnsignedValue = 0ULL;
+    maxDoubleValue = std::numeric_limits<double>::max();
+    minDoubleValue = std::numeric_limits<double>::min();
+}
 
 /**
  * @brief Destroy the varg object

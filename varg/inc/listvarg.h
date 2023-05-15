@@ -50,40 +50,46 @@ template <typename T> class listvarg : public varg_intf
          * @param newValue - Pointer to the text value string
          * @param typeStr  - scanf type string
          *
-         * @return true - Scanf string to value conversion succeeded
-         * @return false - Scanf string to value conversion failed
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        bool setElementValue(const char* newValue, const char* typeStr);
+        valueParseStatus_e setElementValue(const char* newValue, const char* typeStr);
 
         /**
          * @brief Set the value of a boolean element and add the new element to the value list object
          *
          * @param newValue - input argument string
          *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        bool setBoolValue(const char* newValue);
+        valueParseStatus_e setBoolValue(const char* newValue);
 
         /**
          * @brief Set the Element Value object
          *
          * @param newValue - input argument string
          *
-         * @return true if scanf conversion succeeded
-         * @return false if scanf conversion failed
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        bool setCharElementValue(const char* newValue);
+        valueParseStatus_e setCharElementValue(const char* newValue);
 
         /**
          * @brief Set the value of a string element and add the new element to the value list object
          *
          * @param newValue - input argument string
          *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        bool setStringValue(const char* newValue);
+        valueParseStatus_e setStringValue(const char* newValue);
 
     public:
         std::list< T >  value;          ///< Current saved list values
@@ -118,18 +124,19 @@ template <typename T> class listvarg : public varg_intf
          *
          * @param newValue - Input character string
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        virtual bool setValue(const char* newValue);
+        virtual valueParseStatus_e setValue(const char* newValue);
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - Lists do not have a default set value
          */
-        virtual bool setValue()                                         {return false;}
+        virtual valueParseStatus_e setValue()                           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function

@@ -68,19 +68,18 @@ const bool vargincrement::isList()                      {return false;}
 /**
  * @brief Set the Flag Value object
  * 
- * @return true - Flag value set
+ * @return valueParseStatus_e::PARSE_SUCCESS_e - Variable was incremented
  */
-bool vargincrement::setValue()                          {value++; return true;}
+valueParseStatus_e vargincrement::setValue()                          {value++; return valueParseStatus_e::PARSE_SUCCESS_e;}
 
 /**
  * @brief Set value from input string specializations
  * 
  * @param newValue - Input string to parse
  * 
- * @return true - if argment string was parsed
- * @return false - if argment string failed to properly parse
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - Increment variable does not take an input
  */
-bool vargincrement::setValue(const char* newValue)      {return false;}
+valueParseStatus_e vargincrement::setValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 /**
  * @brief Get the base argument type as a string

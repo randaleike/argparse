@@ -44,21 +44,21 @@ using namespace argparser;
  * @param newValue - input argument string
  * @param typeStr - scanf type string
  *
- * @return true if scanf conversion succeeded
- * @return false if scanf conversion failed
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-template <typename T> bool listvarg<T>::setElementValue(const char* newValue, const char* typeStr)
+template <typename T> valueParseStatus_e listvarg<T>::setElementValue(const char* newValue, const char* typeStr)
 {
     T element;
     int ret = sscanf(newValue, typeStr, &(element));
     if (ret == 1)
     {
         value.push_back(element);
-        return true;
+        return valueParseStatus_e::PARSE_SUCCESS_e;
     }
     else
     {
-        return false;
+        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
 }
 
@@ -67,20 +67,20 @@ template <typename T> bool listvarg<T>::setElementValue(const char* newValue, co
  *
  * @param newValue - input argument string
  *
- * @return true if scanf conversion succeeded
- * @return false if scanf conversion failed
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-template <> bool listvarg<char>::setCharElementValue(const char* newValue)
+template <> valueParseStatus_e listvarg<char>::setCharElementValue(const char* newValue)
 {
     char element;
     if (varg_intf::setCharValue(newValue, element))
     {
         value.push_back(element);
-        return true;
+        return valueParseStatus_e::PARSE_SUCCESS_e;
     }
     else
     {
-        return false;
+        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
 }
 
@@ -89,40 +89,40 @@ template <> bool listvarg<char>::setCharElementValue(const char* newValue)
  *
  * @param newValue - input argument string
  *
- * @return true if scanf conversion succeeded
- * @return false if scanf conversion failed
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-template <> bool listvarg<bool>::setBoolValue(const char* newValue)
+template <> valueParseStatus_e listvarg<bool>::setBoolValue(const char* newValue)
 {
     bool element;
     if (varg_intf::setBoolValue(newValue, element))
     {
         value.push_back(element);
-        return true;
+        return valueParseStatus_e::PARSE_SUCCESS_e;
     }
     else
     {
-        return false;
+        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
 }
-template <typename T> bool listvarg<T>::setBoolValue(const char* newValue)          {return false;}
+template <typename T> valueParseStatus_e listvarg<T>::setBoolValue(const char* newValue)          {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 /**
  * @brief Set the string Value object
  *
  * @param newValue - input argument string
  *
- * @return true if scanf conversion succeeded
- * @return false if scanf conversion failed
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-template <> bool listvarg<std::string>::setStringValue(const char* newValue)
+template <> valueParseStatus_e listvarg<std::string>::setStringValue(const char* newValue)
 {
     std::string element = newValue;
     value.push_back(element);
-    return true;
+    return valueParseStatus_e::PARSE_SUCCESS_e;
 }
 
-template <typename T> bool listvarg<T>::setStringValue(const char* newValue)        {return false;}
+template <typename T> valueParseStatus_e listvarg<T>::setStringValue(const char* newValue)        {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 //============================================================================================================================
 //============================================================================================================================
@@ -137,23 +137,23 @@ template <typename T> bool listvarg<T>::setStringValue(const char* newValue)    
  * @return true - if argment string was parsed
  * @return false - if argment string failed to properly parse
  */
-template <> bool listvarg<short int>::setValue(const char* newValue)          {return setElementValue(newValue, "%hd");}
-template <> bool listvarg<int>::setValue(const char* newValue)                {return setElementValue(newValue, "%d");}
-template <> bool listvarg<long int>::setValue(const char* newValue)           {return setElementValue(newValue, "%ld");}
-template <> bool listvarg<long long int>::setValue(const char* newValue)      {return setElementValue(newValue, "%lld");}
+template <> valueParseStatus_e listvarg<short int>::setValue(const char* newValue)          {return setElementValue(newValue, "%hd");}
+template <> valueParseStatus_e listvarg<int>::setValue(const char* newValue)                {return setElementValue(newValue, "%d");}
+template <> valueParseStatus_e listvarg<long int>::setValue(const char* newValue)           {return setElementValue(newValue, "%ld");}
+template <> valueParseStatus_e listvarg<long long int>::setValue(const char* newValue)      {return setElementValue(newValue, "%lld");}
 
-template <> bool listvarg<short unsigned>::setValue(const char* newValue)     {return setElementValue(newValue, "%hu");}
-template <> bool listvarg<unsigned>::setValue(const char* newValue)           {return setElementValue(newValue, "%u");}
-template <> bool listvarg<long unsigned>::setValue(const char* newValue)      {return setElementValue(newValue, "%lu");}
-template <> bool listvarg<long long unsigned>::setValue(const char* newValue) {return setElementValue(newValue, "%llu");}
+template <> valueParseStatus_e listvarg<short unsigned>::setValue(const char* newValue)     {return setElementValue(newValue, "%hu");}
+template <> valueParseStatus_e listvarg<unsigned>::setValue(const char* newValue)           {return setElementValue(newValue, "%u");}
+template <> valueParseStatus_e listvarg<long unsigned>::setValue(const char* newValue)      {return setElementValue(newValue, "%lu");}
+template <> valueParseStatus_e listvarg<long long unsigned>::setValue(const char* newValue) {return setElementValue(newValue, "%llu");}
 
-template <> bool listvarg<float>::setValue(const char* newValue)              {return setElementValue(newValue, "%f");}
-template <> bool listvarg<double>::setValue(const char* newValue)             {return setElementValue(newValue, "%lf");}
-template <> bool listvarg<long double>::setValue(const char* newValue)        {return setElementValue(newValue, "%llf");}
+template <> valueParseStatus_e listvarg<float>::setValue(const char* newValue)              {return setElementValue(newValue, "%f");}
+template <> valueParseStatus_e listvarg<double>::setValue(const char* newValue)             {return setElementValue(newValue, "%lf");}
+template <> valueParseStatus_e listvarg<long double>::setValue(const char* newValue)        {return setElementValue(newValue, "%llf");}
 
-template <> bool listvarg<char>::setValue(const char* newValue)               {return setCharElementValue(newValue);}
-template <> bool listvarg<std::string>::setValue(const char* newValue)        {return setStringValue(newValue);}
-template <> bool listvarg<bool>::setValue(const char* newValue)               {return setBoolValue(newValue);}
+template <> valueParseStatus_e listvarg<char>::setValue(const char* newValue)               {return setCharElementValue(newValue);}
+template <> valueParseStatus_e listvarg<std::string>::setValue(const char* newValue)        {return setStringValue(newValue);}
+template <> valueParseStatus_e listvarg<bool>::setValue(const char* newValue)               {return setBoolValue(newValue);}
 
 /**
  * @brief Get the base argument type as a string

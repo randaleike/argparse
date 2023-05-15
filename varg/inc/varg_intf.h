@@ -32,36 +32,59 @@ Copyright (c) 2022 Randal Eike
 // Includes
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
+#include <limits>
 
 namespace argparser
 {
 
+/**
+ * @brief SetValue return code values 
+ */
+enum valueParseStatus_e
+{
+    PARSE_SUCCESS_e = 0,                ///< Input string successfully parsed
+    PARSE_INVALID_INPUT_e,              ///< Input could not be parsed into an appropriate value
+    PARSE_BOUNDARY_LOW_e,               ///< Parsed value exceeds lower value limit
+    PARSE_BOUNDARY_HIGH_e,              ///< Parsed value exceeds upper value limit
+};
+
+/**
+ * @brief Base variable argument varg interface and methods 
+ */
 class varg_intf
 {
     private:
 
     protected:
+        long long int       maxSignedValue;         ///< Maximum allowed signed integer value
+        long long int       minSignedValue;         ///< Minimum allowed signed integer value
+        long long unsigned  maxUnsignedValue;       ///< Maximum allowed unsigned integer value
+        long long unsigned  minUnsignedValue;       ///< Minimum allowed unsigned integer value
+        double              minDoubleValue;         ///< Minimum allowed floating point value
+        double              maxDoubleValue;         ///< Minimum allowed floating point value
+
         /**
          * @brief Set the Bool Value object
          *
          * @param newValue - input argument string
          * @param parsedValue - parsed boolean value if parsing succeeded
          *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        bool setBoolValue(const char* newValue, bool& parsedValue);
+        valueParseStatus_e setBoolValue(const char* newValue, bool& parsedValue);
 
         /**
          * @brief Set the New character object value
-         *
+         * 
          * @param newValue - input argument string
          * @param parsedValue - parsed character value if parsing succeeded
-         *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
+         * 
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        bool setCharValue(const char* newValue, char& parsedValue);
+        valueParseStatus_e setCharValue(const char* newValue, char& parsedValue);
 
     public:
         /**
@@ -94,18 +117,19 @@ class varg_intf
          *
          * @param newValue - Input character string
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        virtual bool setValue(const char* newValue) = 0;
+        virtual valueParseStatus_e setValue(const char* newValue) = 0;
 
         /**
          * Virtual place holder for the template variable implementation setValue function
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          */
-        virtual bool setValue() = 0;
+        virtual valueParseStatus_e setValue() = 0;
 
         /**
          * Virtual place holder for the template variable implementation isEmpty function

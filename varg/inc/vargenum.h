@@ -86,10 +86,10 @@ template <typename T> class vargenum : public varg_intf
          *
          * @param newValue - Input character string
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        virtual bool setValue(const char* newValue)
+        virtual valueParseStatus_e setValue(const char* newValue)
         {
             std::string searchString = newValue;
             for (auto const & [key, val] : enumNameMap)
@@ -97,20 +97,19 @@ template <typename T> class vargenum : public varg_intf
                 if (key == searchString)
                 {
                     value = val;
-                    return true;
+                    return valueParseStatus_e::PARSE_SUCCESS_e;
                 }
             }
 
-            return false;
+            return valueParseStatus_e::PARSE_INVALID_INPUT_e;
         }
-
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
          *
-         * @return false - enum type must have an input string to map to the enum value
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - enum type must have an input string to map to the enum value
          */
-        virtual bool setValue()                                         {return false;}
+        virtual valueParseStatus_e setValue()                           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function

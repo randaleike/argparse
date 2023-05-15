@@ -43,38 +43,65 @@ namespace argparser
 template <typename T> class varg : public varg_intf
 {
     private:
-        T       flagSetValue;       ///< Value to set when flag key value is found
-
-        /**
-         * @brief Set the value from the input string
-         *
-         * @param newValue - Input value as a C string
-         * @param typeStr  - scanf type string
-         *
-         * @return true - Scanf string to value conversion succeeded
-         * @return false - Scanf string to value conversion failed
-         */
-        bool setNewValue(const char* newValue, const char* typeStr);
+        std::string typeString;         ///< Type description string with min/max values
+        T           flagSetValue;       ///< Value to set when flag key value is found
 
         /**
          * @brief Set the New character object value
-         *
+         * 
          * @param newValue - input argument string
-         *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
+         * @param parsedValue - parsed character value if parsing succeeded
+         * 
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        bool setNewCharValue(const char* newValue);
+        valueParseStatus_e setCharValue(const char* newValue);
 
         /**
          * @brief Set the Bool Value object
          *
          * @param newValue - input argument string
          *
-         * @return true if conversion succeeded
-         * @return false if conversion failed
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        bool setBoolValue(const char* newValue);
+        valueParseStatus_e setBoolValue(const char* newValue);
+
+        /**
+         * @brief Set the Signed Value object
+         *
+         * @param newValue - input argument string
+         *
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         */
+        valueParseStatus_e setSignedValue(const char* newValue);
+
+        /**
+         * @brief Set the Unsigned Value object
+         *
+         * @param newValue - input argument string
+         *
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         */
+        valueParseStatus_e setUnsignedValue(const char* newValue);
+
+        /**
+         * @brief Set the Double Value object
+         *
+         * @param newValue - input argument string
+         *
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         */
+        valueParseStatus_e setDoubleValue(const char* newValue);
 
     public:
         T       value;              ///< Current saved value
@@ -82,9 +109,9 @@ template <typename T> class varg : public varg_intf
         /**
          * @brief Construct a varg_intf object
          */
-        varg(T defaultValue, T flagValue) : varg_intf(), value(defaultValue), flagSetValue(flagValue)   {}
-
         varg(T defaultValue);
+        varg(T defaultValue, T flagValue) : varg_intf(), value(defaultValue), flagSetValue(flagValue)   {}
+        varg(T defaultValue, T min, T max);
 
         /**
          * @brief Destroy the varg object
@@ -96,7 +123,7 @@ template <typename T> class varg : public varg_intf
          *
          * @return const char* - Base type string
          */
-        virtual const char* getTypeString();
+        virtual const char* getTypeString()                 {return typeString.c_str();}
 
         /**
          * @brief Return if varg is a list of elements or a single element type
@@ -111,18 +138,19 @@ template <typename T> class varg : public varg_intf
          *
          * @param newValue - Input character string
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        virtual bool setValue(const char* newValue);
+        virtual valueParseStatus_e setValue(const char* newValue);
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
          *
-         * @return true - if value was successsfully set
-         * @return false - if input string could not
+         * @return valueParseStatus_e::PARSE_SUCCESS_e
          */
-        virtual bool setValue();
+        virtual valueParseStatus_e setValue();
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function
