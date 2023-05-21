@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -208,7 +208,7 @@ TEST(cmd_line_parse, addAllArgHelp)
 
 TEST(cmd_line_parse, parseTestFlag)
 {
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program", false, false, 6);
     argparser::varg<bool> testflgvarg(false, true);
     testvar.addFlagArgument(&testflgvarg, "flag", "-f,--flag", "This is the flag argument");
     testvar.disableHelpDisplayOnError();

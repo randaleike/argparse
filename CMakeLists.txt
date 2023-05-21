@@ -56,8 +56,8 @@ set (argparse_libs
     cmd_line_parse
     )
 
-set(C_LIB ${CMAKE_BINARY_DIR}/libargparse.a)
-add_custom_target(argparse
+set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.a)
+add_custom_target(${PROJECT_NAME}
     COMMAND ar -x $<TARGET_FILE:varg>
     COMMAND ar -x $<TARGET_FILE:parser_base>
     COMMAND ar -x $<TARGET_FILE:cmd_line_parse>
@@ -70,7 +70,7 @@ add_custom_target(argparse
 ####
 # Library unit testing
 ####
-add_custom_target(unittest
+add_custom_target(${PROJECT_NAME}-unittest
     COMMENT "Run unittest"
     COMMAND ./varg_test
     COMMAND ./cmd_line_parse_test
@@ -107,11 +107,11 @@ set (cmd_line_sample_libs
 
 add_custom_target(samples
     COMMENT "Samples build"
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample1.exe ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/sample/sample1.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample2.exe ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/sample/sample2.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample3.exe ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/sample/sample3.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample4.exe ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/sample/sample4.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample5.exe ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/sample/sample5.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} -std=c++17 ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
+    COMMAND ${CMAKE_CXX_COMPILER} -o sample1.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample1.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
+    COMMAND ${CMAKE_CXX_COMPILER} -o sample2.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample2.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
+    COMMAND ${CMAKE_CXX_COMPILER} -o sample3.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample3.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
+    COMMAND ${CMAKE_CXX_COMPILER} -o sample4.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample4.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
+    COMMAND ${CMAKE_CXX_COMPILER} -o sample5.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample5.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} -std=c++17 ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS argparse
     )
@@ -120,4 +120,4 @@ add_custom_target(samples
 # cmd_line_parse doxygen generation
 ####
 find_package(Doxygen REQUIRED dot)
-doxygen_add_docs(argparse_docs)
+doxygen_add_docs(${PROJECT_NAME}_docs)

@@ -59,13 +59,13 @@ TEST(varg_enum, SetValue)
     testvar.setEnumValue("second", test_enum_e::secondVal_e);
     testvar.setEnumValue("third", test_enum_e::thirdVal_e);
 
-    EXPECT_TRUE(testvar.setValue("first"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("first"));
     EXPECT_EQ(test_enum_e::firstVal_e, testvar.value);
 
-    EXPECT_TRUE(testvar.setValue("second"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("second"));
     EXPECT_EQ(test_enum_e::secondVal_e, testvar.value);
 
-    EXPECT_TRUE(testvar.setValue("third"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("third"));
     EXPECT_EQ(test_enum_e::thirdVal_e, testvar.value);
 }
 

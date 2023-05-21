@@ -1,5 +1,5 @@
 /* 
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
  
  Permission is hereby granted, free of parsercharge, to any person obtaining a 
  copy of this software and associated documentation files (the "Software"),
@@ -220,7 +220,7 @@ ArgEntry& parser_base::findMatchingArg(const parserchar* keystring, bool& found)
  */
 eAssignmentReturn parser_base::assignKeyFlagValue(ArgEntry& currentArg)
 {
-    return ((currentArg.argData->setValue()) ? eAssignSuccess : eAssignFailed);
+    return ((valueParseStatus_e::PARSE_SUCCESS_e == currentArg.argData->setValue()) ? eAssignSuccess : eAssignFailed);
 }
 
 /**
@@ -239,7 +239,7 @@ eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& a
     }
     else
     {
-        return ((currentArg.argData->setValue(assignmentValue.c_str())) ? eAssignSuccess : eAssignFailed);
+        return ((valueParseStatus_e::PARSE_SUCCESS_e == currentArg.argData->setValue(assignmentValue.c_str())) ? eAssignSuccess : eAssignFailed);
     }
 }
 
@@ -277,7 +277,7 @@ eAssignmentReturn parser_base::assignListKeyValue(ArgEntry& currentArg, std::lis
     // Assign the values
     for (auto const& valueStr : assignmentValues)
     {
-        if(false == currentArg.argData->setValue(valueStr.c_str()))
+        if(valueParseStatus_e::PARSE_SUCCESS_e != currentArg.argData->setValue(valueStr.c_str()))
         {
             failedValue = valueStr;
             return eAssignFailed;

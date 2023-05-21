@@ -44,39 +44,39 @@ TEST(varg_increment, ConstructorTest)
 TEST(varg_increment, ValueSetPass_singleInc)
 {
     argparser::vargincrement testvar;
-    EXPECT_TRUE(testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ(1, testvar.value);
 }
 
 TEST(varg_increment, ValueSetPass_doubleInc)
 {
     argparser::vargincrement testvar;
-    EXPECT_TRUE(testvar.setValue());
-    EXPECT_TRUE(testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ(2, testvar.value);
 }
 
 TEST(varg_increment, ValueSetPass_tripleInc)
 {
     argparser::vargincrement testvar;
-    EXPECT_TRUE(testvar.setValue());
-    EXPECT_TRUE(testvar.setValue());
-    EXPECT_TRUE(testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ(3, testvar.value);
 }
 
 TEST(varg_increment, ValueSetFail)
 {
     argparser::vargincrement testvar;
-    EXPECT_FALSE(testvar.setValue("10"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("10"));
     EXPECT_EQ(0, testvar.value);
 }
 
 TEST(varg_increment, ValueSetFail_AfterInc)
 {
     argparser::vargincrement testvar;
-    EXPECT_TRUE(testvar.setValue());
-    EXPECT_FALSE(testvar.setValue("10"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("10"));
     EXPECT_EQ(1, testvar.value);
 }
 

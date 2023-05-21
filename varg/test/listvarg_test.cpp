@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,7 @@ TYPED_TEST_P(ListBaseUnitTest, ConstructorTest)
 TYPED_TEST_P(ListBaseUnitTest, ValueSetNullFail)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_FALSE(testvar.setValue());
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
 }
 
 TYPED_TEST_P(ListBaseUnitTest, IsListTest)
@@ -71,55 +71,70 @@ INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_base, ListBaseUnitTest, allTypes);
 /*
 * Integer listvarg test
 */
-template <typename T> class IntegerUnitTest : public testing::Test
+template <typename T> class IntegerListUnitTest : public testing::Test
 {
+    private:
+        std::stringstream typeString;
+        std::string generateExpectedString(long long int min, long long int max)
+        {
+            typeString << "<" << min << ":[+]" << max << ">";
+            return typeString.str();
+        }
+
     public:
-        IntegerUnitTest() {}
-        ~IntegerUnitTest() override {}
+        IntegerListUnitTest() {}
+        ~IntegerListUnitTest() override {}
+
+        std::string getExpectedTypeString(void);
 };
 
-TYPED_TEST_SUITE_P(IntegerUnitTest);
+template <> std::string IntegerListUnitTest<short int>::getExpectedTypeString(void)     {return generateExpectedString(SHRT_MIN, SHRT_MAX);}
+template <> std::string IntegerListUnitTest<int>::getExpectedTypeString(void)           {return generateExpectedString(INT_MIN, INT_MAX);}
+template <> std::string IntegerListUnitTest<long int>::getExpectedTypeString(void)      {return generateExpectedString(LONG_MIN, LONG_MAX);}
+template <> std::string IntegerListUnitTest<long long int>::getExpectedTypeString(void) {return generateExpectedString(LLONG_MIN, LLONG_MAX);}
 
-TYPED_TEST_P(IntegerUnitTest, ValueSetPassSignedPos)
+TYPED_TEST_SUITE_P(IntegerListUnitTest);
+
+TYPED_TEST_P(IntegerListUnitTest, ValueSetPassSignedPos)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("33"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(33, testvar.value.front());
 }
 
-TYPED_TEST_P(IntegerUnitTest, ValueSetPassSignedNeg)
+TYPED_TEST_P(IntegerListUnitTest, ValueSetPassSignedNeg)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("-55"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("-55"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(-55, testvar.value.front());
 }
 
-TYPED_TEST_P(IntegerUnitTest, ValueSetFail)
+TYPED_TEST_P(IntegerListUnitTest, ValueSetFail)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_FALSE(testvar.setValue("foo"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("foo"));
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
 }
 
-TYPED_TEST_P(IntegerUnitTest, GetTypeString)
+TYPED_TEST_P(IntegerListUnitTest, GetTypeString)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_STREQ("<[+|-]int>", testvar.getTypeString());
+    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
 }
 
-TYPED_TEST_P(IntegerUnitTest, ValueSetPassDoubleEntry)
+TYPED_TEST_P(IntegerListUnitTest, ValueSetPassDoubleEntry)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("-55"));
-    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("-55"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("33"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(2, testvar.value.size());
@@ -128,12 +143,12 @@ TYPED_TEST_P(IntegerUnitTest, ValueSetPassDoubleEntry)
     EXPECT_EQ(33, testvar.value.front());
 }
 
-TYPED_TEST_P(IntegerUnitTest, ValueSetPassTripleEntry)
+TYPED_TEST_P(IntegerListUnitTest, ValueSetPassTripleEntry)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("-11"));
-    EXPECT_TRUE(testvar.setValue("28"));
-    EXPECT_TRUE(testvar.setValue("17"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("-11"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("28"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("17"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(3, testvar.value.size());
@@ -144,53 +159,68 @@ TYPED_TEST_P(IntegerUnitTest, ValueSetPassTripleEntry)
     EXPECT_EQ(17, testvar.value.front());
 }
 
-REGISTER_TYPED_TEST_SUITE_P(IntegerUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetFail,
+REGISTER_TYPED_TEST_SUITE_P(IntegerListUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetFail,
                             GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;
-INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_int, IntegerUnitTest, intTypes);
+INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_int, IntegerListUnitTest, intTypes);
 
 /*
 * Unsigned Integer varg test
 */
-template <typename T> class UIntegerUnitTest : public testing::Test
+template <typename T> class UIntegerListUnitTest : public testing::Test
 {
+    private:
+        std::stringstream typeString;
+        std::string generateExpectedString(long long unsigned max)
+        {
+            typeString << "<0:[+]" << max << ">";
+            return typeString.str();
+        }
+
     public:
-        UIntegerUnitTest() {}
-        ~UIntegerUnitTest() override {}
+        UIntegerListUnitTest() {}
+        ~UIntegerListUnitTest() override {}
+
+        std::string getExpectedTypeString(void);
 };
 
-TYPED_TEST_SUITE_P(UIntegerUnitTest);
-TYPED_TEST_P(UIntegerUnitTest, ValueSetPass)
+template <> std::string UIntegerListUnitTest<short unsigned>::getExpectedTypeString(void)       {return generateExpectedString(USHRT_MAX);}
+template <> std::string UIntegerListUnitTest<unsigned>::getExpectedTypeString(void)             {return generateExpectedString(UINT_MAX);}
+template <> std::string UIntegerListUnitTest<long unsigned>::getExpectedTypeString(void)        {return generateExpectedString(ULONG_MAX);}
+template <> std::string UIntegerListUnitTest<long long unsigned>::getExpectedTypeString(void)   {return generateExpectedString(ULLONG_MAX);}
+
+TYPED_TEST_SUITE_P(UIntegerListUnitTest);
+TYPED_TEST_P(UIntegerListUnitTest, ValueSetPass)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("33"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(33, testvar.value.front());
 }
 
-TYPED_TEST_P(UIntegerUnitTest, ValueSetFail)
+TYPED_TEST_P(UIntegerListUnitTest, ValueSetFail)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_FALSE(testvar.setValue("foo"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("foo"));
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
 }
 
-TYPED_TEST_P(UIntegerUnitTest, GetTypeString)
+TYPED_TEST_P(UIntegerListUnitTest, GetTypeString)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_STREQ("<[+]int>", testvar.getTypeString());
+    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
 }
 
-TYPED_TEST_P(UIntegerUnitTest, ValueSetPassDoubleEntry)
+TYPED_TEST_P(UIntegerListUnitTest, ValueSetPassDoubleEntry)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("55"));
-    EXPECT_TRUE(testvar.setValue("33"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("55"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("33"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(2, testvar.value.size());
@@ -199,12 +229,12 @@ TYPED_TEST_P(UIntegerUnitTest, ValueSetPassDoubleEntry)
     EXPECT_EQ(33, testvar.value.front());
 }
 
-TYPED_TEST_P(UIntegerUnitTest, ValueSetPassTripleEntry)
+TYPED_TEST_P(UIntegerListUnitTest, ValueSetPassTripleEntry)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("11"));
-    EXPECT_TRUE(testvar.setValue("28"));
-    EXPECT_TRUE(testvar.setValue("17"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("11"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("28"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("17"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(3, testvar.value.size());
@@ -216,83 +246,94 @@ TYPED_TEST_P(UIntegerUnitTest, ValueSetPassTripleEntry)
 }
 
 
-REGISTER_TYPED_TEST_SUITE_P(UIntegerUnitTest, ValueSetPass, ValueSetFail,
+REGISTER_TYPED_TEST_SUITE_P(UIntegerListUnitTest, ValueSetPass, ValueSetFail,
                             GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;
-INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_uint, UIntegerUnitTest, uintTypes);
+INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_uint, UIntegerListUnitTest, uintTypes);
 
 /*
 * Double listvarg test
 */
-template <typename T> class DoubleUnitTest : public testing::Test
+template <typename T> class DoubleListUnitTest : public testing::Test
 {
+    private:
+        std::stringstream typeString;
+
     public:
-        DoubleUnitTest() {}
-        ~DoubleUnitTest() override {}
+        DoubleListUnitTest() {}
+
+        ~DoubleListUnitTest() override {}
+        std::string getExpectedTypeString(void);
 };
 
-TYPED_TEST_SUITE_P(DoubleUnitTest);
-TYPED_TEST_P(DoubleUnitTest, ValueSetPassSignedPos)
+template <> std::string DoubleListUnitTest<double>::getExpectedTypeString(void) 
+{
+    typeString << "<" << std::numeric_limits<double>::min() << ":" << std::numeric_limits<double>::max() << ">";
+    return typeString.str();
+}
+
+TYPED_TEST_SUITE_P(DoubleListUnitTest);
+TYPED_TEST_P(DoubleListUnitTest, ValueSetPassSignedPos)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("3.1415"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("3.1415"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(3.1415, testvar.value.front());
 }
 
-TYPED_TEST_P(DoubleUnitTest, ValueSetPassSignedNeg)
+TYPED_TEST_P(DoubleListUnitTest, ValueSetPassSignedNeg)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("-3.1415"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("-3.1415"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(-3.1415, testvar.value.front());
 }
 
-TYPED_TEST_P(DoubleUnitTest, ValueSetPassExponent)
+TYPED_TEST_P(DoubleListUnitTest, ValueSetPassExponent)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("3.1415e7"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("3.1415e7"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(3.1415e7, testvar.value.front());
 }
 
-TYPED_TEST_P(DoubleUnitTest, ValueSetPassInteger)
+TYPED_TEST_P(DoubleListUnitTest, ValueSetPassInteger)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("3"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("3"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(3.0, testvar.value.front());
 }
 
-TYPED_TEST_P(DoubleUnitTest, ValueSetFail)
+TYPED_TEST_P(DoubleListUnitTest, ValueSetFail)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_FALSE(testvar.setValue("foo"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("foo"));
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
 }
 
-TYPED_TEST_P(DoubleUnitTest, GetTypeString)
+TYPED_TEST_P(DoubleListUnitTest, GetTypeString)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_STREQ("<float>", testvar.getTypeString());
+    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
 }
 
-TYPED_TEST_P(DoubleUnitTest, ValueSetPassDoubleEntry)
+TYPED_TEST_P(DoubleListUnitTest, ValueSetPassDoubleEntry)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("-2.72355"));
-    EXPECT_TRUE(testvar.setValue("3.1415"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("-2.72355"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("3.1415"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(2, testvar.value.size());
@@ -301,12 +342,12 @@ TYPED_TEST_P(DoubleUnitTest, ValueSetPassDoubleEntry)
     EXPECT_EQ(3.1415, testvar.value.front());
 }
 
-TYPED_TEST_P(DoubleUnitTest, ValueSetPassTripleEntry)
+TYPED_TEST_P(DoubleListUnitTest, ValueSetPassTripleEntry)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_TRUE(testvar.setValue("-11.5"));
-    EXPECT_TRUE(testvar.setValue("28.4"));
-    EXPECT_TRUE(testvar.setValue("17.9"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("-11.5"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("28.4"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("17.9"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(3, testvar.value.size());
@@ -317,35 +358,35 @@ TYPED_TEST_P(DoubleUnitTest, ValueSetPassTripleEntry)
     EXPECT_EQ(17.9, testvar.value.front());
 }
 
-REGISTER_TYPED_TEST_SUITE_P(DoubleUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetPassExponent,
+REGISTER_TYPED_TEST_SUITE_P(DoubleListUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetPassExponent,
                             ValueSetPassInteger, ValueSetFail, GetTypeString, ValueSetPassDoubleEntry,
                             ValueSetPassTripleEntry);
 
 typedef testing::Types<double> doubleTypes;
-INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_double, DoubleUnitTest, doubleTypes);
+INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_double, DoubleListUnitTest, doubleTypes);
 
 /*
 * Bool listvarg test
 */
-class BoolUnitTestWithParams : public ::testing::TestWithParam< std::tuple<const char*, bool> >
+class ListBoolUnitTestWithParams : public ::testing::TestWithParam< std::tuple<const char*, bool> >
 {
     protected:
         argparser::listvarg<bool> testvar;
 };
 
-TEST_P(BoolUnitTestWithParams, ValueSet)
+TEST_P(ListBoolUnitTestWithParams, ValueSet)
 {
     bool        expected   = std::get<1>(GetParam());
     const char* inpVal     = std::get<0>(GetParam());
 
-    EXPECT_TRUE(testvar.setValue(inpVal));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(inpVal));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ(expected, testvar.value.front());
 }
 
-INSTANTIATE_TEST_SUITE_P(listvarg_bool, BoolUnitTestWithParams,
+INSTANTIATE_TEST_SUITE_P(listvarg_bool_param, ListBoolUnitTestWithParams,
         ::testing::Values(
                 std::make_tuple("t", true),
                 std::make_tuple("T", true),
@@ -372,7 +413,7 @@ TEST_P(BoolUnitTestWithBadParams, ValueSet)
 {
     const char* inpVal     = GetParam();
 
-    EXPECT_FALSE(testvar.setValue(inpVal));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue(inpVal));
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
@@ -389,8 +430,8 @@ TEST(listvarg_bool, GetTypeString)
 TEST(listvarg_bool, ValueSetPassDoubleEntry)
 {
     argparser::listvarg<bool> testvar;
-    EXPECT_TRUE(testvar.setValue("t"));
-    EXPECT_TRUE(testvar.setValue("f"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("t"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("f"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(2, testvar.value.size());
     EXPECT_EQ(true, testvar.value.front());
@@ -401,9 +442,9 @@ TEST(listvarg_bool, ValueSetPassDoubleEntry)
 TEST(listvarg_bool, ValueSetPassTripleEntry)
 {
     argparser::listvarg<bool> testvar;
-    EXPECT_TRUE(testvar.setValue("t"));
-    EXPECT_TRUE(testvar.setValue("f"));
-    EXPECT_TRUE(testvar.setValue("0"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("t"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("f"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("0"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(3, testvar.value.size());
     EXPECT_EQ(true, testvar.value.front());
@@ -420,7 +461,7 @@ TEST(listvarg_bool, ValueSetPassTripleEntry)
 TEST(listvarg_char, ValueSetPass)
 {
     argparser::listvarg<char> testvar;
-    EXPECT_TRUE(testvar.setValue("b"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("b"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_EQ('b', testvar.value.front());
@@ -429,7 +470,7 @@ TEST(listvarg_char, ValueSetPass)
 TEST(listvarg_char, ValueSetFail)
 {
     argparser::listvarg<char> testvar;
-    EXPECT_FALSE(testvar.setValue("goo"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("goo"));
     EXPECT_TRUE(testvar.value.empty());
 }
 
@@ -442,8 +483,8 @@ TEST(listvarg_char, GetTypeString)
 TEST(listvarg_char, ValueSetPassDoubleEntry)
 {
     argparser::listvarg<char> testvar;
-    EXPECT_TRUE(testvar.setValue("t"));
-    EXPECT_TRUE(testvar.setValue("f"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("t"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("f"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(2, testvar.value.size());
     EXPECT_EQ('t', testvar.value.front());
@@ -454,9 +495,9 @@ TEST(listvarg_char, ValueSetPassDoubleEntry)
 TEST(listvarg_char, ValueSetPassTripleEntry)
 {
     argparser::listvarg<char> testvar;
-    EXPECT_TRUE(testvar.setValue("a"));
-    EXPECT_TRUE(testvar.setValue("b"));
-    EXPECT_TRUE(testvar.setValue("c"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("a"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("b"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("c"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(3, testvar.value.size());
     EXPECT_EQ('a', testvar.value.front());
@@ -472,7 +513,7 @@ TEST(listvarg_char, ValueSetPassTripleEntry)
 TEST(listvarg_string, ValueSetPass)
 {
     argparser::listvarg<std::string> testvar;
-    EXPECT_TRUE(testvar.setValue("Test String"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("Test String"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(1, testvar.value.size());
     EXPECT_STREQ("Test String", testvar.value.front().c_str());
@@ -487,8 +528,8 @@ TEST(listvarg_string, GetTypeString)
 TEST(listvarg_string, ValueSetPassDoubleEntry)
 {
     argparser::listvarg<std::string> testvar;
-    EXPECT_TRUE(testvar.setValue("test1 string"));
-    EXPECT_TRUE(testvar.setValue("test2 string"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("test1 string"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("test2 string"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(2, testvar.value.size());
     EXPECT_STREQ("test1 string", testvar.value.front().c_str());
@@ -499,9 +540,9 @@ TEST(listvarg_string, ValueSetPassDoubleEntry)
 TEST(listvarg_string, ValueSetPassTripleEntry)
 {
     argparser::listvarg<std::string> testvar;
-    EXPECT_TRUE(testvar.setValue("test1 string"));
-    EXPECT_TRUE(testvar.setValue("test2 string"));
-    EXPECT_TRUE(testvar.setValue("test3 string"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("test1 string"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("test2 string"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("test3 string"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(3, testvar.value.size());
     EXPECT_STREQ("test1 string", testvar.value.front().c_str());

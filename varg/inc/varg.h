@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -43,7 +43,6 @@ namespace argparser
 template <typename T> class varg : public varg_intf
 {
     private:
-        std::string typeString;         ///< Type description string with min/max values
         T           flagSetValue;       ///< Value to set when flag key value is found
 
         /**

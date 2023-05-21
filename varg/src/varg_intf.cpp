@@ -1,5 +1,5 @@
 /* 
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
  
  Permission is hereby granted, free of charge, to any person obtaining a 
  copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,8 @@ Copyright (c) 2022 Randal Eike
 #include <unistd.h>
 #include <algorithm>
 #include <string>
+#include <iostream>
+#include <sstream>
 #include <limits>
 #include "varg_intf.h"
 
@@ -58,7 +60,7 @@ namespace argparser
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-valueParseStatus_e varg_intf::setBoolValue(const char* newValue, bool& parsedValue)
+valueParseStatus_e varg_intf::getBoolValue(const char* newValue, bool& parsedValue)
 {
     if (newValue[1] != 0)
     {
@@ -110,7 +112,7 @@ valueParseStatus_e varg_intf::setBoolValue(const char* newValue, bool& parsedVal
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
-valueParseStatus_e varg_intf::setCharValue(const char* newValue, char& parsedValue)
+valueParseStatus_e varg_intf::getCharValue(const char* newValue, char& parsedValue)
 {
     std::string inputValue(newValue);
     if ((inputValue.length() > 1) || (inputValue.empty()))
@@ -122,6 +124,135 @@ valueParseStatus_e varg_intf::setCharValue(const char* newValue, char& parsedVal
         parsedValue = inputValue[0];
         return valueParseStatus_e::PARSE_SUCCESS_e;
     }
+}
+
+/**
+ * @brief Get a signed value from the input string
+ * 
+ * @param newValue - Input string to parse
+ * @param parsedValue - return long long integer value
+ * 
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+ * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+ * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+ */
+valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int &parsedValue)
+{
+    int parseCount = sscanf(newValue, "%lld", &parsedValue);
+    if (1 == parseCount)
+    {
+        if (parsedValue > maxSignedValue)
+        {
+            return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
+        }
+        else if (parsedValue < minSignedValue)
+        {
+            return valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
+        }
+        else
+        {
+            return valueParseStatus_e::PARSE_SUCCESS_e;
+        }
+    }
+    else
+    {
+        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+    }
+}
+
+/**
+ * @brief Get the Unsigned Value object
+ *
+ * @param newValue - input argument string
+ * @param parsedValue - return long long integer value
+ *
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+ * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+ * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+ */
+valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long unsigned& parsedValue)
+{
+    const char*        testChar = newValue;
+    
+    // Find the first non-whitespace character
+    while (*testChar <= ' ') testChar++;
+
+    int parseCount = sscanf(newValue, "%llu", &parsedValue);
+    if ((1 == parseCount) && (*testChar != '-'))
+    {
+        if (parsedValue > maxUnsignedValue)
+        {
+            return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
+        }
+        else
+        {
+            return valueParseStatus_e::PARSE_SUCCESS_e;
+        }
+    }
+    else
+    {
+        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+    }
+}
+
+/**
+ * @brief Get the Double Value object
+ *
+ * @param newValue - input argument string
+ * @param parsedValue - return double value
+ *
+ * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+ * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+ * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+ * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+ */
+valueParseStatus_e varg_intf::getDoubleValue(const char* newValue, double &parsedValue)
+{
+    int parseCount = sscanf(newValue, "%lf", &parsedValue);
+    if (1 == parseCount)
+    {
+        return valueParseStatus_e::PARSE_SUCCESS_e;
+    }
+    else
+    {
+        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+    }
+}
+
+/**
+ * @brief Construct a type string
+ */
+void varg_intf::setTypeString(typeStringFormat_e fmtType)
+{
+    std::stringstream myTypeStr;
+
+    switch(fmtType)
+    {
+        case typeStringFormat_e::TYPE_FMT_SIGNED:
+            myTypeStr << "<" << minSignedValue << ":[+]" << maxSignedValue << ">";
+            break;
+        case typeStringFormat_e::TYPE_FMT_UNSIGNED:
+            myTypeStr << "<" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";
+            break;
+        case typeStringFormat_e::TYPE_FMT_DOUBLE:
+            myTypeStr << "<" << minDoubleValue << ":" << maxDoubleValue << ">";
+            break;
+        case typeStringFormat_e::TYPE_FMT_CHAR:
+            myTypeStr << "<char>";
+            break;
+        case typeStringFormat_e::TYPE_FMT_BOOL:
+            myTypeStr << "<t|T|f|F>";
+            break;
+        case typeStringFormat_e::TYPE_FMT_STRING:
+            myTypeStr << "<string>";
+            break;
+        default:
+            myTypeStr << "<unknown>";
+            break;
+    }
+    typeString = myTypeStr.str();
 }
 
 //============================================================================================================================
@@ -145,7 +276,10 @@ varg_intf::varg_intf()
 /**
  * @brief Destroy the varg object
  */
-varg_intf::~varg_intf()     {}
+varg_intf::~varg_intf()
+{
+    typeString = "";
+}
 
 //============================================================================================================================
 //============================================================================================================================

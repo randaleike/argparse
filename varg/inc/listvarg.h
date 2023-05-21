@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -45,7 +45,7 @@ template <typename T> class listvarg : public varg_intf
 {
     protected:
         /**
-         * @brief Set the value of an element and add the new element to the value list object
+         * @brief Set the value of a signed element and add the new element to the value list object
          *
          * @param newValue - Pointer to the text value string
          * @param typeStr  - scanf type string
@@ -55,7 +55,33 @@ template <typename T> class listvarg : public varg_intf
          * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
          * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        valueParseStatus_e setElementValue(const char* newValue, const char* typeStr);
+        valueParseStatus_e setSignedElementValue(const char* newValue);
+
+        /**
+         * @brief Set the value of an unsigned list element and add the new element to the value list object
+         *
+         * @param newValue - Pointer to the text value string
+         * @param typeStr  - scanf type string
+         *
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         */
+        valueParseStatus_e setUnsignedElementValue(const char* newValue);
+
+        /**
+         * @brief Set the value of a double list element and add the new element to the value list object
+         *
+         * @param newValue - Pointer to the text value string
+         * @param typeStr  - scanf type string
+         *
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         */
+        valueParseStatus_e setDoubleElementValue(const char* newValue);
 
         /**
          * @brief Set the value of a boolean element and add the new element to the value list object
@@ -67,7 +93,7 @@ template <typename T> class listvarg : public varg_intf
          * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
          * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
          */
-        valueParseStatus_e setBoolValue(const char* newValue);
+        valueParseStatus_e setBoolElementValue(const char* newValue);
 
         /**
          * @brief Set the Element Value object
@@ -89,7 +115,7 @@ template <typename T> class listvarg : public varg_intf
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        valueParseStatus_e setStringValue(const char* newValue);
+        valueParseStatus_e setStringElementValue(const char* newValue);
 
     public:
         std::list< T >  value;          ///< Current saved list values
@@ -97,7 +123,7 @@ template <typename T> class listvarg : public varg_intf
         /**
          * @brief Construct a varg_intf object
          */
-        listvarg(): varg_intf()                                         {value.clear();}
+        listvarg();
 
         /**
          * @brief Destroy the varg object
@@ -109,7 +135,7 @@ template <typename T> class listvarg : public varg_intf
          *
          * @return char* - Base type string
          */
-        virtual const char* getTypeString();
+        virtual const char* getTypeString()                             {return typeString.c_str();}
 
         /**
          * @brief Return if varg is a list of elements or a single element type

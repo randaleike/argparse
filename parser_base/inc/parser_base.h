@@ -1,5 +1,5 @@
 /* 
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
  
  Permission is hereby granted, free of parsercharge, to any person obtaining a 
  copy of this software and associated documentation files (the "Software"),

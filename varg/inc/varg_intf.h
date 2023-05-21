@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2022 Randal Eike
+Copyright (c) 2022-2023 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -34,6 +34,7 @@ Copyright (c) 2022 Randal Eike
 #include <unistd.h>
 #include <limits.h>
 #include <limits>
+#include <string>
 
 namespace argparser
 {
@@ -47,6 +48,20 @@ enum valueParseStatus_e
     PARSE_INVALID_INPUT_e,              ///< Input could not be parsed into an appropriate value
     PARSE_BOUNDARY_LOW_e,               ///< Parsed value exceeds lower value limit
     PARSE_BOUNDARY_HIGH_e,              ///< Parsed value exceeds upper value limit
+};
+
+/**
+ * @brief Type string format type selection
+ * 
+ */
+enum typeStringFormat_e
+{
+    TYPE_FMT_SIGNED,                    ///< Use the signed min/max
+    TYPE_FMT_UNSIGNED,                  ///< Use the unsigned min/max
+    TYPE_FMT_DOUBLE,                    ///< Use the double min/max
+    TYPE_FMT_CHAR,                      ///< Set the default char type string
+    TYPE_FMT_BOOL,                      ///< Set the default boolean type string
+    TYPE_FMT_STRING,                    ///< Set the default string type string
 };
 
 /**
@@ -64,8 +79,15 @@ class varg_intf
         double              minDoubleValue;         ///< Minimum allowed floating point value
         double              maxDoubleValue;         ///< Minimum allowed floating point value
 
+        std::string         typeString;             ///< Type description string with min/max values
+
         /**
-         * @brief Set the Bool Value object
+         * @brief Construct a type string
+         */
+        void setTypeString(typeStringFormat_e fmtType);
+
+        /**
+         * @brief Gt the Bool Value object
          *
          * @param newValue - input argument string
          * @param parsedValue - parsed boolean value if parsing succeeded
@@ -73,10 +95,10 @@ class varg_intf
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        valueParseStatus_e setBoolValue(const char* newValue, bool& parsedValue);
+        valueParseStatus_e getBoolValue(const char* newValue, bool& parsedValue);
 
         /**
-         * @brief Set the New character object value
+         * @brief Get the New character object value
          * 
          * @param newValue - input argument string
          * @param parsedValue - parsed character value if parsing succeeded
@@ -84,7 +106,47 @@ class varg_intf
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        valueParseStatus_e setCharValue(const char* newValue, char& parsedValue);
+        valueParseStatus_e getCharValue(const char* newValue, char& parsedValue);
+
+        /**
+         * @brief Get a signed value from the input string
+         * 
+         * @param newValue - Input string to parse
+         * @param parsedValue - return long long integer value
+         * 
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         */
+        valueParseStatus_e getSignedValue(const char* newValue, long long int &parsedValue);
+
+        /**
+         * @brief Get a unsigned value from the input string
+         * 
+         * @param newValue - Input string to parse
+         * @param parsedValue - return long long unsigned value
+         * 
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         */
+        valueParseStatus_e getUnsignedValue(const char* newValue, long long unsigned &parsedValue);
+
+        /**
+         * @brief Get the Double Value object
+         *
+         * @param newValue - input argument string
+         * @param parsedValue - return double value
+         *
+         * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
+         * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
+         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
+         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         */
+        valueParseStatus_e getDoubleValue(const char* newValue, double& parsedValue);
+
 
     public:
         /**
