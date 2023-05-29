@@ -70,7 +70,7 @@ add_custom_target(${PROJECT_NAME}
 ####
 # Library unit testing
 ####
-add_custom_target(${PROJECT_NAME}-unittest
+add_custom_target(unittest
     COMMENT "Run unittest"
     COMMAND ./varg_test
     COMMAND ./cmd_line_parse_test

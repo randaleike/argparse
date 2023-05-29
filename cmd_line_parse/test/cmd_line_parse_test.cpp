@@ -208,7 +208,7 @@ TEST(cmd_line_parse, addAllArgHelp)
 
 TEST(cmd_line_parse, parseTestFlag)
 {
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program", false, false, 6);
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program", false, false);
     argparser::varg<bool> testflgvarg(false, true);
     testvar.addFlagArgument(&testflgvarg, "flag", "-f,--flag", "This is the flag argument");
     testvar.disableHelpDisplayOnError();
