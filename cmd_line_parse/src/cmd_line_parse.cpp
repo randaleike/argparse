@@ -666,7 +666,7 @@ int cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endi
     }
 
     // Return the number of arguments parsed or -1 for error
-    return ((parsingError) ? -1 : currentArgumentIndex);
+    return ((parsingError || (enableDefaultHelp && helpFlag.value)) ? -1 : currentArgumentIndex);
 }
 
 
