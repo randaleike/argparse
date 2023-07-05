@@ -121,3 +121,11 @@ add_custom_target(samples
 ####
 find_package(Doxygen REQUIRED dot)
 doxygen_add_docs(${PROJECT_NAME}_docs)
+
+add_custom_target(
+  doc ALL
+  COMMAND $<$<CONFIG:Release>:${DOXYGEN_EXECUTABLE} ${doxyfile_in}>
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc
+  COMMENT "Generating API documentation with Doxygen"
+  VERBATIM
+)
