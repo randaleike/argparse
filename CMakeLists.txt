@@ -119,13 +119,16 @@ add_custom_target(samples
 ####
 # cmd_line_parse doxygen generation
 ####
-find_package(Doxygen REQUIRED dot)
-doxygen_add_docs(${PROJECT_NAME}_docs)
-
-add_custom_target(
-  doc ALL
-  COMMAND $<$<CONFIG:Release>:${DOXYGEN_EXECUTABLE} ${doxyfile_in}>
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc
-  COMMENT "Generating API documentation with Doxygen"
-  VERBATIM
-)
+if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
+    option(BUILD_DOC "Build Documentation" ON)
+    find_package(Doxygen REQUIRED dot)
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+    add_custom_target( doc_${PROJECT_NAME} ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
+endif()
