@@ -31,6 +31,7 @@ Copyright (c) 2022-2023 Randal Eike
 #include "cmd_line_parse_api.h"
 #include "../src/cmd_line_parse_api_lib_private.h"
 #include <gtest/gtest.h>
+#include <math.h>
 
 //==================================================================
 // Basic test
@@ -59,7 +60,7 @@ template <> CreateVargApi<unsigned>::CreateVargApi()            {cvarg = 1; cvar
 template <> CreateVargApi<long unsigned>::CreateVargApi()       {cvarg = 1; cvarghandle = createLongUIntParserArg(&cvarg);}
 //template <> CreateVargApi<long long unsigned>::CreateVargApi()  {cvarg = 1; cvarghandle = createLLongUIntParserArg(&cvarg);}
 
-template <> CreateVargApi<double>::CreateVargApi()              {cvarg = 3.14; cvarghandle = createFloatParserArg(&cvarg);}
+template <> CreateVargApi<double>::CreateVargApi()              {cvarg = M_PI; cvarghandle = createFloatParserArg(&cvarg);}
 template <> CreateVargApi<char>::CreateVargApi()                {cvarg = 'a'; cvarghandle = createCharParserArg(&cvarg);}
 template <> CreateVargApi<bool>::CreateVargApi()                {cvarg = false; cvarghandle = createParserFlagArg(false, true, &cvarg);}
 

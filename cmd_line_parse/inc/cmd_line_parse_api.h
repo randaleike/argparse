@@ -37,11 +37,11 @@ extern "C" {
 //========================= Parser Typedef definitions ============================================
 //=================================================================================================
 struct argData;
-typedef struct argData* argHandle;
+typedef struct argData* argHandle;                      ///< Argument data structure pointer abstraction
 
 struct cmdLineParser;
-typedef struct cmdLineParser* cmdLineParserHandle;
-typedef char* parsercstr;
+typedef struct cmdLineParser* cmdLineParserHandle;      ///< Command line parser structure pointer abstraction
+typedef char const* parsercstr;                         ///< Parser 'C' string abstraction
 
 //=================================================================================================
 //=================================================================================================
@@ -292,7 +292,7 @@ void releaseParserArg(argHandle arg);
  *
  * @return cmdLineParserHandle - Handle to the created argument parser
  */
-cmdLineParserHandle getParser(parsercstr usage, parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel);
+cmdLineParserHandle getParser(const parsercstr usage, const parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel);
 
 /**
  * @brief Release the parser instance
@@ -313,7 +313,7 @@ void releaseParser(cmdLineParserHandle parser, bool releaseArgHandles);
  * @param parser - Handle value returned by getParser()
  * @param epilog - Text to display at the end of the help block
  */
-void setEpilog(cmdLineParserHandle parser, parsercstr epilog);
+void setEpilog(cmdLineParserHandle parser, const parsercstr epilog);
 
 /**
  * @brief Set the Program Name for the usage string
@@ -321,7 +321,7 @@ void setEpilog(cmdLineParserHandle parser, parsercstr epilog);
  * @param parser - Handle value returned by getParser()
  * @param progName - Program name to use in the usage string
  */
-void setProgramName(cmdLineParserHandle parser, parsercstr progName);
+void setProgramName(cmdLineParserHandle parser, const parsercstr progName);
 
 /**
  * @brief Set the argument key prefix value.
@@ -377,7 +377,8 @@ void enableUnknowArgumentIgnore(cmdLineParserHandle parser);
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addKeyArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required);
+void addKeyArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                    const parsercstr helpText, const bool required);
 
 /**
  * @brief Add a new key based command line array argument to the argument list
@@ -396,7 +397,8 @@ void addKeyArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, 
  *                         are found it is flagged as an error
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addKeyArrayArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, int nargs, bool required);
+void addKeyArrayArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                         const parsercstr helpText, const int nargs, const bool required);
 
 /**
  * @brief Add a new key based flag command line argument to the argument list
@@ -408,7 +410,8 @@ void addKeyArrayArgument(cmdLineParserHandle parser, argHandle arg, parsercstr n
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addFlagArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required);
+void addFlagArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                     const parsercstr helpText, const bool required);
 
 /**
  * @brief Add a new key based incrementing command line argument to the argument list
@@ -420,7 +423,8 @@ void addFlagArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name,
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addIncrementingArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required);
+void addIncrementingArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                             const parsercstr helpText, const bool required);
 
 /**
  * @brief Add a new positinal based command line argument to the argument list
@@ -428,11 +432,10 @@ void addIncrementingArgument(cmdLineParserHandle parser, argHandle arg, parsercs
  * @param parser     - Handle value returned by getParser()
  * @param arg        - Handle of the argument to add
  * @param name       - Human name used in the help messages
- * @param argKeys    - Delimieted list of argument key values
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addPositionalArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr helpText, bool required);
+void addPositionalArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr helpText, const bool required);
 
 /**
  * @brief Add a new positinal based command line array argument to the argument list
@@ -440,7 +443,6 @@ void addPositionalArgument(cmdLineParserHandle parser, argHandle arg, parsercstr
  * @param parser     - Handle value returned by getParser()
  * @param arg        - Handle of the argument to add
  * @param name       - Human name used in the help messages
- * @param argKeys    - Delimieted list of argument key values
  * @param helpText   - Help text to be printed in the help message
  * @param nargs      - Number of argument values that follow
  *                     0 : Argument is a flag with no following values
@@ -451,7 +453,8 @@ void addPositionalArgument(cmdLineParserHandle parser, argHandle arg, parsercstr
  *                         are found it is flagged as an error
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addPositionalArrayArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr helpText, int nargs, bool required);
+void addPositionalArrayArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr helpText, 
+                                const int nargs, const bool required);
 
 //=================================================================================================
 //======================= Commandline parser interface methods ====================================

@@ -46,8 +46,7 @@ TEST(BaseParserStringList, printNotListTypeMessage)
 TEST(BaseParserStringList, printUnknownArgumentMessage)
 {
     argparser::BaseParserStringList* testvar = argparser::BaseParserStringList::getInternationalizedClass();
-
-    parserstr output = testvar->getUnknownArgumentMessage("--foo");
+    parserstr output = testvar->getUnknownArgumentMessage(parserstr("--foo"));
     EXPECT_STREQ("Unkown argument --foo", output.c_str());
 }
 
@@ -157,10 +156,11 @@ TEST(BaseParserStringList, getEnvArgumentsMessage)
 //======================================================================================
 TEST(BaseParserStringList, formatToLength)
 {
+    constexpr size_t testMaxLength = 32;
     argparser::BaseParserStringList* testvar = argparser::BaseParserStringList::getInternationalizedClass();
     parserstr baseString = "This is a test string that will be broken into two strings";
 
-    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {' '}, 32);
+    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {' '}, testMaxLength);
     EXPECT_EQ(2, strList.size());
     EXPECT_STREQ("This is a test string that will ", strList.front().c_str());
     strList.pop_front();
@@ -169,10 +169,11 @@ TEST(BaseParserStringList, formatToLength)
 
 TEST(BaseParserStringList, formatToLengthPad)
 {
+    constexpr size_t testMaxLength = 32;
     argparser::BaseParserStringList* testvar = argparser::BaseParserStringList::getInternationalizedClass();
     parserstr baseString = "Padded test string";
 
-    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {' '}, 32);
+    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {' '}, testMaxLength);
     EXPECT_EQ(1, strList.size());
     EXPECT_STREQ("Padded test string              ", strList.front().c_str());
 }
@@ -189,10 +190,11 @@ TEST(BaseParserStringList, formatToLengthExactlyRight)
 
 TEST(BaseParserStringList, formatToLengthAwkward)
 {
+    constexpr size_t testMaxLength = 30;
     argparser::BaseParserStringList* testvar = argparser::BaseParserStringList::getInternationalizedClass();
     parserstr baseString = "This is a test string that will be broken into two strings";
 
-    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {';'}, 30);
+    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {';'}, testMaxLength);
     EXPECT_STREQ("This is a test string that wil", strList.front().c_str());
     strList.pop_front();
     EXPECT_STREQ("l be broken into two strings  ", strList.front().c_str());
@@ -200,10 +202,11 @@ TEST(BaseParserStringList, formatToLengthAwkward)
 
 TEST(BaseParserStringList, formatToLengthDoubleBreak)
 {
+    constexpr size_t testMaxLength = 31;
     argparser::BaseParserStringList* testvar = argparser::BaseParserStringList::getInternationalizedClass();
     parserstr baseString = "This is a test string that; will be broken into two strings";
 
-    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {';', ' '}, 31);
+    std::list<parserstr> strList = testvar->formatStringToLength(baseString, {';', ' '}, testMaxLength);
     EXPECT_STREQ("This is a test string that;    ", strList.front().c_str());
     strList.pop_front();
     EXPECT_STREQ("will be broken into two strings", strList.front().c_str());

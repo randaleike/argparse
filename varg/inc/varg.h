@@ -107,9 +107,26 @@ template <typename T> class varg : public varg_intf
 
         /**
          * @brief Construct a varg_intf object
+         *
+         * @param defaultValue - Initial value of varg.value
          */
         varg(T defaultValue);
+
+        /**
+         * @brief Construct a varg_intf object
+         *
+         * @param defaultValue - Initial value of varg.value
+         * @param flagValue    - Flag set value of varg.value
+         */
         varg(T defaultValue, T flagValue) : varg_intf(), value(defaultValue), flagSetValue(flagValue)   {}
+
+        /**
+         * @brief Construct a varg_intf object
+         *
+         * @param defaultValue - Initial value of varg.value
+         * @param min - Minimum allowed set value
+         * @param max - Maximum allowed set value
+         */
         varg(T defaultValue, T min, T max);
 
         /**
@@ -118,19 +135,12 @@ template <typename T> class varg : public varg_intf
         virtual ~varg()                                                                                 {}
 
         /**
-         * @brief Get the base argument type as a string
-         *
-         * @return const char* - Base type string
-         */
-        virtual const char* getTypeString()                 {return typeString.c_str();}
-
-        /**
          * @brief Return if varg is a list of elements or a single element type
          *
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual const bool isList()                         {return false;}
+        virtual bool  isList() const                                                                    {return false;}
 
         /**
          * @brief Virtual interface method implementation for the template variable implementation setValue with input function

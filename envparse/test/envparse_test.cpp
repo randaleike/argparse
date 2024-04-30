@@ -34,6 +34,12 @@ Copyright (c) 2022-2023 Randal Eike
 #include "envparse.h"
 #include <gtest/gtest.h>
 
+const size_t defaultArgWidth = 14;
+const size_t testArgWidth = 21;
+const size_t testArgWidth2 = 29;
+const size_t defaultColWidth = 80;
+const int    testValue = 10;
+
 //======================================================================================
 // String Helper functions
 //======================================================================================
@@ -43,7 +49,7 @@ parserstr getEnvHelpHeader()
     return parserStr->getEnvArgumentsMessage()+"\n";
 }
 
-parserstr getEnvKeyHelpMsg(parserstr keys, parserstr keyhelp, size_t argWidth = 14, size_t consoleWidth = 80)
+parserstr getEnvKeyHelpMsg(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth, size_t consoleWidth = defaultColWidth)
 {
     parserstr argMsg = " " + keys + '=' + keys;
     while (argMsg.size() < argWidth)
@@ -69,7 +75,7 @@ TEST(envparse, ConstructorBasic)
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = "";
+    parserstr expectedStr;
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 } 
 
@@ -83,7 +89,7 @@ TEST(envparse, addArgument)
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getEnvHelpHeader() + getEnvKeyHelpMsg("MYENVTEST", "My environment test var", 21);
+    parserstr expectedStr = getEnvHelpHeader() + getEnvKeyHelpMsg("MYENVTEST", "My environment test var", testArgWidth);
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 } 
 
@@ -100,8 +106,8 @@ TEST(envparse, addArgument2)
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
     parserstr expectedStr = getEnvHelpHeader() + 
-                            getEnvKeyHelpMsg("MYENVTEST", "My environment test var", 29) + 
-                            getEnvKeyHelpMsg("SECONDENVTEST", "My second environment test var", 29);;
+                            getEnvKeyHelpMsg("MYENVTEST", "My environment test var", testArgWidth2) + 
+                            getEnvKeyHelpMsg("SECONDENVTEST", "My second environment test var", testArgWidth2);;
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 } 
 
@@ -120,7 +126,7 @@ TEST(envparse, addArgumentNargZero)
 TEST(envparse, addArgumentInvalidNargs) 
 { 
     argparser::envparser testvar; 
-    argparser::varg<int> testvarg(10);
+    argparser::varg<int> testvarg(testValue);
 
     testing::internal::CaptureStderr();
     testvar.addArgument(&testvarg, "tstint", "This is the test key argument", 2); 

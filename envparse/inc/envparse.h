@@ -67,7 +67,7 @@ class envparser : public parser_base
          * @brief Add a new key based environment argument
          * 
          * @param arg      - Pointer to the defined var argument to fill
-         * @param argKeys  - Argument key value
+         * @param argKey   - Pointer to a character buffer containing the ket string to match when parsing the environment data
          * @param helpText - Help text to be printed in the help message
          * @param nargs    - Number of argument values that follow
          *                   0 : Argument is a flag with no following values

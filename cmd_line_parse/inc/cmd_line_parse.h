@@ -30,11 +30,12 @@ Copyright (c) 2022-2023 Randal Eike
 #pragma once
 
 // Includes
-#include <stdlib.h>
+#include <cstdlib>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <list>
+#include <vector>
 #include <iostream>
 #include "varg_intf.h"
 #include "parser_base.h"
@@ -52,6 +53,7 @@ class cmd_line_parse : public parser_base
     private:
         // Argument lists
         std::list<ArgEntry>     positionalArgList;              ///< List of positional arguments
+        varg_intf*              helpFlag;                       ///< Default help flag
 
         // Help page text enhancements
         parserstr               programName;                    ///< Program name to display in the usage %(prog) field of the help message, default = argv[0]
@@ -73,7 +75,7 @@ class cmd_line_parse : public parser_base
         int                     parseingPositionNumber;         ///< Parseing position argument number
         int                     currentArgumentIndex;           ///< current argv array index being processed
         int                     argcount;                       ///< argc value from the parse call
-        char**                  argvArray;                      ///< argv value from the parse call
+        std::vector<parserstr>  argvArray;                      ///< argv value from the parse call
         int                     debugMsgLevel;                  ///< debugging message level
         parserstr               positionalStop;                 ///< Name of the positional argument to stop parsing on
         bool                    positionalStopArgumentFound;    ///< Flag to abort processing
@@ -85,6 +87,12 @@ class cmd_line_parse : public parser_base
          * @return false - Next argument is a value
          */
         bool isCurrentArgKeySwitch();
+
+        /**
+        * @brief Make sure all arguments that are marked as required were found during the 
+        *        command line parsing
+        */
+        void checkRequiredArgsFound();
 
         /**
          * @brief Add the default help argument to the argument list
@@ -99,7 +107,7 @@ class cmd_line_parse : public parser_base
          *
          * @return ArgEntry - Reference to the ArgEntry from the ArgEntry if match was found. Or nullptr if not.
          */
-        ArgEntry& findMatchingArg(const char* keystring, bool& found);
+        ArgEntry& findMatchingArg(const parserstr& keystring, bool& found);
 
         /**
          * @brief Get the Initial Value List object
@@ -156,14 +164,70 @@ class cmd_line_parse : public parser_base
 
     public:
         /**
-         * @brief Constructor
+         * @brief default Constructor
          */
-        cmd_line_parse(parserstr usage = "%(prog) [options]", parserstr description = "", bool abortOnError = false, bool disableDefaultHelp = false, int debugLevel = 0);
+        cmd_line_parse();
+
+        /**
+         * @brief Copy Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        cmd_line_parse(const cmd_line_parse& other);
+        
+        /**
+         * @brief Reference Copy Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        cmd_line_parse(cmd_line_parse&& other);
+
+        /**
+         * @brief Constructor with input
+         *
+         * @param usage - Usage string for the help display
+         * @param description - Description string for the help display
+         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
+         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
+         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
+         *                                                       4 - Error and informational messages
+         *                                                       5+ - Error, informational and flow tracking messages
+         */        
+        cmd_line_parse(parserstr& usage, parserstr& description, bool abortOnError = false, bool disableDefaultHelp = false, 
+                       int debugLevel = debugVerbosityLevel_e::noDebugMsg);
+
+        /**
+         * @brief Constructor with input
+         *
+         * @param usage - Usage string for the help display
+         * @param description - Description string for the help display
+         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
+         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
+         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
+         *                                                       4 - Error and informational messages
+         *                                                       5+ - Error, informational and flow tracking messages
+         */        
+        cmd_line_parse(const char* usage, const char* description, bool abortOnError = false, bool disableDefaultHelp = false, 
+                       int debugLevel = debugVerbosityLevel_e::noDebugMsg);
+
+        /**
+         * @brief Copy Assignment Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        cmd_line_parse& operator=(const cmd_line_parse& other);
+
+        /**
+         * @brief Reference Copy Assignment Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        cmd_line_parse& operator=(cmd_line_parse&& other);
 
         /**
          * @brief Destructor
          */
-        ~cmd_line_parse();
+        ~cmd_line_parse() = default;
 
         //=================================================================================================
         //======================= Parser setup interface methods ==========================================
@@ -176,15 +240,21 @@ class cmd_line_parse : public parser_base
         void setEpilog(parserstr epilog)                                {epilogText = epilog;}
 
         /**
-         * @brief Set the Program Name for the usage string
+         * @brief Set the Program Name for the usage string using a string as input
          *
          * @param progName - Program name to use in the usage string
          */
         void setProgramName(parserstr progName)                         {programName = progName;}
+
+        /**
+         * @brief Set the Program Name for the usage string using char* as input
+         *
+         * @param progName - Program name to use in the usage string
+         */
         void setProgramName(char* progName)                             {programName = progName;}
 
         /**
-         * @brief Set the argument key prefix value.
+         * @brief Set the argument key prefix value using string input.
          *
          * The argument key prefix is the character or string
          * the identifies an input argument key string.  Any input
@@ -194,6 +264,17 @@ class cmd_line_parse : public parser_base
          * @param prefix - argument prefix value
          */
         void setKeyPrefix(parserstr prefix)                             {keyPrefix = prefix;}
+
+        /**
+         * @brief Set the argument key prefix value using char* input.
+         *
+         * The argument key prefix is the character or string
+         * the identifies an input argument key string.  Any input
+         * argument that does not begin with this character is
+         * assumed to be a positional argument value.
+         *
+         * @param prefix - argument prefix value
+         */
         void setKeyPrefix(char* prefix)                                 {keyPrefix = prefix;}
 
         /**
@@ -277,6 +358,8 @@ class cmd_line_parse : public parser_base
          */
         void setPositionalNameStop(const char* positionalArgumentName);
 
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wundef-modernize-array-parameters"
         /**
          * @brief Parse the input command line arguments
          *
@@ -288,6 +371,7 @@ class cmd_line_parse : public parser_base
          * @return int - Index of the last argument parsed or -1 if an error occured
          */
         int parse(int argc, char* argv[], int startingArgIndex = 1, int endingArgIndex = -1);
+//#pragma clang diagnostic pop
 
         /**
          * @brief Print the formatted option help message to the input stream

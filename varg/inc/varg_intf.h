@@ -30,9 +30,9 @@ Copyright (c) 2022-2023 Randal Eike
 #pragma once
 
 // Includes
-#include <stdlib.h>
+#include <cstdlib>
 #include <unistd.h>
-#include <limits.h>
+#include <climits>
 #include <limits>
 #include <string>
 
@@ -70,8 +70,6 @@ enum typeStringFormat_e
 class varg_intf
 {
     private:
-
-    protected:
         long long int       maxSignedValue;         ///< Maximum allowed signed integer value
         long long int       minSignedValue;         ///< Minimum allowed signed integer value
         long long unsigned  maxUnsignedValue;       ///< Maximum allowed unsigned integer value
@@ -80,6 +78,31 @@ class varg_intf
         double              maxDoubleValue;         ///< Minimum allowed floating point value
 
         std::string         typeString;             ///< Type description string with min/max values
+    
+    protected:
+        /**
+         * @brief Set the Min Max Signed object
+         * 
+         * @param min - Minimum signed value allowed to be assigned
+         * @param max - Minimum signed value allowed to be assigned
+         */
+        void setMinMaxSigned(long long int min, long long int max)              {minSignedValue = min; maxSignedValue = max;}
+
+        /**
+         * @brief Set the Min Max Signed object
+         * 
+         * @param min - Minimum unsigned value allowed to be assigned
+         * @param max - Minimum unsigned value allowed to be assigned
+         */
+        void setMinMaxUnsigned(long long unsigned min, long long unsigned max)  {minUnsignedValue = min; maxUnsignedValue = max;}
+
+        /**
+         * @brief Set the Min Max Signed object
+         * 
+         * @param min - Minimum floating point value allowed to be assigned
+         * @param max - Minimum floating point value allowed to be assigned
+         */
+        void setMinMaxDouble(double min, double max)                            {minDoubleValue = min; maxDoubleValue = max;}
 
         /**
          * @brief Construct a type string
@@ -95,7 +118,7 @@ class varg_intf
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        valueParseStatus_e getBoolValue(const char* newValue, bool& parsedValue);
+        static valueParseStatus_e getBoolValue(const char* newValue, bool& parsedValue);
 
         /**
          * @brief Get the New character object value
@@ -106,7 +129,7 @@ class varg_intf
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
-        valueParseStatus_e getCharValue(const char* newValue, char& parsedValue);
+        static valueParseStatus_e getCharValue(const char* newValue, char& parsedValue);
 
         /**
          * @brief Get a signed value from the input string
@@ -119,7 +142,7 @@ class varg_intf
          * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
          * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
          */
-        valueParseStatus_e getSignedValue(const char* newValue, long long int &parsedValue);
+        valueParseStatus_e getSignedValue(const char* newValue, long long int &parsedValue) const;
 
         /**
          * @brief Get a unsigned value from the input string
@@ -132,7 +155,7 @@ class varg_intf
          * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
          * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
          */
-        valueParseStatus_e getUnsignedValue(const char* newValue, long long unsigned &parsedValue);
+        valueParseStatus_e getUnsignedValue(const char* newValue, long long unsigned &parsedValue) const;
 
         /**
          * @brief Get the Double Value object
@@ -145,26 +168,26 @@ class varg_intf
          * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
          * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
          */
-        valueParseStatus_e getDoubleValue(const char* newValue, double& parsedValue);
-
+        valueParseStatus_e getDoubleValue(const char* newValue, double& parsedValue) const;
 
     public:
-        /**
-         * @brief Construct a varg_intf object
-         */
-        varg_intf();
+        varg_intf();                                                ///< @brief Default constructor for varg_intf object
+        varg_intf(const varg_intf& other) = default;                ///< @brief Copy constructor for varg_intf object
+        varg_intf(varg_intf&& other) = default;                     ///< @brief Reference copy constructor for varg_intf object
+        varg_intf& operator=(const varg_intf& other) = default;     ///< @brief Copy assignment constructor for varg_intf object
+        varg_intf& operator=(varg_intf&& other) = default;          ///< @brief Reference copy assignment constructor for varg_intf object
 
         /**
          * @brief Destroy the varg object
          */
-        virtual ~varg_intf();
+        virtual ~varg_intf() = default;
 
         /**
          * @brief Get the base argument type as a string
          *
          * @return char* - Base type string
          */
-        virtual const char* getTypeString() = 0;
+        virtual const char* getTypeString()                     {return typeString.c_str();}
 
         /**
          * @brief Return if varg is a list of elements or a single element type
@@ -172,7 +195,7 @@ class varg_intf
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual const bool isList() = 0;
+        virtual bool isList() const = 0;
 
         /**
          * @brief Virtual place holder for the template variable implementation setValue with input function

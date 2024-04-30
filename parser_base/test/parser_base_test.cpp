@@ -35,25 +35,29 @@ Copyright (c) 2022-2023 Randal Eike
 #include "parser_string_list.h"
 #include <gtest/gtest.h>
 
+const size_t defaultOptionWidth = 25;
+const size_t shortOptionWidth   = 20;
+const size_t defaultHelpWidth   = 30;
+
 class test_parser_base : public argparser::parser_base
 {
     public:
-        test_parser_base() : argparser::parser_base()   {}
+        test_parser_base()  {}
         test_parser_base(bool abortOnError, int debugLevel) : argparser::parser_base(abortOnError, debugLevel) {}
         ~test_parser_base() {}
 
         // Protected data accessors
-        std::list<argparser::ArgEntry> getKeyArgList()  {return argparser::parser_base::keyArgList;}
-        size_t getMaxColumnWitdth()                     {return argparser::parser_base::maxColumnWidth;}
-        size_t getMaxOptionLength()                     {return argparser::parser_base::maxOptionLength;}
-        char   getKeyListDelimiter()                    {return argparser::parser_base::keyListDelimeter;}
-        char   getAssignmentDelimiter()                 {return argparser::parser_base::assignmentDelimeter;}
-        char   getAssignmentListDelimiter()             {return argparser::parser_base::assignmentListDelimeter;}
-        bool   getAbortOnError()                        {return argparser::parser_base::errorAbort;}        
-        int    getDebugLevel()                          {return argparser::parser_base::debugMsgLevel;}  
+        std::list<argparser::ArgEntry> getKeyArgList()  {return argparser::parser_base::getKeyArgList();}
+        parserchar getKeyListDelimiter()                {return argparser::parser_base::getKeyListDelimeter();}
+        parserchar getAssignmentDelimiter()             {return argparser::parser_base::getAssignmentDelimeter();}
+        parserchar getAssignmentListDelimiter()         {return argparser::parser_base::getAssignmentListDelimeter();}
+        bool getAbortOnError()                          {return argparser::parser_base::getErrorAbortFlag();}        
+        int  getDebugLevel()                            {return argparser::parser_base::getDebugMsgLevel();}  
+        size_t getMaxColumnWitdth()                     {return argparser::parser_base::getMaxColumnWidth();}
+        size_t getMaxOptionLength()                     {return argparser::parser_base::getMaxOptionLength();}
 
-        void   addArgument(argparser::ArgEntry& arg)    {argparser::parser_base::keyArgList.push_back(arg);}
-        argparser::BaseParserStringList* getStringList() {return argparser::parser_base::parserStringList;}  
+        void   addArgument(argparser::ArgEntry& arg)    {argparser::parser_base::addKeyArgListEntry(arg);}
+        argparser::BaseParserStringList* getStringList() {return argparser::parser_base::getParserStringList();}  
 };
 
 //======================================================================================
@@ -274,19 +278,31 @@ TEST(parser_base, findMatchingArg)
     bool found;
     argparser::ArgEntry& retArg = testparser.findMatchingArg("--goo", found);
     EXPECT_TRUE(found) << "did not find --goo";
-    if (found) EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
+    if (found) 
+    {
+        EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
+    }
 
     retArg = testparser.findMatchingArg("-g", found);
     EXPECT_TRUE(found) << "did not find -g";
-    if (found) EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
+    if (found) 
+    {
+        EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
+    }
 
     retArg = testparser.findMatchingArg("--foo", found);
     EXPECT_TRUE(found) << "did not find --foo";
-    if (found) EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
+    if (found) 
+    {
+        EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
+    }
 
     retArg = testparser.findMatchingArg("-f", found);
     EXPECT_TRUE(found) << "did not find -f";
-    if (found) EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
+    if (found) 
+    {
+        EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
+    }
 }
 
 TEST(parser_base, assignKeyFlagValue) 
@@ -490,7 +506,14 @@ TEST(parser_base, assignListKeyValueBadInput)
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 3, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", 
+                                   "goo input value", 
+                                   "", 
+                                   (&testvarg), 
+                                   3, 
+                                   0, 
+                                   true, 
+                                   false};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -508,7 +531,8 @@ TEST(parser_base, displayArgHelpBlockNoWrap)
 { 
     test_parser_base testparser;
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "--goo,-g", "goo input value", 20, 20);
+    testparser.displayArgHelpBlock(std::cout, "--goo,-g", "goo input value", 
+                                   shortOptionWidth, shortOptionWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("--goo,-g             goo input value     \n", output.c_str());
 }
@@ -518,7 +542,9 @@ TEST(parser_base, displayArgHelpBlockHelpWrap)
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "--foo,-f", "foo input value with a longer help string", 20, 30);
+    testparser.displayArgHelpBlock(std::cout, "--foo,-f", 
+                                   "foo input value with a longer help string", 
+                                   shortOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("--foo,-f             foo input value with a longer \n                     help string                   \n", output.c_str());
 }
@@ -528,7 +554,9 @@ TEST(parser_base, displayArgHelpBlockArgWrap)
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>", "Extra long key value", 25, 30);
+    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>", 
+                                   "Extra long key value", 
+                                   defaultOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value          \n<--extralongkeyvalue>    \n", output.c_str());
 }
@@ -538,7 +566,9 @@ TEST(parser_base, displayArgHelpBlockBothWrap)
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>", "Extra long key value with an extra long help text string just to be sure", 25, 30);
+    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>", 
+                                   "Extra long key value with an extra long help text string just to be sure", 
+                                   defaultOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());
 }
@@ -548,7 +578,9 @@ TEST(parser_base, displayArgHelpBlockBothWrap1)
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue> <--extralongkeyvalue>", "Extra long key value with an extra long help text string just to be sure", 25, 30);
+    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue> <--extralongkeyvalue>", 
+                                   "Extra long key value with an extra long help text string just to be sure", 
+                                   defaultOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());
 }

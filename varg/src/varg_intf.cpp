@@ -35,6 +35,7 @@ Copyright (c) 2022-2023 Randal Eike
 #include <iostream>
 #include <sstream>
 #include <limits>
+#include <cmath>
 #include "varg_intf.h"
 
 namespace argparser
@@ -62,24 +63,23 @@ namespace argparser
  */
 valueParseStatus_e varg_intf::getBoolValue(const char* newValue, bool& parsedValue)
 {
+    valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
     if (newValue[1] != 0)
     {
         // Deal with multi-character string
-        std::string testValue = newValue;
+        std::string testValue    = newValue;
         std::transform(testValue.begin(), testValue.end(), testValue.begin(), ::toupper);
         if (testValue == "TRUE")
         {
             parsedValue = true;
-            return valueParseStatus_e::PARSE_SUCCESS_e;
         }
         else if (testValue == "FALSE")
         {
             parsedValue = false;
-            return valueParseStatus_e::PARSE_SUCCESS_e;
         }
         else
         {
-            return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+            returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
         }
     }
     else
@@ -91,16 +91,18 @@ valueParseStatus_e varg_intf::getBoolValue(const char* newValue, bool& parsedVal
             case 'T':
             case '1':
                 parsedValue = true;
-                return valueParseStatus_e::PARSE_SUCCESS_e;
+                break;
             case 'f':
             case 'F':
             case '0':
                 parsedValue = false;
-                return valueParseStatus_e::PARSE_SUCCESS_e;
+                break;
             default:
-                return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+                returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
         }
     }
+
+    return returnStatus;
 }
 
 /**
@@ -114,16 +116,18 @@ valueParseStatus_e varg_intf::getBoolValue(const char* newValue, bool& parsedVal
  */
 valueParseStatus_e varg_intf::getCharValue(const char* newValue, char& parsedValue)
 {
+    valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
     std::string inputValue(newValue);
+
     if ((inputValue.length() > 1) || (inputValue.empty()))
     {
-        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+        returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
     else
     {
         parsedValue = inputValue[0];
-        return valueParseStatus_e::PARSE_SUCCESS_e;
     }
+    return returnStatus;
 }
 
 /**
@@ -137,28 +141,26 @@ valueParseStatus_e varg_intf::getCharValue(const char* newValue, char& parsedVal
  * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
  * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
  */
-valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int &parsedValue)
+valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int &parsedValue) const
 {
-    int parseCount = sscanf(newValue, "%lld", &parsedValue);
+    valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
+    int                parseCount   = sscanf(newValue, "%lld", &parsedValue);
     if (1 == parseCount)
     {
         if (parsedValue > maxSignedValue)
         {
-            return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
+            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
         }
         else if (parsedValue < minSignedValue)
         {
-            return valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
-        }
-        else
-        {
-            return valueParseStatus_e::PARSE_SUCCESS_e;
+            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
         }
     }
     else
     {
-        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+        returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
+    return returnStatus;
 }
 
 /**
@@ -172,29 +174,35 @@ valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int
  * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
  * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
  */
-valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long unsigned& parsedValue)
+valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long unsigned& parsedValue) const
 {
-    const char*        testChar = newValue;
+    valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
+    const char*        testChar     = newValue;
     
     // Find the first non-whitespace character
-    while (*testChar <= ' ') testChar++;
+    while (*testChar <= ' ') 
+    {
+        testChar++;
+    }
 
     int parseCount = sscanf(newValue, "%llu", &parsedValue);
     if ((1 == parseCount) && (*testChar != '-'))
     {
         if (parsedValue > maxUnsignedValue)
         {
-            return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
+            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
         }
-        else
+        if (parsedValue < minUnsignedValue)
         {
-            return valueParseStatus_e::PARSE_SUCCESS_e;
+            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
         }
     }
     else
     {
-        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+        returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
+
+    return returnStatus;
 }
 
 /**
@@ -208,17 +216,29 @@ valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long u
  * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
  * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
  */
-valueParseStatus_e varg_intf::getDoubleValue(const char* newValue, double &parsedValue)
+valueParseStatus_e varg_intf::getDoubleValue(const char* newValue, double &parsedValue) const
 {
-    int parseCount = sscanf(newValue, "%lf", &parsedValue);
+    valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
+    int                parseCount   = sscanf(newValue, "%lf", &parsedValue);
+    double             absValue     = std::fabs(parsedValue);
+
     if (1 == parseCount)
     {
-        return valueParseStatus_e::PARSE_SUCCESS_e;
+        if (absValue > maxDoubleValue)
+        {
+            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
+        }
+        else if (absValue < minDoubleValue)
+        {
+            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
+        }
     }
     else
     {
-        return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+        returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
+
+    return returnStatus;
 }
 
 /**
@@ -271,14 +291,6 @@ varg_intf::varg_intf()
     minUnsignedValue = 0ULL;
     maxDoubleValue = std::numeric_limits<double>::max();
     minDoubleValue = std::numeric_limits<double>::min();
-}
-
-/**
- * @brief Destroy the varg object
- */
-varg_intf::~varg_intf()
-{
-    typeString = "";
 }
 
 //============================================================================================================================

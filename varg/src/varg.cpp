@@ -147,171 +147,152 @@ template <typename T> valueParseStatus_e varg<T>::setDoubleValue(const char* new
  * 
  * @param defaultValue - Default value
  */
-template <> varg<short int>::varg(short int defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<short int>::varg(short int defaultValue) : value(defaultValue), flagSetValue(0)
 { 
-    maxSignedValue = static_cast<long long int>(SHRT_MAX);
-    minSignedValue = static_cast<long long int>(SHRT_MIN);
+    varg_intf::setMinMaxSigned(SHRT_MIN, SHRT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> varg<int>::varg(int defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<int>::varg(int defaultValue) : value(defaultValue), flagSetValue(0)
 { 
-    maxSignedValue = static_cast<long long int>(INT_MAX);
-    minSignedValue = static_cast<long long int>(INT_MIN);
+    varg_intf::setMinMaxSigned(INT_MIN, INT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> varg<long int>::varg(long int defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<long int>::varg(long int defaultValue) : value(defaultValue), flagSetValue(0)
 { 
-    maxSignedValue = static_cast<long long int>(LONG_MAX);
-    minSignedValue = static_cast<long long int>(LONG_MIN);
+    varg_intf::setMinMaxSigned(LONG_MIN, LONG_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> varg<long long int>::varg(long long int defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)               
+template <> varg<long long int>::varg(long long int defaultValue) : value(defaultValue), flagSetValue(0)               
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> varg<short unsigned>::varg(short unsigned defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<short unsigned>::varg(short unsigned defaultValue) : value(defaultValue), flagSetValue(0)
 { 
-    maxUnsignedValue = static_cast<long long unsigned>(USHRT_MAX);
-    minUnsignedValue = static_cast<long long unsigned>(0ULL);
+    varg_intf::setMinMaxUnsigned(0ULL, USHRT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> varg<unsigned>::varg(unsigned defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<unsigned>::varg(unsigned defaultValue) : value(defaultValue), flagSetValue(0)
 { 
-    maxUnsignedValue = static_cast<long long unsigned>(UINT_MAX);
-    minUnsignedValue = static_cast<long long unsigned>(0ULL);
+    varg_intf::setMinMaxUnsigned(0ULL, UINT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> varg<long unsigned>::varg(long unsigned defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<long unsigned>::varg(long unsigned defaultValue) : value(defaultValue), flagSetValue(0)
 { 
-    maxUnsignedValue = static_cast<long long unsigned>(ULONG_MAX);
-    minUnsignedValue = static_cast<long long unsigned>(0ULL);
+    varg_intf::setMinMaxUnsigned(0ULL, ULONG_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> varg<long long unsigned>::varg(long long unsigned defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<long long unsigned>::varg(long long unsigned defaultValue) : value(defaultValue), flagSetValue(0)
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> varg<double>::varg(double defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0.0)
+template <> varg<double>::varg(double defaultValue) : value(defaultValue), flagSetValue(0.0)
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_DOUBLE);
 }
 
-template <> varg<char>::varg(char defaultValue) : varg_intf(), value(defaultValue), flagSetValue(0)
+template <> varg<char>::varg(char defaultValue) : value(defaultValue), flagSetValue(0)
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_CHAR);
 }
 
-template <> varg<bool>::varg(bool defaultValue) : varg_intf(), value(defaultValue), flagSetValue(!defaultValue)
+template <> varg<bool>::varg(bool defaultValue) : value(defaultValue), flagSetValue(!defaultValue)
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_BOOL);
 }
 
-template <> varg<std::string>::varg(std::string defaultValue) : varg_intf(), value(defaultValue), flagSetValue("")
+template <> varg<std::string>::varg(std::string defaultValue) : value(defaultValue)
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_STRING);
 }
 
 template <> varg<short int>::varg(short int defaultValue, short int min, short int max) : 
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 { 
-    maxSignedValue = static_cast<long long int>(max);
-    minSignedValue = static_cast<long long int>(min);
+    varg_intf::setMinMaxSigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
 template <> varg<int>::varg(int defaultValue, int min, int max) : 
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxSignedValue = static_cast<long long int>(max);
-    minSignedValue = static_cast<long long int>(min);
+    varg_intf::setMinMaxSigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
 template <> varg<long int>::varg(long int defaultValue, long int min, long int max) : 
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxSignedValue = static_cast<long long int>(max);
-    minSignedValue = static_cast<long long int>(min);
+    varg_intf::setMinMaxSigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
 template <> varg<long long int>::varg(long long int defaultValue, long long int min, long long int max) : 
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxSignedValue = max;
-    minSignedValue = min;
+    varg_intf::setMinMaxSigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
 template <> varg<short unsigned>::varg(short unsigned defaultValue, short unsigned min, short unsigned max) : 
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxUnsignedValue = static_cast<long long unsigned>(max);
-    minUnsignedValue = static_cast<long long unsigned>(min);
+    varg_intf::setMinMaxUnsigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
 template <> varg<unsigned>::varg(unsigned defaultValue, unsigned min, unsigned max) :
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxUnsignedValue = static_cast<long long unsigned>(max);
-    minUnsignedValue = static_cast<long long unsigned>(min);
+    varg_intf::setMinMaxUnsigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
 template <> varg<long unsigned>::varg(long unsigned defaultValue, long unsigned min, long unsigned max) :
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxUnsignedValue = static_cast<long long unsigned>(max);
-    minUnsignedValue = static_cast<long long unsigned>(min);
+    varg_intf::setMinMaxUnsigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
 template <> varg<long long unsigned>::varg(long long unsigned defaultValue, long long unsigned min, long long unsigned max) :
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxUnsignedValue = max;
-    minUnsignedValue = min;
+    varg_intf::setMinMaxUnsigned(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
 template <> varg<double>::varg(double defaultValue, double min, double max) :
-    varg_intf(), value(defaultValue), flagSetValue(0.0)
+    value(defaultValue), flagSetValue(0.0)
 {
-    maxDoubleValue = max;
-    minDoubleValue = min;
+    varg_intf::setMinMaxDouble(min, max);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_DOUBLE);
 }
 
 template <> varg<char>::varg(char defaultValue, char min, char max) : 
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(0)
 {
-    maxSignedValue = static_cast<long long int>(max);
-    minSignedValue = static_cast<long long int>(min);
-
+    varg_intf::setMinMaxSigned(static_cast<long long int>(min), static_cast<long long int>(max));
     std::stringstream myTypeStr;
-    myTypeStr << "<" << min << ":" << max << ">";
-    typeString = myTypeStr.str();
+    varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_CHAR);
 }
 
 template <> varg<bool>::varg(bool defaultValue, bool min, bool max) : 
-    varg_intf(), value(defaultValue), flagSetValue(0)
+    value(defaultValue), flagSetValue(false)
 {
-    maxUnsignedValue = static_cast<long long unsigned>(max);
-    minUnsignedValue = static_cast<long long unsigned>(min);
+    varg_intf::setMinMaxUnsigned(0ULL, 1ULL);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_BOOL);
 }
 
 template <> varg<std::string>::varg(std::string defaultValue, std::string min, std::string max) : 
-    varg_intf(), value(defaultValue), flagSetValue("")
+    value(defaultValue)
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_STRING);
 }

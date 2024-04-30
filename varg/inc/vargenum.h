@@ -53,6 +53,7 @@ template <typename T> class vargenum : public varg_intf
         /**
          * @brief Construct a vargenum object
          *
+         * @param defaultValue - Default value for the vargenum.value to start with
          * @param name - name of the enum
          */
         vargenum(T defaultValue, const char* name = ""): varg_intf(), value(defaultValue), enumName(name)    {enumNameMap.clear();}
@@ -79,7 +80,7 @@ template <typename T> class vargenum : public varg_intf
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual const bool isList()                                     {return false;}
+        virtual bool isList() const                                       {return false;}
 
         /**
          * @brief Virtual interface method implementation for the template variable implementation setValue with input function

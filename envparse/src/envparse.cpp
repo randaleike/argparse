@@ -85,11 +85,11 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
     // Only list type varg_intf are allowed more than 1 value
     if (nargs == 0)
     {
-        std::cerr << parserStringList->getEnvironmentNoFlags(argKey) << std::endl;
+        std::cerr << parser_base::getParserStringList()->getEnvironmentNoFlags(argKey) << std::endl;
     }
     else if ((nargs != 1) && !arg->isList())
     {
-        std::cerr << parserStringList->getNotListTypeMessage(nargs) << std::endl;
+        std::cerr << parser_base::getParserStringList()->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -110,23 +110,23 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
         // Construct the key option help string
         std::string optionString = " ";
         optionString += keyString;
-        optionString += assignmentDelimeter;
+        optionString += parser_base::getAssignmentDelimeter();
         optionString += newKeyArg.name;
         if (nargs > 1)
         {
-            optionString += assignmentListDelimeter;
+            optionString += parser_base::getAssignmentDelimeter();
             optionString += "...";
         }
 
-        if (optionString.size() > maxOptionLength)
+        if (optionString.size() > parser_base::getOptionKeyWidth())
         {
-            maxOptionLength = optionString.size();
+            parser_base::resizeMaxOptionLength(optionString.size());
         }
 
         newKeyArg.optionString = optionString;
 
         // Add the new argument to the list
-        keyArgList.push_back(newKeyArg);
+        parser_base::addKeyArgListEntry(newKeyArg);
     }
 }
 
@@ -139,29 +139,29 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
 bool envparser::parse()
 {
     // Scan the environment
-    for (std::list<ArgEntry>::iterator currentArg = keyArgList.begin(); currentArg != keyArgList.end(); ++currentArg)
+    for (auto & currentArg : parser_base::getKeyArgList())
     {
-        const char* envValue = getenv(currentArg->name.c_str());
+        const char* envValue = getenv(currentArg.name.c_str());
         if (NULL != envValue)
         {
             // Process the return value string
             std::list<std::string> assignmentValues;
             std::string valueString = envValue;
             size_t valueCount = parser_base::getValueList(valueString, assignmentValues);
-            size_t requiredValueCount = static_cast<size_t>(abs(currentArg->nargs));
-            if (debugMsgLevel > 5)
+            size_t requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
+            if (debugMsgLevel > debugVerbosityLevel_e::veryVerboseDebug)
             {
                 std::cout << "Environment value: " << envValue << std::endl;
-                std::cout << "Environment var name: " << currentArg->name << std::endl;
+                std::cout << "Environment var name: " << currentArg.name << std::endl;
                 std::cout << "Value count: " << valueCount << std::endl;
             }
 
             // Assign the values
-            currentArg->isFound = true;
+            currentArg.isFound = true;
             parserstr failedAssignment = valueString;
             eAssignmentReturn status = ((valueCount > 1) ?
-                                            parser_base::assignListKeyValue(*currentArg, assignmentValues, failedAssignment) :
-                                            parser_base::assignKeyValue(*currentArg, valueString));
+                                            parser_base::assignListKeyValue(currentArg, assignmentValues, failedAssignment) :
+                                            parser_base::assignKeyValue(currentArg, valueString));
 
             // Check the assignment error
             switch(status)
@@ -171,47 +171,47 @@ bool envparser::parse()
 
                 case eAssignTooMany:
                     // Not enough values to meet the minimum required
-                    std::cerr << parserStringList->getTooManyAssignmentMessage(currentArg->name.c_str(), requiredValueCount, valueCount) << std::endl;
-                    parsingError = true;
+                    std::cerr << parser_base::getParserStringList()->getTooManyAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
+                    parser_base::setParsingError(true);
                     break;
 
                 case eAssignNoValue:
                     // Need at least one value
-                    std::cerr << parserStringList->getMissingAssignmentMessage(currentArg->name.c_str()) << std::endl;
-                    parsingError = true;
+                    std::cerr << parser_base::getParserStringList()->getMissingAssignmentMessage(currentArg.name) << std::endl;
+                    parser_base::setParsingError(true);
                     break;
 
                 case eAssignTooFew:
                     // More values than required
-                    std::cerr << parserStringList->getMissingListAssignmentMessage(currentArg->name.c_str(), requiredValueCount, valueCount) << std::endl;
-                    parsingError = true;
+                    std::cerr << parser_base::getParserStringList()->getMissingListAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
+                    parser_base::setParsingError(true);
                     break;
 
                 case eAssignFailed:
                 default:
                     // Failed an assignment
-                    std::cerr << parserStringList->getAssignmentFailedMessage(currentArg->name.c_str(), failedAssignment) << std::endl;
-                    parsingError = true;
+                    std::cerr << parser_base::getParserStringList()->getAssignmentFailedMessage(currentArg.name, failedAssignment) << std::endl;
+                    parser_base::setParsingError(true);
                     break;
             } // end of switch status
         } // end of if found
     } // end of for keyArgList
 
     // If we haven't already failed, check if all required arguments were found
-    if (false == parsingError)
+    if (!parser_base::isParsingError())
     {
         // Check that all the required positional arguments were found
-        for (auto const& keyArg : keyArgList)
+        for (auto const& keyArg : parser_base::getKeyArgList())
         {
             if ((keyArg.isRequired) && !(keyArg.isFound))
             {
-                std::cerr << parserStringList->getMissingArgumentMessage(keyArg.name.c_str()) << std::endl;
-                parsingError = true;
+                std::cerr << parser_base::getParserStringList()->getMissingArgumentMessage(keyArg.name) << std::endl;
+                parser_base::setParsingError(true);
             }
         }
     }
 
-    return (!parsingError);
+    return (!parser_base::isParsingError());
 }
 
 
@@ -222,14 +222,14 @@ bool envparser::parse()
  */
 void envparser::displayHelp(std::ostream &outStream)
 {
-    const size_t optionKeyWidth = std::min(maxOptionLength, maxColumnWidth/2);
-    const size_t helpKeyWidth = maxColumnWidth - optionKeyWidth - 1;
+    const size_t optionKeyWidth = parser_base::getOptionKeyWidth();
+    const size_t helpKeyWidth = parser_base::getHelpKeyWidth(optionKeyWidth);
 
-    if (!keyArgList.empty())
+    if (!parser_base::isKeyArgListEmpty())
     {
         // Display the key arguments help
-        outStream << parserStringList->getEnvArgumentsMessage() << std::endl;
-        for (auto const& keyArg : keyArgList)
+        outStream << parser_base::getParserStringList()->getEnvArgumentsMessage() << std::endl;
+        for (auto const& keyArg : parser_base::getKeyArgList())
         {
             // Display the arg block
             displayArgHelpBlock(outStream, keyArg.optionString, keyArg.help, optionKeyWidth, helpKeyWidth);

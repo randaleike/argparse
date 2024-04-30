@@ -60,7 +60,7 @@ class vargincrement : public varg_intf
          *
          * @return const char* - Base type string
          */
-        virtual const char* getTypeString();
+        virtual const char* getTypeString()             {return "incrementing flag";}
 
         /**
          * @brief Return if varg is a list of elements or a single element type
@@ -68,7 +68,7 @@ class vargincrement : public varg_intf
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual const bool isList();
+        virtual bool isList() const                     {return false;}
 
         /**
          * @brief Virtual interface method implementation for the template variable implementation setValue with input function

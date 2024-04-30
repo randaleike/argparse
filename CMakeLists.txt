@@ -2,6 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=-*,readability-*)
 cmake_policy(SET CMP0048 NEW)
 project(argparse VERSION 1.0.0.0 DESCRIPTION "Command Line Parser Utility" HOMEPAGE_URL "grocsoftware")
 

@@ -37,6 +37,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 # varg Unit testing
 ####
 set (vargUnitTestSrc
+    ${CMAKE_CURRENT_LIST_DIR}/test/varg_intf_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_basic_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/vargincrement_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/vargenum_test.cpp

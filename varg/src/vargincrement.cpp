@@ -49,21 +49,14 @@ using namespace argparser;
  * 
  * @param defaultValue - Default value
  */
-vargincrement::vargincrement(): varg_intf(), value(0)   {}
-vargincrement::~vargincrement()                         {}
+vargincrement::vargincrement(): value(0)   {}
+vargincrement::~vargincrement()            {}
 
 //============================================================================================================================
 //============================================================================================================================
 //  Public functions
 //============================================================================================================================
 //============================================================================================================================
-
-/**
- * @brief Return if varg is a list of elements or a single element type
- * 
- * @return false - Only 0 or 1 argument values are allowed.
- */
-const bool vargincrement::isList()                      {return false;}
 
 /**
  * @brief Set the Flag Value object
@@ -80,12 +73,5 @@ valueParseStatus_e vargincrement::setValue()                          {value++; 
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - Increment variable does not take an input
  */
 valueParseStatus_e vargincrement::setValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
-
-/**
- * @brief Get the base argument type as a string
- * 
- * @return char* - Base type string
- */
-const char* vargincrement::getTypeString()              {return "incrementing flag";}
 
 /** @} */

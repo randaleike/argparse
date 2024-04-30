@@ -30,9 +30,9 @@ Copyright (c) 2022-2023 Randal Eike
 #pragma once 
 
 // Includes 
-#include <stdlib.h>
+#include <cstdlib>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <list>
 #include <iostream>
@@ -84,7 +84,7 @@ struct ArgEntry
 */
 class parser_base
 {
-    protected:
+    private:
         // Argument lists
         ArgEntry                nullEntry;                      ///< Return entry if argument key list is not found
         std::list<ArgEntry>     keyArgList;                     ///< List of key based arguments
@@ -104,15 +104,43 @@ class parser_base
 
         // Parse tracking data
         bool                    parsingError;                   ///< Set to true if any parsing error was detected.
-
-
         BaseParserStringList*   parserStringList;               ///< Parser string list
+
+    protected:
+        parserchar getKeyListDelimeter()                {return keyListDelimeter;}
+        BaseParserStringList* getParserStringList()     {return parserStringList;}
+
+        parserchar getAssignmentDelimeter()             {return assignmentDelimeter;}
+        parserchar getAssignmentListDelimeter()         {return assignmentListDelimeter;}
+
+        bool isParsingError()                           {return parsingError;}
+        void setParsingError(bool orValue)              {parsingError |= orValue;}
+        void clearParsingError()                        {parsingError = false;}
+        bool isParserAbort()                            {return (!(parsingError && errorAbort));}
+
+        void resizeMaxOptionLength(size_t newsize)                  {if (newsize > maxOptionLength) maxOptionLength = newsize;}
+        const size_t getOptionKeyWidth()                            {return std::min(maxOptionLength, maxColumnWidth/2);}
+        const size_t getHelpKeyWidth(const size_t optionKeyWidth)   {return (maxColumnWidth - optionKeyWidth - 1);}
+        
+        void addKeyArgListEntry(ArgEntry entry)         {keyArgList.push_back(entry);}
+        std::list<ArgEntry>& getKeyArgList()            {return keyArgList;}
+        bool isKeyArgListEmpty()                        {return keyArgList.empty();}
+
+        // Unit test helpers
+        bool   getErrorAbortFlag()                      {return errorAbort;}
+        int    getDebugMsgLevel()                       {return debugMsgLevel;}
+        size_t getMaxColumnWidth()                      {return maxColumnWidth;}
+        size_t getMaxOptionLength()                     {return maxOptionLength;}
 
     public:
         /**
          * @brief Constructor
          */
         parser_base(bool abortOnError = false, int debugLevel = 0);
+        parser_base(const parser_base& other);
+        parser_base(parser_base&& other);
+        parser_base& operator=(const parser_base& other);
+        parser_base& operator=(parser_base&& other);
 
         /**
          * @brief Destructor
@@ -187,7 +215,7 @@ class parser_base
          * 
          * @return size_t - number of arguments added to the arg
          */
-        size_t addArgKeyList(ArgEntry& arg, parserstr inputKeyList);
+        size_t addArgKeyList(ArgEntry& arg, parserstr inputKeyList) const;
 
         //=================================================================================================
         //======================= Argument parsing helper interface methods ===============================
@@ -200,7 +228,7 @@ class parser_base
          * 
          * @return size_t - number of elements in the list
          */
-        size_t getValueList(parserstr& valueString, std::list<parserstr>& valueList);
+        size_t getValueList(parserstr& valueString, std::list<parserstr>& valueList) const;
 
         /**
          * @brief Find the argument object that matches the input string
@@ -210,7 +238,7 @@ class parser_base
          * 
          * @return ArgEntry - Reference to the ArgEntry from the list that matched if found == true
          */
-        ArgEntry& findMatchingArg(const parserchar* checkString, bool& found);
+        ArgEntry& findMatchingArg(const parserstr& checkString, bool& found);
 
         /**
          * @brief Assign the flag value to the key argument
@@ -219,17 +247,17 @@ class parser_base
          * 
          * @return eAssignmentReturn - Assignment return status
          */
-        eAssignmentReturn assignKeyFlagValue(ArgEntry& currentArg);
+        static eAssignmentReturn assignKeyFlagValue(ArgEntry& currentArg);
 
         /**
          * @brief Assign a single value to an argument storage object.  
          * 
          * @param currentArg - Pointer to the argument to set
-         * @param valueString - Reference to the embedded value string
+         * @param assignmentValue - Reference to the embedded value string
          * 
          * @return eAssignmentReturn - Assignment return status
          */
-        eAssignmentReturn assignKeyValue(ArgEntry& currentArg, parserstr& valueString);
+        static eAssignmentReturn assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue);
 
         /**
          * @brief Assign multiple values to a list argument storage object.  
@@ -240,7 +268,7 @@ class parser_base
          * 
          * @return eAssignmentReturn - Assignment return status
          */
-        eAssignmentReturn assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& failedValue);
+        static eAssignmentReturn assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& failedValue);
 
         //=================================================================================================
         //======================= Help display helper interface methods ===================================

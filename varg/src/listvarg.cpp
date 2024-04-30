@@ -187,82 +187,76 @@ template <typename T> valueParseStatus_e listvarg<T>::setStringElementValue(cons
 /**
  * @brief Construct a varg_intf object
  */
-template <> listvarg<short int>::listvarg(): varg_intf()
+template <> listvarg<short int>::listvarg()
 {
     value.clear();
-    maxSignedValue = static_cast<long long int>(SHRT_MAX);
-    minSignedValue = static_cast<long long int>(SHRT_MIN);
+    varg_intf::setMinMaxSigned(SHRT_MIN, SHRT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> listvarg<int>::listvarg(): varg_intf()
+template <> listvarg<int>::listvarg()
 {
     value.clear();
-    maxSignedValue = static_cast<long long int>(INT_MAX);
-    minSignedValue = static_cast<long long int>(INT_MIN);
+    varg_intf::setMinMaxSigned(INT_MIN, INT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> listvarg<long int>::listvarg(): varg_intf()
+template <> listvarg<long int>::listvarg()
 {
     value.clear();
-    maxSignedValue = static_cast<long long int>(LONG_MAX);
-    minSignedValue = static_cast<long long int>(LONG_MIN);
+    varg_intf::setMinMaxSigned(LONG_MIN, LONG_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> listvarg<long long int>::listvarg(): varg_intf()
+template <> listvarg<long long int>::listvarg()
 {
     value.clear();
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
 }
 
-template <> listvarg<short unsigned>::listvarg(): varg_intf()
+template <> listvarg<short unsigned>::listvarg()
 {
     value.clear();
-    maxUnsignedValue = static_cast<long long unsigned>(USHRT_MAX);
-    minUnsignedValue = static_cast<long long unsigned>(0ULL);
+    varg_intf::setMinMaxUnsigned(0ULL, USHRT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> listvarg<unsigned>::listvarg(): varg_intf()
+template <> listvarg<unsigned>::listvarg()
 {
     value.clear();
-    maxUnsignedValue = static_cast<long long unsigned>(UINT_MAX);
-    minUnsignedValue = static_cast<long long unsigned>(0ULL);
+    varg_intf::setMinMaxUnsigned(0ULL, UINT_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> listvarg<long unsigned>::listvarg(): varg_intf()
+template <> listvarg<long unsigned>::listvarg()
 {
     value.clear();
-    maxUnsignedValue = static_cast<long long unsigned>(ULONG_MAX);
-    minUnsignedValue = static_cast<long long unsigned>(0ULL);
+    varg_intf::setMinMaxUnsigned(0ULL, ULONG_MAX);
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> listvarg<long long unsigned>::listvarg(): varg_intf()
+template <> listvarg<long long unsigned>::listvarg()
 {
     value.clear();
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
 }
 
-template <> listvarg<double>::listvarg() : varg_intf()
+template <> listvarg<double>::listvarg()
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_DOUBLE);
 }
 
-template <> listvarg<char>::listvarg() : varg_intf()
+template <> listvarg<char>::listvarg()
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_CHAR);
 }
 
-template <> listvarg<bool>::listvarg() : varg_intf()
+template <> listvarg<bool>::listvarg()
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_BOOL);
 }
 
-template <> listvarg<std::string>::listvarg() : varg_intf()
+template <> listvarg<std::string>::listvarg()
 {
     varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_STRING);
 }

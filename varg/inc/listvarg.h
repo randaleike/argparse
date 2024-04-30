@@ -48,7 +48,6 @@ template <typename T> class listvarg : public varg_intf
          * @brief Set the value of a signed element and add the new element to the value list object
          *
          * @param newValue - Pointer to the text value string
-         * @param typeStr  - scanf type string
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
@@ -61,7 +60,6 @@ template <typename T> class listvarg : public varg_intf
          * @brief Set the value of an unsigned list element and add the new element to the value list object
          *
          * @param newValue - Pointer to the text value string
-         * @param typeStr  - scanf type string
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
@@ -74,7 +72,6 @@ template <typename T> class listvarg : public varg_intf
          * @brief Set the value of a double list element and add the new element to the value list object
          *
          * @param newValue - Pointer to the text value string
-         * @param typeStr  - scanf type string
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
@@ -131,19 +128,12 @@ template <typename T> class listvarg : public varg_intf
         virtual ~listvarg()                                             {value.clear();}
 
         /**
-         * @brief Get the base argument type as a string
-         *
-         * @return char* - Base type string
-         */
-        virtual const char* getTypeString()                             {return typeString.c_str();}
-
-        /**
          * @brief Return if varg is a list of elements or a single element type
          *
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual const bool isList()                                     {return true;}
+        virtual bool isList() const                                     {return true;}
 
         /**
          * @brief Virtual interface method implementation for the template variable implementation setValue with input function

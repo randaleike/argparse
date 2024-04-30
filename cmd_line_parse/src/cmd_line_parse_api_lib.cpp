@@ -32,6 +32,254 @@ Copyright (c) 2023 Randal Eike
 #include "cmd_line_parse_api_lib_private.h"
 
 /**
+ * @brief Update the C corresponding reflection of the signed short varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataShort(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.shortIntVal) = arg->argptr.shortintArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.shortIntVal)[index] = arg->argptr.shortintArrayArg->value.front();
+            arg->argptr.shortintArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the signed int varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataInt(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.integerVal) = arg->argptr.intArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.integerVal)[index] = arg->argptr.intArrayArg->value.front();
+            arg->argptr.intArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the signed long varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataLong(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.longIntVal) = arg->argptr.longintArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.longIntVal)[index] = arg->argptr.longintArrayArg->value.front();
+            arg->argptr.longintArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the signed long long varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataLongLong(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.llIntVal) = arg->argptr.llintArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.llIntVal)[index] = arg->argptr.llintArrayArg->value.front();
+            arg->argptr.llintArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the unsigned short varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataUShort(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.shortUIntVal) = arg->argptr.shortuintArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.shortUIntVal)[index] = arg->argptr.shortuintArrayArg->value.front();
+            arg->argptr.shortuintArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the unsigned integer varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataUInt(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.unsignedVal) = arg->argptr.uintArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.unsignedVal)[index] = arg->argptr.uintArrayArg->value.front();
+            arg->argptr.uintArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the unsigned long integer varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataULong(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList())
+    {
+        *(arg->cStoragePtr.longUIntVal) = arg->argptr.longuintArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.longUIntVal)[index] = arg->argptr.longuintArrayArg->value.front();
+            arg->argptr.longuintArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the unsigned long long integer varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataULongLong(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.llUIntVal) = arg->argptr.lluintArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.llUIntVal)[index] = arg->argptr.lluintArrayArg->value.front();
+            arg->argptr.lluintArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the floating point varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataFloat(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.floatVal) = arg->argptr.floatArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.floatVal)[index] = arg->argptr.floatArrayArg->value.front();
+            arg->argptr.floatArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the boolean varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataBool(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.flagVal) = arg->argptr.boolArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < arg->elementCount) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.flagVal)[index] = arg->argptr.boolArrayArg->value.front();
+            arg->argptr.boolArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the character pointer varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataCharPtr(argHandle arg)
+{
+    if (!arg->argptr.vargIntf->isList()) 
+    {
+        *(arg->cStoragePtr.charVal) = arg->argptr.charArg->value;
+    }
+    else
+    {
+        for (int index = 0; (index < (arg->elementCount - 1)) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.charVal)[index] = arg->argptr.stringArg->value[index];
+        }
+        (arg->cStoragePtr.charVal)[arg->elementCount - 1] = '\0';
+    }
+}
+
+/**
+ * @brief Update the C corresponding reflection of the character pointer array varg object
+ *
+ * @param arg - Argument to update
+ */
+static void updateParserArgCDataStringArray(argHandle arg)
+{
+    if (arg->argptr.vargIntf->isList()) 
+    {
+        for (int index = 0; (index < (arg->elementCount)) && (!arg->argptr.vargIntf->isEmpty()); index++)
+        {
+            (arg->cStoragePtr.stringArray)[index] = (char*)(arg->argptr.stringArrayArg->value.front().c_str());
+            arg->argptr.stringArrayArg->value.pop_front();
+        }
+    }
+}
+
+/**
  * @brief Update the C corresponding reflection of the varg object
  *
  * @param arg - Argument to update
@@ -54,171 +302,54 @@ static void updateParserArgCData(argHandle arg)
     switch(arg->type)
     {
         case argVarType_e::VT_SHORT_INT:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.shortIntVal) = arg->argptr.shortintArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.shortIntVal)[i] = arg->argptr.shortintArrayArg->value.front();
-                    arg->argptr.shortintArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataShort(arg);
             break;
 
         case argVarType_e::VT_INCREMENTING:
         case argVarType_e::VT_INTEGER:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.integerVal) = arg->argptr.intArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.integerVal)[i] = arg->argptr.intArrayArg->value.front();
-                    arg->argptr.intArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataInt(arg);
             break;
+
         case argVarType_e::VT_LONG_INT:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.longIntVal) = arg->argptr.longintArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.longIntVal)[i] = arg->argptr.longintArrayArg->value.front();
-                    arg->argptr.longintArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataLong(arg);
             break;
+
         case argVarType_e::VT_LLONG_INT:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.llIntVal) = arg->argptr.llintArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.llIntVal)[i] = arg->argptr.llintArrayArg->value.front();
-                    arg->argptr.llintArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataLongLong(arg);
             break;
+
         case argVarType_e::VT_SHORT_UINT:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.shortUIntVal) = arg->argptr.shortuintArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.shortUIntVal)[i] = arg->argptr.shortuintArrayArg->value.front();
-                    arg->argptr.shortuintArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataUShort(arg);
             break;
+
         case argVarType_e::VT_UINTEGER:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.unsignedVal) = arg->argptr.uintArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.unsignedVal)[i] = arg->argptr.uintArrayArg->value.front();
-                    arg->argptr.uintArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataUInt(arg);
             break;
+
         case argVarType_e::VT_LONG_UINT:
-            if (false == arg->argptr.vargIntf->isList())
-            {
-                *(arg->cStoragePtr.longUIntVal) = arg->argptr.longuintArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.longUIntVal)[i] = arg->argptr.longuintArrayArg->value.front();
-                    arg->argptr.longuintArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataULong(arg);
             break;
+
         case argVarType_e::VT_LLONG_UINT:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.llUIntVal) = arg->argptr.lluintArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.llUIntVal)[i] = arg->argptr.lluintArrayArg->value.front();
-                    arg->argptr.lluintArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataULongLong(arg);
             break;
+
         case argVarType_e::VT_FLOAT:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.floatVal) = arg->argptr.floatArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.floatVal)[i] = arg->argptr.floatArrayArg->value.front();
-                    arg->argptr.floatArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataFloat(arg);
             break;
+
         case argVarType_e::VT_BOOL:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.flagVal) = arg->argptr.boolArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < arg->elementCount) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.flagVal)[i] = arg->argptr.boolArrayArg->value.front();
-                    arg->argptr.boolArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataBool(arg);
             break;
+
         case argVarType_e::VT_CHAR:
-            if (false == arg->argptr.vargIntf->isList()) 
-            {
-                *(arg->cStoragePtr.charVal) = arg->argptr.charArg->value;
-            }
-            else
-            {
-                for (int i = 0; (i < (arg->elementCount - 1)) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.charVal)[i] = arg->argptr.stringArg->value[i];
-                }
-                (arg->cStoragePtr.charVal)[arg->elementCount - 1] = '\0';
-            }
+            updateParserArgCDataCharPtr(arg);
             break;
+
         case argVarType_e::VT_STRING_ARRAY:
-            if (true == arg->argptr.vargIntf->isList()) 
-            {
-                for (int i = 0; (i < (arg->elementCount)) && (false == arg->argptr.vargIntf->isEmpty()); i++)
-                {
-                    (arg->cStoragePtr.stringArray)[i] = (char*)(arg->argptr.stringArrayArg->value.front().c_str());
-                    arg->argptr.stringArrayArg->value.pop_front();
-                }
-            }
+            updateParserArgCDataStringArray(arg);
             break;
+
         case argVarType_e::VT_INVALID:
         default:
             std::cerr << "argument invalid type, handle: " << arg << " type: " << static_cast<int>(arg->type) << std::endl;
@@ -763,7 +894,9 @@ void releaseParserArg(argHandle arg)
 cmdLineParserHandle getParser(parsercstr usage, parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel)
 {
     cmdLineParserHandle parser = (typeof(cmdLineParserHandle))malloc(sizeof(struct cmdLineParser));
-    parser->object = new argparser::cmd_line_parse(usage, description, abortOnError, disableDefaultHelp, debugLevel);
+    parserstr newParserUsage = ((nullptr != usage) ? usage : "");
+    parserstr newParserDesc = ((nullptr != description) ? description : "");
+    parser->object = new argparser::cmd_line_parse(newParserUsage, newParserDesc, abortOnError, disableDefaultHelp, debugLevel);
     parser->argList.clear();
     return parser;
 }
@@ -782,7 +915,7 @@ void releaseParser(cmdLineParserHandle parser, bool releaseArgHandles)
         delete parser->object;
         if (releaseArgHandles)
         {
-            while (false == parser->argList.empty())
+            while (!parser->argList.empty())
             {
                 argHandle argItem = parser->argList.front();
                 parser->argList.pop_front();
@@ -807,7 +940,7 @@ void releaseParser(cmdLineParserHandle parser, bool releaseArgHandles)
  * @param parser - Handle value returned by getParser()
  * @param epilog - Text to display at the end of the help block
  */
-void setEpilog(cmdLineParserHandle parser, parsercstr epilog)
+void setEpilog(cmdLineParserHandle parser, const parsercstr epilog)
 {
     if (parser != nullptr)
     {
@@ -822,7 +955,7 @@ void setEpilog(cmdLineParserHandle parser, parsercstr epilog)
  * @param parser - Handle value returned by getParser()
  * @param progName - Program name to use in the usage string
  */
-void setProgramName(cmdLineParserHandle parser, parsercstr progName)
+void setProgramName(cmdLineParserHandle parser, const parsercstr progName)
 {
     if (parser != nullptr)
     {
@@ -923,7 +1056,8 @@ void enableUnknowArgumentIgnore(cmdLineParserHandle parser)
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addKeyArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required)
+void addKeyArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                    const parsercstr helpText, const bool required)
 {
     if (parser == nullptr)
     {
@@ -937,7 +1071,7 @@ void addKeyArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, 
         return;
     }
 
-    if (true == arg->argptr.vargIntf->isList())
+    if (arg->argptr.vargIntf->isList())
     {
         std::cerr << "Use addKeyArrayArgument() to add array arguments to the parser" << std::endl;
         return;
@@ -964,7 +1098,8 @@ void addKeyArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, 
  *                         are found it is flagged as an error
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addKeyArrayArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, int nargs, bool required)
+void addKeyArrayArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                         const parsercstr helpText, const int nargs, const bool required)
 {
     if (parser == nullptr)
     {
@@ -978,7 +1113,7 @@ void addKeyArrayArgument(cmdLineParserHandle parser, argHandle arg, parsercstr n
         return;
     }
 
-    if (false == arg->argptr.vargIntf->isList())
+    if (!arg->argptr.vargIntf->isList())
     {
         std::cerr << "Use addKeyArgument() to add single value arguments to the parser" << std::endl;
         return;
@@ -998,7 +1133,8 @@ void addKeyArrayArgument(cmdLineParserHandle parser, argHandle arg, parsercstr n
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addFlagArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required)
+void addFlagArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                     const parsercstr helpText, const bool required)
 {
     if (parser == nullptr)
     {
@@ -1012,7 +1148,7 @@ void addFlagArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name,
         return;
     }
 
-    if (true == arg->argptr.vargIntf->isList())
+    if (arg->argptr.vargIntf->isList())
     {
         std::cerr << "Use addKeyArrayArgument() or addPositionalArrayArgument to add array arguments to the parser" << std::endl;
         return;
@@ -1032,7 +1168,8 @@ void addFlagArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name,
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addIncrementingArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required)
+void addIncrementingArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
+                             const parsercstr helpText, const bool required)
 {
     if (parser == nullptr)
     {
@@ -1066,7 +1203,7 @@ void addIncrementingArgument(cmdLineParserHandle parser, argHandle arg, parsercs
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addPositionalArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr helpText, bool required)
+void addPositionalArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr helpText, const bool required)
 {
     if (parser == nullptr)
     {
@@ -1080,7 +1217,7 @@ void addPositionalArgument(cmdLineParserHandle parser, argHandle arg, parsercstr
         return;
     }
 
-    if (true == arg->argptr.vargIntf->isList())
+    if (arg->argptr.vargIntf->isList())
     {
         std::cerr << "Use addPositionalArrayArgument() to add array arguments to the parser" << std::endl;
         return;
@@ -1107,7 +1244,8 @@ void addPositionalArgument(cmdLineParserHandle parser, argHandle arg, parsercstr
  *                         are found it is flagged as an error
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addPositionalArrayArgument(cmdLineParserHandle parser, argHandle arg, parsercstr name, parsercstr helpText, int nargs, bool required)
+void addPositionalArrayArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr helpText, 
+                                const int nargs, const bool required)
 {
     if (parser == nullptr)
     {
@@ -1121,7 +1259,7 @@ void addPositionalArrayArgument(cmdLineParserHandle parser, argHandle arg, parse
         return;
     }
 
-    if (false == arg->argptr.vargIntf->isList())
+    if (!arg->argptr.vargIntf->isList())
     {
         std::cerr << "Use addPositionalArgument() to add single value arguments to the parser" << std::endl;
         return;

@@ -30,16 +30,29 @@ Copyright (c) 2022-2023 Randal Eike
 #pragma once
 
 // Includes
-#include <stdlib.h>
+#include <cstddef>
+#include <cstdlib>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <list>
 #include <iostream>
 
 #define DYNAMIC_INTERNATIONALIZATION
-typedef std::string parserstr;          ///< Standard parser string definition
-typedef char parserchar;                ///< Standard parser character definition
+using parserstr = std::string;          ///< Standard parser string definition
+using parserchar = char;                ///< Standard parser character definition
+
+/**
+ * @brief Debug messaging verbosity levels 
+ * 
+ */
+enum debugVerbosityLevel_e
+{
+    noDebugMsg = 0,                     ///< Quiet, no debug messages
+    minimalDebug,                       ///< Minimal debug message verbosity
+    verboseDebug,                       ///< Medium debug message verbosity
+    veryVerboseDebug                    ///< Maximum debug message verbosity
+};
 
 namespace argparser
 {
@@ -49,10 +62,11 @@ namespace argparser
  */
 class BaseParserStringList
 {
-    protected:
+    private:
         int                     debugMsgLevel;      ///< Debug message level
         std::list<parserchar>   defaultBreakList;   ///< Default list of break characters based on language.
 
+    protected:
         /**
          * @brief Find the best position to break the long string
          *
@@ -62,11 +76,15 @@ class BaseParserStringList
          *
          * @return size_t - Best break position <= maxLength based on the list of break characters
          */
-        size_t findBestBreakPos(parserstr workingString, std::list<parserchar> breakCharList, size_t maxLength);
+        size_t findBestBreakPos(parserstr workingString, std::list<parserchar> breakCharList, size_t maxLength) const;
 
     public:
         BaseParserStringList();
-        virtual ~BaseParserStringList()                             {}
+        BaseParserStringList(const BaseParserStringList& other) = default;
+        BaseParserStringList(BaseParserStringList&& other) = default;
+        BaseParserStringList& operator=(const BaseParserStringList& other) = default;
+        BaseParserStringList& operator=(BaseParserStringList&& other) = default;
+        virtual ~BaseParserStringList() = default;
 
         // Generic utility
         /**
@@ -107,20 +125,20 @@ class BaseParserStringList
 
         // Generic error messages
         virtual parserstr getNotListTypeMessage(int nargs) = 0;
-        virtual parserstr getUnknownArgumentMessage(const parserchar* keyString) = 0;
-        virtual parserstr getInvalidAssignmentMessage(const parserchar* keyString) = 0;
-        virtual parserstr getAssignmentFailedMessage(const parserchar* keyString, parserstr valueString) = 0;
-        virtual parserstr getMissingAssignmentMessage(const parserchar* keyString) = 0;
-        virtual parserstr getMissingListAssignmentMessage(const parserchar* keyString, int expected, int found) = 0;
-        virtual parserstr getTooManyAssignmentMessage(const parserchar* keyString, int expected, int found) = 0;
-        virtual parserstr getMissingArgumentMessage(const parserchar* keyString) = 0;
+        virtual parserstr getUnknownArgumentMessage(const parserstr keyString) = 0;
+        virtual parserstr getInvalidAssignmentMessage(const parserstr keyString) = 0;
+        virtual parserstr getAssignmentFailedMessage(const parserstr keyString, parserstr valueString) = 0;
+        virtual parserstr getMissingAssignmentMessage(const parserstr keyString) = 0;
+        virtual parserstr getMissingListAssignmentMessage(const parserstr keyString, size_t expected, size_t found) = 0;
+        virtual parserstr getTooManyAssignmentMessage(const parserstr keyString, size_t expected, size_t found) = 0;
+        virtual parserstr getMissingArgumentMessage(const parserstr keyString) = 0;
         virtual parserstr getArgumentCreationError(parserstr keyString) = 0;
 
         // Command line parser specific strings
-        virtual parserstr getUsageMessage() const = 0;
-        virtual parserstr getPositionalArgumentsMessage() const = 0;
-        virtual parserstr getSwitchArgumentsMessage() const = 0;
-        virtual parserstr getHelpString() const = 0;
+        [[nodiscard]] virtual parserstr getUsageMessage() const = 0;
+        [[nodiscard]] virtual parserstr getPositionalArgumentsMessage() const = 0;
+        [[nodiscard]] virtual parserstr getSwitchArgumentsMessage() const = 0;
+        [[nodiscard]] virtual parserstr getHelpString() const = 0;
 
         // Environment parser specific strings and messages
         virtual parserstr getEnvArgumentsMessage() = 0;

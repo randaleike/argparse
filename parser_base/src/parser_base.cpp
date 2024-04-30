@@ -37,6 +37,8 @@ Copyright (c) 2022-2023 Randal Eike
 
 using namespace argparser;
 
+constexpr size_t DefaultColumnWidth = 80;
+constexpr size_t DefaultOptionWidth = 0;
 
 //============================================================================================================================
 //============================================================================================================================
@@ -51,13 +53,70 @@ using namespace argparser;
 //============================================================================================================================
 //============================================================================================================================
 parser_base::parser_base(bool abortOnError, int debugLevel) : 
-    maxColumnWidth(80), maxOptionLength(0),
+    maxColumnWidth(DefaultColumnWidth), maxOptionLength(DefaultOptionWidth),
     keyListDelimeter(','), assignmentDelimeter('='), assignmentListDelimeter(','),
-    errorAbort(abortOnError), debugMsgLevel(debugLevel), parsingError(false)
+    errorAbort(abortOnError), debugMsgLevel(debugLevel), parsingError(false),
+    parserStringList(BaseParserStringList::getInternationalizedClass())
 {
     keyArgList.clear();
     nullEntry = {};
-    parserStringList = BaseParserStringList::getInternationalizedClass();
+}
+
+parser_base::parser_base(const parser_base& other) :
+    maxColumnWidth(other.assignmentDelimeter), maxOptionLength(other.maxOptionLength),
+    keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter), assignmentListDelimeter(other.assignmentListDelimeter),
+    errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
+    keyArgList(other.keyArgList), nullEntry(other.nullEntry), parserStringList(other.parserStringList)
+{
+}
+
+parser_base::parser_base(parser_base&& other) :
+    maxColumnWidth(other.assignmentDelimeter), maxOptionLength(other.maxOptionLength),
+    keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter), assignmentListDelimeter(other.assignmentListDelimeter),
+    errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
+    keyArgList(other.keyArgList), nullEntry(other.nullEntry), parserStringList(other.parserStringList)
+{
+    other.keyArgList.clear();
+}
+
+parser_base& parser_base::operator=(const parser_base& other)
+{
+    if (this != &other)
+    {
+        maxColumnWidth          = other.assignmentDelimeter;
+        maxOptionLength         = other.maxOptionLength;
+        keyListDelimeter        = other.keyListDelimeter;
+        assignmentDelimeter     = other.assignmentDelimeter;
+        assignmentListDelimeter = other.assignmentListDelimeter;
+        errorAbort              = other.errorAbort;
+        debugMsgLevel           = other.debugMsgLevel;
+        parsingError            = false;
+        keyArgList              = other.keyArgList;
+        nullEntry               = {};
+        parserStringList        = other.parserStringList;
+    }
+    return *this;
+}
+
+parser_base& parser_base::operator=(parser_base&& other)
+{
+    if (this != &other)
+    {
+        maxColumnWidth          = other.assignmentDelimeter;
+        maxOptionLength         = other.maxOptionLength;
+        keyListDelimeter        = other.keyListDelimeter;
+        assignmentDelimeter     = other.assignmentDelimeter;
+        assignmentListDelimeter = other.assignmentListDelimeter;
+        errorAbort              = other.errorAbort;
+        debugMsgLevel           = other.debugMsgLevel;
+        parsingError            = false;
+        keyArgList              = other.keyArgList;
+        nullEntry               = {};
+        parserStringList        = other.parserStringList;
+
+        other.keyArgList.clear();
+    }
+    return *this;
 }
 
 parser_base::~parser_base()
@@ -82,7 +141,7 @@ parser_base::~parser_base()
  * 
  * @return size_t - number of elements in the list
  */
-size_t parser_base::addArgKeyList(ArgEntry& arg, parserstr inputKeyList)
+size_t parser_base::addArgKeyList(ArgEntry& arg, parserstr inputKeyList) const
 {
     size_t pos = 0;
     parserstr inputString = inputKeyList;
@@ -139,7 +198,7 @@ size_t parser_base::addArgKeyList(ArgEntry& arg, parserstr inputKeyList)
  * 
  * @return size_t - number of elements in the list
  */
-size_t parser_base::getValueList(parserstr& valueString, std::list<parserstr>& valueList)
+size_t parser_base::getValueList(parserstr& valueString, std::list<parserstr>& valueList) const
 {
     size_t pos = 0;
     parserstr token;
@@ -181,29 +240,38 @@ size_t parser_base::getValueList(parserstr& valueString, std::list<parserstr>& v
  * 
  * @return ArgEntry - Reference to the ArgEntry from the ArgEntry if match was found. Or nullptr if not.
  */
-ArgEntry& parser_base::findMatchingArg(const parserchar* keystring, bool& found)
+ArgEntry& parser_base::findMatchingArg(const parserstr& checkString, bool& found)
 {
     found = false;
 
-    if(debugMsgLevel > 4) std::cerr << "keyArgList size: " << keyArgList.size() << std::endl;
+    if(debugMsgLevel > 4)
+    {
+        std::cerr << "keyArgList size: " << keyArgList.size() << std::endl;
+    }
 
     // Iterate through the key argument list for a match
-    for (std::list<ArgEntry>::iterator argument=keyArgList.begin(); argument != keyArgList.end(); ++argument)
+    for (auto & argument : keyArgList)
     {
         // Check input key string for a match in the argument key string list
-        parserstr testKey = keystring;
-        for (auto const& argumentKey : argument->keyList)
+        parserstr testKey = checkString;
+        for (auto const& argumentKey : argument.keyList)
         {
             // Check if the input key string matches this argument key list entry
-            if(debugMsgLevel > 4) std::cerr << "Testing var: " << argument->name << " test key: " << argumentKey << " input key: " << testKey << std::endl;
-            if(debugMsgLevel > 4) std::cerr << "Test key size: " << argumentKey.size() << " input key size: " << testKey.size() << std::endl;
+            if(debugMsgLevel > 4)
+            {
+                std::cerr << "Testing var: " << argument.name << " test key: " << argumentKey << " input key: " << testKey << std::endl;
+                std::cerr << "Test key size: " << argumentKey.size() << " input key size: " << testKey.size() << std::endl;
+            }
             if (argumentKey == testKey)
             {
                 // Found a match
-                if(debugMsgLevel > 3) std::cerr << "Found match var: " << argument->name << " key: " << argumentKey << std::endl;
-                argument->isFound = true;
+                if(debugMsgLevel > 3) 
+                {
+                    std::cerr << "Found match var: " << argument.name << " key: " << argumentKey << std::endl;
+                }
+                argument.isFound = true;
                 found = true;
-                return (*argument);
+                return (argument);
             }
         }
     }
@@ -233,14 +301,8 @@ eAssignmentReturn parser_base::assignKeyFlagValue(ArgEntry& currentArg)
  */
 eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue)
 {
-    if (assignmentValue.empty())
-    {
-        return eAssignNoValue;
-    }
-    else
-    {
-        return ((valueParseStatus_e::PARSE_SUCCESS_e == currentArg.argData->setValue(assignmentValue.c_str())) ? eAssignSuccess : eAssignFailed);
-    }
+    return ((assignmentValue.empty()) ? eAssignNoValue : 
+                ((valueParseStatus_e::PARSE_SUCCESS_e == currentArg.argData->setValue(assignmentValue.c_str())) ? eAssignSuccess : eAssignFailed));
 }
 
 /**
@@ -254,7 +316,7 @@ eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& a
  */
 eAssignmentReturn parser_base::assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& failedValue)
 {
-    size_t requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
+    auto requiredValueCount = abs(currentArg.nargs);
 
     if (assignmentValues.empty())
     {
@@ -319,7 +381,7 @@ void parser_base::displayArgHelpBlock(std::ostream &outStream, parserstr baseOpt
         }
         else
         {
-            for (size_t n = 0; n < optionWidth; n++)
+            for (size_t padCount = 0; padCount < optionWidth; padCount++)
             {
                 outStream << ' ';
             }

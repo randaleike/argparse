@@ -32,7 +32,14 @@ Copyright (c) 2022-2023 Randal Eike
 #include "listvarg.h"
 #include "parser_string_list.h"
 #include "cmd_line_parse.h"
+#include <cstddef>
 #include <gtest/gtest.h>
+
+const size_t defaultArgWidth = 14;
+const size_t defaultColWidth = 80;
+const size_t testArgWidth    = 17;
+const int    testValue       = 10;
+
 
 //======================================================================================
 // String Helper functions
@@ -49,7 +56,7 @@ parserstr getOptionArgMsg()
     return "\n"+parserStr->getSwitchArgumentsMessage()+"\n";
 }
 
-parserstr getOptionMsg(parserstr keys, parserstr keyhelp, size_t argWidth = 14, size_t consoleWidth = 80)
+parserstr getOptionMsg(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
 {
     parserstr argMsg = " " + keys;
     while (argMsg.size() < argWidth)
@@ -66,21 +73,19 @@ parserstr getOptionMsg(parserstr keys, parserstr keyhelp, size_t argWidth = 14, 
     return argMsg + helpmsg + "\n";
 }
 
-parserstr getDefaultHelpMsg(size_t argWidth = 14, size_t consoleWidth = 80)
+parserstr getDefaultHelpMsg(size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
 {
     return getOptionMsg("-h,--help,-?", "show this help message and exit", argWidth, consoleWidth);
 }
 
 parserstr getEpilogStr(parserstr epilog)
 {
-    if (epilog.empty()) return "\n";
-    else return "\n\n" + epilog + "\n";
+    return (epilog.empty() ? "\n" : "\n\n" + epilog + "\n");
 }
 
 parserstr getDescriptionStr(parserstr descstr)
 {
-    if (descstr.empty()) return "";
-    else return "\n\n" + descstr + "\n";
+    return (descstr.empty() ? "" : "\n\n" + descstr + "\n");
 }
 
 
@@ -90,7 +95,7 @@ parserstr getPositionalArgMsg()
     return "\n"+parserStr->getPositionalArgumentsMessage()+"\n";
 }
 
-parserstr getPositionalMsg(parserstr name, parserstr help, size_t argWidth = 14, size_t consoleWidth = 80)
+parserstr getPositionalMsg(parserstr name, parserstr help, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
 {
     parserstr argMsg = " " + name;
     while (argMsg.size() < argWidth)
@@ -173,14 +178,16 @@ TEST(cmd_line_parse, addPositionalHelp)
 TEST(cmd_line_parse, addKeyArgHelp)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    argparser::varg<int> testvarg(10);
+    argparser::varg<int> testvarg(testValue);
     testvar.addKeyArgument(&testvarg, "tstint", "-i,--val", "This is the test key argument", 1);
 
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") + getOptionArgMsg() +
-                            getDefaultHelpMsg(17) + getOptionMsg("-i,--val=tstint", "This is the test key argument", 17) + getEpilogStr("");
+    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") + 
+                            getOptionArgMsg() + getDefaultHelpMsg(testArgWidth) + 
+                            getOptionMsg("-i,--val=tstint", "This is the test key argument", testArgWidth) + 
+                            getEpilogStr("");
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
 
@@ -188,7 +195,7 @@ TEST(cmd_line_parse, addAllArgHelp)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     argparser::varg<bool> testflgvarg(false, true);
-    argparser::varg<int> testkeyvarg(10);
+    argparser::varg<int> testkeyvarg(testValue);
     argparser::varg<int> testposvarg(0);
 
     testvar.addPositionalArgument(&testposvarg, "postst", "This is a positional argument", 1);
@@ -243,7 +250,7 @@ TEST(cmd_line_parse, parseTestFlagFailure)
 TEST(cmd_line_parse, parseTestKeyWithAssign)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    argparser::varg<int> testkeyvarg(10);
+    argparser::varg<int> testkeyvarg(testValue);
 
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -259,7 +266,7 @@ TEST(cmd_line_parse, parseTestKeyWithAssign)
 TEST(cmd_line_parse, parseTestKeyAssignMissing)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    argparser::varg<int> testkeyvarg(10);
+    argparser::varg<int> testkeyvarg(testValue);
 
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -279,7 +286,7 @@ TEST(cmd_line_parse, parseTestKeyAssignMissing)
 TEST(cmd_line_parse, parseTestKeyAssignFail)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    argparser::varg<int> testkeyvarg(10);
+    argparser::varg<int> testkeyvarg(testValue);
 
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -299,7 +306,7 @@ TEST(cmd_line_parse, parseTestKeyAssignFail)
 TEST(cmd_line_parse, parseTestKeyAssignNextArg)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    argparser::varg<int> testkeyvarg(10);
+    argparser::varg<int> testkeyvarg(testValue);
 
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -353,7 +360,7 @@ TEST(cmd_line_parse, parseTestMultiple)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     argparser::varg<bool> testflgvarg(false, true);
-    argparser::varg<int> testkeyvarg(10);
+    argparser::varg<int> testkeyvarg(testValue);
     argparser::varg<int> testposvarg(0);
 
     testvar.addPositionalArgument(&testposvarg, "postst", "This is a positional argument", 1);
@@ -377,7 +384,7 @@ TEST(cmd_line_parse, parseTestMultiple)
 TEST(cmd_line_parse, addKeyArgInvalidNargs)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    argparser::varg<int> testvarg(10);
+    argparser::varg<int> testvarg(testValue);
 
     testing::internal::CaptureStderr();
     testvar.addKeyArgument(&testvarg, "tstint", "-i,--val", "This is the test key argument", 2);
@@ -972,7 +979,7 @@ TEST(cmd_line_parse, parseTestTwPhasedTwoParserPositionalStop)
 
 TEST(cmd_line_parse, parseTestMissingRequiredSubcommand)
 {
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program", false, false, 5);
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     argparser::varg<bool>        flagArg(false, true);          // Default = false, set to true if command line option found
     testvar.addFlagArgument(&flagArg, "version", "-V,--version", "Example of a simple true/false flag argument");
