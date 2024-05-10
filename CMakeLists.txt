@@ -118,6 +118,13 @@ add_custom_target(samples
     )
 
 ####
+# sample code unit test generation
+####
+add_executable(sample-unittest ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample_unittest.cpp)
+add_dependencies(sample-unittest samples) 
+target_link_libraries(sample-unittest ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+
+####
 # cmd_line_parse doxygen generation
 ####
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")

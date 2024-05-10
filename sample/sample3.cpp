@@ -55,6 +55,8 @@ int sub_command1(int argc, char * argv[], argparser::cmd_line_parse cmdLineParse
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
     if (-1 != sclastArg)
     {
+        std::cout << "Number of arguments passed in: " << argc << std::endl;
+        std::cout << "Number of subcommand 1 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "Counter Argument Value:    " << counter.value << std::endl;
         return 0;
     }
@@ -75,6 +77,8 @@ int sub_command2(int argc, char * argv[], argparser::cmd_line_parse cmdLineParse
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
     if (-1 != sclastArg)
     {
+        std::cout << "Number of arguments passed in: " << argc << std::endl;
+        std::cout << "Number of subcommand 2 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "Integer Argument Value:    " << intArg.value << std::endl;
         return 0;
     }
@@ -94,6 +98,8 @@ int sub_command3(int argc, char * argv[], argparser::cmd_line_parse cmdLineParse
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
     if (-1 != sclastArg)
     {
+        std::cout << "Number of arguments passed in: " << argc << std::endl;
+        std::cout << "Number of subcommand 3 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "String Argument Value:     " << argString.value << std::endl;
         return 0;
     }
@@ -193,13 +199,17 @@ Example 2: >sample3.exe one
 Expected Output:
     Number of arguments passed in: 2 Number of arguments parsed: 2
     Subcommand Argument Value: one
+    Number of arguments passed in: 2
+    Number of subcommand 1 arguments parsed: 0 Starting at argument: 2
     Counter Argument Value:    0
     Flag Argument Value:       false
 
 Example 3: >sample3.exe one -c
 Expected Output:
-    Number of arguments passed in: 3 Number of arguments parsed: 3
+    Number of arguments passed in: 3 Number of arguments parsed: 2
     Subcommand Argument Value: one
+    Number of arguments passed in: 3
+    Number of subcommand 1 arguments parsed: 1 Starting at argument: 2
     Counter Argument Value:    1
     Flag Argument Value:       false
 
@@ -207,6 +217,8 @@ Example 4: >sample3.exe two
 Expected Output:
     Number of arguments passed in: 2 Number of arguments parsed: 2
     Subcommand Argument Value: two
+    Number of arguments passed in: 2
+    Number of subcommand 2 arguments parsed: 0 Starting at argument: 2
     Integer Argument Value:    2
     Flag Argument Value:       false
 
@@ -214,6 +226,8 @@ Example 5: >sample3.exe two -i 7
 Expected Output:
     Number of arguments passed in: 4 Number of arguments parsed: 2
     Subcommand Argument Value: two
+    Number of arguments passed in: 4
+    Number of subcommand 2 arguments parsed: 2 Starting at argument: 2
     Integer Argument Value:    7
     Flag Argument Value:       false
 
@@ -230,11 +244,14 @@ Expected Output:
 
     Optional Arguments:
      -h,--help,-?          show this help message
-     -V,--version          Example of a simple true/false flag argument
+     -V,--version          Example of a simple true/false flag 
+                           argument
+     -h,--help,-?          show this help message
      -o,--output=argString Example of a switched string argument
 
     Positional Arguments:
-    subcommand             Example of a positional argument as subcommand
+    subcommand             Example of a positional argument as 
+                           subcommand
 
     Sub Command 3 Parser Failed, help displayed
     Flag Argument Value:       false
@@ -243,6 +260,8 @@ Example 7: >sample3.exe three -o foo
 Expected Output:
     Number of arguments passed in: 4 Number of arguments parsed: 2
     Subcommand Argument Value: three
+    Number of arguments passed in: 4
+    Number of subcommand 3 arguments parsed: 2 Starting at argument: 2
     String Argument Value:     foo
     Flag Argument Value:       false
 
@@ -250,10 +269,12 @@ Example 8: >sample3.exe three -V -o foo
 Expected Output:
     Number of arguments passed in: 5 Number of arguments parsed: 2
     Subcommand Argument Value: three
+    Number of arguments passed in: 5
+    Number of subcommand 3 arguments parsed: 3 Starting at argument: 2
     String Argument Value:     foo
     Flag Argument Value:       true
 
-Example 8: >sample3.exe four
+Example 9: >sample3.exe four
 Expected Output:
     Number of arguments passed in: 2 Number of arguments parsed: 2
     Subcommand Argument Value: four

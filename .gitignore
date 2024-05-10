@@ -12,3 +12,4 @@ MakeFile
 # Build files
 *.o
 *.lst
+.cache/

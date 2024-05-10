@@ -126,7 +126,7 @@ int main(int argc, char * argv[])
         std::cout << "Number of arguments passed in: " << argc << " Number of arguments parsed: " << lastArg << std::endl;
         std::cout << "Subcommand Argument Value: " << subcommand.value << std::endl;
         std::cout << "Line Count Argument Value: " << linecount.value << std::endl;
-        std::cout << "File name Argument Value:  " << filename.value << std::endl;
+        std::cout << "File Name Argument Value:  " << filename.value << std::endl;
         switch(subcommand.value)
         {
             case subcommand_e::subcmd_invalid:
@@ -175,7 +175,7 @@ Expected Output:
     Number of arguments passed in: 2 Number of arguments parsed: 2
     Subcommand Argument Value: 1
     Line Count Argument Value: 0
-    File name Argument Value:  default.txt
+    File Name Argument Value:  default.txt
     Read 0 lines from file "default.txt"
 
 Example 3: >sample5.exe read -l 4 -f foo.c
@@ -183,7 +183,7 @@ Expected Output:
     Number of arguments passed in: 6 Number of arguments parsed: 6
     Subcommand Argument Value: 1
     Line Count Argument Value: 4
-    File name Argument Value:  foo.c
+    File Name Argument Value:  foo.c
     Read 4 lines from file "foo.c"
 
 Example 4: >sample5.exe write -l 4 -f foo.c
@@ -191,7 +191,7 @@ Expected Output:
     Number of arguments passed in: 6 Number of arguments parsed: 6
     Subcommand Argument Value: 2
     Line Count Argument Value: 4
-    File name Argument Value:  foo.c
+    File Name Argument Value:  foo.c
     Write 4 lines to file "foo.c"
 
 Example 5: >sample5.exe append -l 4 -f foo.c
@@ -199,7 +199,7 @@ Expected Output:
     Number of arguments passed in: 6 Number of arguments parsed: 6
     Subcommand Argument Value: 3
     Line Count Argument Value: 4
-    File name Argument Value:  foo.c
+    File Name Argument Value:  foo.c
     Append 4 lines to file "foo.c"
 
 Example 6: >sample5.exe copy -l 4 -f foo.c

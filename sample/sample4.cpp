@@ -56,8 +56,11 @@ int sub_command1(int argc, char * argv[], int lastArg)
     // Add sub_command1 arguments and parse starting at where we left off which should be arg 2
     cmdLineParser.addFlagArgument(&counter, "counter", "-c,--count", "Example of a incrementing counter argument");
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
+
     if (-1 != sclastArg)
     {
+        std::cout << "Number of arguments passed in: " << argc << std::endl;
+        std::cout << "Number of subcommand 1 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "Counter Argument Value:    " << counter.value << std::endl;
         return 0;
     }
@@ -81,6 +84,8 @@ int sub_command2(int argc, char * argv[], int lastArg)
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
     if (-1 != sclastArg)
     {
+        std::cout << "Number of arguments passed in: " << argc << std::endl;
+        std::cout << "Number of subcommand 2 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "Integer Argument Value:    " << intArg.value << std::endl;
         return 0;
     }
@@ -103,6 +108,8 @@ int sub_command3(int argc, char * argv[], int lastArg)
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
     if (-1 != sclastArg)
     {
+        std::cout << "Number of arguments passed in: " << argc << std::endl;
+        std::cout << "Number of subcommand 3 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "String Argument Value:     " << argString.value << std::endl;
         return 0;
     }
@@ -153,13 +160,13 @@ int main(int argc, char * argv[])
     // Parse the input arguments and display the result
     cmdLineParser.setPositionalNameStop("subcommand");
     int lastArg = cmdLineParser.parse(argc, argv);
-    if (-1 != lastArg)
+    if (-1 != lastArg)    
     {
         // Display the parsing results
-        std::cout << "Number of arguments passed in: " << argc << " Number of arguments parsed: " << lastArg << std::endl;
+        std::cout << "Number of arguments passed in: " << argc << " Number of global arguments parsed: " << lastArg << std::endl;
         std::cout << "Subcommand Argument Value:     " << subcommand.value << std::endl;
         std::cout << "Global Flag Argument Value:    " << (flagArg.value ? "true" : "false") << std::endl;
-        std::cout << "Global Integer Argument Value: " << intArg.value << std::endl;
+        std::cout << "Global Integer Argument Value: " << intArg.value << std::endl << std::endl;
         if (subcommand.value == "one")
         {
             sub_command1(argc, argv, lastArg);
@@ -199,114 +206,149 @@ Expected Output:
      -i,--integer Example of a simple integer argument
 
     Positional Arguments:
-    subcommand    Example of a positional argument as subcommand
+    subcommand    Example of a positional argument as subcommand after
+                  options
 
     Parser Failed, help displayed
 
-Example 3: >sample4.exe one
+Example 2: >sample4.exe one
 Expected Output:
     Number of arguments passed in: 2 Number of arguments parsed: 2
     Subcommand Argument Value:     one
     Global Flag Argument Value:    false
     Global Integer Argument Value: 0
+    
+    Number of arguments passed in: 2
+    Number of subcommand 1 arguments parsed: 0 Starting at argument: 2
     Counter Argument Value:    0
 
-Example 3a: >sample4.exe -Ui 4 one
+Example 3: >sample4.exe -Ui 4 one
 Expected Output:
     Number of arguments passed in: 4 Number of arguments parsed: 4
     Subcommand Argument Value:     one
     Global Flag Argument Value:    true
     Global Integer Argument Value: 4
+
+    Number of arguments passed in: 4
+    Number of subcommand 1 arguments parsed: 0 Starting at argument: 4
     Counter Argument Value:    0
 
-Example 3b: >sample4.exe -Ui 4 one -c
+Example 4: >sample4.exe -Ui 4 one -c
 Expected Output:
     Number of arguments passed in: 5 Number of arguments parsed: 4
     Subcommand Argument Value:     one
     Global Flag Argument Value:    true
     Global Integer Argument Value: 4
+
+    Number of arguments passed in: 5
+    Number of subcommand 1 arguments parsed: 1 Starting at argument: 4
     Counter Argument Value:    1
 
-Example 3c: >sample4.exe one -ccc
+Example 5: >sample4.exe one -ccc
 Expected Output:
     Number of arguments passed in: 3 Number of arguments parsed: 2
     Subcommand Argument Value:     one
     Global Flag Argument Value:    false
     Global Integer Argument Value: 0
+
+    Number of arguments passed in: 3
+    Number of subcommand 1 arguments parsed: 1 Starting at argument: 2
     Counter Argument Value:    3
 
-Example 4: >sample4.exe two
+Example 6: >sample4.exe two
 Expected Output:
     Number of arguments passed in: 2 Number of arguments parsed: 2
     Subcommand Argument Value:     two
     Global Flag Argument Value:    false
     Global Integer Argument Value: 0
+
+    Number of arguments passed in: 2
+    Number of subcommand 2 arguments parsed: 0 Starting at argument: 2
     Integer Argument Value:    2
 
-Example 4a: >sample4.exe -Ui=3 two
+Example 7: >sample4.exe -Ui=3 two
 Expected Output:
     Number of arguments passed in: 3 Number of arguments parsed: 3
     Subcommand Argument Value:     two
     Global Flag Argument Value:    true
     Global Integer Argument Value: 3
+
+    Number of arguments passed in: 3
+    Number of subcommand 2 arguments parsed: 0 Starting at argument: 3
     Integer Argument Value:    2
 
-Example 4b: >sample4.exe -Ui=3 two -i 8
+Example 8: >sample4.exe -Ui=3 two -i 8
 Expected Output:
     Number of arguments passed in: 5 Number of arguments parsed: 3
     Subcommand Argument Value:     two
     Global Flag Argument Value:    true
     Global Integer Argument Value: 3
+
+    Number of arguments passed in: 5
+    Number of subcommand 2 arguments parsed: 1 Starting at argument: 3
     Integer Argument Value:    8
 
-Example 4c: >sample4.exe two -i 10
+Example 9: >sample4.exe two -i 10
 Expected Output:
     Number of arguments passed in: 4 Number of arguments parsed: 2
     Subcommand Argument Value:     two
     Global Flag Argument Value:    false
     Global Integer Argument Value: 0
+
+    Number of arguments passed in: 4
+    Number of subcommand 2 arguments parsed: 1 Starting at argument: 3
     Integer Argument Value:    10
 
-Example 5: >sample4.exe three
+Example 10: >sample4.exe three
 Expected Output:
-    Number of arguments passed in: 2 Number of arguments parsed: 2
-    Subcommand Argument Value: three
-    "-o|--output" required argument missing
+    Number of arguments passed in: 2 Number of global arguments parsed: 2
+    Subcommand Argument Value:     three
+    Global Flag Argument Value:    false
+    Global Integer Argument Value: 0
 
+    "-o|--output" required argument missing
     Usage:
-    sample4 [subcommand] [subcommand options]
+    sample4 [global options] three [subcommand options]
 
     Description of the utility to be included in the help display
 
     Optional Arguments:
-     -h,--help,-?          show this help message
-     -o,--output=argString Example of a switched string argument
+     -h,--help,-?           show this help message and exit                         
+     -o, --output=argString Example of a switched string argument                   
 
-    Sub Command 3 Parser Failed, help displayed
-    Flag Argument Value:       false
-
-Example 5a: >sample4.exe three -o foo
+    Sub Command 3 Parser failed, help displayed
+    
+Example 11: >sample4.exe three -o foo
 Expected Output:
     Number of arguments passed in: 4 Number of arguments parsed: 2
     Subcommand Argument Value:     three
     Global Flag Argument Value:    false
     Global Integer Argument Value: 0
+
+    Number of arguments passed in: 4
+    Number of subcommand 3 arguments parsed: 1 Starting at argument: 2
     String Argument Value:     foo
 
-Example 5b: >sample4.exe -U three -o goo
+Example 12: >sample4.exe -U three -o goo
 Expected Output:
     Number of arguments passed in: 5 Number of arguments parsed: 3
     Subcommand Argument Value:     three
     Global Flag Argument Value:    true
     Global Integer Argument Value: 0
+
+    Number of arguments passed in: 5
+    Number of subcommand 3 arguments parsed: 1 Starting at argument: 3
     String Argument Value:     goo
 
-Example 5c: >sample4.exe -U -i 6 three -o moo
+Example 13: >sample4.exe -U -i 6 three -o moo
 Expected Output:
     Number of arguments passed in: 7 Number of arguments parsed: 5
     Subcommand Argument Value:     three
     Global Flag Argument Value:    true
     Global Integer Argument Value: 6
+
+    Number of arguments passed in: 7
+    Number of subcommand 3 arguments parsed: 1 Starting at argument: 5
     String Argument Value:     moo
 
 */

@@ -119,7 +119,7 @@ Expected Output:
 
 Example 2: >sample1.exe -f -c -i 8 -o bar foo
 Expected Output:
-    Number of arguments passed in: 1 Number of arguments parsed: 1
+    Number of arguments passed in: 8 Number of arguments parsed: 8
     Positional Argument Value: foo
     Integer Argument Value:    8
     Counter Argument Value:    1
@@ -128,7 +128,7 @@ Expected Output:
 
 Example 3: >sample1.exe -fci 7 -o bar foo
 Expected Output:
-    Number of arguments passed in: 1 Number of arguments parsed: 1
+    Number of arguments passed in: 6 Number of arguments parsed: 6
     Positional Argument Value: foo
     Integer Argument Value:    7
     Counter Argument Value:    1
@@ -137,7 +137,7 @@ Expected Output:
 
 Example 4: >sample1.exe --flag -c -c --count --input 6 --output bar foo
 Expected Output:
-    Number of arguments passed in: 1 Number of arguments parsed: 1
+    Number of arguments passed in: 10 Number of arguments parsed: 10
     Positional Argument Value: foo
     Integer Argument Value:    6
     Counter Argument Value:    3
@@ -146,7 +146,7 @@ Expected Output:
 
 Example 5: >sample1.exe -fcccc -o bar foo
 Expected Output:
-    Number of arguments passed in: 1 Number of arguments parsed: 1
+    Number of arguments passed in: 5 Number of arguments parsed: 5
     Positional Argument Value: foo
     Integer Argument Value:    2
     Counter Argument Value:    4

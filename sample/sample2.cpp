@@ -110,15 +110,48 @@ int main(int argc, char * argv[])
 /*
 Example 1: >sample2.exe
 Expected Output:
+    "positionalString" required argument missing
     "-o|--output" required argument missing
+    Usage:
+    sample2 [switched options ] [positional arg]
+
+    Description of the utility to be included in the help display
+    
+    Optional Arguments:
+     -h,--help,-?            show this help message and exit                        
+     -f,--flag               Example of a simple true/false flag argument           
+     -c,--count              Example of a incrementing counter argument             
+     -i,--input=integerValue Example of a basic integer value argument              
+     -o, --output=argString  Example of a switched string argument                  
+
+    Positional Arguments:
+     positionalString        Example of a string argument as positional             
+
+    Parser failed, help displayed
 
 Example 2: >sample2.exe -o bar
 Expected Output:
     "positionalString" required argument missing
+    Usage:
+    sample2 [switched options ] [positional arg]
+
+    Description of the utility to be included in the help display
+    
+    Optional Arguments:
+     -h,--help,-?            show this help message and exit                        
+     -f,--flag               Example of a simple true/false flag argument           
+     -c,--count              Example of a incrementing counter argument             
+     -i,--input=integerValue Example of a basic integer value argument              
+     -o, --output=argString  Example of a switched string argument                  
+
+    Positional Arguments:
+     positionalString        Example of a string argument as positional             
+
+    Parser failed, help displayed
 
 Example 3: >sample2.exe -f -c -i 8 -o bar foo
 Expected Output:
-    Number of arguments passed in: 1 Number of arguments parsed: 1
+    Number of arguments passed in: 8 Number of arguments parsed: 8
     Positional Argument Value: foo
     Integer Argument Value:    8
     Counter Argument Value:    1
