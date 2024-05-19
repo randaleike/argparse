@@ -1,4 +1,4 @@
-Copyright (c) 2022,2023 Randal Eike
+Copyright (c) 2022-2024 Randal Eike
 
 MIT License
 

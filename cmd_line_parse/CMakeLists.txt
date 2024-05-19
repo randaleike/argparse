@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 cmake_policy(SET CMP0048 NEW)
-project(cmd_line_parse VERSION 1.0.0.0 DESCRIPTION "Command Line Parser Library" HOMEPAGE_URL "grocsoftware")
+project(cmd_line_parse VERSION 0.9.0.0 DESCRIPTION "Command Line Parser Library" HOMEPAGE_URL "grocsoftware")
 
 ####
 # cmd_line_parse directory cmake include Files

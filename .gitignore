@@ -2,7 +2,6 @@
 
 # Vscode files
 *.code-workspace
-.vscode/
 
 # Cmake files
 [Bb]uild*/
