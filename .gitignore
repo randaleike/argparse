@@ -3,6 +3,10 @@
 # Vscode files
 *.code-workspace
 
+# Cache data
+.cache
+__pycache__
+
 # Cmake files
 [Bb]uild*/
 *.Cmake
@@ -11,4 +15,3 @@ MakeFile
 # Build files
 *.o
 *.lst
-.cache/
