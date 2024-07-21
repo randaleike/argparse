@@ -22,8 +22,7 @@ Copyright (c) 2022-2023 Randal Eike
 
 /**
  * @file cmd_line_parse.h
- * @ingroup argparser
- * @defgroup Argument parsing utilities
+ * @ingroup libcmd_line_parser
  * @{
  */
 
@@ -127,7 +126,8 @@ class cmd_line_parse : public parser_base
          * @param keyString  - Key value that was matched
          * @param valueString - Reference to the embedded value string if present, else empty string
          *
-         * @return bool - False = assignment worked, true = assignment failed
+         * @ * @ingroup argparser
+eturn bool - False = assignment worked, true = assignment failed
          */
         bool assignKeyFlagValue(ArgEntry& currentArg, const char* keyString, parserstr& valueString);
 

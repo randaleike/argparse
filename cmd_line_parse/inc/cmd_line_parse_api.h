@@ -22,8 +22,8 @@ Copyright (c) 2023 Randal Eike
 
 /**
  * @file cmd_line_parse_api.h
- * @ingroup argparser
- * @defgroup Argument parsing utilities
+ * @defgroup libcmd_line_parser Command line argument parsing utilities
+ * @ingroup libcmd_line_parser
  * @{
  */
 

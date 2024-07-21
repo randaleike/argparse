@@ -22,8 +22,8 @@ Copyright (c) 2022-2023 Randal Eike
 
 /**
  * @file varg_intf.h
- * @ingroup argparser
- * @defgroup Argument parsing utilities
+ * @defgroup libvarg Argument value storage implementation
+ * @ingroup libvarg
  * @{
  */
 

@@ -22,6 +22,11 @@ All types of contributions are encouraged and valued. See the [Table of Contents
   - [Your First Code Contribution](#your-first-code-contribution)
     - [Development Environment](#development-environment)
   - [Improving The Documentation](#improving-the-documentation)
+  - [Doxygen Comment format](#doxygen-comment-format)
+    - [Global constant documentation](#global-constant-documentation)
+    - [Class documentation](#class-documentation)
+    - [Class data member documentation](#class-data-member-documentation)
+    - [Method/Function documentation](#methodfunction-documentation)
 - [Styleguides](#styleguides)
   - [Commit Messages](#commit-messages)
     - [ACTION](#action)
@@ -140,46 +145,62 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/randal
 
 ### Your First Code Contribution
 #### Development Environment
-- Source code editor of your choice. I like vscode with C/C++, C/C++ Extension Pack, Clangd, CMake, CMake Integration and CMake Tools extentions installed.
-- gcc Version 11.4.0 or later works best
-- c/c++ development libraries
-- c++ standard lib version 17 or later required
+- IDE of your choice. I like vscode with C/C++, C/C++ Extension Pack, Clangd, CMake, CMake Integration and CMake Tools extentions installed.
+- Platform C++ development environment with c++ standard lib version 17 or later required
 - clang Version 14.0.0 or later works best
 - clang-tidy Version 14.0.0 or later works best
 - cmake Version 3.10 or later required
-- Doxygen and graphviz to generate improved documentation.
-- Github to check out and check in changes
-
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
-
--->
+- Google unit test libraries version 1.11.0 or later required for unit testing
+- Doxygen version 1.9.1 or later and graphviz to generate improved documentation.
+- Github to check out and post pull requests for changes.
 
 ### Improving The Documentation
 This project uses Doxygen to document the code. Update the Doxygen comments in the include file and run cmake build to generate the new documentation
+### Doxygen Comment format
+#### Global constant documentation
+~~~
+const type ConstName = <initial value>;     ///<! Brief description of the constant purpose and use
+~~~
+#### Class documentation
+~~~
+/**
+ @brief Brief description of the class purpose
+ 
+ Optional detailed description of the class purpose and use
+*/
+class className {
+  ...
+};
+~~~
+#### Class data member documentation
+~~~
+  type memberName[ = <initial value>];     ///<! Brief description of the members purpose and use
+~~~
+#### Method/Function documentation
+~~~
+/**
+ @brief Brief description of the method/function purpose
+ 
+ Optional detailed description of the method/function purpose and use
+
+ @param arg1 - Brief description of arg1 purpose and possible values 
+ @param arg2 - Brief description of arg2 purpose and possible values
+ ...
+
+ @return Description of the return1 value and meaning
+ @return Description of the return2 value and meaning
+ ...
+**/
+returnType methodName(type arg1, type arg2) 
+{
+  ...
+}
+~~~
 
 ## Styleguides
-All classes, methods, functions, constants and global variables must be documented using Doxygen comments
-This project follows the [google style guide](https://google.github.io/styleguide/cppguide.html).<br>
-
-If, else, while, for and do while clauses the opening curly brace should be on the next line. 
-Even if the clause is only a single line.
-Example:
->if (x > 5)
->{
->>doSomething()
->}
-
-Module naming style: snake_case
-Constant naming style: UPPER_CASE
-Class naming style: PascalCase
-Function naming style: PascalCase
-Method argument naming style: camelCase
-Variable naming style: camelCase
-Attr naming style: camelCase
-Class const naming style :camelCase
-Class attribute naming style: camelCase
-Inlinevar naming style: camelCase
+All classes, methods, functions, constants and global variables must be documented using Doxygen comments.
+This project follows the [ISO C++ Core Guildlines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+for source code and the clang-tidy tool for enforcement of the guielines.
 
 ### Commit Messages
 The commit message format should follow this template <ACTION: [AUDIENCE: ]COMMIT_MSG [!TAG ...]>

@@ -22,8 +22,7 @@ Copyright (c) 2023 Randal Eike
 
 /**
  * @file cmd_line_parse_lib_api.cpp
- * @ingroup cmd_line_parse
- * @defgroup Command line parsing utility
+ * @ingroup libcmd_line_parser_unittest
  * @{
  */
 

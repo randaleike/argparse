@@ -22,7 +22,7 @@ Copyright (c) 2023 Randal Eike
 
 /**
  * @file vargincrement_test.cpp
- * @ingroup varg_unittest
+ * @ingroup libvarg_unittest
  * @defgroup variable argument parsing utilities unit test
  * @{
  */

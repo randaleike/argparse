@@ -1,5 +1,5 @@
 /* 
-Copyright (c) 2022-2023 Randal Eike
+Copyright (c) 2022-2024 Randal Eike
  
  Permission is hereby granted, free of charge, to any person obtaining a 
  copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,7 @@ Copyright (c) 2022-2023 Randal Eike
 
 /**
  * @file config_json_parse.h
- * @ingroup argparser
- * @defgroup Argument parsing utilities
+ * @defgroup libjson_arg_parser JSON config file input argument parsing utilities
  * @{
  */
 
@@ -55,9 +54,13 @@ class config_json_parse
 
     public:
         /**
-         * @brief Constructor
+         * @brief Construct a new config json parse object
+         * 
+         * @param jsonFileName - JSON initialization file to parse
+         * @param abortOnError - True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false.
+         * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
          */
-        config_json_parse(char* jsonFileName, bool abortOnError = false, int debugLevel = 0, bool defaultHelpArg = true);
+        config_json_parse(char* jsonFileName, bool abortOnError = false, int debugLevel = 0);
 
         /**
          * @brief Destructor
@@ -67,9 +70,7 @@ class config_json_parse
         /**
          * @brief Set the Debug Message Level 
          * 
-         * @param debugLevel - message level, 0 = no additional debug messages
-         *                                    1 = Error debug messages
-         *                                    2 = Full trace debug messages
+         * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
          */
         void setDebugLevel(int debugLevel = 0)      {debugMsgLevel = debugLevel;}
 

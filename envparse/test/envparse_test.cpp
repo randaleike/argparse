@@ -22,8 +22,7 @@ Copyright (c) 2022-2023 Randal Eike
 
 /**
  * @file envparse_test.cpp
- * @ingroup argparser_unittest
- * @defgroup Argument parsing utilities unit test
+ * @defgroup libenvparse_unittest Environment input argument parsing utilities unit test
  * @{
  */
 

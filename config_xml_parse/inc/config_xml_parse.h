@@ -1,5 +1,5 @@
 /* 
-Copyright (c) 2022-2023 Randal Eike
+Copyright (c) 2022-2024 Randal Eike
  
  Permission is hereby granted, free of charge, to any person obtaining a 
  copy of this software and associated documentation files (the "Software"),
@@ -22,8 +22,7 @@ Copyright (c) 2022-2023 Randal Eike
 
 /**
  * @file config_xml_parse.h
- * @ingroup argparser
- * @defgroup Argument parsing utilities
+ * @defgroup libxml_arg_parser XML config file input argument parsing utilities
  * @{
  */
 
@@ -54,9 +53,13 @@ class config_xml_parse
 
     public:
         /**
-         * @brief Constructor
+         * @brief Construct a new config xml parse object
+         * 
+         * @param xmlFileName - XML initialization file to parse
+         * @param abortOnError - True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false.
+         * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
          */
-        config_xml_parse(char* jsonFileName, bool abortOnError = false, int debugLevel = 0, bool defaultHelpArg = true);
+        config_xml_parse(char* xmlFileName, bool abortOnError = false, int debugLevel = 0);
 
         /**
          * @brief Destructor
@@ -64,10 +67,9 @@ class config_xml_parse
         ~config_xml_parse();
 
         /**
-         * @brief Set the Debug Message Level 
+         * @brief Set the active debug message level 
          * 
-         * @param debu#include <list>
-                        2 = Full trace debug messages
+         * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
          */
         void setDebugLevel(int debugLevel = 0)      {debugMsgLevel = debugLevel;}
 
@@ -91,8 +93,9 @@ class config_xml_parse
         /**
          * @brief Parse the configuration file 
          * 
-         * @return true - Key name found and keyValue parsed without error
-         * @return false - (Key name not found and required) or keyValue parsed without error
+         * @return true - XML input file parsed without error.
+         * @return false - An error occurred during XML input file parsing or key processing and 
+         *                 abort on error is set to true.
          */
         bool parse();
 

@@ -21,9 +21,9 @@ Copyright (c) 2022-2023 Randal Eike
 */
 
 /**
- * @file cmd_line_parse_unittest.cpp
- * @ingroup argparser_unittest
- * @defgroup Argument parsing utilities unit test
+ * @file sample_unittest.cpp
+ * @defgroup sample_code_unittest Command line parsing utilities sample code unit test
+ * @ingroup sample_code_unittest
  * @{
  */
 

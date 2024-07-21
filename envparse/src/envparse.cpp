@@ -22,8 +22,7 @@ Copyright (c) 2022-2023 Randal Eike
 
 /**
  * @file envparse.cpp
- * @ingroup argparser
- * @defgroup Environment parsing utility
+ * @ingroup libenvparse
  * @{
  */
 

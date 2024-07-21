@@ -22,8 +22,7 @@ Copyright (c) 2022-2023 Randal Eike
 
 /**
  * @file vargenum.h
- * @ingroup argparser
- * @defgroup Argument parsing utilities
+ * @ingroup libvarg
  * @{
  */
 
