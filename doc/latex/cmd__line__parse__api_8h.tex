@@ -1,0 +1,98 @@
+\hypertarget{cmd__line__parse__api_8h}{}\doxysection{/media/raid5/github/argparse/cmd\+\_\+line\+\_\+parse/inc/cmd\+\_\+line\+\_\+parse\+\_\+api.h File Reference}
+\label{cmd__line__parse__api_8h}\index{/media/raid5/github/argparse/cmd\_line\_parse/inc/cmd\_line\_parse\_api.h@{/media/raid5/github/argparse/cmd\_line\_parse/inc/cmd\_line\_parse\_api.h}}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct arg\+Data $\ast$ \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}
+\begin{DoxyCompactList}\small\item\em Argument data structure pointer abstraction. \end{DoxyCompactList}\item 
+typedef struct cmd\+Line\+Parser $\ast$ \mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}
+\begin{DoxyCompactList}\small\item\em Command line parser structure pointer abstraction. \end{DoxyCompactList}\item 
+typedef char const  $\ast$ \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}
+\begin{DoxyCompactList}\small\item\em Parser \textquotesingle{}C\textquotesingle{} string abstraction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaab15e28d78265695c8827d504b8ed98b}{create\+Short\+Int\+Parser\+Arg}} (short int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a short int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga3ea3d4f4758d8c7fdba32ed9ea4c845b}{create\+Int\+Parser\+Arg}} (int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gab6f7fa82c91c7f61d4fea6ceffd39afb}{create\+Long\+Int\+Parser\+Arg}} (long int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga21dcbf6e11374e39076711b6e17dbd51}{create\+LLong\+Int\+Parser\+Arg}} (long long int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long long int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9ba47a80f6f9f7258e3e531f07346b3a}{create\+Short\+UInt\+Parser\+Arg}} (short unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a short unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga6dc032f56119b6d9abff02bf7ed84080}{create\+UInt\+Parser\+Arg}} (unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create an unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9a4f5a07e46dba3f87183ea57b5b4666}{create\+Long\+UInt\+Parser\+Arg}} (long unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gacbc5ce8aa39e27eb7c26e7671770706c}{create\+LLong\+UInt\+Parser\+Arg}} (long long unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long long unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga729859c88d6016dfef71858392368de2}{create\+Float\+Parser\+Arg}} (double $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a double parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaea4d7f0d96a26196212fdb42780f9a39}{create\+Char\+Parser\+Arg}} (char $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a single character parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga453e3cc49eba991787a589404daf3eae}{create\+String\+Parser\+Arg}} (char $\ast$arg, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a string parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga3dfbfc1eb7b1f0f987d4643079cf817e}{create\+Parser\+Flag\+Arg}} (bool default\+Value, bool set\+Value, bool $\ast$flag)
+\begin{DoxyCompactList}\small\item\em Create a parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gacf7c11a1720294b6242c9301dc04944c}{create\+Incrementing\+Flag\+Arg}} (int $\ast$flag)
+\begin{DoxyCompactList}\small\item\em Create a incrementing parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga381ea4f2a062c9f21a11a016ec9023af}{create\+Short\+Int\+Array\+Parser\+Arg}} (short int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a short integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9a7d207b1b3660607c0e584744f93c1f}{create\+Int\+Array\+Parser\+Arg}} (int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaedd988d2de495db18ccb24e5d3bc7fd6}{create\+Long\+Int\+Array\+Parser\+Arg}} (long int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a long integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9a893ee7e7fcf10670f3c7e4887f5df2}{create\+LLong\+Int\+Array\+Parser\+Arg}} (long long int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a long long integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gab28b50ea3cf4ac627b62ade499dcc992}{create\+Short\+UInt\+Array\+Parser\+Arg}} (short unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an short unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaa7c0aad95276d1641dc31188e74d0781}{create\+UInt\+Array\+Parser\+Arg}} (unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gad0fcfd2b9ece0997c2d2f91f30060838}{create\+Long\+UInt\+Array\+Parser\+Arg}} (long unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an long unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaca1c3f933ec3882e012dd63f211d7a49}{create\+LLong\+UInt\+Array\+Parser\+Arg}} (long long unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an long long unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga356fb58514eed4c935f4fdb493a228ae}{create\+Double\+Array\+Parser\+Arg}} (double arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a double array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaddab86c0396f9b3423c82b6d76e7c5ba}{create\+String\+Array\+Parser\+Arg}} (char $\ast$$\ast$arg, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a double array parser argument object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga449b7de7863fc5e5844038dfc5a7ac3e}{release\+Parser\+Arg}} (\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg)
+\begin{DoxyCompactList}\small\item\em Release the parser argument handle. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser}} (const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} usage, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} description, bool abort\+On\+Error, bool disable\+Default\+Help, int debug\+Level)
+\begin{DoxyCompactList}\small\item\em Get the Parser object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga1840bf9eae4712bd5cc6a834b7117d1e}{release\+Parser}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, bool release\+Arg\+Handles)
+\begin{DoxyCompactList}\small\item\em Release the parser instance. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga151361f70acb6059eb1c54264b78b062}{set\+Epilog}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} epilog)
+\begin{DoxyCompactList}\small\item\em Set the Epilog text. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga3edf502994c63d1b2b29fc59db200ec5}{set\+Program\+Name}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} prog\+Name)
+\begin{DoxyCompactList}\small\item\em Set the Program Name for the usage string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga300fd0da58e85a59e45bf542043e3c00}{set\+Key\+Prefix}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} prefix)
+\begin{DoxyCompactList}\small\item\em Set the argument key prefix value. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gace656fd8709811a2e1736f24be9dfdeb}{disable\+Default\+Help\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Disable the default help argument setup. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gabce30b6b5973cea381cb78198d1913b9}{disable\+Help\+Display\+On\+Error}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Disable the help display on parsing error. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gaa984d257679ed3c990557bc74041e912}{disable\+Single\+Char\+List\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Disable the single character list input argument parsing. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gac8ab7b11e940230c8fedfe364ad238d8}{enable\+Unknow\+Argument\+Ignore}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Enable flag to ignore unknown arguments, default is to generate an error if an unknown argument is found. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga5f322adb475aa128ca5757940e940566}{add\+Key\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga110a241ac0d7e7cfd8f7f82b8efa548c}{add\+Key\+Array\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const int nargs, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based command line array argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga54aa6557fa1ba67e2d06425d0ebc258a}{add\+Flag\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based flag command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga298a4c7beeccf0817a83f63e26decd61}{add\+Incrementing\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based incrementing command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga6a655f6ff71687048a114456b646d3f0}{add\+Positional\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new positinal based command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga5d626643ddc239dec0c1aa99c314a297}{add\+Positional\+Array\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const int nargs, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new positinal based command line array argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga76c61d8c0f799c3e0d59c86954b82abd}{set\+Positional\+Name\+Stop}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} positional\+Argument\+Name)
+\begin{DoxyCompactList}\small\item\em Set the name of the positional argument to stop parsing. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{group__libcmd__line__parser_gadda159ebef8e09a65ec52c5159ce49db}{parse}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, int argc, char $\ast$argv\mbox{[}$\,$\mbox{]}, int starting\+Arg\+Index, int ending\+Arg\+Index)
+\begin{DoxyCompactList}\small\item\em Parse the input command line arguments. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gac6a89e37c71081b560755db44fa131e5}{display\+Help}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Print the formatted help message to the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}

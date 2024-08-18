@@ -1,5 +1,5 @@
 /* 
-Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2024 Randal Eike
  
  Permission is hereby granted, free of charge, to any person obtaining a 
  copy of this software and associated documentation files (the "Software"),
@@ -78,7 +78,6 @@ class config_xml_parse
          * 
          * @param arg      - Pointer to the defined var argument to fill
          * @param argKey   - JSON key value
-         * @param helpText - Help text to be printed in the help message
          * @param nargs    - Number of argument values that follow
          *                   0 : Argument is a flag with no following values
          *                   1 : Simple argument with a single value

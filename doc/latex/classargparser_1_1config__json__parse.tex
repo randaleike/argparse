@@ -1,0 +1,128 @@
+\hypertarget{classargparser_1_1config__json__parse}{}\doxysection{argparser\+::config\+\_\+json\+\_\+parse Class Reference}
+\label{classargparser_1_1config__json__parse}\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+
+
+JSON configuration file parser.  
+
+
+
+
+{\ttfamily \#include $<$config\+\_\+json\+\_\+parse.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classargparser_1_1config__json__parse_a38dfe45e4d5c4a86e19852363c3eb6a2}{config\+\_\+json\+\_\+parse}} (char $\ast$json\+File\+Name, bool abort\+On\+Error=false, int debug\+Level=0)
+\begin{DoxyCompactList}\small\item\em Construct a new config json parse object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a7b594261604cb60f5af4d185f3a9d977}\label{classargparser_1_1config__json__parse_a7b594261604cb60f5af4d185f3a9d977}} 
+\mbox{\hyperlink{classargparser_1_1config__json__parse_a7b594261604cb60f5af4d185f3a9d977}{$\sim$config\+\_\+json\+\_\+parse}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__json__parse_a1d51570368d444ac92db33d09a07d2a8}{set\+Debug\+Level}} (int debug\+Level=0)
+\begin{DoxyCompactList}\small\item\em Set the Debug Message Level. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__json__parse_a9f1f42bfa1fa991cc73bd982b93294ee}{add\+Argument}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$arg, char $\ast$arg\+Key, int nargs=1, bool required=false)
+\begin{DoxyCompactList}\small\item\em Add a new key based environment argument. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classargparser_1_1config__json__parse_a086c72ea1d26f77c13cfc92c5441ffff}{parse}} ()
+\begin{DoxyCompactList}\small\item\em Parse the configuration file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__json__parse_a7eeed69b37b215d6fed556cc726f9fc5}{display\+Help}} (std\+::ostream out\+Stream=std\+::cerr)
+\begin{DoxyCompactList}\small\item\em Print the formatted help message to the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+JSON configuration file parser. 
+
+Detailed class description 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a38dfe45e4d5c4a86e19852363c3eb6a2}\label{classargparser_1_1config__json__parse_a38dfe45e4d5c4a86e19852363c3eb6a2}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!config\_json\_parse@{config\_json\_parse}}
+\index{config\_json\_parse@{config\_json\_parse}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{config\_json\_parse()}{config\_json\_parse()}}
+{\footnotesize\ttfamily argparser\+::config\+\_\+json\+\_\+parse\+::config\+\_\+json\+\_\+parse (\begin{DoxyParamCaption}\item[{char $\ast$}]{json\+File\+Name,  }\item[{bool}]{abort\+On\+Error = {\ttfamily false},  }\item[{int}]{debug\+Level = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Construct a new config json parse object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em json\+File\+Name} & -\/ JSON initialization file to parse \\
+\hline
+{\em abort\+On\+Error} & -\/ True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false. \\
+\hline
+{\em debug\+Level} & -\/ Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a9f1f42bfa1fa991cc73bd982b93294ee}\label{classargparser_1_1config__json__parse_a9f1f42bfa1fa991cc73bd982b93294ee}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!addArgument@{addArgument}}
+\index{addArgument@{addArgument}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{addArgument()}{addArgument()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+json\+\_\+parse\+::add\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$}]{arg,  }\item[{char $\ast$}]{arg\+Key,  }\item[{int}]{nargs = {\ttfamily 1},  }\item[{bool}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add a new key based environment argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the defined var argument to fill \\
+\hline
+{\em arg\+Key} & -\/ JSON key value \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: List argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a7eeed69b37b215d6fed556cc726f9fc5}\label{classargparser_1_1config__json__parse_a7eeed69b37b215d6fed556cc726f9fc5}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!displayHelp@{displayHelp}}
+\index{displayHelp@{displayHelp}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{displayHelp()}{displayHelp()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+json\+\_\+parse\+::display\+Help (\begin{DoxyParamCaption}\item[{std\+::ostream}]{out\+Stream = {\ttfamily std\+:\+:cerr} }\end{DoxyParamCaption})}
+
+
+
+Print the formatted help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+Stream} & -\/ Output streem to use for text output. Default is the standard error stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a086c72ea1d26f77c13cfc92c5441ffff}\label{classargparser_1_1config__json__parse_a086c72ea1d26f77c13cfc92c5441ffff}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!parse@{parse}}
+\index{parse@{parse}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily bool argparser\+::config\+\_\+json\+\_\+parse\+::parse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Parse the configuration file. 
+
+\begin{DoxyReturn}{Returns}
+true -\/ Key name found and key\+Value parsed without error 
+
+false -\/ (Key name not found and required) or key\+Value parsed without error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a1d51570368d444ac92db33d09a07d2a8}\label{classargparser_1_1config__json__parse_a1d51570368d444ac92db33d09a07d2a8}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!setDebugLevel@{setDebugLevel}}
+\index{setDebugLevel@{setDebugLevel}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{setDebugLevel()}{setDebugLevel()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+json\+\_\+parse\+::set\+Debug\+Level (\begin{DoxyParamCaption}\item[{int}]{debug\+Level = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the Debug Message Level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em debug\+Level} & -\/ Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/media/raid5/github/argparse/config\+\_\+json\+\_\+parse/inc/\mbox{\hyperlink{config__json__parse_8h}{config\+\_\+json\+\_\+parse.\+h}}\end{DoxyCompactItemize}

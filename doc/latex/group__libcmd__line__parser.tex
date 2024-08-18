@@ -1,0 +1,917 @@
+\hypertarget{group__libcmd__line__parser}{}\doxysection{Command line argument parsing utilities}
+\label{group__libcmd__line__parser}\index{Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \mbox{\hyperlink{cmd__line__parse_8h}{cmd\+\_\+line\+\_\+parse.\+h}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}\label{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}} 
+typedef struct arg\+Data $\ast$ \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}
+\begin{DoxyCompactList}\small\item\em Argument data structure pointer abstraction. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}\label{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}} 
+typedef struct cmd\+Line\+Parser $\ast$ \mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}
+\begin{DoxyCompactList}\small\item\em Command line parser structure pointer abstraction. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}\label{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}} 
+typedef char const  $\ast$ \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}
+\begin{DoxyCompactList}\small\item\em Parser \textquotesingle{}C\textquotesingle{} string abstraction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaab15e28d78265695c8827d504b8ed98b}{create\+Short\+Int\+Parser\+Arg}} (short int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a short int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga3ea3d4f4758d8c7fdba32ed9ea4c845b}{create\+Int\+Parser\+Arg}} (int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gab6f7fa82c91c7f61d4fea6ceffd39afb}{create\+Long\+Int\+Parser\+Arg}} (long int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga21dcbf6e11374e39076711b6e17dbd51}{create\+LLong\+Int\+Parser\+Arg}} (long long int $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long long int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9ba47a80f6f9f7258e3e531f07346b3a}{create\+Short\+UInt\+Parser\+Arg}} (short unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a short unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga6dc032f56119b6d9abff02bf7ed84080}{create\+UInt\+Parser\+Arg}} (unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create an unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9a4f5a07e46dba3f87183ea57b5b4666}{create\+Long\+UInt\+Parser\+Arg}} (long unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gacbc5ce8aa39e27eb7c26e7671770706c}{create\+LLong\+UInt\+Parser\+Arg}} (long long unsigned $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a long long unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga729859c88d6016dfef71858392368de2}{create\+Float\+Parser\+Arg}} (double $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a double parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaea4d7f0d96a26196212fdb42780f9a39}{create\+Char\+Parser\+Arg}} (char $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Create a single character parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga453e3cc49eba991787a589404daf3eae}{create\+String\+Parser\+Arg}} (char $\ast$arg, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a string parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga3dfbfc1eb7b1f0f987d4643079cf817e}{create\+Parser\+Flag\+Arg}} (bool default\+Value, bool set\+Value, bool $\ast$flag)
+\begin{DoxyCompactList}\small\item\em Create a parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gacf7c11a1720294b6242c9301dc04944c}{create\+Incrementing\+Flag\+Arg}} (int $\ast$flag)
+\begin{DoxyCompactList}\small\item\em Create a incrementing parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga381ea4f2a062c9f21a11a016ec9023af}{create\+Short\+Int\+Array\+Parser\+Arg}} (short int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a short integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9a7d207b1b3660607c0e584744f93c1f}{create\+Int\+Array\+Parser\+Arg}} (int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaedd988d2de495db18ccb24e5d3bc7fd6}{create\+Long\+Int\+Array\+Parser\+Arg}} (long int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a long integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga9a893ee7e7fcf10670f3c7e4887f5df2}{create\+LLong\+Int\+Array\+Parser\+Arg}} (long long int arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a long long integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gab28b50ea3cf4ac627b62ade499dcc992}{create\+Short\+UInt\+Array\+Parser\+Arg}} (short unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an short unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaa7c0aad95276d1641dc31188e74d0781}{create\+UInt\+Array\+Parser\+Arg}} (unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gad0fcfd2b9ece0997c2d2f91f30060838}{create\+Long\+UInt\+Array\+Parser\+Arg}} (long unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an long unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaca1c3f933ec3882e012dd63f211d7a49}{create\+LLong\+UInt\+Array\+Parser\+Arg}} (long long unsigned arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create an long long unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_ga356fb58514eed4c935f4fdb493a228ae}{create\+Double\+Array\+Parser\+Arg}} (double arg\mbox{[}$\,$\mbox{]}, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a double array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gaddab86c0396f9b3423c82b6d76e7c5ba}{create\+String\+Array\+Parser\+Arg}} (char $\ast$$\ast$arg, int element\+Count)
+\begin{DoxyCompactList}\small\item\em Create a double array parser argument object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga449b7de7863fc5e5844038dfc5a7ac3e}{release\+Parser\+Arg}} (\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg)
+\begin{DoxyCompactList}\small\item\em Release the parser argument handle. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser}} (const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} usage, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} description, bool abort\+On\+Error, bool disable\+Default\+Help, int debug\+Level)
+\begin{DoxyCompactList}\small\item\em Get the Parser object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga1840bf9eae4712bd5cc6a834b7117d1e}{release\+Parser}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, bool release\+Arg\+Handles)
+\begin{DoxyCompactList}\small\item\em Release the parser instance. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga151361f70acb6059eb1c54264b78b062}{set\+Epilog}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} epilog)
+\begin{DoxyCompactList}\small\item\em Set the Epilog text. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga3edf502994c63d1b2b29fc59db200ec5}{set\+Program\+Name}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} prog\+Name)
+\begin{DoxyCompactList}\small\item\em Set the Program Name for the usage string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga300fd0da58e85a59e45bf542043e3c00}{set\+Key\+Prefix}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} prefix)
+\begin{DoxyCompactList}\small\item\em Set the argument key prefix value. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__libcmd__line__parser_gace656fd8709811a2e1736f24be9dfdeb}\label{group__libcmd__line__parser_gace656fd8709811a2e1736f24be9dfdeb}} 
+void \mbox{\hyperlink{group__libcmd__line__parser_gace656fd8709811a2e1736f24be9dfdeb}{disable\+Default\+Help\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Disable the default help argument setup. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gabce30b6b5973cea381cb78198d1913b9}{disable\+Help\+Display\+On\+Error}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Disable the help display on parsing error. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gaa984d257679ed3c990557bc74041e912}{disable\+Single\+Char\+List\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Disable the single character list input argument parsing. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gac8ab7b11e940230c8fedfe364ad238d8}{enable\+Unknow\+Argument\+Ignore}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Enable flag to ignore unknown arguments, default is to generate an error if an unknown argument is found. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga5f322adb475aa128ca5757940e940566}{add\+Key\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga110a241ac0d7e7cfd8f7f82b8efa548c}{add\+Key\+Array\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const int nargs, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based command line array argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga54aa6557fa1ba67e2d06425d0ebc258a}{add\+Flag\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based flag command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga298a4c7beeccf0817a83f63e26decd61}{add\+Incrementing\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} arg\+Keys, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new key based incrementing command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga6a655f6ff71687048a114456b646d3f0}{add\+Positional\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new positinal based command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga5d626643ddc239dec0c1aa99c314a297}{add\+Positional\+Array\+Argument}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} arg, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} name, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} help\+Text, const int nargs, const bool required)
+\begin{DoxyCompactList}\small\item\em Add a new positinal based command line array argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_ga76c61d8c0f799c3e0d59c86954b82abd}{set\+Positional\+Name\+Stop}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}} positional\+Argument\+Name)
+\begin{DoxyCompactList}\small\item\em Set the name of the positional argument to stop parsing. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{group__libcmd__line__parser_gadda159ebef8e09a65ec52c5159ce49db}{parse}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser, int argc, char $\ast$argv\mbox{[}$\,$\mbox{]}, int starting\+Arg\+Index, int ending\+Arg\+Index)
+\begin{DoxyCompactList}\small\item\em Parse the input command line arguments. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__libcmd__line__parser_gac6a89e37c71081b560755db44fa131e5}{display\+Help}} (\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} parser)
+\begin{DoxyCompactList}\small\item\em Print the formatted help message to the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga54aa6557fa1ba67e2d06425d0ebc258a}\label{group__libcmd__line__parser_ga54aa6557fa1ba67e2d06425d0ebc258a}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!addFlagArgument@{addFlagArgument}}
+\index{addFlagArgument@{addFlagArgument}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{addFlagArgument()}{addFlagArgument()}}
+{\footnotesize\ttfamily void add\+Flag\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}}]{arg,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{name,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{arg\+Keys,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{help\+Text,  }\item[{const bool}]{required }\end{DoxyParamCaption})}
+
+
+
+Add a new key based flag command line argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em arg} & -\/ Handle of the argument to add \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em arg\+Keys} & -\/ Delimieted list of argument key values \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga298a4c7beeccf0817a83f63e26decd61}\label{group__libcmd__line__parser_ga298a4c7beeccf0817a83f63e26decd61}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!addIncrementingArgument@{addIncrementingArgument}}
+\index{addIncrementingArgument@{addIncrementingArgument}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{addIncrementingArgument()}{addIncrementingArgument()}}
+{\footnotesize\ttfamily void add\+Incrementing\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}}]{arg,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{name,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{arg\+Keys,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{help\+Text,  }\item[{const bool}]{required }\end{DoxyParamCaption})}
+
+
+
+Add a new key based incrementing command line argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em arg} & -\/ Handle of the argument to add \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em arg\+Keys} & -\/ Delimieted list of argument key values \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga5f322adb475aa128ca5757940e940566}\label{group__libcmd__line__parser_ga5f322adb475aa128ca5757940e940566}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!addKeyArgument@{addKeyArgument}}
+\index{addKeyArgument@{addKeyArgument}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{addKeyArgument()}{addKeyArgument()}}
+{\footnotesize\ttfamily void add\+Key\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}}]{arg,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{name,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{arg\+Keys,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{help\+Text,  }\item[{const bool}]{required }\end{DoxyParamCaption})}
+
+
+
+Add a new key based command line argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em arg} & -\/ Handle of the argument to add \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em arg\+Keys} & -\/ Delimieted list of argument key values \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga110a241ac0d7e7cfd8f7f82b8efa548c}\label{group__libcmd__line__parser_ga110a241ac0d7e7cfd8f7f82b8efa548c}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!addKeyArrayArgument@{addKeyArrayArgument}}
+\index{addKeyArrayArgument@{addKeyArrayArgument}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{addKeyArrayArgument()}{addKeyArrayArgument()}}
+{\footnotesize\ttfamily void add\+Key\+Array\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}}]{arg,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{name,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{arg\+Keys,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{help\+Text,  }\item[{const int}]{nargs,  }\item[{const bool}]{required }\end{DoxyParamCaption})}
+
+
+
+Add a new key based command line array argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em arg} & -\/ Handle of the argument to add \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em arg\+Keys} & -\/ Delimieted list of argument key values \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: ARRAY argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: ARRAY argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga6a655f6ff71687048a114456b646d3f0}\label{group__libcmd__line__parser_ga6a655f6ff71687048a114456b646d3f0}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!addPositionalArgument@{addPositionalArgument}}
+\index{addPositionalArgument@{addPositionalArgument}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{addPositionalArgument()}{addPositionalArgument()}}
+{\footnotesize\ttfamily void add\+Positional\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}}]{arg,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{name,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{help\+Text,  }\item[{const bool}]{required }\end{DoxyParamCaption})}
+
+
+
+Add a new positinal based command line argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em arg} & -\/ Handle of the argument to add \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga5d626643ddc239dec0c1aa99c314a297}\label{group__libcmd__line__parser_ga5d626643ddc239dec0c1aa99c314a297}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!addPositionalArrayArgument@{addPositionalArrayArgument}}
+\index{addPositionalArrayArgument@{addPositionalArrayArgument}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{addPositionalArrayArgument()}{addPositionalArrayArgument()}}
+{\footnotesize\ttfamily void add\+Positional\+Array\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}}]{arg,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{name,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{help\+Text,  }\item[{const int}]{nargs,  }\item[{const bool}]{required }\end{DoxyParamCaption})}
+
+
+
+Add a new positinal based command line array argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em arg} & -\/ Handle of the argument to add \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: ARRAY argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: ARRAY argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_gaea4d7f0d96a26196212fdb42780f9a39}\label{group__libcmd__line__parser_gaea4d7f0d96a26196212fdb42780f9a39}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createCharParserArg@{createCharParserArg}}
+\index{createCharParserArg@{createCharParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createCharParserArg()}{createCharParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Char\+Parser\+Arg (\begin{DoxyParamCaption}\item[{char $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a single character parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the character argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga356fb58514eed4c935f4fdb493a228ae}\label{group__libcmd__line__parser_ga356fb58514eed4c935f4fdb493a228ae}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createDoubleArrayParserArg@{createDoubleArrayParserArg}}
+\index{createDoubleArrayParserArg@{createDoubleArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createDoubleArrayParserArg()}{createDoubleArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Double\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{double}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create a double array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga729859c88d6016dfef71858392368de2}\label{group__libcmd__line__parser_ga729859c88d6016dfef71858392368de2}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createFloatParserArg@{createFloatParserArg}}
+\index{createFloatParserArg@{createFloatParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createFloatParserArg()}{createFloatParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Float\+Parser\+Arg (\begin{DoxyParamCaption}\item[{double $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a double parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gacf7c11a1720294b6242c9301dc04944c}\label{group__libcmd__line__parser_gacf7c11a1720294b6242c9301dc04944c}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createIncrementingFlagArg@{createIncrementingFlagArg}}
+\index{createIncrementingFlagArg@{createIncrementingFlagArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createIncrementingFlagArg()}{createIncrementingFlagArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Incrementing\+Flag\+Arg (\begin{DoxyParamCaption}\item[{int $\ast$}]{flag }\end{DoxyParamCaption})}
+
+
+
+Create a incrementing parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flag} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga9a7d207b1b3660607c0e584744f93c1f}\label{group__libcmd__line__parser_ga9a7d207b1b3660607c0e584744f93c1f}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createIntArrayParserArg@{createIntArrayParserArg}}
+\index{createIntArrayParserArg@{createIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createIntArrayParserArg()}{createIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{int}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create a integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga3ea3d4f4758d8c7fdba32ed9ea4c845b}\label{group__libcmd__line__parser_ga3ea3d4f4758d8c7fdba32ed9ea4c845b}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createIntParserArg@{createIntParserArg}}
+\index{createIntParserArg@{createIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createIntParserArg()}{createIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{int $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga9a893ee7e7fcf10670f3c7e4887f5df2}\label{group__libcmd__line__parser_ga9a893ee7e7fcf10670f3c7e4887f5df2}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLLongIntArrayParserArg@{createLLongIntArrayParserArg}}
+\index{createLLongIntArrayParserArg@{createLLongIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLLongIntArrayParserArg()}{createLLongIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+LLong\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long int}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create a long long integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the long long integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga21dcbf6e11374e39076711b6e17dbd51}\label{group__libcmd__line__parser_ga21dcbf6e11374e39076711b6e17dbd51}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLLongIntParserArg@{createLLongIntParserArg}}
+\index{createLLongIntParserArg@{createLLongIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLLongIntParserArg()}{createLLongIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+LLong\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long int $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a long long int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gaca1c3f933ec3882e012dd63f211d7a49}\label{group__libcmd__line__parser_gaca1c3f933ec3882e012dd63f211d7a49}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLLongUIntArrayParserArg@{createLLongUIntArrayParserArg}}
+\index{createLLongUIntArrayParserArg@{createLLongUIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLLongUIntArrayParserArg()}{createLLongUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+LLong\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long unsigned}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create an long long unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the long long unsigned integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gacbc5ce8aa39e27eb7c26e7671770706c}\label{group__libcmd__line__parser_gacbc5ce8aa39e27eb7c26e7671770706c}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLLongUIntParserArg@{createLLongUIntParserArg}}
+\index{createLLongUIntParserArg@{createLLongUIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLLongUIntParserArg()}{createLLongUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+LLong\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long unsigned $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a long long unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gaedd988d2de495db18ccb24e5d3bc7fd6}\label{group__libcmd__line__parser_gaedd988d2de495db18ccb24e5d3bc7fd6}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLongIntArrayParserArg@{createLongIntArrayParserArg}}
+\index{createLongIntArrayParserArg@{createLongIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLongIntArrayParserArg()}{createLongIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Long\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long int}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create a long integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the long integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gab6f7fa82c91c7f61d4fea6ceffd39afb}\label{group__libcmd__line__parser_gab6f7fa82c91c7f61d4fea6ceffd39afb}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLongIntParserArg@{createLongIntParserArg}}
+\index{createLongIntParserArg@{createLongIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLongIntParserArg()}{createLongIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Long\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long int $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a long int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gad0fcfd2b9ece0997c2d2f91f30060838}\label{group__libcmd__line__parser_gad0fcfd2b9ece0997c2d2f91f30060838}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLongUIntArrayParserArg@{createLongUIntArrayParserArg}}
+\index{createLongUIntArrayParserArg@{createLongUIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLongUIntArrayParserArg()}{createLongUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Long\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long unsigned}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create an long unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the long unsigned integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga9a4f5a07e46dba3f87183ea57b5b4666}\label{group__libcmd__line__parser_ga9a4f5a07e46dba3f87183ea57b5b4666}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createLongUIntParserArg@{createLongUIntParserArg}}
+\index{createLongUIntParserArg@{createLongUIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createLongUIntParserArg()}{createLongUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Long\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long unsigned $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a long unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga3dfbfc1eb7b1f0f987d4643079cf817e}\label{group__libcmd__line__parser_ga3dfbfc1eb7b1f0f987d4643079cf817e}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createParserFlagArg@{createParserFlagArg}}
+\index{createParserFlagArg@{createParserFlagArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createParserFlagArg()}{createParserFlagArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Parser\+Flag\+Arg (\begin{DoxyParamCaption}\item[{bool}]{default\+Value,  }\item[{bool}]{set\+Value,  }\item[{bool $\ast$}]{flag }\end{DoxyParamCaption})}
+
+
+
+Create a parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em default\+Value} & -\/ Initial value \\
+\hline
+{\em set\+Value} & -\/ Value if flag variable was found \\
+\hline
+{\em flag} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga381ea4f2a062c9f21a11a016ec9023af}\label{group__libcmd__line__parser_ga381ea4f2a062c9f21a11a016ec9023af}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createShortIntArrayParserArg@{createShortIntArrayParserArg}}
+\index{createShortIntArrayParserArg@{createShortIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createShortIntArrayParserArg()}{createShortIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Short\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short int}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create a short integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the short integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gaab15e28d78265695c8827d504b8ed98b}\label{group__libcmd__line__parser_gaab15e28d78265695c8827d504b8ed98b}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createShortIntParserArg@{createShortIntParserArg}}
+\index{createShortIntParserArg@{createShortIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createShortIntParserArg()}{createShortIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Short\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short int $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a short int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gab28b50ea3cf4ac627b62ade499dcc992}\label{group__libcmd__line__parser_gab28b50ea3cf4ac627b62ade499dcc992}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createShortUIntArrayParserArg@{createShortUIntArrayParserArg}}
+\index{createShortUIntArrayParserArg@{createShortUIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createShortUIntArrayParserArg()}{createShortUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Short\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short unsigned}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create an short unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the short unsigned integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga9ba47a80f6f9f7258e3e531f07346b3a}\label{group__libcmd__line__parser_ga9ba47a80f6f9f7258e3e531f07346b3a}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createShortUIntParserArg@{createShortUIntParserArg}}
+\index{createShortUIntParserArg@{createShortUIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createShortUIntParserArg()}{createShortUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+Short\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short unsigned $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create a short unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gaddab86c0396f9b3423c82b6d76e7c5ba}\label{group__libcmd__line__parser_gaddab86c0396f9b3423c82b6d76e7c5ba}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createStringArrayParserArg@{createStringArrayParserArg}}
+\index{createStringArrayParserArg@{createStringArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createStringArrayParserArg()}{createStringArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+String\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{arg,  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create a double array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the constant character pointer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga453e3cc49eba991787a589404daf3eae}\label{group__libcmd__line__parser_ga453e3cc49eba991787a589404daf3eae}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createStringParserArg@{createStringParserArg}}
+\index{createStringParserArg@{createStringParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createStringParserArg()}{createStringParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+String\+Parser\+Arg (\begin{DoxyParamCaption}\item[{char $\ast$}]{arg,  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create a string parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the string argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gaa7c0aad95276d1641dc31188e74d0781}\label{group__libcmd__line__parser_gaa7c0aad95276d1641dc31188e74d0781}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createUIntArrayParserArg@{createUIntArrayParserArg}}
+\index{createUIntArrayParserArg@{createUIntArrayParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createUIntArrayParserArg()}{createUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{unsigned}]{arg\mbox{[}$\,$\mbox{]},  }\item[{int}]{element\+Count }\end{DoxyParamCaption})}
+
+
+
+Create an unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the unsigned integer array argument storage \\
+\hline
+{\em element\+Count} & -\/ Size of the array in elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga6dc032f56119b6d9abff02bf7ed84080}\label{group__libcmd__line__parser_ga6dc032f56119b6d9abff02bf7ed84080}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!createUIntParserArg@{createUIntParserArg}}
+\index{createUIntParserArg@{createUIntParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{createUIntParserArg()}{createUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}} create\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{unsigned $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Create an unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gabce30b6b5973cea381cb78198d1913b9}\label{group__libcmd__line__parser_gabce30b6b5973cea381cb78198d1913b9}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!disableHelpDisplayOnError@{disableHelpDisplayOnError}}
+\index{disableHelpDisplayOnError@{disableHelpDisplayOnError}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{disableHelpDisplayOnError()}{disableHelpDisplayOnError()}}
+{\footnotesize\ttfamily void disable\+Help\+Display\+On\+Error (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser }\end{DoxyParamCaption})}
+
+
+
+Disable the help display on parsing error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_gaa984d257679ed3c990557bc74041e912}\label{group__libcmd__line__parser_gaa984d257679ed3c990557bc74041e912}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!disableSingleCharListArgument@{disableSingleCharListArgument}}
+\index{disableSingleCharListArgument@{disableSingleCharListArgument}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{disableSingleCharListArgument()}{disableSingleCharListArgument()}}
+{\footnotesize\ttfamily void disable\+Single\+Char\+List\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser }\end{DoxyParamCaption})}
+
+
+
+Disable the single character list input argument parsing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_gac6a89e37c71081b560755db44fa131e5}\label{group__libcmd__line__parser_gac6a89e37c71081b560755db44fa131e5}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!displayHelp@{displayHelp}}
+\index{displayHelp@{displayHelp}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{displayHelp()}{displayHelp()}}
+{\footnotesize\ttfamily void display\+Help (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser }\end{DoxyParamCaption})}
+
+
+
+Print the formatted help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_gac8ab7b11e940230c8fedfe364ad238d8}\label{group__libcmd__line__parser_gac8ab7b11e940230c8fedfe364ad238d8}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!enableUnknowArgumentIgnore@{enableUnknowArgumentIgnore}}
+\index{enableUnknowArgumentIgnore@{enableUnknowArgumentIgnore}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{enableUnknowArgumentIgnore()}{enableUnknowArgumentIgnore()}}
+{\footnotesize\ttfamily void enable\+Unknow\+Argument\+Ignore (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser }\end{DoxyParamCaption})}
+
+
+
+Enable flag to ignore unknown arguments, default is to generate an error if an unknown argument is found. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}\label{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!getParser@{getParser}}
+\index{getParser@{getParser}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{getParser()}{getParser()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}} get\+Parser (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{usage,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{description,  }\item[{bool}]{abort\+On\+Error,  }\item[{bool}]{disable\+Default\+Help,  }\item[{int}]{debug\+Level }\end{DoxyParamCaption})}
+
+
+
+Get the Parser object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em usage} & -\/ Usage sting for help display \\
+\hline
+{\em description} & -\/ Description of tool for the help display \\
+\hline
+{\em abort\+On\+Error} & -\/ True = abort parsing on the first error, False = continue parsing to the end \\
+\hline
+{\em disable\+Default\+Help} & -\/ True = display the help mesage if a parsing error occurs, False = do not display the help message until parser\+Display\+Help() is called \\
+\hline
+{\em debug\+Level} & -\/ Debug output verbosity level, 0 = none, 5 = full\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cmd\+Line\+Parser\+Handle -\/ Handle to the created argument parser 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_gadda159ebef8e09a65ec52c5159ce49db}\label{group__libcmd__line__parser_gadda159ebef8e09a65ec52c5159ce49db}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!parse@{parse}}
+\index{parse@{parse}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily int parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]},  }\item[{int}]{starting\+Arg\+Index,  }\item[{int}]{ending\+Arg\+Index }\end{DoxyParamCaption})}
+
+
+
+Parse the input command line arguments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em argc} & -\/ Number of char pointers in the argv\mbox{[}\mbox{]} array \\
+\hline
+{\em argv} & -\/ Array of command line text entries \\
+\hline
+{\em starting\+Arg\+Index} & -\/ argv index to start parsing arguments \\
+\hline
+{\em ending\+Arg\+Index} & -\/ argv index to stop parsing arguments, -\/1 == argc\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int -\/ Index of the last argument parsed or -\/1 if an error occured 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga1840bf9eae4712bd5cc6a834b7117d1e}\label{group__libcmd__line__parser_ga1840bf9eae4712bd5cc6a834b7117d1e}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!releaseParser@{releaseParser}}
+\index{releaseParser@{releaseParser}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{releaseParser()}{releaseParser()}}
+{\footnotesize\ttfamily void release\+Parser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{bool}]{release\+Arg\+Handles }\end{DoxyParamCaption})}
+
+
+
+Release the parser instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em release\+Arg\+Handles} & -\/ True, release the argument handles that were assigned to the parer add argument calls False, Do not release the argument handles assigned to the parser \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga449b7de7863fc5e5844038dfc5a7ac3e}\label{group__libcmd__line__parser_ga449b7de7863fc5e5844038dfc5a7ac3e}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!releaseParserArg@{releaseParserArg}}
+\index{releaseParserArg@{releaseParserArg}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{releaseParserArg()}{releaseParserArg()}}
+{\footnotesize\ttfamily void release\+Parser\+Arg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_ga716d871805c7587481cc407fc35a211e}{arg\+Handle}}}]{arg }\end{DoxyParamCaption})}
+
+
+
+Release the parser argument handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Argument handle to release \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga151361f70acb6059eb1c54264b78b062}\label{group__libcmd__line__parser_ga151361f70acb6059eb1c54264b78b062}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!setEpilog@{setEpilog}}
+\index{setEpilog@{setEpilog}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{setEpilog()}{setEpilog()}}
+{\footnotesize\ttfamily void set\+Epilog (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{epilog }\end{DoxyParamCaption})}
+
+
+
+Set the Epilog text. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em epilog} & -\/ Text to display at the end of the help block \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga300fd0da58e85a59e45bf542043e3c00}\label{group__libcmd__line__parser_ga300fd0da58e85a59e45bf542043e3c00}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!setKeyPrefix@{setKeyPrefix}}
+\index{setKeyPrefix@{setKeyPrefix}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{setKeyPrefix()}{setKeyPrefix()}}
+{\footnotesize\ttfamily void set\+Key\+Prefix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{\mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{prefix }\end{DoxyParamCaption})}
+
+
+
+Set the argument key prefix value. 
+
+The argument key prefix is the character or string the identifies an input argument key string. Any input argument that does not begin with this character is assumed to be a positional argument value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em prefix} & -\/ argument prefix value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga76c61d8c0f799c3e0d59c86954b82abd}\label{group__libcmd__line__parser_ga76c61d8c0f799c3e0d59c86954b82abd}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!setPositionalNameStop@{setPositionalNameStop}}
+\index{setPositionalNameStop@{setPositionalNameStop}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{setPositionalNameStop()}{setPositionalNameStop()}}
+{\footnotesize\ttfamily void set\+Positional\+Name\+Stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{positional\+Argument\+Name }\end{DoxyParamCaption})}
+
+
+
+Set the name of the positional argument to stop parsing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em positional\+Argument\+Name} & -\/ Positional name to find \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__libcmd__line__parser_ga3edf502994c63d1b2b29fc59db200ec5}\label{group__libcmd__line__parser_ga3edf502994c63d1b2b29fc59db200ec5}} 
+\index{Command line argument parsing utilities@{Command line argument parsing utilities}!setProgramName@{setProgramName}}
+\index{setProgramName@{setProgramName}!Command line argument parsing utilities@{Command line argument parsing utilities}}
+\doxysubsubsection{\texorpdfstring{setProgramName()}{setProgramName()}}
+{\footnotesize\ttfamily void set\+Program\+Name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__libcmd__line__parser_gaaea7ee304c5316485f837207d09ff6e9}{cmd\+Line\+Parser\+Handle}}}]{parser,  }\item[{const \mbox{\hyperlink{group__libcmd__line__parser_gacf9028810fe220665341a4de52a5a133}{parsercstr}}}]{prog\+Name }\end{DoxyParamCaption})}
+
+
+
+Set the Program Name for the usage string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & -\/ Handle value returned by \mbox{\hyperlink{group__libcmd__line__parser_gab3524095074ab31fd2fa2a3c3b5b0ec6}{get\+Parser()}} \\
+\hline
+{\em prog\+Name} & -\/ Program name to use in the usage string \\
+\hline
+\end{DoxyParams}

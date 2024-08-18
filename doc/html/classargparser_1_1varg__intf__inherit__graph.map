@@ -1,0 +1,7 @@
+<map id="argparser::varg_intf" name="argparser::varg_intf">
+<area shape="rect" id="node1" title="Base variable argument varg interface and methods." alt="" coords="5,81,156,108"/>
+<area shape="rect" id="node2" href="$classargparser_1_1listvarg.html" title="Variable list argument type template class." alt="" coords="213,5,391,32"/>
+<area shape="rect" id="node3" href="$classargparser_1_1varg.html" title="Variable argument type template class." alt="" coords="223,56,381,83"/>
+<area shape="rect" id="node4" href="$classargparser_1_1vargenum.html" title="Variable argument enum type template class." alt="" coords="204,107,400,133"/>
+<area shape="rect" id="node5" href="$classargparser_1_1vargincrement.html" title="Variable argument type template class." alt="" coords="209,157,395,184"/>
+</map>

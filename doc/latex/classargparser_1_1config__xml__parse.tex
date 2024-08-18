@@ -1,0 +1,126 @@
+\hypertarget{classargparser_1_1config__xml__parse}{}\doxysection{argparser\+::config\+\_\+xml\+\_\+parse Class Reference}
+\label{classargparser_1_1config__xml__parse}\index{argparser::config\_xml\_parse@{argparser::config\_xml\_parse}}
+
+
+XML configuration file parser.  
+
+
+
+
+{\ttfamily \#include $<$config\+\_\+xml\+\_\+parse.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classargparser_1_1config__xml__parse_a1c1f523fed80f02b164454650610cfde}{config\+\_\+xml\+\_\+parse}} (char $\ast$xml\+File\+Name, bool abort\+On\+Error=false, int debug\+Level=0)
+\begin{DoxyCompactList}\small\item\em Construct a new config xml parse object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1config__xml__parse_acc88ece796f0f0d43ef5ba84f345ce88}\label{classargparser_1_1config__xml__parse_acc88ece796f0f0d43ef5ba84f345ce88}} 
+\mbox{\hyperlink{classargparser_1_1config__xml__parse_acc88ece796f0f0d43ef5ba84f345ce88}{$\sim$config\+\_\+xml\+\_\+parse}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__xml__parse_a5968bc1b3f2b156869c43a5dea9d3f7a}{set\+Debug\+Level}} (int debug\+Level=0)
+\begin{DoxyCompactList}\small\item\em Set the active debug message level. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__xml__parse_a0ba46c2fcd11c47ac5e7d4eee1e1f3aa}{add\+Argument}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$arg, char $\ast$arg\+Key, int nargs=1, bool required=false)
+\begin{DoxyCompactList}\small\item\em Add a new key based environment argument. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classargparser_1_1config__xml__parse_acd96860123ef163bf6b5b211d9e8d7ec}{parse}} ()
+\begin{DoxyCompactList}\small\item\em Parse the configuration file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__xml__parse_a651ad5e78ca3fe31fcb6769b729671c0}{display\+Help}} (std\+::ostream out\+Stream=std\+::cerr)
+\begin{DoxyCompactList}\small\item\em Print the formatted help message to the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+XML configuration file parser. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classargparser_1_1config__xml__parse_a1c1f523fed80f02b164454650610cfde}\label{classargparser_1_1config__xml__parse_a1c1f523fed80f02b164454650610cfde}} 
+\index{argparser::config\_xml\_parse@{argparser::config\_xml\_parse}!config\_xml\_parse@{config\_xml\_parse}}
+\index{config\_xml\_parse@{config\_xml\_parse}!argparser::config\_xml\_parse@{argparser::config\_xml\_parse}}
+\doxysubsubsection{\texorpdfstring{config\_xml\_parse()}{config\_xml\_parse()}}
+{\footnotesize\ttfamily argparser\+::config\+\_\+xml\+\_\+parse\+::config\+\_\+xml\+\_\+parse (\begin{DoxyParamCaption}\item[{char $\ast$}]{xml\+File\+Name,  }\item[{bool}]{abort\+On\+Error = {\ttfamily false},  }\item[{int}]{debug\+Level = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Construct a new config xml parse object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em xml\+File\+Name} & -\/ XML initialization file to parse \\
+\hline
+{\em abort\+On\+Error} & -\/ True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false. \\
+\hline
+{\em debug\+Level} & -\/ Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classargparser_1_1config__xml__parse_a0ba46c2fcd11c47ac5e7d4eee1e1f3aa}\label{classargparser_1_1config__xml__parse_a0ba46c2fcd11c47ac5e7d4eee1e1f3aa}} 
+\index{argparser::config\_xml\_parse@{argparser::config\_xml\_parse}!addArgument@{addArgument}}
+\index{addArgument@{addArgument}!argparser::config\_xml\_parse@{argparser::config\_xml\_parse}}
+\doxysubsubsection{\texorpdfstring{addArgument()}{addArgument()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+xml\+\_\+parse\+::add\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$}]{arg,  }\item[{char $\ast$}]{arg\+Key,  }\item[{int}]{nargs = {\ttfamily 1},  }\item[{bool}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add a new key based environment argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the defined var argument to fill \\
+\hline
+{\em arg\+Key} & -\/ JSON key value \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: List argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__xml__parse_a651ad5e78ca3fe31fcb6769b729671c0}\label{classargparser_1_1config__xml__parse_a651ad5e78ca3fe31fcb6769b729671c0}} 
+\index{argparser::config\_xml\_parse@{argparser::config\_xml\_parse}!displayHelp@{displayHelp}}
+\index{displayHelp@{displayHelp}!argparser::config\_xml\_parse@{argparser::config\_xml\_parse}}
+\doxysubsubsection{\texorpdfstring{displayHelp()}{displayHelp()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+xml\+\_\+parse\+::display\+Help (\begin{DoxyParamCaption}\item[{std\+::ostream}]{out\+Stream = {\ttfamily std\+:\+:cerr} }\end{DoxyParamCaption})}
+
+
+
+Print the formatted help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+Stream} & -\/ Output streem to use for text output. Default is the standard error stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__xml__parse_acd96860123ef163bf6b5b211d9e8d7ec}\label{classargparser_1_1config__xml__parse_acd96860123ef163bf6b5b211d9e8d7ec}} 
+\index{argparser::config\_xml\_parse@{argparser::config\_xml\_parse}!parse@{parse}}
+\index{parse@{parse}!argparser::config\_xml\_parse@{argparser::config\_xml\_parse}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily bool argparser\+::config\+\_\+xml\+\_\+parse\+::parse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Parse the configuration file. 
+
+\begin{DoxyReturn}{Returns}
+true -\/ XML input file parsed without error. 
+
+false -\/ An error occurred during XML input file parsing or key processing and abort on error is set to true. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1config__xml__parse_a5968bc1b3f2b156869c43a5dea9d3f7a}\label{classargparser_1_1config__xml__parse_a5968bc1b3f2b156869c43a5dea9d3f7a}} 
+\index{argparser::config\_xml\_parse@{argparser::config\_xml\_parse}!setDebugLevel@{setDebugLevel}}
+\index{setDebugLevel@{setDebugLevel}!argparser::config\_xml\_parse@{argparser::config\_xml\_parse}}
+\doxysubsubsection{\texorpdfstring{setDebugLevel()}{setDebugLevel()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+xml\+\_\+parse\+::set\+Debug\+Level (\begin{DoxyParamCaption}\item[{int}]{debug\+Level = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the active debug message level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em debug\+Level} & -\/ Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/media/raid5/github/argparse/config\+\_\+xml\+\_\+parse/inc/\mbox{\hyperlink{config__xml__parse_8h}{config\+\_\+xml\+\_\+parse.\+h}}\end{DoxyCompactItemize}

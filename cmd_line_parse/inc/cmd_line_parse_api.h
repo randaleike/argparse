@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2023 Randal Eike
+ Copyright (c) 2023-2024 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,6 @@ Copyright (c) 2023 Randal Eike
 /**
  * @file cmd_line_parse_api.h
  * @defgroup libcmd_line_parser Command line argument parsing utilities
- * @ingroup libcmd_line_parser
  * @{
  */
 

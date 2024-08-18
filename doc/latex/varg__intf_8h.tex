@@ -1,0 +1,112 @@
+\hypertarget{varg__intf_8h}{}\doxysection{/media/raid5/github/argparse/varg/inc/varg\+\_\+intf.h File Reference}
+\label{varg__intf_8h}\index{/media/raid5/github/argparse/varg/inc/varg\_intf.h@{/media/raid5/github/argparse/varg/inc/varg\_intf.h}}
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$climits$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+Include dependency graph for varg\+\_\+intf.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{varg__intf_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{varg__intf_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classargparser_1_1varg__intf}{argparser\+::varg\+\_\+intf}}
+\begin{DoxyCompactList}\small\item\em Base variable argument varg interface and methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{argparser\+::value\+Parse\+Status\+\_\+e}} \{ \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b}{argparser\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e}} = 0
+, \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550}{argparser\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e}}
+, \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07}{argparser\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e}}
+, \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873}{argparser\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e}}
+ \}
+\begin{DoxyCompactList}\small\item\em Set\+Value return code values. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61b}{argparser\+::type\+String\+Format\+\_\+e}} \{ \newline
+\mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496}{argparser\+::\+TYPE\+\_\+\+FMT\+\_\+\+SIGNED}}
+, \mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a}{argparser\+::\+TYPE\+\_\+\+FMT\+\_\+\+UNSIGNED}}
+, \mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3}{argparser\+::\+TYPE\+\_\+\+FMT\+\_\+\+DOUBLE}}
+, \mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec}{argparser\+::\+TYPE\+\_\+\+FMT\+\_\+\+CHAR}}
+, \newline
+\mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a}{argparser\+::\+TYPE\+\_\+\+FMT\+\_\+\+BOOL}}
+, \mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5}{argparser\+::\+TYPE\+\_\+\+FMT\+\_\+\+STRING}}
+ \}
+\begin{DoxyCompactList}\small\item\em Type string format type selection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61b}\label{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61b}} 
+\index{varg\_intf.h@{varg\_intf.h}!typeStringFormat\_e@{typeStringFormat\_e}}
+\index{typeStringFormat\_e@{typeStringFormat\_e}!varg\_intf.h@{varg\_intf.h}}
+\doxysubsubsection{\texorpdfstring{typeStringFormat\_e}{typeStringFormat\_e}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61b}{argparser\+::type\+String\+Format\+\_\+e}}}
+
+
+
+Type string format type selection. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TYPE\_FMT\_SIGNED@{TYPE\_FMT\_SIGNED}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!TYPE\_FMT\_SIGNED@{TYPE\_FMT\_SIGNED}}}\mbox{\Hypertarget{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496}\label{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496}} 
+TYPE\+\_\+\+FMT\+\_\+\+SIGNED&Use the signed min/max. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TYPE\_FMT\_UNSIGNED@{TYPE\_FMT\_UNSIGNED}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!TYPE\_FMT\_UNSIGNED@{TYPE\_FMT\_UNSIGNED}}}\mbox{\Hypertarget{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a}\label{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a}} 
+TYPE\+\_\+\+FMT\+\_\+\+UNSIGNED&Use the unsigned min/max. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TYPE\_FMT\_DOUBLE@{TYPE\_FMT\_DOUBLE}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!TYPE\_FMT\_DOUBLE@{TYPE\_FMT\_DOUBLE}}}\mbox{\Hypertarget{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3}\label{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3}} 
+TYPE\+\_\+\+FMT\+\_\+\+DOUBLE&Use the double min/max. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TYPE\_FMT\_CHAR@{TYPE\_FMT\_CHAR}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!TYPE\_FMT\_CHAR@{TYPE\_FMT\_CHAR}}}\mbox{\Hypertarget{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec}\label{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec}} 
+TYPE\+\_\+\+FMT\+\_\+\+CHAR&Set the default char type string. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TYPE\_FMT\_BOOL@{TYPE\_FMT\_BOOL}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!TYPE\_FMT\_BOOL@{TYPE\_FMT\_BOOL}}}\mbox{\Hypertarget{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a}\label{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a}} 
+TYPE\+\_\+\+FMT\+\_\+\+BOOL&Set the default boolean type string. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TYPE\_FMT\_STRING@{TYPE\_FMT\_STRING}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!TYPE\_FMT\_STRING@{TYPE\_FMT\_STRING}}}\mbox{\Hypertarget{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5}\label{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5}} 
+TYPE\+\_\+\+FMT\+\_\+\+STRING&Set the default string type string. \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}\label{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}} 
+\index{varg\_intf.h@{varg\_intf.h}!valueParseStatus\_e@{valueParseStatus\_e}}
+\index{valueParseStatus\_e@{valueParseStatus\_e}!varg\_intf.h@{varg\_intf.h}}
+\doxysubsubsection{\texorpdfstring{valueParseStatus\_e}{valueParseStatus\_e}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{argparser\+::value\+Parse\+Status\+\_\+e}}}
+
+
+
+Set\+Value return code values. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARSE\_SUCCESS\_e@{PARSE\_SUCCESS\_e}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!PARSE\_SUCCESS\_e@{PARSE\_SUCCESS\_e}}}\mbox{\Hypertarget{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b}\label{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b}} 
+PARSE\+\_\+\+SUCCESS\+\_\+e&Input string successfully parsed. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARSE\_INVALID\_INPUT\_e@{PARSE\_INVALID\_INPUT\_e}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!PARSE\_INVALID\_INPUT\_e@{PARSE\_INVALID\_INPUT\_e}}}\mbox{\Hypertarget{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550}\label{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550}} 
+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e&Input could not be parsed into an appropriate value. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARSE\_BOUNDARY\_LOW\_e@{PARSE\_BOUNDARY\_LOW\_e}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!PARSE\_BOUNDARY\_LOW\_e@{PARSE\_BOUNDARY\_LOW\_e}}}\mbox{\Hypertarget{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07}\label{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07}} 
+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e&Parsed value exceeds lower value limit. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARSE\_BOUNDARY\_HIGH\_e@{PARSE\_BOUNDARY\_HIGH\_e}!varg\_intf.h@{varg\_intf.h}}\index{varg\_intf.h@{varg\_intf.h}!PARSE\_BOUNDARY\_HIGH\_e@{PARSE\_BOUNDARY\_HIGH\_e}}}\mbox{\Hypertarget{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873}\label{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873}} 
+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e&Parsed value exceeds upper value limit. \\
+\hline
+
+\end{DoxyEnumFields}

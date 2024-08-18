@@ -1,0 +1,311 @@
+\hypertarget{classargparser_1_1listvarg}{}\doxysection{argparser\+::listvarg$<$ T $>$ Class Template Reference}
+\label{classargparser_1_1listvarg}\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+
+
+Variable list argument type template class.  
+
+
+
+
+{\ttfamily \#include $<$listvarg.\+h$>$}
+
+
+
+Inheritance diagram for argparser\+::listvarg$<$ T $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classargparser_1_1listvarg__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for argparser\+::listvarg$<$ T $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classargparser_1_1listvarg__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classargparser_1_1listvarg_a1a4f60ffd498674c5d5b45c5683aeaa6}\label{classargparser_1_1listvarg_a1a4f60ffd498674c5d5b45c5683aeaa6}} 
+\mbox{\hyperlink{classargparser_1_1listvarg_a1a4f60ffd498674c5d5b45c5683aeaa6}{listvarg}} ()
+\begin{DoxyCompactList}\small\item\em Construct a \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1listvarg_a1b9659de7099f4f64f8f07f389fac318}\label{classargparser_1_1listvarg_a1b9659de7099f4f64f8f07f389fac318}} 
+virtual \mbox{\hyperlink{classargparser_1_1listvarg_a1b9659de7099f4f64f8f07f389fac318}{$\sim$listvarg}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the varg object. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classargparser_1_1listvarg_a0034885a73bf516de9cf72662ef5bb20}{is\+List}} () const
+\begin{DoxyCompactList}\small\item\em Return if varg is a list of elements or a single element type. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_a5ebc28913e6598b67ebef3960bafbf08}{set\+Value}} (const char $\ast$new\+Value)
+\begin{DoxyCompactList}\small\item\em Virtual interface method implementation for the template variable implementation set\+Value with input function. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_ae6414065eddd88cb2d7871ab47a6d024}{set\+Value}} ()
+\item 
+virtual bool \mbox{\hyperlink{classargparser_1_1listvarg_a0198566f31aff0af72f62d1604dc8201}{is\+Empty}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classargparser_1_1listvarg_ac565299a3e7ed44f818dd24ceb7b7ff4}\label{classargparser_1_1listvarg_ac565299a3e7ed44f818dd24ceb7b7ff4}} 
+std\+::list$<$ T $>$ \mbox{\hyperlink{classargparser_1_1listvarg_ac565299a3e7ed44f818dd24ceb7b7ff4}{value}}
+\begin{DoxyCompactList}\small\item\em Current saved list values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_aad3cba443650311171bfe867e35a3f65}{set\+Signed\+Element\+Value}} (const char $\ast$new\+Value)
+\begin{DoxyCompactList}\small\item\em Set the value of a signed element and add the new element to the value list object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_aea382f76fc22b8e481ad1ef84640dad4}{set\+Unsigned\+Element\+Value}} (const char $\ast$new\+Value)
+\begin{DoxyCompactList}\small\item\em Set the value of an unsigned list element and add the new element to the value list object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_a5f385e1ea883323fb87c47a6981c7704}{set\+Double\+Element\+Value}} (const char $\ast$new\+Value)
+\begin{DoxyCompactList}\small\item\em Set the value of a double list element and add the new element to the value list object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_a8becbcd21da703743ed8e07eda878693}{set\+Bool\+Element\+Value}} (const char $\ast$new\+Value)
+\begin{DoxyCompactList}\small\item\em Set the value of a boolean element and add the new element to the value list object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_a6fc4b65bee1f54ba8ff3e705e9ec4dbe}{set\+Char\+Element\+Value}} (const char $\ast$new\+Value)
+\begin{DoxyCompactList}\small\item\em Set the Element Value object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg_ac3f14953d33fbccedef8d28834271a09}{set\+String\+Element\+Value}} (const char $\ast$new\+Value)
+\begin{DoxyCompactList}\small\item\em Set the value of a string element and add the new element to the value list object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class argparser\+::listvarg$<$ T $>$}
+
+Variable list argument type template class. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classargparser_1_1listvarg_a0198566f31aff0af72f62d1604dc8201}\label{classargparser_1_1listvarg_a0198566f31aff0af72f62d1604dc8201}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!isEmpty@{isEmpty}}
+\index{isEmpty@{isEmpty}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isEmpty()}{isEmpty()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual bool \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::is\+Empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Virtual interface method implementation for the template variable implementation is\+Empty function
+
+\begin{DoxyReturn}{Returns}
+true -\/ if the list is empty 
+
+false -\/ if list is not empty 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classargparser_1_1varg__intf_aaa74f4bf7c2de32faf2276db08f90d4d}{argparser\+::varg\+\_\+intf}}.
+
+\mbox{\Hypertarget{classargparser_1_1listvarg_a0034885a73bf516de9cf72662ef5bb20}\label{classargparser_1_1listvarg_a0034885a73bf516de9cf72662ef5bb20}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!isList@{isList}}
+\index{isList@{isList}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{isList()}{isList()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual bool \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::is\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Return if varg is a list of elements or a single element type. 
+
+\begin{DoxyReturn}{Returns}
+true -\/ List type variable, multiple arguement values are allowed 
+
+false -\/ Only 0 or 1 argument values are allowed. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classargparser_1_1varg__intf_a38a21bf04c0171dc7d3f0867f4cb58c2}{argparser\+::varg\+\_\+intf}}.
+
+\mbox{\Hypertarget{classargparser_1_1listvarg_a8becbcd21da703743ed8e07eda878693}\label{classargparser_1_1listvarg_a8becbcd21da703743ed8e07eda878693}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setBoolElementValue@{setBoolElementValue}}
+\index{setBoolElementValue@{setBoolElementValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setBoolElementValue()}{setBoolElementValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+Bool\+Element\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Set the value of a boolean element and add the new element to the value list object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ input argument string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value exceeds lower value limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value exceeds upper value limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1listvarg_a6fc4b65bee1f54ba8ff3e705e9ec4dbe}\label{classargparser_1_1listvarg_a6fc4b65bee1f54ba8ff3e705e9ec4dbe}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setCharElementValue@{setCharElementValue}}
+\index{setCharElementValue@{setCharElementValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setCharElementValue()}{setCharElementValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+Char\+Element\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Set the Element Value object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ input argument string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value exceeds lower value limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value exceeds upper value limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1listvarg_a5f385e1ea883323fb87c47a6981c7704}\label{classargparser_1_1listvarg_a5f385e1ea883323fb87c47a6981c7704}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setDoubleElementValue@{setDoubleElementValue}}
+\index{setDoubleElementValue@{setDoubleElementValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setDoubleElementValue()}{setDoubleElementValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+Double\+Element\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Set the value of a double list element and add the new element to the value list object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ Pointer to the text value string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value exceeds lower value limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value exceeds upper value limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1listvarg_aad3cba443650311171bfe867e35a3f65}\label{classargparser_1_1listvarg_aad3cba443650311171bfe867e35a3f65}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setSignedElementValue@{setSignedElementValue}}
+\index{setSignedElementValue@{setSignedElementValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setSignedElementValue()}{setSignedElementValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+Signed\+Element\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Set the value of a signed element and add the new element to the value list object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ Pointer to the text value string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value exceeds lower value limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value exceeds upper value limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1listvarg_ac3f14953d33fbccedef8d28834271a09}\label{classargparser_1_1listvarg_ac3f14953d33fbccedef8d28834271a09}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setStringElementValue@{setStringElementValue}}
+\index{setStringElementValue@{setStringElementValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setStringElementValue()}{setStringElementValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+String\+Element\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Set the value of a string element and add the new element to the value list object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ input argument string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1listvarg_aea382f76fc22b8e481ad1ef84640dad4}\label{classargparser_1_1listvarg_aea382f76fc22b8e481ad1ef84640dad4}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setUnsignedElementValue@{setUnsignedElementValue}}
+\index{setUnsignedElementValue@{setUnsignedElementValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setUnsignedElementValue()}{setUnsignedElementValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+Unsigned\+Element\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Set the value of an unsigned list element and add the new element to the value list object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ Pointer to the text value string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value exceeds lower value limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value exceeds upper value limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1listvarg_ae6414065eddd88cb2d7871ab47a6d024}\label{classargparser_1_1listvarg_ae6414065eddd88cb2d7871ab47a6d024}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setValue@{setValue}}
+\index{setValue@{setValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Virtual interface method implementation for the template variable implementation set\+Value function
+
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ Lists do not have a default set value 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classargparser_1_1varg__intf_afff5b621a9f94f5a8a2f59971e66425f}{argparser\+::varg\+\_\+intf}}.
+
+\mbox{\Hypertarget{classargparser_1_1listvarg_a5ebc28913e6598b67ebef3960bafbf08}\label{classargparser_1_1listvarg_a5ebc28913e6598b67ebef3960bafbf08}} 
+\index{argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}!setValue@{setValue}}
+\index{setValue@{setValue}!argparser::listvarg$<$ T $>$@{argparser::listvarg$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1listvarg}{argparser\+::listvarg}}$<$ T $>$\+::set\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Virtual interface method implementation for the template variable implementation set\+Value with input function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ Input character string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value exceeds lower value limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value exceeds upper value limit 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classargparser_1_1varg__intf_aff51aa5494f71b180b34b53daa4f80cd}{argparser\+::varg\+\_\+intf}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/media/raid5/github/argparse/varg/inc/\mbox{\hyperlink{listvarg_8h}{listvarg.\+h}}\end{DoxyCompactItemize}

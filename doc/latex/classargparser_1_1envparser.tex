@@ -1,0 +1,110 @@
+\hypertarget{classargparser_1_1envparser}{}\doxysection{argparser\+::envparser Class Reference}
+\label{classargparser_1_1envparser}\index{argparser::envparser@{argparser::envparser}}
+
+
+Class definition.  
+
+
+
+
+{\ttfamily \#include $<$envparse.\+h$>$}
+
+
+
+Inheritance diagram for argparser\+::envparser\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=198pt]{classargparser_1_1envparser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for argparser\+::envparser\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=198pt]{classargparser_1_1envparser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classargparser_1_1envparser_ae6bfea2f7499a9040502669b9b23b0d7}\label{classargparser_1_1envparser_ae6bfea2f7499a9040502669b9b23b0d7}} 
+\mbox{\hyperlink{classargparser_1_1envparser_ae6bfea2f7499a9040502669b9b23b0d7}{envparser}} (bool abort\+On\+Error=false, int debug\+Level=0)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1envparser_ad459ab5f14253df7fc903c1ed9e1caef}\label{classargparser_1_1envparser_ad459ab5f14253df7fc903c1ed9e1caef}} 
+\mbox{\hyperlink{classargparser_1_1envparser_ad459ab5f14253df7fc903c1ed9e1caef}{$\sim$envparser}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1envparser_a175e34425f25fa6a23be7ceefc04a157}{add\+Argument}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$arg, const char $\ast$arg\+Key, const char $\ast$help\+Text, int nargs=1, bool required=false)
+\begin{DoxyCompactList}\small\item\em Add a new key based environment argument. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classargparser_1_1envparser_a18f281234104fad15574fcbfb39545f1}{parse}} ()
+\begin{DoxyCompactList}\small\item\em Parse the environment for matching entries. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1envparser_a778c134e228e38de0d88ebe57d02e921}{display\+Help}} (std\+::ostream \&out\+Stream=std\+::cerr)
+\begin{DoxyCompactList}\small\item\em Print the formatted help message to the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class definition. 
+
+Detailed class description 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classargparser_1_1envparser_a175e34425f25fa6a23be7ceefc04a157}\label{classargparser_1_1envparser_a175e34425f25fa6a23be7ceefc04a157}} 
+\index{argparser::envparser@{argparser::envparser}!addArgument@{addArgument}}
+\index{addArgument@{addArgument}!argparser::envparser@{argparser::envparser}}
+\doxysubsubsection{\texorpdfstring{addArgument()}{addArgument()}}
+{\footnotesize\ttfamily void argparser\+::envparser\+::add\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$}]{arg,  }\item[{const char $\ast$}]{arg\+Key,  }\item[{const char $\ast$}]{help\+Text,  }\item[{int}]{nargs = {\ttfamily 1},  }\item[{bool}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add a new key based environment argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the defined var argument to fill \\
+\hline
+{\em arg\+Key} & -\/ Pointer to a character buffer containing the ket string to match when parsing the environment data \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: List argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1envparser_a778c134e228e38de0d88ebe57d02e921}\label{classargparser_1_1envparser_a778c134e228e38de0d88ebe57d02e921}} 
+\index{argparser::envparser@{argparser::envparser}!displayHelp@{displayHelp}}
+\index{displayHelp@{displayHelp}!argparser::envparser@{argparser::envparser}}
+\doxysubsubsection{\texorpdfstring{displayHelp()}{displayHelp()}}
+{\footnotesize\ttfamily void argparser\+::envparser\+::display\+Help (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out\+Stream = {\ttfamily std\+:\+:cerr} }\end{DoxyParamCaption})}
+
+
+
+Print the formatted help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+Stream} & -\/ Output streem to use for text output. Default is the standard error stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1envparser_a18f281234104fad15574fcbfb39545f1}\label{classargparser_1_1envparser_a18f281234104fad15574fcbfb39545f1}} 
+\index{argparser::envparser@{argparser::envparser}!parse@{parse}}
+\index{parse@{parse}!argparser::envparser@{argparser::envparser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily bool argparser\+::envparser\+::parse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Parse the environment for matching entries. 
+
+\begin{DoxyReturn}{Returns}
+true -\/ All environment arguments were parsed correctly and all environment required arguments were found 
+
+false -\/ An error occured parsing the input environment arguments or one or more required arguments were not found 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/media/raid5/github/argparse/envparse/inc/\mbox{\hyperlink{envparse_8h}{envparse.\+h}}\end{DoxyCompactItemize}

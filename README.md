@@ -32,7 +32,7 @@ location.
 Single library containing libvarg, libcmd_line_parse and libenvparse
 
 [Homepage for this project](https://github.com/randaleike/argparse)<br>
-[Repository for this project](https://github.com/randaleike/randaleike/argparse)<br>
+[Repository for this project](https://github.com/randaleike/argparse)<br>
 [Documentation for this project](https://github.com/randaleike/argparse/doc)<br>
 [To report issues](https://github.com/randaleike/argparse/issues)<br>
 [Changelog for this project](https://github.com/randaleike/argparse/CHANGELOG.md)<br>

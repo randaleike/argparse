@@ -1,0 +1,356 @@
+\hypertarget{classargparser_1_1varg__intf}{}\doxysection{argparser\+::varg\+\_\+intf Class Reference}
+\label{classargparser_1_1varg__intf}\index{argparser::varg\_intf@{argparser::varg\_intf}}
+
+
+Base variable argument varg interface and methods.  
+
+
+
+
+{\ttfamily \#include $<$varg\+\_\+intf.\+h$>$}
+
+
+
+Inheritance diagram for argparser\+::varg\+\_\+intf\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classargparser_1_1varg__intf__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classargparser_1_1varg__intf_ae0ff8b571b93bd20d7be35844a2b18d3}\label{classargparser_1_1varg__intf_ae0ff8b571b93bd20d7be35844a2b18d3}} 
+\mbox{\hyperlink{classargparser_1_1varg__intf_ae0ff8b571b93bd20d7be35844a2b18d3}{varg\+\_\+intf}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1varg__intf_ac80d23cc8ce2f7abdcb7bbc8de090a35}\label{classargparser_1_1varg__intf_ac80d23cc8ce2f7abdcb7bbc8de090a35}} 
+\mbox{\hyperlink{classargparser_1_1varg__intf_ac80d23cc8ce2f7abdcb7bbc8de090a35}{varg\+\_\+intf}} (const \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} \&other)=default
+\begin{DoxyCompactList}\small\item\em Copy constructor for \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a22027194048defd3d6940ac3818e86c2}\label{classargparser_1_1varg__intf_a22027194048defd3d6940ac3818e86c2}} 
+\mbox{\hyperlink{classargparser_1_1varg__intf_a22027194048defd3d6940ac3818e86c2}{varg\+\_\+intf}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} \&\&other)=default
+\begin{DoxyCompactList}\small\item\em Reference copy constructor for \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a2d0d081fb21d75575c4920f8b3382843}\label{classargparser_1_1varg__intf_a2d0d081fb21d75575c4920f8b3382843}} 
+\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} \& \mbox{\hyperlink{classargparser_1_1varg__intf_a2d0d081fb21d75575c4920f8b3382843}{operator=}} (const \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} \&other)=default
+\begin{DoxyCompactList}\small\item\em Copy assignment constructor for \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1varg__intf_ad9595510b842d0246a66df427d3429fd}\label{classargparser_1_1varg__intf_ad9595510b842d0246a66df427d3429fd}} 
+\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} \& \mbox{\hyperlink{classargparser_1_1varg__intf_ad9595510b842d0246a66df427d3429fd}{operator=}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} \&\&other)=default
+\begin{DoxyCompactList}\small\item\em Reference copy assignment constructor for \mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a73e3f6024948cbb35f43822759437fd5}\label{classargparser_1_1varg__intf_a73e3f6024948cbb35f43822759437fd5}} 
+virtual \mbox{\hyperlink{classargparser_1_1varg__intf_a73e3f6024948cbb35f43822759437fd5}{$\sim$varg\+\_\+intf}} ()=default
+\begin{DoxyCompactList}\small\item\em Destroy the varg object. \end{DoxyCompactList}\item 
+virtual const char $\ast$ \mbox{\hyperlink{classargparser_1_1varg__intf_a4c2423cfa709debc96d4ce0fdcb748c9}{get\+Type\+String}} ()
+\begin{DoxyCompactList}\small\item\em Get the base argument type as a string. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classargparser_1_1varg__intf_a38a21bf04c0171dc7d3f0867f4cb58c2}{is\+List}} () const =0
+\begin{DoxyCompactList}\small\item\em Return if varg is a list of elements or a single element type. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1varg__intf_aff51aa5494f71b180b34b53daa4f80cd}{set\+Value}} (const char $\ast$new\+Value)=0
+\begin{DoxyCompactList}\small\item\em Virtual place holder for the template variable implementation set\+Value with input function. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1varg__intf_afff5b621a9f94f5a8a2f59971e66425f}{set\+Value}} ()=0
+\item 
+virtual bool \mbox{\hyperlink{classargparser_1_1varg__intf_aaa74f4bf7c2de32faf2276db08f90d4d}{is\+Empty}} ()=0
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classargparser_1_1varg__intf_aa6c337f5c1ee140a0972fb3d4dcfb3e8}{set\+Min\+Max\+Signed}} (long long int min, long long int max)
+\begin{DoxyCompactList}\small\item\em Set the Min Max Signed object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1varg__intf_a705a9c247bfdbb1f9ca553ac276d9af5}{set\+Min\+Max\+Unsigned}} (long long unsigned min, long long unsigned max)
+\begin{DoxyCompactList}\small\item\em Set the Min Max Signed object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1varg__intf_ad18a930df13f705c25f23679778312ea}{set\+Min\+Max\+Double}} (double min, double max)
+\begin{DoxyCompactList}\small\item\em Set the Min Max Signed object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a311cf94678e263ed69ede356d6d99c29}\label{classargparser_1_1varg__intf_a311cf94678e263ed69ede356d6d99c29}} 
+void \mbox{\hyperlink{classargparser_1_1varg__intf_a311cf94678e263ed69ede356d6d99c29}{set\+Type\+String}} (\mbox{\hyperlink{varg__intf_8h_ad0d13e790d922b1a6cbb05cdecb8f61b}{type\+String\+Format\+\_\+e}} fmt\+Type)
+\begin{DoxyCompactList}\small\item\em Construct a type string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1varg__intf_a9c0883da18d87e5eb6ea7a5d3df70eee}{get\+Signed\+Value}} (const char $\ast$new\+Value, long long int \&parsed\+Value) const
+\begin{DoxyCompactList}\small\item\em Get a signed value from the input string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1varg__intf_a3c0e994cb881d352dc9c0eda49d8be39}{get\+Unsigned\+Value}} (const char $\ast$new\+Value, long long unsigned \&parsed\+Value) const
+\begin{DoxyCompactList}\small\item\em Get a unsigned value from the input string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1varg__intf_a0db1d5c7509997b4deb05353bf1faa97}{get\+Double\+Value}} (const char $\ast$new\+Value, double \&parsed\+Value) const
+\begin{DoxyCompactList}\small\item\em Get the Double Value object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1varg__intf_a0a293afbb6c6a010cb7a46c7cb53a39d}{get\+Bool\+Value}} (const char $\ast$new\+Value, bool \&parsed\+Value)
+\begin{DoxyCompactList}\small\item\em Gt the Bool Value object. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} \mbox{\hyperlink{classargparser_1_1varg__intf_ae0070fd1bdf19a3cfb0de7dea2d3a8e9}{get\+Char\+Value}} (const char $\ast$new\+Value, char \&parsed\+Value)
+\begin{DoxyCompactList}\small\item\em Get the New character object value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Base variable argument varg interface and methods. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a0a293afbb6c6a010cb7a46c7cb53a39d}\label{classargparser_1_1varg__intf_a0a293afbb6c6a010cb7a46c7cb53a39d}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!getBoolValue@{getBoolValue}}
+\index{getBoolValue@{getBoolValue}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{getBoolValue()}{getBoolValue()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} argparser\+::varg\+\_\+intf\+::get\+Bool\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value,  }\item[{bool \&}]{parsed\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Gt the Bool Value object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ input argument string \\
+\hline
+{\em parsed\+Value} & -\/ parsed boolean value if parsing succeeded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_ae0070fd1bdf19a3cfb0de7dea2d3a8e9}\label{classargparser_1_1varg__intf_ae0070fd1bdf19a3cfb0de7dea2d3a8e9}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!getCharValue@{getCharValue}}
+\index{getCharValue@{getCharValue}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{getCharValue()}{getCharValue()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} argparser\+::varg\+\_\+intf\+::get\+Char\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value,  }\item[{char \&}]{parsed\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Get the New character object value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ input argument string \\
+\hline
+{\em parsed\+Value} & -\/ parsed character value if parsing succeeded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a0db1d5c7509997b4deb05353bf1faa97}\label{classargparser_1_1varg__intf_a0db1d5c7509997b4deb05353bf1faa97}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!getDoubleValue@{getDoubleValue}}
+\index{getDoubleValue@{getDoubleValue}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{getDoubleValue()}{getDoubleValue()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} argparser\+::varg\+\_\+intf\+::get\+Double\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value,  }\item[{double \&}]{parsed\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Get the Double Value object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ input argument string \\
+\hline
+{\em parsed\+Value} & -\/ return double value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value was below the lower set limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value was above the upper set limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a9c0883da18d87e5eb6ea7a5d3df70eee}\label{classargparser_1_1varg__intf_a9c0883da18d87e5eb6ea7a5d3df70eee}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!getSignedValue@{getSignedValue}}
+\index{getSignedValue@{getSignedValue}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{getSignedValue()}{getSignedValue()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} argparser\+::varg\+\_\+intf\+::get\+Signed\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value,  }\item[{long long int \&}]{parsed\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Get a signed value from the input string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ Input string to parse \\
+\hline
+{\em parsed\+Value} & -\/ return long long integer value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value was below the lower set limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value was above the upper set limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a4c2423cfa709debc96d4ce0fdcb748c9}\label{classargparser_1_1varg__intf_a4c2423cfa709debc96d4ce0fdcb748c9}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!getTypeString@{getTypeString}}
+\index{getTypeString@{getTypeString}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{getTypeString()}{getTypeString()}}
+{\footnotesize\ttfamily virtual const char$\ast$ argparser\+::varg\+\_\+intf\+::get\+Type\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Get the base argument type as a string. 
+
+\begin{DoxyReturn}{Returns}
+char$\ast$ -\/ Base type string 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classargparser_1_1vargincrement_a355742627de36b5332524f52a12c6404}{argparser\+::vargincrement}}, and \mbox{\hyperlink{classargparser_1_1vargenum_ac14def44f9636b2cc719c2f147b958c9}{argparser\+::vargenum$<$ T $>$}}.
+
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a3c0e994cb881d352dc9c0eda49d8be39}\label{classargparser_1_1varg__intf_a3c0e994cb881d352dc9c0eda49d8be39}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!getUnsignedValue@{getUnsignedValue}}
+\index{getUnsignedValue@{getUnsignedValue}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{getUnsignedValue()}{getUnsignedValue()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} argparser\+::varg\+\_\+intf\+::get\+Unsigned\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value,  }\item[{long long unsigned \&}]{parsed\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Get a unsigned value from the input string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ Input string to parse \\
+\hline
+{\em parsed\+Value} & -\/ return long long unsigned value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value was below the lower set limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value was above the upper set limit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_aaa74f4bf7c2de32faf2276db08f90d4d}\label{classargparser_1_1varg__intf_aaa74f4bf7c2de32faf2276db08f90d4d}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!isEmpty@{isEmpty}}
+\index{isEmpty@{isEmpty}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{isEmpty()}{isEmpty()}}
+{\footnotesize\ttfamily virtual bool argparser\+::varg\+\_\+intf\+::is\+Empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Virtual place holder for the template variable implementation is\+Empty function
+
+\begin{DoxyReturn}{Returns}
+true -\/ if the variable is empty 
+
+false -\/ if variable is not empty 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classargparser_1_1vargincrement_a2a10679530c70be3bfd0bd13c6fca336}{argparser\+::vargincrement}}, \mbox{\hyperlink{classargparser_1_1vargenum_a8d909380d1839e6764a3655d48864f43}{argparser\+::vargenum$<$ T $>$}}, \mbox{\hyperlink{classargparser_1_1varg_ad0145640c4b96084ac5eae9fac9043f2}{argparser\+::varg$<$ T $>$}}, and \mbox{\hyperlink{classargparser_1_1listvarg_a0198566f31aff0af72f62d1604dc8201}{argparser\+::listvarg$<$ T $>$}}.
+
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a38a21bf04c0171dc7d3f0867f4cb58c2}\label{classargparser_1_1varg__intf_a38a21bf04c0171dc7d3f0867f4cb58c2}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!isList@{isList}}
+\index{isList@{isList}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{isList()}{isList()}}
+{\footnotesize\ttfamily virtual bool argparser\+::varg\+\_\+intf\+::is\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return if varg is a list of elements or a single element type. 
+
+\begin{DoxyReturn}{Returns}
+true -\/ List type variable, multiple arguement values are allowed 
+
+false -\/ Only 0 or 1 argument values are allowed. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classargparser_1_1vargincrement_a0e49392b5aae3b8a4b09a000d4883273}{argparser\+::vargincrement}}, \mbox{\hyperlink{classargparser_1_1vargenum_a0c6bab8670987a786b86fe43ffaad172}{argparser\+::vargenum$<$ T $>$}}, \mbox{\hyperlink{classargparser_1_1varg_a782623f5709b13de778d5573b65babaa}{argparser\+::varg$<$ T $>$}}, and \mbox{\hyperlink{classargparser_1_1listvarg_a0034885a73bf516de9cf72662ef5bb20}{argparser\+::listvarg$<$ T $>$}}.
+
+\mbox{\Hypertarget{classargparser_1_1varg__intf_ad18a930df13f705c25f23679778312ea}\label{classargparser_1_1varg__intf_ad18a930df13f705c25f23679778312ea}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!setMinMaxDouble@{setMinMaxDouble}}
+\index{setMinMaxDouble@{setMinMaxDouble}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{setMinMaxDouble()}{setMinMaxDouble()}}
+{\footnotesize\ttfamily void argparser\+::varg\+\_\+intf\+::set\+Min\+Max\+Double (\begin{DoxyParamCaption}\item[{double}]{min,  }\item[{double}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Set the Min Max Signed object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & -\/ Minimum floating point value allowed to be assigned \\
+\hline
+{\em max} & -\/ Minimum floating point value allowed to be assigned \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_aa6c337f5c1ee140a0972fb3d4dcfb3e8}\label{classargparser_1_1varg__intf_aa6c337f5c1ee140a0972fb3d4dcfb3e8}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!setMinMaxSigned@{setMinMaxSigned}}
+\index{setMinMaxSigned@{setMinMaxSigned}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{setMinMaxSigned()}{setMinMaxSigned()}}
+{\footnotesize\ttfamily void argparser\+::varg\+\_\+intf\+::set\+Min\+Max\+Signed (\begin{DoxyParamCaption}\item[{long long int}]{min,  }\item[{long long int}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Set the Min Max Signed object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & -\/ Minimum signed value allowed to be assigned \\
+\hline
+{\em max} & -\/ Minimum signed value allowed to be assigned \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_a705a9c247bfdbb1f9ca553ac276d9af5}\label{classargparser_1_1varg__intf_a705a9c247bfdbb1f9ca553ac276d9af5}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!setMinMaxUnsigned@{setMinMaxUnsigned}}
+\index{setMinMaxUnsigned@{setMinMaxUnsigned}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{setMinMaxUnsigned()}{setMinMaxUnsigned()}}
+{\footnotesize\ttfamily void argparser\+::varg\+\_\+intf\+::set\+Min\+Max\+Unsigned (\begin{DoxyParamCaption}\item[{long long unsigned}]{min,  }\item[{long long unsigned}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Set the Min Max Signed object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & -\/ Minimum unsigned value allowed to be assigned \\
+\hline
+{\em max} & -\/ Minimum unsigned value allowed to be assigned \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1varg__intf_afff5b621a9f94f5a8a2f59971e66425f}\label{classargparser_1_1varg__intf_afff5b621a9f94f5a8a2f59971e66425f}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!setValue@{setValue}}
+\index{setValue@{setValue}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} argparser\+::varg\+\_\+intf\+::set\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Virtual place holder for the template variable implementation set\+Value function
+
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classargparser_1_1vargincrement_ae7295fac52cc1ba1d0670aebeff81d16}{argparser\+::vargincrement}}, \mbox{\hyperlink{classargparser_1_1vargenum_a9fa818bf4e3369b86fa5418df37d3ea8}{argparser\+::vargenum$<$ T $>$}}, \mbox{\hyperlink{classargparser_1_1varg_ad8a0e0438e3442c9458bdf12e65929f0}{argparser\+::varg$<$ T $>$}}, and \mbox{\hyperlink{classargparser_1_1listvarg_ae6414065eddd88cb2d7871ab47a6d024}{argparser\+::listvarg$<$ T $>$}}.
+
+\mbox{\Hypertarget{classargparser_1_1varg__intf_aff51aa5494f71b180b34b53daa4f80cd}\label{classargparser_1_1varg__intf_aff51aa5494f71b180b34b53daa4f80cd}} 
+\index{argparser::varg\_intf@{argparser::varg\_intf}!setValue@{setValue}}
+\index{setValue@{setValue}!argparser::varg\_intf@{argparser::varg\_intf}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{varg__intf_8h_a0bc71769ac6cba8f1babc54727a490d9}{value\+Parse\+Status\+\_\+e}} argparser\+::varg\+\_\+intf\+::set\+Value (\begin{DoxyParamCaption}\item[{const char $\ast$}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Virtual place holder for the template variable implementation set\+Value with input function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Value} & -\/ Input character string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+SUCCESS\+\_\+e -\/ if value was successsfully set 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+INVALID\+\_\+\+INPUT\+\_\+e -\/ if input string could not be translated 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+LOW\+\_\+e -\/ if value exceeds lower value limit 
+
+value\+Parse\+Status\+\_\+e\+::\+PARSE\+\_\+\+BOUNDARY\+\_\+\+HIGH\+\_\+e -\/ if value exceeds upper value limit 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classargparser_1_1vargincrement_a54703806112d6a2709706177f67743a9}{argparser\+::vargincrement}}, \mbox{\hyperlink{classargparser_1_1vargenum_ab75aefafe0e3272805f3a8f77acbeba7}{argparser\+::vargenum$<$ T $>$}}, \mbox{\hyperlink{classargparser_1_1varg_a343b0fd604ca370b0af0bc583a28365d}{argparser\+::varg$<$ T $>$}}, and \mbox{\hyperlink{classargparser_1_1listvarg_a5ebc28913e6598b67ebef3960bafbf08}{argparser\+::listvarg$<$ T $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/media/raid5/github/argparse/varg/inc/\mbox{\hyperlink{varg__intf_8h}{varg\+\_\+intf.\+h}}\end{DoxyCompactItemize}

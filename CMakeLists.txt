@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=-*,readability-*)
 cmake_policy(SET CMP0048 NEW)
-project(argparse VERSION 1.0.0.0 DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "grocsoftware")
+project(argparse VERSION 1.0.0.0 DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 # Base includes
 include(GNUInstallDirs)
@@ -20,12 +20,12 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 # include directories
 include_directories(
-    varg_intf/inc
     varg/inc
-    listvarg/inc
     parser_base/inc
     cmd_line_parse/inc
     envparse/inc
+    config_json_parse/inc
+    config_xml_parse/inc
     )
 
 ####
@@ -71,7 +71,7 @@ add_custom_target(${PROJECT_NAME}
 ####
 # Library unit testing
 ####
-add_custom_target(${PROJECT_NAME}-unittest
+add_custom_target(unittest
     COMMENT "Run unittest"
     COMMAND ./varg_test
     COMMAND ./cmd_line_parse_test
@@ -86,7 +86,7 @@ add_custom_target(${PROJECT_NAME}-unittest
 # Install package
 ####
 include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_SOURCE_GENERATOR "TGZ")

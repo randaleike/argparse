@@ -39,7 +39,7 @@ Copyright (c) 2022-2023 Randal Eike
 TEST(sample1, example1)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample1.exe");
+    EXPECT_EQ(0, std::system("./sample1.exe"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 1 Number of arguments parsed: 1\n";
@@ -54,7 +54,7 @@ TEST(sample1, example1)
 TEST(sample1, example2)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample1.exe -f -c -i 8 -o bar foo");
+    EXPECT_EQ(0, std::system("./sample1.exe -f -c -i 8 -o bar foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 8 Number of arguments parsed: 8\n";
@@ -69,7 +69,7 @@ TEST(sample1, example2)
 TEST(sample1, example3)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample1.exe -fci 7 -o bar foo");
+    EXPECT_EQ(0, std::system("./sample1.exe -fci 7 -o bar foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 6 Number of arguments parsed: 6\n";
@@ -84,7 +84,7 @@ TEST(sample1, example3)
 TEST(sample1, example4)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample1.exe --flag -c -c --count --input 6 --output bar foo");
+    EXPECT_EQ(0, std::system("./sample1.exe --flag -c -c --count --input 6 --output bar foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 10 Number of arguments parsed: 10\n";
@@ -99,7 +99,7 @@ TEST(sample1, example4)
 TEST(sample1, example5)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample1.exe -fcccc -o bar foo");
+    EXPECT_EQ(0, std::system("./sample1.exe -fcccc -o bar foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 5 Number of arguments parsed: 5\n";
@@ -115,7 +115,7 @@ TEST(sample2, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample2.exe");
+    EXPECT_EQ(0, std::system("./sample2.exe"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -142,7 +142,7 @@ TEST(sample2, example2)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample2.exe -o bar");
+    EXPECT_EQ(0, std::system("./sample2.exe -o bar"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -167,7 +167,7 @@ TEST(sample2, example2)
 TEST(sample2, example3)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample2.exe -f -c -i 8 -o bar foo");
+    EXPECT_EQ(0, std::system("./sample2.exe -f -c -i 8 -o bar foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 8 Number of arguments parsed: 8\n";
@@ -183,7 +183,7 @@ TEST(sample3, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample3.exe");
+    EXPECT_EQ(0, std::system("./sample3.exe"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -205,7 +205,7 @@ TEST(sample3, example1)
 TEST(sample3, example2)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample3.exe one");
+    EXPECT_EQ(0, std::system("./sample3.exe one"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 2 Number of arguments parsed: 2\n";
@@ -222,7 +222,7 @@ TEST(sample3, example2)
 TEST(sample3, example3)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample3.exe one -c");
+    EXPECT_EQ(0, std::system("./sample3.exe one -c"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 3 Number of arguments parsed: 2\n";
@@ -239,7 +239,7 @@ TEST(sample3, example3)
 TEST(sample3, example4)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample3.exe two");
+    EXPECT_EQ(0, std::system("./sample3.exe two"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 2 Number of arguments parsed: 2\n";
@@ -256,7 +256,7 @@ TEST(sample3, example4)
 TEST(sample3, example5)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample3.exe two -i 7");
+    EXPECT_EQ(0, std::system("./sample3.exe two -i 7"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 4 Number of arguments parsed: 2\n";
@@ -274,7 +274,7 @@ TEST(sample3, example6)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample3.exe three");
+    EXPECT_EQ(0, std::system("./sample3.exe three"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -305,7 +305,7 @@ TEST(sample3, example6)
 TEST(sample3, example7)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample3.exe three -o foo");
+    EXPECT_EQ(0, std::system("./sample3.exe three -o foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 4 Number of arguments parsed: 2\n";
@@ -322,7 +322,7 @@ TEST(sample3, example7)
 TEST(sample3, example8)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample3.exe three -V -o foo");
+    EXPECT_EQ(0, std::system("./sample3.exe three -V -o foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 5 Number of arguments parsed: 2\n";
@@ -339,7 +339,7 @@ TEST(sample3, example8)
 TEST(sample3, example9)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample3.exe four");
+    EXPECT_EQ(0, std::system("./sample3.exe four"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 2 Number of arguments parsed: 2\n";
@@ -353,7 +353,7 @@ TEST(sample4, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample4.exe");
+    EXPECT_EQ(0, std::system("./sample4.exe"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -379,7 +379,7 @@ TEST(sample4, example1)
 TEST(sample4, example2)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe one");
+    EXPECT_EQ(0, std::system("./sample4.exe one"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 2 Number of global arguments parsed: 2\n";
@@ -398,7 +398,7 @@ TEST(sample4, example2)
 TEST(sample4, example3)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe -Ui 4 one");
+    EXPECT_EQ(0, std::system("./sample4.exe -Ui 4 one"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 4 Number of global arguments parsed: 4\n";
@@ -417,7 +417,7 @@ TEST(sample4, example3)
 TEST(sample4, example4)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe -Ui 4 one -c");
+    EXPECT_EQ(0, std::system("./sample4.exe -Ui 4 one -c"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 5 Number of global arguments parsed: 4\n";
@@ -436,7 +436,7 @@ TEST(sample4, example4)
 TEST(sample4, example5)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe one -ccc");
+    EXPECT_EQ(0, std::system("./sample4.exe one -ccc"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 3 Number of global arguments parsed: 2\n";
@@ -455,7 +455,7 @@ TEST(sample4, example5)
 TEST(sample4, example6)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe two");
+    EXPECT_EQ(0, std::system("./sample4.exe two"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 2 Number of global arguments parsed: 2\n";
@@ -474,7 +474,7 @@ TEST(sample4, example6)
 TEST(sample4, example7)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe -Ui=3 two");
+    EXPECT_EQ(0, std::system("./sample4.exe -Ui=3 two"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 3 Number of global arguments parsed: 3\n";
@@ -493,7 +493,7 @@ TEST(sample4, example7)
 TEST(sample4, example8)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe -Ui=3 two -i 8");
+    EXPECT_EQ(0, std::system("./sample4.exe -Ui=3 two -i 8"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 5 Number of global arguments parsed: 3\n";
@@ -512,7 +512,7 @@ TEST(sample4, example8)
 TEST(sample4, example9)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe two -i 10");
+    EXPECT_EQ(0, std::system("./sample4.exe two -i 10"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 4 Number of global arguments parsed: 2\n";
@@ -532,7 +532,7 @@ TEST(sample4, example10)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample4.exe three");
+    EXPECT_EQ(0, std::system("./sample4.exe three"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -558,7 +558,7 @@ TEST(sample4, example10)
 TEST(sample4, example11)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe three -o foo");
+    EXPECT_EQ(0, std::system("./sample4.exe three -o foo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 4 Number of global arguments parsed: 2\n";
@@ -577,7 +577,7 @@ TEST(sample4, example11)
 TEST(sample4, example12)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe -U three -o goo");
+    EXPECT_EQ(0, std::system("./sample4.exe -U three -o goo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 5 Number of global arguments parsed: 3\n";
@@ -596,7 +596,7 @@ TEST(sample4, example12)
 TEST(sample4, example13)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample4.exe -U -i 6 three -o moo");
+    EXPECT_EQ(0, std::system("./sample4.exe -U -i 6 three -o moo"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 7 Number of global arguments parsed: 5\n";
@@ -616,7 +616,7 @@ TEST(sample5, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample5.exe");
+    EXPECT_EQ(0, std::system("./sample5.exe"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -641,7 +641,7 @@ TEST(sample5, example1)
 TEST(sample5, example2)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample5.exe read");
+    EXPECT_EQ(0, std::system("./sample5.exe read"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 2 Number of arguments parsed: 2\n";
@@ -658,7 +658,7 @@ TEST(sample5, example2)
 TEST(sample5, example3)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample5.exe read -l 4 -f foo.c");
+    EXPECT_EQ(0, std::system("./sample5.exe read -l 4 -f foo.c"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 6 Number of arguments parsed: 6\n";
@@ -675,7 +675,7 @@ TEST(sample5, example3)
 TEST(sample5, example4)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample5.exe write -l 16 -f moo.c");
+    EXPECT_EQ(0, std::system("./sample5.exe write -l 16 -f moo.c"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 6 Number of arguments parsed: 6\n";
@@ -692,7 +692,7 @@ TEST(sample5, example4)
 TEST(sample5, example5)
 {
     testing::internal::CaptureStdout();
-    std::system("./sample5.exe append -l 8 -f goo.c");
+    EXPECT_EQ(0, std::system("./sample5.exe append -l 8 -f goo.c"));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 6 Number of arguments parsed: 6\n";
@@ -710,7 +710,7 @@ TEST(sample5, example6)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    std::system("./sample5.exe copy -l 4 -f foo.c");
+    EXPECT_EQ(0, std::system("./sample5.exe copy -l 4 -f foo.c"));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 

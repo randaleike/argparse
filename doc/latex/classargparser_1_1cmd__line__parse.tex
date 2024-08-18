@@ -1,0 +1,453 @@
+\hypertarget{classargparser_1_1cmd__line__parse}{}\doxysection{argparser\+::cmd\+\_\+line\+\_\+parse Class Reference}
+\label{classargparser_1_1cmd__line__parse}\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+
+
+Class definition.  
+
+
+
+
+{\ttfamily \#include $<$cmd\+\_\+line\+\_\+parse.\+h$>$}
+
+
+
+Inheritance diagram for argparser\+::cmd\+\_\+line\+\_\+parse\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{classargparser_1_1cmd__line__parse__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for argparser\+::cmd\+\_\+line\+\_\+parse\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{classargparser_1_1cmd__line__parse__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_ae4d24755dbba4394ac94648aa15afe29}\label{classargparser_1_1cmd__line__parse_ae4d24755dbba4394ac94648aa15afe29}} 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse_ae4d24755dbba4394ac94648aa15afe29}{cmd\+\_\+line\+\_\+parse}} ()
+\begin{DoxyCompactList}\small\item\em default Constructor \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse_ae8d3519edc3077187906c4d07e5ed4e8}{cmd\+\_\+line\+\_\+parse}} (const \mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse_a910fc426790fba3c7ada37ef9de29f51}{cmd\+\_\+line\+\_\+parse}} (\mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&\&other)
+\begin{DoxyCompactList}\small\item\em Reference Copy Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse_a872ca129c0344584672f9fc39f28e4ae}{cmd\+\_\+line\+\_\+parse}} (parserstr \&usage, parserstr \&description, bool abort\+On\+Error=false, bool disable\+Default\+Help=false, int debug\+Level=debug\+Verbosity\+Level\+\_\+e\+::no\+Debug\+Msg)
+\begin{DoxyCompactList}\small\item\em Constructor with input. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse_af5e137126d63c842e86544d125ef12ec}{cmd\+\_\+line\+\_\+parse}} (const char $\ast$usage, const char $\ast$description, bool abort\+On\+Error=false, bool disable\+Default\+Help=false, int debug\+Level=debug\+Verbosity\+Level\+\_\+e\+::no\+Debug\+Msg)
+\begin{DoxyCompactList}\small\item\em Constructor with input. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \& \mbox{\hyperlink{classargparser_1_1cmd__line__parse_afe3c9094b40ec50676e73a619032b26d}{operator=}} (const \mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy Assignment Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \& \mbox{\hyperlink{classargparser_1_1cmd__line__parse_abe161779e2a3db5c52f6e236a42187cd}{operator=}} (\mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&\&other)
+\begin{DoxyCompactList}\small\item\em Reference Copy Assignment Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a9466479a240369fd543671f259a7146f}\label{classargparser_1_1cmd__line__parse_a9466479a240369fd543671f259a7146f}} 
+\mbox{\hyperlink{classargparser_1_1cmd__line__parse_a9466479a240369fd543671f259a7146f}{$\sim$cmd\+\_\+line\+\_\+parse}} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a58f01bd42e24149e63acbe5f43d96dfa}{set\+Epilog}} (parserstr epilog)
+\begin{DoxyCompactList}\small\item\em Set the Epilog text. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a0ebfa7342124b6a4a9b0fe3835f887bc}{set\+Program\+Name}} (parserstr prog\+Name)
+\begin{DoxyCompactList}\small\item\em Set the Program Name for the usage string using a string as input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a8e3ef018f8fecc955cfb393e8d56da94}{set\+Program\+Name}} (char $\ast$prog\+Name)
+\begin{DoxyCompactList}\small\item\em Set the Program Name for the usage string using char$\ast$ as input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_aeead2d76595b0e77275f6debd804fa5e}{set\+Key\+Prefix}} (parserstr prefix)
+\begin{DoxyCompactList}\small\item\em Set the argument key prefix value using string input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a3a9bc7a61b444382db92e73d9bd12ce9}{set\+Key\+Prefix}} (char $\ast$prefix)
+\begin{DoxyCompactList}\small\item\em Set the argument key prefix value using char$\ast$ input. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a6af4c9cac79b5952f88c3b63f736b1e4}\label{classargparser_1_1cmd__line__parse_a6af4c9cac79b5952f88c3b63f736b1e4}} 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a6af4c9cac79b5952f88c3b63f736b1e4}{disable\+Default\+Help\+Argument}} ()
+\begin{DoxyCompactList}\small\item\em Disable the default help argument setup. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a3f4856f49e3f0fa36a2824b51b392140}\label{classargparser_1_1cmd__line__parse_a3f4856f49e3f0fa36a2824b51b392140}} 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a3f4856f49e3f0fa36a2824b51b392140}{disable\+Help\+Display\+On\+Error}} ()
+\begin{DoxyCompactList}\small\item\em Disable the help display on parsing error. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a5300f185c8cd758650725cad6347a66a}\label{classargparser_1_1cmd__line__parse_a5300f185c8cd758650725cad6347a66a}} 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a5300f185c8cd758650725cad6347a66a}{disable\+Single\+Char\+List\+Argument}} ()
+\begin{DoxyCompactList}\small\item\em Disable the single character list input argument parsing. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_aef43551afd1c483ef5b7b32ca41367e8}\label{classargparser_1_1cmd__line__parse_aef43551afd1c483ef5b7b32ca41367e8}} 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_aef43551afd1c483ef5b7b32ca41367e8}{enable\+Unknow\+Argument\+Ignore}} ()
+\begin{DoxyCompactList}\small\item\em Enable flag to ignore unknown arguments, default is to generate an error if an unknown argument is found. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a2bfffeee0612e8ae0e25de53a6c90581}{add\+Key\+Argument}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$arg, parserstr name, parserstr arg\+Keys, parserstr help\+Text, int nargs=1, bool required=false)
+\begin{DoxyCompactList}\small\item\em Add a new key based command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a1630aadda86c67e4877a54eefe2c7de5}{add\+Flag\+Argument}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$arg, parserstr name, parserstr arg\+Keys, parserstr help\+Text, bool required=false)
+\begin{DoxyCompactList}\small\item\em Add a new key based flag command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a06a5059f827ab416ffeb9763a221b083}{add\+Positional\+Argument}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$arg, parserstr name, parserstr help\+Text, int nargs=1, bool required=false)
+\begin{DoxyCompactList}\small\item\em Add a new positinal based command line argument to the argument list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a24df57484747660a73c8b385b8a7b7ff}{set\+Positional\+Name\+Stop}} (const char $\ast$positional\+Argument\+Name)
+\begin{DoxyCompactList}\small\item\em Set the name of the positional argument to stop parsing. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a5f3e181e3a7a055d89e171f333365873}{parse}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]}, int starting\+Arg\+Index=1, int ending\+Arg\+Index=-\/1)
+\begin{DoxyCompactList}\small\item\em Parse the input command line arguments. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a69909e54b3b16bd9e3d9d1711887837e}{display\+Option\+Help}} (std\+::ostream \&out\+Stream=std\+::cerr)
+\begin{DoxyCompactList}\small\item\em Print the formatted option help message to the input stream. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a721742801a46a31f785758e137f96f03}{display\+Position\+Help}} (std\+::ostream \&out\+Stream=std\+::cerr)
+\begin{DoxyCompactList}\small\item\em Print the formatted environment help message to the input stream. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_ab6c91be59d5a12efc78757e942af4fa4}{display\+Help}} (std\+::ostream \&out\+Stream=std\+::cerr)
+\begin{DoxyCompactList}\small\item\em Print the formatted help message to the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_ad9ba676ca33a4730b7a4e72de9d8cdc1}\label{classargparser_1_1cmd__line__parse_ad9ba676ca33a4730b7a4e72de9d8cdc1}} 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_ad9ba676ca33a4730b7a4e72de9d8cdc1}{parse\+Key\+Arg}} ()
+\begin{DoxyCompactList}\small\item\em Parse the input key argument type and update the parsing state data. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a71d46a16148318d0e5f8d198ff2bf592}\label{classargparser_1_1cmd__line__parse_a71d46a16148318d0e5f8d198ff2bf592}} 
+void \mbox{\hyperlink{classargparser_1_1cmd__line__parse_a71d46a16148318d0e5f8d198ff2bf592}{parse\+Positional\+Arg}} ()
+\begin{DoxyCompactList}\small\item\em Parse the input positional argument type and update the parsing state data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class definition. 
+
+Detailed class description 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_ae8d3519edc3077187906c4d07e5ed4e8}\label{classargparser_1_1cmd__line__parse_ae8d3519edc3077187906c4d07e5ed4e8}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!cmd\_line\_parse@{cmd\_line\_parse}}
+\index{cmd\_line\_parse@{cmd\_line\_parse}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{cmd\_line\_parse()}{cmd\_line\_parse()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily argparser\+::cmd\+\_\+line\+\_\+parse\+::cmd\+\_\+line\+\_\+parse (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a910fc426790fba3c7ada37ef9de29f51}\label{classargparser_1_1cmd__line__parse_a910fc426790fba3c7ada37ef9de29f51}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!cmd\_line\_parse@{cmd\_line\_parse}}
+\index{cmd\_line\_parse@{cmd\_line\_parse}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{cmd\_line\_parse()}{cmd\_line\_parse()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily argparser\+::cmd\+\_\+line\+\_\+parse\+::cmd\+\_\+line\+\_\+parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&\&}]{other }\end{DoxyParamCaption})}
+
+
+
+Reference Copy Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a872ca129c0344584672f9fc39f28e4ae}\label{classargparser_1_1cmd__line__parse_a872ca129c0344584672f9fc39f28e4ae}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!cmd\_line\_parse@{cmd\_line\_parse}}
+\index{cmd\_line\_parse@{cmd\_line\_parse}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{cmd\_line\_parse()}{cmd\_line\_parse()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily argparser\+::cmd\+\_\+line\+\_\+parse\+::cmd\+\_\+line\+\_\+parse (\begin{DoxyParamCaption}\item[{parserstr \&}]{usage,  }\item[{parserstr \&}]{description,  }\item[{bool}]{abort\+On\+Error = {\ttfamily false},  }\item[{bool}]{disable\+Default\+Help = {\ttfamily false},  }\item[{int}]{debug\+Level = {\ttfamily debugVerbosityLevel\+\_\+e\+:\+:noDebugMsg} }\end{DoxyParamCaption})}
+
+
+
+Constructor with input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em usage} & -\/ Usage string for the help display \\
+\hline
+{\em description} & -\/ Description string for the help display \\
+\hline
+{\em abort\+On\+Error} & -\/ True = abort parsing on first error, False (default) = Log error and continue parsing command line data \\
+\hline
+{\em disable\+Default\+Help} & -\/ False (default) = Display help screen if a parsing error occured, True = Disable help display screen \\
+\hline
+{\em debug\+Level} & -\/ Verbosity level of debug messages 0 (default) -\/ Only error messages 4 -\/ Error and informational messages 5+ -\/ Error, informational and flow tracking messages \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_af5e137126d63c842e86544d125ef12ec}\label{classargparser_1_1cmd__line__parse_af5e137126d63c842e86544d125ef12ec}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!cmd\_line\_parse@{cmd\_line\_parse}}
+\index{cmd\_line\_parse@{cmd\_line\_parse}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{cmd\_line\_parse()}{cmd\_line\_parse()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily argparser\+::cmd\+\_\+line\+\_\+parse\+::cmd\+\_\+line\+\_\+parse (\begin{DoxyParamCaption}\item[{const char $\ast$}]{usage,  }\item[{const char $\ast$}]{description,  }\item[{bool}]{abort\+On\+Error = {\ttfamily false},  }\item[{bool}]{disable\+Default\+Help = {\ttfamily false},  }\item[{int}]{debug\+Level = {\ttfamily debugVerbosityLevel\+\_\+e\+:\+:noDebugMsg} }\end{DoxyParamCaption})}
+
+
+
+Constructor with input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em usage} & -\/ Usage string for the help display \\
+\hline
+{\em description} & -\/ Description string for the help display \\
+\hline
+{\em abort\+On\+Error} & -\/ True = abort parsing on first error, False (default) = Log error and continue parsing command line data \\
+\hline
+{\em disable\+Default\+Help} & -\/ False (default) = Display help screen if a parsing error occured, True = Disable help display screen \\
+\hline
+{\em debug\+Level} & -\/ Verbosity level of debug messages 0 (default) -\/ Only error messages 4 -\/ Error and informational messages 5+ -\/ Error, informational and flow tracking messages \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a1630aadda86c67e4877a54eefe2c7de5}\label{classargparser_1_1cmd__line__parse_a1630aadda86c67e4877a54eefe2c7de5}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!addFlagArgument@{addFlagArgument}}
+\index{addFlagArgument@{addFlagArgument}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{addFlagArgument()}{addFlagArgument()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::add\+Flag\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$}]{arg,  }\item[{parserstr}]{name,  }\item[{parserstr}]{arg\+Keys,  }\item[{parserstr}]{help\+Text,  }\item[{bool}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add a new key based flag command line argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the defined var argument to fill \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em arg\+Keys} & -\/ Delimieted list of argument key values \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a2bfffeee0612e8ae0e25de53a6c90581}\label{classargparser_1_1cmd__line__parse_a2bfffeee0612e8ae0e25de53a6c90581}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!addKeyArgument@{addKeyArgument}}
+\index{addKeyArgument@{addKeyArgument}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{addKeyArgument()}{addKeyArgument()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::add\+Key\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$}]{arg,  }\item[{parserstr}]{name,  }\item[{parserstr}]{arg\+Keys,  }\item[{parserstr}]{help\+Text,  }\item[{int}]{nargs = {\ttfamily 1},  }\item[{bool}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add a new key based command line argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the defined var argument to fill \\
+\hline
+{\em name} & -\/ Human name used in the help messages \\
+\hline
+{\em arg\+Keys} & -\/ Delimieted list of argument key values \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: List argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a06a5059f827ab416ffeb9763a221b083}\label{classargparser_1_1cmd__line__parse_a06a5059f827ab416ffeb9763a221b083}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!addPositionalArgument@{addPositionalArgument}}
+\index{addPositionalArgument@{addPositionalArgument}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{addPositionalArgument()}{addPositionalArgument()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::add\+Positional\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$}]{arg,  }\item[{parserstr}]{name,  }\item[{parserstr}]{help\+Text,  }\item[{int}]{nargs = {\ttfamily 1},  }\item[{bool}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add a new positinal based command line argument to the argument list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the defined var argument to fill \\
+\hline
+{\em name} & -\/ Name of the argument \\
+\hline
+{\em help\+Text} & -\/ Help text to be printed in the help message \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: List argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_ab6c91be59d5a12efc78757e942af4fa4}\label{classargparser_1_1cmd__line__parse_ab6c91be59d5a12efc78757e942af4fa4}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!displayHelp@{displayHelp}}
+\index{displayHelp@{displayHelp}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{displayHelp()}{displayHelp()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::display\+Help (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out\+Stream = {\ttfamily std\+:\+:cerr} }\end{DoxyParamCaption})}
+
+
+
+Print the formatted help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+Stream} & -\/ Output streem to use for text output. Default is the standard error stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a69909e54b3b16bd9e3d9d1711887837e}\label{classargparser_1_1cmd__line__parse_a69909e54b3b16bd9e3d9d1711887837e}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!displayOptionHelp@{displayOptionHelp}}
+\index{displayOptionHelp@{displayOptionHelp}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{displayOptionHelp()}{displayOptionHelp()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::display\+Option\+Help (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out\+Stream = {\ttfamily std\+:\+:cerr} }\end{DoxyParamCaption})}
+
+
+
+Print the formatted option help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+Stream} & -\/ Output streem to use for text output. Default is the standard error stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a721742801a46a31f785758e137f96f03}\label{classargparser_1_1cmd__line__parse_a721742801a46a31f785758e137f96f03}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!displayPositionHelp@{displayPositionHelp}}
+\index{displayPositionHelp@{displayPositionHelp}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{displayPositionHelp()}{displayPositionHelp()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::display\+Position\+Help (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out\+Stream = {\ttfamily std\+:\+:cerr} }\end{DoxyParamCaption})}
+
+
+
+Print the formatted environment help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+Stream} & -\/ Output streem to use for text output. Default is the standard error stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_abe161779e2a3db5c52f6e236a42187cd}\label{classargparser_1_1cmd__line__parse_abe161779e2a3db5c52f6e236a42187cd}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!operator=@{operator=}}
+\index{operator=@{operator=}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}}\& argparser\+::cmd\+\_\+line\+\_\+parse\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&\&}]{other }\end{DoxyParamCaption})}
+
+
+
+Reference Copy Assignment Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_afe3c9094b40ec50676e73a619032b26d}\label{classargparser_1_1cmd__line__parse_afe3c9094b40ec50676e73a619032b26d}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!operator=@{operator=}}
+\index{operator=@{operator=}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}}\& argparser\+::cmd\+\_\+line\+\_\+parse\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classargparser_1_1cmd__line__parse}{cmd\+\_\+line\+\_\+parse}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy Assignment Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a5f3e181e3a7a055d89e171f333365873}\label{classargparser_1_1cmd__line__parse_a5f3e181e3a7a055d89e171f333365873}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!parse@{parse}}
+\index{parse@{parse}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily int argparser\+::cmd\+\_\+line\+\_\+parse\+::parse (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]},  }\item[{int}]{starting\+Arg\+Index = {\ttfamily 1},  }\item[{int}]{ending\+Arg\+Index = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+Parse the input command line arguments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & -\/ Number of char pointers in the argv\mbox{[}\mbox{]} array \\
+\hline
+{\em argv} & -\/ Array of command line text entries \\
+\hline
+{\em starting\+Arg\+Index} & -\/ argv index to start parsing arguments \\
+\hline
+{\em ending\+Arg\+Index} & -\/ argv index to stop parsing arguments, -\/1 == argc\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int -\/ Index of the last argument parsed or -\/1 if an error occured 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a58f01bd42e24149e63acbe5f43d96dfa}\label{classargparser_1_1cmd__line__parse_a58f01bd42e24149e63acbe5f43d96dfa}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!setEpilog@{setEpilog}}
+\index{setEpilog@{setEpilog}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{setEpilog()}{setEpilog()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::set\+Epilog (\begin{DoxyParamCaption}\item[{parserstr}]{epilog }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the Epilog text. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em epilog} & -\/ Text to display at the end of the help block \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a3a9bc7a61b444382db92e73d9bd12ce9}\label{classargparser_1_1cmd__line__parse_a3a9bc7a61b444382db92e73d9bd12ce9}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!setKeyPrefix@{setKeyPrefix}}
+\index{setKeyPrefix@{setKeyPrefix}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{setKeyPrefix()}{setKeyPrefix()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::set\+Key\+Prefix (\begin{DoxyParamCaption}\item[{char $\ast$}]{prefix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the argument key prefix value using char$\ast$ input. 
+
+The argument key prefix is the character or string the identifies an input argument key string. Any input argument that does not begin with this character is assumed to be a positional argument value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prefix} & -\/ argument prefix value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_aeead2d76595b0e77275f6debd804fa5e}\label{classargparser_1_1cmd__line__parse_aeead2d76595b0e77275f6debd804fa5e}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!setKeyPrefix@{setKeyPrefix}}
+\index{setKeyPrefix@{setKeyPrefix}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{setKeyPrefix()}{setKeyPrefix()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::set\+Key\+Prefix (\begin{DoxyParamCaption}\item[{parserstr}]{prefix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the argument key prefix value using string input. 
+
+The argument key prefix is the character or string the identifies an input argument key string. Any input argument that does not begin with this character is assumed to be a positional argument value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prefix} & -\/ argument prefix value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a24df57484747660a73c8b385b8a7b7ff}\label{classargparser_1_1cmd__line__parse_a24df57484747660a73c8b385b8a7b7ff}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!setPositionalNameStop@{setPositionalNameStop}}
+\index{setPositionalNameStop@{setPositionalNameStop}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{setPositionalNameStop()}{setPositionalNameStop()}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::set\+Positional\+Name\+Stop (\begin{DoxyParamCaption}\item[{const char $\ast$}]{positional\+Argument\+Name }\end{DoxyParamCaption})}
+
+
+
+Set the name of the positional argument to stop parsing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em positional\+Argument\+Name} & -\/ Positional name to find \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a8e3ef018f8fecc955cfb393e8d56da94}\label{classargparser_1_1cmd__line__parse_a8e3ef018f8fecc955cfb393e8d56da94}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!setProgramName@{setProgramName}}
+\index{setProgramName@{setProgramName}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{setProgramName()}{setProgramName()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::set\+Program\+Name (\begin{DoxyParamCaption}\item[{char $\ast$}]{prog\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the Program Name for the usage string using char$\ast$ as input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prog\+Name} & -\/ Program name to use in the usage string \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1cmd__line__parse_a0ebfa7342124b6a4a9b0fe3835f887bc}\label{classargparser_1_1cmd__line__parse_a0ebfa7342124b6a4a9b0fe3835f887bc}} 
+\index{argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}!setProgramName@{setProgramName}}
+\index{setProgramName@{setProgramName}!argparser::cmd\_line\_parse@{argparser::cmd\_line\_parse}}
+\doxysubsubsection{\texorpdfstring{setProgramName()}{setProgramName()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void argparser\+::cmd\+\_\+line\+\_\+parse\+::set\+Program\+Name (\begin{DoxyParamCaption}\item[{parserstr}]{prog\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the Program Name for the usage string using a string as input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prog\+Name} & -\/ Program name to use in the usage string \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/media/raid5/github/argparse/cmd\+\_\+line\+\_\+parse/inc/\mbox{\hyperlink{cmd__line__parse_8h}{cmd\+\_\+line\+\_\+parse.\+h}}\end{DoxyCompactItemize}
