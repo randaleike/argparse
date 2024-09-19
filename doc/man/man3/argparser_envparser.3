@@ -1,0 +1,91 @@
+.TH "argparser::envparser" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+argparser::envparser \- Class definition\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <envparse\&.h>\fP
+.PP
+Inherits parser_base\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBenvparser\fP (bool abortOnError=false, int debugLevel=0)"
+.br
+.RI "Constructor\&. "
+.ti -1c
+.RI "\fB~envparser\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "void \fBaddArgument\fP (\fBvarg_intf\fP *arg, const char *argKey, const char *helpText, int nargs=1, bool required=false)"
+.br
+.RI "Add a new key based environment argument\&. "
+.ti -1c
+.RI "bool \fBparse\fP ()"
+.br
+.RI "Parse the environment for matching entries\&. "
+.ti -1c
+.RI "void \fBdisplayHelp\fP (std::ostream &outStream=std::cerr)"
+.br
+.RI "Print the formatted help message to the input stream\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class definition\&. 
+
+Detailed class description 
+.SH "Member Function Documentation"
+.PP 
+.SS "void argparser::envparser::addArgument (\fBvarg_intf\fP * arg, const char * argKey, const char * helpText, int nargs = \fC1\fP, bool required = \fCfalse\fP)"
+
+.PP
+Add a new key based environment argument\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIarg\fP - Pointer to the defined var argument to fill 
+.br
+\fIargKey\fP - Pointer to a character buffer containing the ket string to match when parsing the environment data 
+.br
+\fIhelpText\fP - Help text to be printed in the help message 
+.br
+\fInargs\fP - Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : List argument with up to N arguments, if more than N arguments are found it is flagged as an error 
+.br
+\fIrequired\fP - True if argument is required, false if arguemnt is optional 
+.RE
+.PP
+
+.SS "void argparser::envparser::displayHelp (std::ostream & outStream = \fCstd::cerr\fP)"
+
+.PP
+Print the formatted help message to the input stream\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIoutStream\fP - Output streem to use for text output\&. Default is the standard error stream 
+.RE
+.PP
+
+.SS "bool argparser::envparser::parse ()"
+
+.PP
+Parse the environment for matching entries\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true - All environment arguments were parsed correctly and all environment required arguments were found 
+.PP
+false - An error occured parsing the input environment arguments or one or more required arguments were not found 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

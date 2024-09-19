@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_b9b8c22ab575777567b49516456226ef" kind="dir">
+    <compoundname>config_xml_parse/inc</compoundname>
+    <innerfile refid="config__xml__parse_8h">config_xml_parse.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="config_xml_parse/inc/"/>
+  </compounddef>
+</doxygen>

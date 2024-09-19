@@ -1,0 +1,199 @@
+.TH "cmd_line_parse/inc/cmd_line_parse_api.h" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd_line_parse/inc/cmd_line_parse_api.h
+.SH SYNOPSIS
+.br
+.PP
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct argData * \fBargHandle\fP"
+.br
+.RI "Argument data structure pointer abstraction\&. "
+.ti -1c
+.RI "typedef struct cmdLineParser * \fBcmdLineParserHandle\fP"
+.br
+.RI "Command line parser structure pointer abstraction\&. "
+.ti -1c
+.RI "typedef char const  * \fBparsercstr\fP"
+.br
+.RI "Parser 'C' string abstraction\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortIntParserArg\fP (short int *arg)"
+.br
+.RI "Create a short int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateIntParserArg\fP (int *arg)"
+.br
+.RI "Create a int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongIntParserArg\fP (long int *arg)"
+.br
+.RI "Create a long int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongIntParserArg\fP (long long int *arg)"
+.br
+.RI "Create a long long int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortUIntParserArg\fP (short unsigned *arg)"
+.br
+.RI "Create a short unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateUIntParserArg\fP (unsigned *arg)"
+.br
+.RI "Create an unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongUIntParserArg\fP (long unsigned *arg)"
+.br
+.RI "Create a long unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongUIntParserArg\fP (long long unsigned *arg)"
+.br
+.RI "Create a long long unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateFloatParserArg\fP (double *arg)"
+.br
+.RI "Create a double parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateCharParserArg\fP (char *arg)"
+.br
+.RI "Create a single character parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateStringParserArg\fP (char *arg, int elementCount)"
+.br
+.RI "Create a string parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateParserFlagArg\fP (bool defaultValue, bool setValue, bool *flag)"
+.br
+.RI "Create a parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateIncrementingFlagArg\fP (int *flag)"
+.br
+.RI "Create a incrementing parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortIntArrayParserArg\fP (short int arg[], int elementCount)"
+.br
+.RI "Create a short integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateIntArrayParserArg\fP (int arg[], int elementCount)"
+.br
+.RI "Create a integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongIntArrayParserArg\fP (long int arg[], int elementCount)"
+.br
+.RI "Create a long integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongIntArrayParserArg\fP (long long int arg[], int elementCount)"
+.br
+.RI "Create a long long integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortUIntArrayParserArg\fP (short unsigned arg[], int elementCount)"
+.br
+.RI "Create an short unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateUIntArrayParserArg\fP (unsigned arg[], int elementCount)"
+.br
+.RI "Create an unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongUIntArrayParserArg\fP (long unsigned arg[], int elementCount)"
+.br
+.RI "Create an long unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongUIntArrayParserArg\fP (long long unsigned arg[], int elementCount)"
+.br
+.RI "Create an long long unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateDoubleArrayParserArg\fP (double arg[], int elementCount)"
+.br
+.RI "Create a double array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateStringArrayParserArg\fP (char **arg, int elementCount)"
+.br
+.RI "Create a double array parser argument object\&. "
+.ti -1c
+.RI "void \fBreleaseParserArg\fP (\fBargHandle\fP arg)"
+.br
+.RI "Release the parser argument handle\&. "
+.ti -1c
+.RI "\fBcmdLineParserHandle\fP \fBgetParser\fP (const \fBparsercstr\fP usage, const \fBparsercstr\fP description, bool abortOnError, bool disableDefaultHelp, int debugLevel)"
+.br
+.RI "Get the Parser object\&. "
+.ti -1c
+.RI "void \fBreleaseParser\fP (\fBcmdLineParserHandle\fP parser, bool releaseArgHandles)"
+.br
+.RI "Release the parser instance\&. "
+.ti -1c
+.RI "void \fBsetEpilog\fP (\fBcmdLineParserHandle\fP parser, const \fBparsercstr\fP epilog)"
+.br
+.RI "Set the Epilog text\&. "
+.ti -1c
+.RI "void \fBsetProgramName\fP (\fBcmdLineParserHandle\fP parser, const \fBparsercstr\fP progName)"
+.br
+.RI "Set the Program Name for the usage string\&. "
+.ti -1c
+.RI "void \fBsetKeyPrefix\fP (\fBcmdLineParserHandle\fP parser, \fBparsercstr\fP prefix)"
+.br
+.RI "Set the argument key prefix value\&. "
+.ti -1c
+.RI "void \fBdisableDefaultHelpArgument\fP (\fBcmdLineParserHandle\fP parser)"
+.br
+.RI "Disable the default help argument setup\&. "
+.ti -1c
+.RI "void \fBdisableHelpDisplayOnError\fP (\fBcmdLineParserHandle\fP parser)"
+.br
+.RI "Disable the help display on parsing error\&. "
+.ti -1c
+.RI "void \fBdisableSingleCharListArgument\fP (\fBcmdLineParserHandle\fP parser)"
+.br
+.RI "Disable the single character list input argument parsing\&. "
+.ti -1c
+.RI "void \fBenableUnknowArgumentIgnore\fP (\fBcmdLineParserHandle\fP parser)"
+.br
+.RI "Enable flag to ignore unknown arguments, default is to generate an error if an unknown argument is found\&. "
+.ti -1c
+.RI "void \fBaddKeyArgument\fP (\fBcmdLineParserHandle\fP parser, const \fBargHandle\fP arg, const \fBparsercstr\fP name, const \fBparsercstr\fP argKeys, const \fBparsercstr\fP helpText, const bool required)"
+.br
+.RI "Add a new key based command line argument to the argument list\&. "
+.ti -1c
+.RI "void \fBaddKeyArrayArgument\fP (\fBcmdLineParserHandle\fP parser, const \fBargHandle\fP arg, const \fBparsercstr\fP name, const \fBparsercstr\fP argKeys, const \fBparsercstr\fP helpText, const int nargs, const bool required)"
+.br
+.RI "Add a new key based command line array argument to the argument list\&. "
+.ti -1c
+.RI "void \fBaddFlagArgument\fP (\fBcmdLineParserHandle\fP parser, const \fBargHandle\fP arg, const \fBparsercstr\fP name, const \fBparsercstr\fP argKeys, const \fBparsercstr\fP helpText, const bool required)"
+.br
+.RI "Add a new key based flag command line argument to the argument list\&. "
+.ti -1c
+.RI "void \fBaddIncrementingArgument\fP (\fBcmdLineParserHandle\fP parser, const \fBargHandle\fP arg, const \fBparsercstr\fP name, const \fBparsercstr\fP argKeys, const \fBparsercstr\fP helpText, const bool required)"
+.br
+.RI "Add a new key based incrementing command line argument to the argument list\&. "
+.ti -1c
+.RI "void \fBaddPositionalArgument\fP (\fBcmdLineParserHandle\fP parser, const \fBargHandle\fP arg, const \fBparsercstr\fP name, const \fBparsercstr\fP helpText, const bool required)"
+.br
+.RI "Add a new positinal based command line argument to the argument list\&. "
+.ti -1c
+.RI "void \fBaddPositionalArrayArgument\fP (\fBcmdLineParserHandle\fP parser, const \fBargHandle\fP arg, const \fBparsercstr\fP name, const \fBparsercstr\fP helpText, const int nargs, const bool required)"
+.br
+.RI "Add a new positinal based command line array argument to the argument list\&. "
+.ti -1c
+.RI "void \fBsetPositionalNameStop\fP (\fBcmdLineParserHandle\fP parser, const \fBparsercstr\fP positionalArgumentName)"
+.br
+.RI "Set the name of the positional argument to stop parsing\&. "
+.ti -1c
+.RI "int \fBparse\fP (\fBcmdLineParserHandle\fP parser, int argc, char *argv[], int startingArgIndex, int endingArgIndex)"
+.br
+.RI "Parse the input command line arguments\&. "
+.ti -1c
+.RI "void \fBdisplayHelp\fP (\fBcmdLineParserHandle\fP parser)"
+.br
+.RI "Print the formatted help message to the input stream\&. "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

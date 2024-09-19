@@ -1,0 +1,129 @@
+.TH "argparser::vargincrement" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+argparser::vargincrement \- Variable argument type template class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <vargincrement\&.h>\fP
+.PP
+Inherits \fBargparser::varg_intf\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBvargincrement\fP ()"
+.br
+.RI "Construct a \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "virtual \fB~vargincrement\fP ()"
+.br
+.RI "Destroy the varg object\&. "
+.ti -1c
+.RI "virtual const char * \fBgetTypeString\fP ()"
+.br
+.RI "Get the base argument type as a string\&. "
+.ti -1c
+.RI "virtual bool \fBisList\fP () const"
+.br
+.RI "Return if varg is a list of elements or a single element type\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP (const char *newValue)"
+.br
+.RI "Virtual interface method implementation for the template variable implementation setValue with input function\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisEmpty\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBvalue\fP"
+.br
+.RI "Current saved value\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+Variable argument type template class\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual const char* argparser::vargincrement::getTypeString ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Get the base argument type as a string\&. 
+.PP
+\fBReturns\fP
+.RS 4
+const char* - Base type string 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBargparser::varg_intf\fP\&.
+.SS "virtual bool argparser::vargincrement::isEmpty ()\fC [inline]\fP, \fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation isEmpty function
+.PP
+\fBReturns\fP
+.RS 4
+true - Base variable is never empty 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "virtual bool argparser::vargincrement::isList () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Return if varg is a list of elements or a single element type\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true - List type variable, multiple arguement values are allowed 
+.PP
+false - Only 0 or 1 argument values are allowed\&. 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "virtual \fBvalueParseStatus_e\fP argparser::vargincrement::setValue ()\fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation setValue function
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully incremented 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "virtual \fBvalueParseStatus_e\fP argparser::vargincrement::setValue (const char * newValue)\fC [virtual]\fP"
+
+.PP
+Virtual interface method implementation for the template variable implementation setValue with input function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Input character string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_INVALID_INPUT_e - increment variables don't take in input 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

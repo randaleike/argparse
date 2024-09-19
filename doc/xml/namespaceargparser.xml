@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="namespaceargparser" kind="namespace" language="C++">
+    <compoundname>argparser</compoundname>
+    <innerclass refid="classargparser_1_1listvarg" prot="public">argparser::listvarg</innerclass>
+    <innerclass refid="classargparser_1_1varg" prot="public">argparser::varg</innerclass>
+    <innerclass refid="classargparser_1_1varg__intf" prot="public">argparser::varg_intf</innerclass>
+    <innerclass refid="classargparser_1_1vargenum" prot="public">argparser::vargenum</innerclass>
+    <innerclass refid="classargparser_1_1vargincrement" prot="public">argparser::vargincrement</innerclass>
+    <innerclass refid="classargparser_1_1cmd__line__parse" prot="public">argparser::cmd_line_parse</innerclass>
+    <innerclass refid="classargparser_1_1envparser" prot="public">argparser::envparser</innerclass>
+    <innerclass refid="classargparser_1_1config__json__parse" prot="public">argparser::config_json_parse</innerclass>
+    <innerclass refid="classargparser_1_1config__xml__parse" prot="public">argparser::config_xml_parse</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" prot="public" static="no" strong="no">
+        <type></type>
+        <name>valueParseStatus_e</name>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b" prot="public">
+          <name>PARSE_SUCCESS_e</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Input string successfully parsed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550" prot="public">
+          <name>PARSE_INVALID_INPUT_e</name>
+          <briefdescription>
+<para>Input could not be parsed into an appropriate value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07" prot="public">
+          <name>PARSE_BOUNDARY_LOW_e</name>
+          <briefdescription>
+<para>Parsed value exceeds lower value limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873" prot="public">
+          <name>PARSE_BOUNDARY_HIGH_e</name>
+          <briefdescription>
+<para>Parsed value exceeds upper value limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>SetValue return code values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="44" column="1" bodyfile="varg/inc/varg_intf.h" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>typeStringFormat_e</name>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496" prot="public">
+          <name>TYPE_FMT_SIGNED</name>
+          <briefdescription>
+<para>Use the signed min/max. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a" prot="public">
+          <name>TYPE_FMT_UNSIGNED</name>
+          <briefdescription>
+<para>Use the unsigned min/max. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3" prot="public">
+          <name>TYPE_FMT_DOUBLE</name>
+          <briefdescription>
+<para>Use the double min/max. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec" prot="public">
+          <name>TYPE_FMT_CHAR</name>
+          <briefdescription>
+<para>Set the default char type string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a" prot="public">
+          <name>TYPE_FMT_BOOL</name>
+          <briefdescription>
+<para>Set the default boolean type string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5" prot="public">
+          <name>TYPE_FMT_STRING</name>
+          <briefdescription>
+<para>Set the default string type string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type string format type selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="56" column="1" bodyfile="varg/inc/varg_intf.h" bodystart="57" bodyend="64"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="varg/inc/listvarg.h" line="37" column="1"/>
+  </compounddef>
+</doxygen>

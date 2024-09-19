@@ -4,11 +4,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=-*,readability-*)
 cmake_policy(SET CMP0048 NEW)
-project(argparse VERSION 1.0.0.0 DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
+project(argparse VERSION 0.9.2.0 DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 # Base includes
 include(GNUInstallDirs)
-include(CTest)
 
 # control where the static and shared libraries are built so that on windows
 # we don't need to tinker with the path to run the executable
@@ -123,20 +122,26 @@ add_custom_target(samples
 add_executable(sample-unittest ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample_unittest.cpp)
 add_dependencies(sample-unittest samples) 
 target_link_libraries(sample-unittest ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+add_custom_target(run-sample-unittest
+    COMMENT "Samples unittest execution"
+    COMMAND sample-unittest
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    DEPENDS sample-unittest
+)
 
 ####
-# cmd_line_parse doxygen generation
+# argparse doxygen generation
 ####
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
-    option(BUILD_DOC "Build Documentation" ON)
-    find_package(Doxygen REQUIRED dot)
+    option(BUILD_DOC "Build Documentation configuration" ON)
+    #find_package(Doxygen REQUIRED dot)
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
     configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-    message("Doxygen build started")
-    add_custom_target( doc_${PROJECT_NAME} ALL
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM )
+    #message("Doxygen build started")
+    #add_custom_target( doc_${PROJECT_NAME} ALL
+    #    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+    #    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    #    COMMENT "Generating API documentation with Doxygen"
+    #    VERBATIM )
 endif()

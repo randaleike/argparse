@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="classargparser_1_1cmd__line__parse" kind="class"><name>argparser::cmd_line_parse</name>
+    <member refid="classargparser_1_1cmd__line__parse_1a70fe20daa57b223a8e9210c673026ace" kind="variable"><name>positionalArgList</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1af95670976b466424a45369f9ae4af32e" kind="variable"><name>helpFlag</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a08768b31e8f904dca065b6ae9b17e21b" kind="variable"><name>programName</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1aebaf855d1179508182ffa744d942e674" kind="variable"><name>usageText</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a12f6104b116327f589715b7fd9972880" kind="variable"><name>descriptionText</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a39ab3c2c6eda704e9e51f5e8abab06b5" kind="variable"><name>epilogText</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1aeeddfc7cab490914fad199cd63e166c1" kind="variable"><name>keyPrefix</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1ab5ab3c89f61bb86d758277a1b65a175e" kind="variable"><name>displayHelpOnError</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a3682f09370c8e14dd1afa0a38d2a017e" kind="variable"><name>enableDefaultHelp</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1aabf1a3ffa956bfce0372c6acd863d790" kind="variable"><name>ignoreUnknownKey</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1aa0957071b06a592436fff19aa57eae72" kind="variable"><name>singleCharArgListAllowed</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a4777a2ce9555daf66d4d028c689406fe" kind="variable"><name>positionNumber</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a8d475cea7ea2659e25c6eda182317cce" kind="variable"><name>parseingPositionNumber</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a1edb888bb254db27af72138a9c6b5cb2" kind="variable"><name>currentArgumentIndex</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a433e13108cece1d432f0b97fd353c8a1" kind="variable"><name>argcount</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a2693c3bc3c9b7bbec3b9448d286a9d84" kind="variable"><name>argvArray</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a76557aa9d93c186b845c63186da9d9ea" kind="variable"><name>debugMsgLevel</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a445441255fb3bf3f54c383783c766fbb" kind="variable"><name>positionalStop</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a3b6ba263906a5c55c462b37d2dbdea32" kind="variable"><name>positionalStopArgumentFound</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1aae6fd21f96afb789b19894186467bbaa" kind="function"><name>isCurrentArgKeySwitch</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1ae44181f59d5432cc748752501072efe7" kind="function"><name>checkRequiredArgsFound</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a0426155a4838715320facc25ae10d6a7" kind="function"><name>addDefaultHelpArgument</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1abc645ea675f804728b6c1337baed9fab" kind="function"><name>findMatchingArg</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a9d3f7df850df4f90fdfa2b43209e23a0" kind="function"><name>getInitialValueList</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a7be2bc4a6c7a260b8e9cf0dd7021cbb9" kind="function"><name>getInitialValueList</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1af15f2f33625d965f7ceba2cb4fb9c767" kind="function"><name>assignKeyFlagValue</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1ab2752469388f49bc7b854241a1e1bf58" kind="function"><name>assignKeyValue</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a96114d10018be28b307d5ad3aceee17d" kind="function"><name>parseSingleKeyArg</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1ad9ba676ca33a4730b7a4e72de9d8cdc1" kind="function"><name>parseKeyArg</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a71d46a16148318d0e5f8d198ff2bf592" kind="function"><name>parsePositionalArg</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1ae4d24755dbba4394ac94648aa15afe29" kind="function"><name>cmd_line_parse</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1ae8d3519edc3077187906c4d07e5ed4e8" kind="function"><name>cmd_line_parse</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a910fc426790fba3c7ada37ef9de29f51" kind="function"><name>cmd_line_parse</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a872ca129c0344584672f9fc39f28e4ae" kind="function"><name>cmd_line_parse</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1af5e137126d63c842e86544d125ef12ec" kind="function"><name>cmd_line_parse</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1afe3c9094b40ec50676e73a619032b26d" kind="function"><name>operator=</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1abe161779e2a3db5c52f6e236a42187cd" kind="function"><name>operator=</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a9466479a240369fd543671f259a7146f" kind="function"><name>~cmd_line_parse</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a58f01bd42e24149e63acbe5f43d96dfa" kind="function"><name>setEpilog</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a0ebfa7342124b6a4a9b0fe3835f887bc" kind="function"><name>setProgramName</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a8e3ef018f8fecc955cfb393e8d56da94" kind="function"><name>setProgramName</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1aeead2d76595b0e77275f6debd804fa5e" kind="function"><name>setKeyPrefix</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a3a9bc7a61b444382db92e73d9bd12ce9" kind="function"><name>setKeyPrefix</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a6af4c9cac79b5952f88c3b63f736b1e4" kind="function"><name>disableDefaultHelpArgument</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a3f4856f49e3f0fa36a2824b51b392140" kind="function"><name>disableHelpDisplayOnError</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a5300f185c8cd758650725cad6347a66a" kind="function"><name>disableSingleCharListArgument</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1aef43551afd1c483ef5b7b32ca41367e8" kind="function"><name>enableUnknowArgumentIgnore</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a2bfffeee0612e8ae0e25de53a6c90581" kind="function"><name>addKeyArgument</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a1630aadda86c67e4877a54eefe2c7de5" kind="function"><name>addFlagArgument</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a06a5059f827ab416ffeb9763a221b083" kind="function"><name>addPositionalArgument</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a24df57484747660a73c8b385b8a7b7ff" kind="function"><name>setPositionalNameStop</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a5f3e181e3a7a055d89e171f333365873" kind="function"><name>parse</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a69909e54b3b16bd9e3d9d1711887837e" kind="function"><name>displayOptionHelp</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1a721742801a46a31f785758e137f96f03" kind="function"><name>displayPositionHelp</name></member>
+    <member refid="classargparser_1_1cmd__line__parse_1ab6c91be59d5a12efc78757e942af4fa4" kind="function"><name>displayHelp</name></member>
+  </compound>
+  <compound refid="classargparser_1_1config__json__parse" kind="class"><name>argparser::config_json_parse</name>
+    <member refid="classargparser_1_1config__json__parse_1ab4397b84b571580fd185f329d728f533" kind="variable"><name>keyArgList</name></member>
+    <member refid="classargparser_1_1config__json__parse_1af16b52a9dc380de2bc0aeca5c212fb84" kind="variable"><name>errorAbort</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a8189fec9072b974524666b286694d375" kind="variable"><name>debugMsgLevel</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a183d67180bdd7e328a8cf32d63f6d6f3" kind="variable"><name>fileName</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a38dfe45e4d5c4a86e19852363c3eb6a2" kind="function"><name>config_json_parse</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a7b594261604cb60f5af4d185f3a9d977" kind="function"><name>~config_json_parse</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a1d51570368d444ac92db33d09a07d2a8" kind="function"><name>setDebugLevel</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a9f1f42bfa1fa991cc73bd982b93294ee" kind="function"><name>addArgument</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a086c72ea1d26f77c13cfc92c5441ffff" kind="function"><name>parse</name></member>
+    <member refid="classargparser_1_1config__json__parse_1a7eeed69b37b215d6fed556cc726f9fc5" kind="function"><name>displayHelp</name></member>
+  </compound>
+  <compound refid="classargparser_1_1config__xml__parse" kind="class"><name>argparser::config_xml_parse</name>
+    <member refid="classargparser_1_1config__xml__parse_1a9c6430dab358cf05c2e1dd1792b241dd" kind="variable"><name>keyArgList</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1ad8253e389b4090869a533a6de267d601" kind="variable"><name>errorAbort</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1ac123c28771c66ec88e8d14a839da06e0" kind="variable"><name>debugMsgLevel</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1af4ef33e7fecd3c0d8c75a67a7a64bb72" kind="variable"><name>fileName</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1a1c1f523fed80f02b164454650610cfde" kind="function"><name>config_xml_parse</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1acc88ece796f0f0d43ef5ba84f345ce88" kind="function"><name>~config_xml_parse</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1a5968bc1b3f2b156869c43a5dea9d3f7a" kind="function"><name>setDebugLevel</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1a0ba46c2fcd11c47ac5e7d4eee1e1f3aa" kind="function"><name>addArgument</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1acd96860123ef163bf6b5b211d9e8d7ec" kind="function"><name>parse</name></member>
+    <member refid="classargparser_1_1config__xml__parse_1a651ad5e78ca3fe31fcb6769b729671c0" kind="function"><name>displayHelp</name></member>
+  </compound>
+  <compound refid="classargparser_1_1envparser" kind="class"><name>argparser::envparser</name>
+    <member refid="classargparser_1_1envparser_1a0393a957d49f5836b079727dd5b8278f" kind="variable"><name>debugMsgLevel</name></member>
+    <member refid="classargparser_1_1envparser_1ae6bfea2f7499a9040502669b9b23b0d7" kind="function"><name>envparser</name></member>
+    <member refid="classargparser_1_1envparser_1ad459ab5f14253df7fc903c1ed9e1caef" kind="function"><name>~envparser</name></member>
+    <member refid="classargparser_1_1envparser_1a175e34425f25fa6a23be7ceefc04a157" kind="function"><name>addArgument</name></member>
+    <member refid="classargparser_1_1envparser_1a18f281234104fad15574fcbfb39545f1" kind="function"><name>parse</name></member>
+    <member refid="classargparser_1_1envparser_1a778c134e228e38de0d88ebe57d02e921" kind="function"><name>displayHelp</name></member>
+  </compound>
+  <compound refid="classargparser_1_1listvarg" kind="class"><name>argparser::listvarg</name>
+    <member refid="classargparser_1_1listvarg_1ac565299a3e7ed44f818dd24ceb7b7ff4" kind="variable"><name>value</name></member>
+    <member refid="classargparser_1_1listvarg_1aad3cba443650311171bfe867e35a3f65" kind="function"><name>setSignedElementValue</name></member>
+    <member refid="classargparser_1_1listvarg_1aea382f76fc22b8e481ad1ef84640dad4" kind="function"><name>setUnsignedElementValue</name></member>
+    <member refid="classargparser_1_1listvarg_1a5f385e1ea883323fb87c47a6981c7704" kind="function"><name>setDoubleElementValue</name></member>
+    <member refid="classargparser_1_1listvarg_1a8becbcd21da703743ed8e07eda878693" kind="function"><name>setBoolElementValue</name></member>
+    <member refid="classargparser_1_1listvarg_1a6fc4b65bee1f54ba8ff3e705e9ec4dbe" kind="function"><name>setCharElementValue</name></member>
+    <member refid="classargparser_1_1listvarg_1ac3f14953d33fbccedef8d28834271a09" kind="function"><name>setStringElementValue</name></member>
+    <member refid="classargparser_1_1listvarg_1a1a4f60ffd498674c5d5b45c5683aeaa6" kind="function"><name>listvarg</name></member>
+    <member refid="classargparser_1_1listvarg_1a1b9659de7099f4f64f8f07f389fac318" kind="function"><name>~listvarg</name></member>
+    <member refid="classargparser_1_1listvarg_1a0034885a73bf516de9cf72662ef5bb20" kind="function"><name>isList</name></member>
+    <member refid="classargparser_1_1listvarg_1a5ebc28913e6598b67ebef3960bafbf08" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1listvarg_1ae6414065eddd88cb2d7871ab47a6d024" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1listvarg_1a0198566f31aff0af72f62d1604dc8201" kind="function"><name>isEmpty</name></member>
+  </compound>
+  <compound refid="classargparser_1_1varg" kind="class"><name>argparser::varg</name>
+    <member refid="classargparser_1_1varg_1a006c701a61cab11343c3aa2ff215937f" kind="variable"><name>flagSetValue</name></member>
+    <member refid="classargparser_1_1varg_1a8e39b497a1b40ad92d54e41d4a98a173" kind="variable"><name>value</name></member>
+    <member refid="classargparser_1_1varg_1acdad4dd3a95652611d95d561bfe31799" kind="function"><name>setCharValue</name></member>
+    <member refid="classargparser_1_1varg_1af9c235b22e7e2a436b68011a1ff32e85" kind="function"><name>setBoolValue</name></member>
+    <member refid="classargparser_1_1varg_1ae37994e1fdd2033419296cdd084eaa9c" kind="function"><name>setSignedValue</name></member>
+    <member refid="classargparser_1_1varg_1a3fff3f657729c8a4604d28982ab2dca0" kind="function"><name>setUnsignedValue</name></member>
+    <member refid="classargparser_1_1varg_1aa31cac04643583ff62e7a23e4f163640" kind="function"><name>setDoubleValue</name></member>
+    <member refid="classargparser_1_1varg_1a41fdedf63f12307127baa8a01eacea02" kind="function"><name>varg</name></member>
+    <member refid="classargparser_1_1varg_1a54ac52721e61658f816bbd1b308e54aa" kind="function"><name>varg</name></member>
+    <member refid="classargparser_1_1varg_1a9e17e3d5e37ad94286ac65e404ccc6e3" kind="function"><name>varg</name></member>
+    <member refid="classargparser_1_1varg_1a473b20c8ae8645086865ccf102823aaa" kind="function"><name>~varg</name></member>
+    <member refid="classargparser_1_1varg_1a782623f5709b13de778d5573b65babaa" kind="function"><name>isList</name></member>
+    <member refid="classargparser_1_1varg_1a343b0fd604ca370b0af0bc583a28365d" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1varg_1ad8a0e0438e3442c9458bdf12e65929f0" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1varg_1ad0145640c4b96084ac5eae9fac9043f2" kind="function"><name>isEmpty</name></member>
+  </compound>
+  <compound refid="classargparser_1_1varg__intf" kind="class"><name>argparser::varg_intf</name>
+    <member refid="classargparser_1_1varg__intf_1a0dbc1a3b091594862fe5c9a64ea145a5" kind="variable"><name>maxSignedValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1ae9f6aaa61b0a371db1d6b9a325640905" kind="variable"><name>minSignedValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1a0af3a461df6c620bcdbb255cf2554c79" kind="variable"><name>maxUnsignedValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1a55dd208ad9f15b05b3c93f475cc483d6" kind="variable"><name>minUnsignedValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1ad66e9f56d545392a0b3d4b250e598450" kind="variable"><name>minDoubleValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1a6063ec4c64bdbe42fe39fa55510e299f" kind="variable"><name>maxDoubleValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1ac5a1d37cbbea92e86d43f42a56cbbd6d" kind="variable"><name>typeString</name></member>
+    <member refid="classargparser_1_1varg__intf_1aa6c337f5c1ee140a0972fb3d4dcfb3e8" kind="function"><name>setMinMaxSigned</name></member>
+    <member refid="classargparser_1_1varg__intf_1a705a9c247bfdbb1f9ca553ac276d9af5" kind="function"><name>setMinMaxUnsigned</name></member>
+    <member refid="classargparser_1_1varg__intf_1ad18a930df13f705c25f23679778312ea" kind="function"><name>setMinMaxDouble</name></member>
+    <member refid="classargparser_1_1varg__intf_1a311cf94678e263ed69ede356d6d99c29" kind="function"><name>setTypeString</name></member>
+    <member refid="classargparser_1_1varg__intf_1a9c0883da18d87e5eb6ea7a5d3df70eee" kind="function"><name>getSignedValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1a3c0e994cb881d352dc9c0eda49d8be39" kind="function"><name>getUnsignedValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1a0db1d5c7509997b4deb05353bf1faa97" kind="function"><name>getDoubleValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1a0a293afbb6c6a010cb7a46c7cb53a39d" kind="function"><name>getBoolValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1ae0070fd1bdf19a3cfb0de7dea2d3a8e9" kind="function"><name>getCharValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1ae0ff8b571b93bd20d7be35844a2b18d3" kind="function"><name>varg_intf</name></member>
+    <member refid="classargparser_1_1varg__intf_1ac80d23cc8ce2f7abdcb7bbc8de090a35" kind="function"><name>varg_intf</name></member>
+    <member refid="classargparser_1_1varg__intf_1a22027194048defd3d6940ac3818e86c2" kind="function"><name>varg_intf</name></member>
+    <member refid="classargparser_1_1varg__intf_1a2d0d081fb21d75575c4920f8b3382843" kind="function"><name>operator=</name></member>
+    <member refid="classargparser_1_1varg__intf_1ad9595510b842d0246a66df427d3429fd" kind="function"><name>operator=</name></member>
+    <member refid="classargparser_1_1varg__intf_1a73e3f6024948cbb35f43822759437fd5" kind="function"><name>~varg_intf</name></member>
+    <member refid="classargparser_1_1varg__intf_1a4c2423cfa709debc96d4ce0fdcb748c9" kind="function"><name>getTypeString</name></member>
+    <member refid="classargparser_1_1varg__intf_1a38a21bf04c0171dc7d3f0867f4cb58c2" kind="function"><name>isList</name></member>
+    <member refid="classargparser_1_1varg__intf_1aff51aa5494f71b180b34b53daa4f80cd" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1afff5b621a9f94f5a8a2f59971e66425f" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1varg__intf_1aaa74f4bf7c2de32faf2276db08f90d4d" kind="function"><name>isEmpty</name></member>
+  </compound>
+  <compound refid="classargparser_1_1vargenum" kind="class"><name>argparser::vargenum</name>
+    <member refid="classargparser_1_1vargenum_1aba49011f427c945f9dd438fc924f40fe" kind="variable"><name>enumNameMap</name></member>
+    <member refid="classargparser_1_1vargenum_1a813a7d163d3b8fb3818f5e8c52d6a938" kind="variable"><name>enumName</name></member>
+    <member refid="classargparser_1_1vargenum_1a9cefb3d7b87aa41e69eb0938802fc615" kind="variable"><name>value</name></member>
+    <member refid="classargparser_1_1vargenum_1a33fb6e9a59980b069adbb8d0c461a6b6" kind="function"><name>vargenum</name></member>
+    <member refid="classargparser_1_1vargenum_1ac216f3f1afd1bd318e9ba474ce703bd0" kind="function"><name>~vargenum</name></member>
+    <member refid="classargparser_1_1vargenum_1ac14def44f9636b2cc719c2f147b958c9" kind="function"><name>getTypeString</name></member>
+    <member refid="classargparser_1_1vargenum_1a0c6bab8670987a786b86fe43ffaad172" kind="function"><name>isList</name></member>
+    <member refid="classargparser_1_1vargenum_1ab75aefafe0e3272805f3a8f77acbeba7" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1vargenum_1a9fa818bf4e3369b86fa5418df37d3ea8" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1vargenum_1a8d909380d1839e6764a3655d48864f43" kind="function"><name>isEmpty</name></member>
+    <member refid="classargparser_1_1vargenum_1a3c3487682cdb6ad9d894b5f245a67699" kind="function"><name>setEnumValue</name></member>
+  </compound>
+  <compound refid="classargparser_1_1vargincrement" kind="class"><name>argparser::vargincrement</name>
+    <member refid="classargparser_1_1vargincrement_1a7c6fab3c42d7b5025e329950bb75e543" kind="variable"><name>value</name></member>
+    <member refid="classargparser_1_1vargincrement_1a4532841d9fc42dca059ed37fc0973385" kind="function"><name>vargincrement</name></member>
+    <member refid="classargparser_1_1vargincrement_1a2fe4e1881b9c0a888412923a727482cd" kind="function"><name>~vargincrement</name></member>
+    <member refid="classargparser_1_1vargincrement_1a355742627de36b5332524f52a12c6404" kind="function"><name>getTypeString</name></member>
+    <member refid="classargparser_1_1vargincrement_1a0e49392b5aae3b8a4b09a000d4883273" kind="function"><name>isList</name></member>
+    <member refid="classargparser_1_1vargincrement_1a54703806112d6a2709706177f67743a9" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1vargincrement_1ae7295fac52cc1ba1d0670aebeff81d16" kind="function"><name>setValue</name></member>
+    <member refid="classargparser_1_1vargincrement_1a2a10679530c70be3bfd0bd13c6fca336" kind="function"><name>isEmpty</name></member>
+  </compound>
+  <compound refid="namespaceargparser" kind="namespace"><name>argparser</name>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kind="enum"><name>valueParseStatus_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b" kind="enumvalue"><name>PARSE_SUCCESS_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550" kind="enumvalue"><name>PARSE_INVALID_INPUT_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07" kind="enumvalue"><name>PARSE_BOUNDARY_LOW_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873" kind="enumvalue"><name>PARSE_BOUNDARY_HIGH_e</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" kind="enum"><name>typeStringFormat_e</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496" kind="enumvalue"><name>TYPE_FMT_SIGNED</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a" kind="enumvalue"><name>TYPE_FMT_UNSIGNED</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3" kind="enumvalue"><name>TYPE_FMT_DOUBLE</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec" kind="enumvalue"><name>TYPE_FMT_CHAR</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a" kind="enumvalue"><name>TYPE_FMT_BOOL</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5" kind="enumvalue"><name>TYPE_FMT_STRING</name></member>
+  </compound>
+  <compound refid="cmd__line__parse_8h" kind="file"><name>cmd_line_parse.h</name>
+  </compound>
+  <compound refid="cmd__line__parse__api_8h" kind="file"><name>cmd_line_parse_api.h</name>
+    <member refid="group__libcmd__line__parser_1ga716d871805c7587481cc407fc35a211e" kind="typedef"><name>argHandle</name></member>
+    <member refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kind="typedef"><name>cmdLineParserHandle</name></member>
+    <member refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kind="typedef"><name>parsercstr</name></member>
+    <member refid="group__libcmd__line__parser_1gaab15e28d78265695c8827d504b8ed98b" kind="function"><name>createShortIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga3ea3d4f4758d8c7fdba32ed9ea4c845b" kind="function"><name>createIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gab6f7fa82c91c7f61d4fea6ceffd39afb" kind="function"><name>createLongIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga21dcbf6e11374e39076711b6e17dbd51" kind="function"><name>createLLongIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9ba47a80f6f9f7258e3e531f07346b3a" kind="function"><name>createShortUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga6dc032f56119b6d9abff02bf7ed84080" kind="function"><name>createUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9a4f5a07e46dba3f87183ea57b5b4666" kind="function"><name>createLongUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gacbc5ce8aa39e27eb7c26e7671770706c" kind="function"><name>createLLongUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga729859c88d6016dfef71858392368de2" kind="function"><name>createFloatParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaea4d7f0d96a26196212fdb42780f9a39" kind="function"><name>createCharParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga453e3cc49eba991787a589404daf3eae" kind="function"><name>createStringParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga3dfbfc1eb7b1f0f987d4643079cf817e" kind="function"><name>createParserFlagArg</name></member>
+    <member refid="group__libcmd__line__parser_1gacf7c11a1720294b6242c9301dc04944c" kind="function"><name>createIncrementingFlagArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga381ea4f2a062c9f21a11a016ec9023af" kind="function"><name>createShortIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9a7d207b1b3660607c0e584744f93c1f" kind="function"><name>createIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaedd988d2de495db18ccb24e5d3bc7fd6" kind="function"><name>createLongIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9a893ee7e7fcf10670f3c7e4887f5df2" kind="function"><name>createLLongIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gab28b50ea3cf4ac627b62ade499dcc992" kind="function"><name>createShortUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaa7c0aad95276d1641dc31188e74d0781" kind="function"><name>createUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gad0fcfd2b9ece0997c2d2f91f30060838" kind="function"><name>createLongUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaca1c3f933ec3882e012dd63f211d7a49" kind="function"><name>createLLongUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga356fb58514eed4c935f4fdb493a228ae" kind="function"><name>createDoubleArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaddab86c0396f9b3423c82b6d76e7c5ba" kind="function"><name>createStringArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga449b7de7863fc5e5844038dfc5a7ac3e" kind="function"><name>releaseParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gab3524095074ab31fd2fa2a3c3b5b0ec6" kind="function"><name>getParser</name></member>
+    <member refid="group__libcmd__line__parser_1ga1840bf9eae4712bd5cc6a834b7117d1e" kind="function"><name>releaseParser</name></member>
+    <member refid="group__libcmd__line__parser_1ga151361f70acb6059eb1c54264b78b062" kind="function"><name>setEpilog</name></member>
+    <member refid="group__libcmd__line__parser_1ga3edf502994c63d1b2b29fc59db200ec5" kind="function"><name>setProgramName</name></member>
+    <member refid="group__libcmd__line__parser_1ga300fd0da58e85a59e45bf542043e3c00" kind="function"><name>setKeyPrefix</name></member>
+    <member refid="group__libcmd__line__parser_1gace656fd8709811a2e1736f24be9dfdeb" kind="function"><name>disableDefaultHelpArgument</name></member>
+    <member refid="group__libcmd__line__parser_1gabce30b6b5973cea381cb78198d1913b9" kind="function"><name>disableHelpDisplayOnError</name></member>
+    <member refid="group__libcmd__line__parser_1gaa984d257679ed3c990557bc74041e912" kind="function"><name>disableSingleCharListArgument</name></member>
+    <member refid="group__libcmd__line__parser_1gac8ab7b11e940230c8fedfe364ad238d8" kind="function"><name>enableUnknowArgumentIgnore</name></member>
+    <member refid="group__libcmd__line__parser_1ga5f322adb475aa128ca5757940e940566" kind="function"><name>addKeyArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga110a241ac0d7e7cfd8f7f82b8efa548c" kind="function"><name>addKeyArrayArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga54aa6557fa1ba67e2d06425d0ebc258a" kind="function"><name>addFlagArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga298a4c7beeccf0817a83f63e26decd61" kind="function"><name>addIncrementingArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga6a655f6ff71687048a114456b646d3f0" kind="function"><name>addPositionalArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga5d626643ddc239dec0c1aa99c314a297" kind="function"><name>addPositionalArrayArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga76c61d8c0f799c3e0d59c86954b82abd" kind="function"><name>setPositionalNameStop</name></member>
+    <member refid="group__libcmd__line__parser_1gadda159ebef8e09a65ec52c5159ce49db" kind="function"><name>parse</name></member>
+    <member refid="group__libcmd__line__parser_1gac6a89e37c71081b560755db44fa131e5" kind="function"><name>displayHelp</name></member>
+  </compound>
+  <compound refid="config__json__parse_8h" kind="file"><name>config_json_parse.h</name>
+  </compound>
+  <compound refid="config__xml__parse_8h" kind="file"><name>config_xml_parse.h</name>
+  </compound>
+  <compound refid="envparse_8h" kind="file"><name>envparse.h</name>
+  </compound>
+  <compound refid="README_8md" kind="file"><name>README.md</name>
+  </compound>
+  <compound refid="listvarg_8h" kind="file"><name>listvarg.h</name>
+  </compound>
+  <compound refid="varg_8h" kind="file"><name>varg.h</name>
+  </compound>
+  <compound refid="varg__intf_8h" kind="file"><name>varg_intf.h</name>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kind="enum"><name>valueParseStatus_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b" kind="enumvalue"><name>PARSE_SUCCESS_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550" kind="enumvalue"><name>PARSE_INVALID_INPUT_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07" kind="enumvalue"><name>PARSE_BOUNDARY_LOW_e</name></member>
+    <member refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873" kind="enumvalue"><name>PARSE_BOUNDARY_HIGH_e</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" kind="enum"><name>typeStringFormat_e</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496" kind="enumvalue"><name>TYPE_FMT_SIGNED</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a" kind="enumvalue"><name>TYPE_FMT_UNSIGNED</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3" kind="enumvalue"><name>TYPE_FMT_DOUBLE</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec" kind="enumvalue"><name>TYPE_FMT_CHAR</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a" kind="enumvalue"><name>TYPE_FMT_BOOL</name></member>
+    <member refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5" kind="enumvalue"><name>TYPE_FMT_STRING</name></member>
+  </compound>
+  <compound refid="vargenum_8h" kind="file"><name>vargenum.h</name>
+  </compound>
+  <compound refid="vargincrement_8h" kind="file"><name>vargincrement.h</name>
+  </compound>
+  <compound refid="group__libvarg" kind="group"><name>libvarg</name>
+  </compound>
+  <compound refid="group__libcmd__line__parser" kind="group"><name>libcmd_line_parser</name>
+    <member refid="group__libcmd__line__parser_1ga716d871805c7587481cc407fc35a211e" kind="typedef"><name>argHandle</name></member>
+    <member refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kind="typedef"><name>cmdLineParserHandle</name></member>
+    <member refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kind="typedef"><name>parsercstr</name></member>
+    <member refid="group__libcmd__line__parser_1gaab15e28d78265695c8827d504b8ed98b" kind="function"><name>createShortIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga3ea3d4f4758d8c7fdba32ed9ea4c845b" kind="function"><name>createIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gab6f7fa82c91c7f61d4fea6ceffd39afb" kind="function"><name>createLongIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga21dcbf6e11374e39076711b6e17dbd51" kind="function"><name>createLLongIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9ba47a80f6f9f7258e3e531f07346b3a" kind="function"><name>createShortUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga6dc032f56119b6d9abff02bf7ed84080" kind="function"><name>createUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9a4f5a07e46dba3f87183ea57b5b4666" kind="function"><name>createLongUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gacbc5ce8aa39e27eb7c26e7671770706c" kind="function"><name>createLLongUIntParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga729859c88d6016dfef71858392368de2" kind="function"><name>createFloatParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaea4d7f0d96a26196212fdb42780f9a39" kind="function"><name>createCharParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga453e3cc49eba991787a589404daf3eae" kind="function"><name>createStringParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga3dfbfc1eb7b1f0f987d4643079cf817e" kind="function"><name>createParserFlagArg</name></member>
+    <member refid="group__libcmd__line__parser_1gacf7c11a1720294b6242c9301dc04944c" kind="function"><name>createIncrementingFlagArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga381ea4f2a062c9f21a11a016ec9023af" kind="function"><name>createShortIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9a7d207b1b3660607c0e584744f93c1f" kind="function"><name>createIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaedd988d2de495db18ccb24e5d3bc7fd6" kind="function"><name>createLongIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga9a893ee7e7fcf10670f3c7e4887f5df2" kind="function"><name>createLLongIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gab28b50ea3cf4ac627b62ade499dcc992" kind="function"><name>createShortUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaa7c0aad95276d1641dc31188e74d0781" kind="function"><name>createUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gad0fcfd2b9ece0997c2d2f91f30060838" kind="function"><name>createLongUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaca1c3f933ec3882e012dd63f211d7a49" kind="function"><name>createLLongUIntArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga356fb58514eed4c935f4fdb493a228ae" kind="function"><name>createDoubleArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gaddab86c0396f9b3423c82b6d76e7c5ba" kind="function"><name>createStringArrayParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1ga449b7de7863fc5e5844038dfc5a7ac3e" kind="function"><name>releaseParserArg</name></member>
+    <member refid="group__libcmd__line__parser_1gab3524095074ab31fd2fa2a3c3b5b0ec6" kind="function"><name>getParser</name></member>
+    <member refid="group__libcmd__line__parser_1ga1840bf9eae4712bd5cc6a834b7117d1e" kind="function"><name>releaseParser</name></member>
+    <member refid="group__libcmd__line__parser_1ga151361f70acb6059eb1c54264b78b062" kind="function"><name>setEpilog</name></member>
+    <member refid="group__libcmd__line__parser_1ga3edf502994c63d1b2b29fc59db200ec5" kind="function"><name>setProgramName</name></member>
+    <member refid="group__libcmd__line__parser_1ga300fd0da58e85a59e45bf542043e3c00" kind="function"><name>setKeyPrefix</name></member>
+    <member refid="group__libcmd__line__parser_1gace656fd8709811a2e1736f24be9dfdeb" kind="function"><name>disableDefaultHelpArgument</name></member>
+    <member refid="group__libcmd__line__parser_1gabce30b6b5973cea381cb78198d1913b9" kind="function"><name>disableHelpDisplayOnError</name></member>
+    <member refid="group__libcmd__line__parser_1gaa984d257679ed3c990557bc74041e912" kind="function"><name>disableSingleCharListArgument</name></member>
+    <member refid="group__libcmd__line__parser_1gac8ab7b11e940230c8fedfe364ad238d8" kind="function"><name>enableUnknowArgumentIgnore</name></member>
+    <member refid="group__libcmd__line__parser_1ga5f322adb475aa128ca5757940e940566" kind="function"><name>addKeyArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga110a241ac0d7e7cfd8f7f82b8efa548c" kind="function"><name>addKeyArrayArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga54aa6557fa1ba67e2d06425d0ebc258a" kind="function"><name>addFlagArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga298a4c7beeccf0817a83f63e26decd61" kind="function"><name>addIncrementingArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga6a655f6ff71687048a114456b646d3f0" kind="function"><name>addPositionalArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga5d626643ddc239dec0c1aa99c314a297" kind="function"><name>addPositionalArrayArgument</name></member>
+    <member refid="group__libcmd__line__parser_1ga76c61d8c0f799c3e0d59c86954b82abd" kind="function"><name>setPositionalNameStop</name></member>
+    <member refid="group__libcmd__line__parser_1gadda159ebef8e09a65ec52c5159ce49db" kind="function"><name>parse</name></member>
+    <member refid="group__libcmd__line__parser_1gac6a89e37c71081b560755db44fa131e5" kind="function"><name>displayHelp</name></member>
+  </compound>
+  <compound refid="group__libenvparse" kind="group"><name>libenvparse</name>
+  </compound>
+  <compound refid="group__libjson__arg__parser" kind="group"><name>libjson_arg_parser</name>
+  </compound>
+  <compound refid="group__libxml__arg__parser" kind="group"><name>libxml_arg_parser</name>
+  </compound>
+  <compound refid="dir_fb1672e5388bb42a62742102c942e3e4" kind="dir"><name>cmd_line_parse</name>
+  </compound>
+  <compound refid="dir_25aa36e821575174c1c14f7e70d8dcee" kind="dir"><name>config_json_parse</name>
+  </compound>
+  <compound refid="dir_39ce0c028da222b8e6af2cd608838a9c" kind="dir"><name>config_xml_parse</name>
+  </compound>
+  <compound refid="dir_b5426fdc3fcb0897b18ebd54e711d721" kind="dir"><name>envparse</name>
+  </compound>
+  <compound refid="dir_763912babbd55401cee6986d0dc2f814" kind="dir"><name>cmd_line_parse/inc</name>
+  </compound>
+  <compound refid="dir_27d8aa87a02a21189006080d8cf69278" kind="dir"><name>config_json_parse/inc</name>
+  </compound>
+  <compound refid="dir_b9b8c22ab575777567b49516456226ef" kind="dir"><name>config_xml_parse/inc</name>
+  </compound>
+  <compound refid="dir_b59ca386879e1d8d1d1f200de540e8fc" kind="dir"><name>envparse/inc</name>
+  </compound>
+  <compound refid="dir_edb99c5e7cff881da36b387745ce0ef0" kind="dir"><name>varg/inc</name>
+  </compound>
+  <compound refid="dir_c527fdae6b10e7dc2c0a979e4fbaf971" kind="dir"><name>varg</name>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
+  </compound>
+</doxygenindex>

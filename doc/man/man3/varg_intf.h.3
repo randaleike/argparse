@@ -1,0 +1,88 @@
+.TH "varg/inc/varg_intf.h" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+varg/inc/varg_intf.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cstdlib>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <climits>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <string>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBargparser::varg_intf\fP"
+.br
+.RI "Base variable argument varg interface and methods\&. "
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBargparser::valueParseStatus_e\fP { \fBargparser::PARSE_SUCCESS_e\fP = 0, \fBargparser::PARSE_INVALID_INPUT_e\fP, \fBargparser::PARSE_BOUNDARY_LOW_e\fP, \fBargparser::PARSE_BOUNDARY_HIGH_e\fP }"
+.br
+.RI "SetValue return code values\&. "
+.ti -1c
+.RI "enum \fBargparser::typeStringFormat_e\fP { \fBargparser::TYPE_FMT_SIGNED\fP, \fBargparser::TYPE_FMT_UNSIGNED\fP, \fBargparser::TYPE_FMT_DOUBLE\fP, \fBargparser::TYPE_FMT_CHAR\fP, \fBargparser::TYPE_FMT_BOOL\fP, \fBargparser::TYPE_FMT_STRING\fP }"
+.br
+.RI "Type string format type selection\&. "
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBargparser::typeStringFormat_e\fP"
+
+.PP
+Type string format type selection\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fITYPE_FMT_SIGNED \fP\fP
+Use the signed min/max\&. 
+.TP
+\fB\fITYPE_FMT_UNSIGNED \fP\fP
+Use the unsigned min/max\&. 
+.TP
+\fB\fITYPE_FMT_DOUBLE \fP\fP
+Use the double min/max\&. 
+.TP
+\fB\fITYPE_FMT_CHAR \fP\fP
+Set the default char type string\&. 
+.TP
+\fB\fITYPE_FMT_BOOL \fP\fP
+Set the default boolean type string\&. 
+.TP
+\fB\fITYPE_FMT_STRING \fP\fP
+Set the default string type string\&. 
+.SS "enum \fBargparser::valueParseStatus_e\fP"
+
+.PP
+SetValue return code values\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIPARSE_SUCCESS_e \fP\fP
+Input string successfully parsed\&. 
+.TP
+\fB\fIPARSE_INVALID_INPUT_e \fP\fP
+Input could not be parsed into an appropriate value\&. 
+.TP
+\fB\fIPARSE_BOUNDARY_LOW_e \fP\fP
+Parsed value exceeds lower value limit\&. 
+.TP
+\fB\fIPARSE_BOUNDARY_HIGH_e \fP\fP
+Parsed value exceeds upper value limit\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

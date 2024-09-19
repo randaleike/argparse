@@ -1,0 +1,339 @@
+.TH "argparser::varg_intf" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+argparser::varg_intf \- Base variable argument varg interface and methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <varg_intf\&.h>\fP
+.PP
+Inherited by \fBargparser::listvarg< T >\fP, \fBargparser::varg< T >\fP, \fBargparser::vargenum< T >\fP, and \fBargparser::vargincrement\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBvarg_intf\fP ()"
+.br
+.RI "Default constructor for \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "\fBvarg_intf\fP (const \fBvarg_intf\fP &other)=default"
+.br
+.RI "Copy constructor for \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "\fBvarg_intf\fP (\fBvarg_intf\fP &&other)=default"
+.br
+.RI "Reference copy constructor for \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "\fBvarg_intf\fP & \fBoperator=\fP (const \fBvarg_intf\fP &other)=default"
+.br
+.RI "Copy assignment constructor for \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "\fBvarg_intf\fP & \fBoperator=\fP (\fBvarg_intf\fP &&other)=default"
+.br
+.RI "Reference copy assignment constructor for \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "virtual \fB~varg_intf\fP ()=default"
+.br
+.RI "Destroy the varg object\&. "
+.ti -1c
+.RI "virtual const char * \fBgetTypeString\fP ()"
+.br
+.RI "Get the base argument type as a string\&. "
+.ti -1c
+.RI "virtual bool \fBisList\fP () const =0"
+.br
+.RI "Return if varg is a list of elements or a single element type\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP (const char *newValue)=0"
+.br
+.RI "Virtual place holder for the template variable implementation setValue with input function\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP ()=0"
+.br
+.ti -1c
+.RI "virtual bool \fBisEmpty\fP ()=0"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetMinMaxSigned\fP (long long int min, long long int max)"
+.br
+.RI "Set the Min Max Signed object\&. "
+.ti -1c
+.RI "void \fBsetMinMaxUnsigned\fP (long long unsigned min, long long unsigned max)"
+.br
+.RI "Set the Min Max Signed object\&. "
+.ti -1c
+.RI "void \fBsetMinMaxDouble\fP (double min, double max)"
+.br
+.RI "Set the Min Max Signed object\&. "
+.ti -1c
+.RI "void \fBsetTypeString\fP (\fBtypeStringFormat_e\fP fmtType)"
+.br
+.RI "Construct a type string\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBgetSignedValue\fP (const char *newValue, long long int &parsedValue) const"
+.br
+.RI "Get a signed value from the input string\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBgetUnsignedValue\fP (const char *newValue, long long unsigned &parsedValue) const"
+.br
+.RI "Get a unsigned value from the input string\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBgetDoubleValue\fP (const char *newValue, double &parsedValue) const"
+.br
+.RI "Get the Double Value object\&. "
+.in -1c
+.SS "Static Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBvalueParseStatus_e\fP \fBgetBoolValue\fP (const char *newValue, bool &parsedValue)"
+.br
+.RI "Gt the Bool Value object\&. "
+.ti -1c
+.RI "static \fBvalueParseStatus_e\fP \fBgetCharValue\fP (const char *newValue, char &parsedValue)"
+.br
+.RI "Get the New character object value\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Base variable argument varg interface and methods\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "static \fBvalueParseStatus_e\fP argparser::varg_intf::getBoolValue (const char * newValue, bool & parsedValue)\fC [static]\fP, \fC [protected]\fP"
+
+.PP
+Gt the Bool Value object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - input argument string 
+.br
+\fIparsedValue\fP - parsed boolean value if parsing succeeded
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.RE
+.PP
+
+.SS "static \fBvalueParseStatus_e\fP argparser::varg_intf::getCharValue (const char * newValue, char & parsedValue)\fC [static]\fP, \fC [protected]\fP"
+
+.PP
+Get the New character object value\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - input argument string 
+.br
+\fIparsedValue\fP - parsed character value if parsing succeeded
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.RE
+.PP
+
+.SS "\fBvalueParseStatus_e\fP argparser::varg_intf::getDoubleValue (const char * newValue, double & parsedValue) const\fC [protected]\fP"
+
+.PP
+Get the Double Value object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - input argument string 
+.br
+\fIparsedValue\fP - return double value
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value was below the lower set limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit 
+.RE
+.PP
+
+.SS "\fBvalueParseStatus_e\fP argparser::varg_intf::getSignedValue (const char * newValue, long long int & parsedValue) const\fC [protected]\fP"
+
+.PP
+Get a signed value from the input string\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Input string to parse 
+.br
+\fIparsedValue\fP - return long long integer value
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value was below the lower set limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit 
+.RE
+.PP
+
+.SS "virtual const char* argparser::varg_intf::getTypeString ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Get the base argument type as a string\&. 
+.PP
+\fBReturns\fP
+.RS 4
+char* - Base type string 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBargparser::vargincrement\fP, and \fBargparser::vargenum< T >\fP\&.
+.SS "\fBvalueParseStatus_e\fP argparser::varg_intf::getUnsignedValue (const char * newValue, long long unsigned & parsedValue) const\fC [protected]\fP"
+
+.PP
+Get a unsigned value from the input string\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Input string to parse 
+.br
+\fIparsedValue\fP - return long long unsigned value
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value was below the lower set limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit 
+.RE
+.PP
+
+.SS "virtual bool argparser::varg_intf::isEmpty ()\fC [pure virtual]\fP"
+Virtual place holder for the template variable implementation isEmpty function
+.PP
+\fBReturns\fP
+.RS 4
+true - if the variable is empty 
+.PP
+false - if variable is not empty 
+.RE
+.PP
+
+.PP
+Implemented in \fBargparser::vargincrement\fP, \fBargparser::vargenum< T >\fP, \fBargparser::varg< T >\fP, and \fBargparser::listvarg< T >\fP\&.
+.SS "virtual bool argparser::varg_intf::isList () const\fC [pure virtual]\fP"
+
+.PP
+Return if varg is a list of elements or a single element type\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true - List type variable, multiple arguement values are allowed 
+.PP
+false - Only 0 or 1 argument values are allowed\&. 
+.RE
+.PP
+
+.PP
+Implemented in \fBargparser::vargincrement\fP, \fBargparser::vargenum< T >\fP, \fBargparser::varg< T >\fP, and \fBargparser::listvarg< T >\fP\&.
+.SS "void argparser::varg_intf::setMinMaxDouble (double min, double max)\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Set the Min Max Signed object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImin\fP - Minimum floating point value allowed to be assigned 
+.br
+\fImax\fP - Minimum floating point value allowed to be assigned 
+.RE
+.PP
+
+.SS "void argparser::varg_intf::setMinMaxSigned (long long int min, long long int max)\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Set the Min Max Signed object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImin\fP - Minimum signed value allowed to be assigned 
+.br
+\fImax\fP - Minimum signed value allowed to be assigned 
+.RE
+.PP
+
+.SS "void argparser::varg_intf::setMinMaxUnsigned (long long unsigned min, long long unsigned max)\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Set the Min Max Signed object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImin\fP - Minimum unsigned value allowed to be assigned 
+.br
+\fImax\fP - Minimum unsigned value allowed to be assigned 
+.RE
+.PP
+
+.SS "virtual \fBvalueParseStatus_e\fP argparser::varg_intf::setValue ()\fC [pure virtual]\fP"
+Virtual place holder for the template variable implementation setValue function
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.RE
+.PP
+
+.PP
+Implemented in \fBargparser::vargincrement\fP, \fBargparser::vargenum< T >\fP, \fBargparser::varg< T >\fP, and \fBargparser::listvarg< T >\fP\&.
+.SS "virtual \fBvalueParseStatus_e\fP argparser::varg_intf::setValue (const char * newValue)\fC [pure virtual]\fP"
+
+.PP
+Virtual place holder for the template variable implementation setValue with input function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Input character string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.PP
+Implemented in \fBargparser::vargincrement\fP, \fBargparser::vargenum< T >\fP, \fBargparser::varg< T >\fP, and \fBargparser::listvarg< T >\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

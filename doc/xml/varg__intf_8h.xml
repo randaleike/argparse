@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="varg__intf_8h" kind="file" language="C++">
+    <compoundname>varg_intf.h</compoundname>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">unistd.h</includes>
+    <includes local="no">climits</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">string</includes>
+    <includedby refid="listvarg_8h" local="yes">varg/inc/listvarg.h</includedby>
+    <includedby refid="varg_8h" local="yes">varg/inc/varg.h</includedby>
+    <includedby refid="vargenum_8h" local="yes">varg/inc/vargenum.h</includedby>
+    <includedby refid="vargincrement_8h" local="yes">varg/inc/vargincrement.h</includedby>
+    <includedby refid="cmd__line__parse_8h" local="yes">cmd_line_parse/inc/cmd_line_parse.h</includedby>
+    <includedby refid="envparse_8h" local="yes">envparse/inc/envparse.h</includedby>
+    <includedby refid="config__json__parse_8h" local="yes">config_json_parse/inc/config_json_parse.h</includedby>
+    <includedby refid="config__xml__parse_8h" local="yes">config_xml_parse/inc/config_xml_parse.h</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>limits</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="1">
+        <label>varg/inc/varg_intf.h</label>
+        <link refid="varg__intf_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>unistd.h</label>
+      </node>
+      <node id="2">
+        <label>cstdlib</label>
+      </node>
+      <node id="4">
+        <label>climits</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>varg/inc/varg.h</label>
+        <link refid="varg_8h"/>
+      </node>
+      <node id="2">
+        <label>varg/inc/listvarg.h</label>
+        <link refid="listvarg_8h"/>
+      </node>
+      <node id="7">
+        <label>envparse/inc/envparse.h</label>
+        <link refid="envparse_8h"/>
+      </node>
+      <node id="1">
+        <label>varg/inc/varg_intf.h</label>
+        <link refid="varg__intf_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cmd_line_parse/inc/cmd_line_parse.h</label>
+        <link refid="cmd__line__parse_8h"/>
+      </node>
+      <node id="8">
+        <label>config_json_parse/inc/config_json_parse.h</label>
+        <link refid="config__json__parse_8h"/>
+      </node>
+      <node id="9">
+        <label>config_xml_parse/inc/config_xml_parse.h</label>
+        <link refid="config__xml__parse_8h"/>
+      </node>
+      <node id="4">
+        <label>varg/inc/vargenum.h</label>
+        <link refid="vargenum_8h"/>
+      </node>
+      <node id="5">
+        <label>varg/inc/vargincrement.h</label>
+        <link refid="vargincrement_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classargparser_1_1varg__intf" prot="public">argparser::varg_intf</innerclass>
+    <innernamespace refid="namespaceargparser">argparser</innernamespace>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" prot="public" static="no" strong="no">
+        <type></type>
+        <name>valueParseStatus_e</name>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b" prot="public">
+          <name>PARSE_SUCCESS_e</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Input string successfully parsed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550" prot="public">
+          <name>PARSE_INVALID_INPUT_e</name>
+          <briefdescription>
+<para>Input could not be parsed into an appropriate value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07" prot="public">
+          <name>PARSE_BOUNDARY_LOW_e</name>
+          <briefdescription>
+<para>Parsed value exceeds lower value limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873" prot="public">
+          <name>PARSE_BOUNDARY_HIGH_e</name>
+          <briefdescription>
+<para>Parsed value exceeds upper value limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>SetValue return code values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="44" column="1" bodyfile="varg/inc/varg_intf.h" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>typeStringFormat_e</name>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496" prot="public">
+          <name>TYPE_FMT_SIGNED</name>
+          <briefdescription>
+<para>Use the signed min/max. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a" prot="public">
+          <name>TYPE_FMT_UNSIGNED</name>
+          <briefdescription>
+<para>Use the unsigned min/max. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3" prot="public">
+          <name>TYPE_FMT_DOUBLE</name>
+          <briefdescription>
+<para>Use the double min/max. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec" prot="public">
+          <name>TYPE_FMT_CHAR</name>
+          <briefdescription>
+<para>Set the default char type string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a" prot="public">
+          <name>TYPE_FMT_BOOL</name>
+          <briefdescription>
+<para>Set the default boolean type string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5" prot="public">
+          <name>TYPE_FMT_STRING</name>
+          <briefdescription>
+<para>Set the default string type string. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type string format type selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="56" column="1" bodyfile="varg/inc/varg_intf.h" bodystart="57" bodyend="64"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>Copyright<sp/>(c)<sp/>2022-2024<sp/>Randal<sp/>Eike</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"></highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>Permission<sp/>is<sp/>hereby<sp/>granted,<sp/>free<sp/>of<sp/>charge,<sp/>to<sp/>any<sp/>person<sp/>obtaining<sp/>a</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>copy<sp/>of<sp/>this<sp/>software<sp/>and<sp/>associated<sp/>documentation<sp/>files<sp/>(the<sp/>&quot;Software&quot;),</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>to<sp/>deal<sp/>in<sp/>the<sp/>Software<sp/>without<sp/>restriction,<sp/>including<sp/>without<sp/>limitation</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>the<sp/>rights<sp/>to<sp/>use,<sp/>copy,<sp/>modify,<sp/>merge,<sp/>publish,<sp/>distribute,<sp/>sublicense,</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>and/or<sp/>sell<sp/>copies<sp/>of<sp/>the<sp/>Software,<sp/>and<sp/>to<sp/>permit<sp/>persons<sp/>to<sp/>whom<sp/>the</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>Software<sp/>is<sp/>furnished<sp/>to<sp/>do<sp/>so,<sp/>subject<sp/>to<sp/>the<sp/>following<sp/>conditions:</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"></highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>The<sp/>above<sp/>copyright<sp/>notice<sp/>and<sp/>this<sp/>permission<sp/>notice<sp/>shall<sp/>be<sp/>included</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>in<sp/>all<sp/>copies<sp/>or<sp/>substantial<sp/>portions<sp/>of<sp/>the<sp/>Software.</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"></highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>THE<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>&quot;AS<sp/>IS&quot;,<sp/>WITHOUT<sp/>WARRANTY<sp/>OF<sp/>ANY<sp/>KIND,</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>EXPRESS<sp/>OR<sp/>IMPLIED,<sp/>INCLUDING<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO<sp/>THE<sp/>WARRANTIES<sp/>OF</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>MERCHANTABILITY,<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>AND<sp/>NONINFRINGEMENT.</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>AUTHORS<sp/>OR<sp/>COPYRIGHT<sp/>HOLDERS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>CLAIM,<sp/>DAMAGES<sp/>OR<sp/>OTHER<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>AN<sp/>ACTION<sp/>OF<sp/>CONTRACT,</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>TORT<sp/>OR<sp/>OTHERWISE,<sp/>ARISING<sp/>FROM,<sp/>OUT<sp/>OF<sp/>OR<sp/>IN<sp/>CONNECTION<sp/>WITH<sp/>THE</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>SOFTWARE<sp/>OR<sp/>THE<sp/>USE<sp/>OR<sp/>OTHER<sp/>DEALINGS<sp/>IN<sp/>THE<sp/>SOFTWARE.</highlight></codeline>
+<codeline lineno="21"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Includes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;climits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">argparser</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46" refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a99c2218d248d086a27238409917aed8b" kindref="member">PARSE_SUCCESS_e</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a5e2745fc9d951043f6106cc1d80f0550" kindref="member">PARSE_INVALID_INPUT_e</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9a1f8f7cf6c7c78eaaf2e092c024deee07" kindref="member">PARSE_BOUNDARY_LOW_e</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9aaf53eb0316bd3725507d20562b984873" kindref="member">PARSE_BOUNDARY_HIGH_e</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" kindref="member">typeStringFormat_e</ref></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58" refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba106e7dd3b347a64802c19c179a6a1496" kindref="member">TYPE_FMT_SIGNED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61bad9067b6135d42515d748c62d77f0165a" kindref="member">TYPE_FMT_UNSIGNED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba505e986d8348112cb50ebfdf0677b3d3" kindref="member">TYPE_FMT_DOUBLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba084ada211e95ac6fec3dcbb833161bec" kindref="member">TYPE_FMT_CHAR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61ba47a9f6045042b2339dc03ff8b2124c4a" kindref="member">TYPE_FMT_BOOL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61baa73d0e43190e84a07daa60f0695116b5" kindref="member">TYPE_FMT_STRING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classargparser_1_1varg__intf" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maxSignedValue;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>minSignedValue;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><sp/>maxUnsignedValue;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><sp/>minUnsignedValue;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>minDoubleValue;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maxDoubleValue;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>typeString;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88" refid="classargparser_1_1varg__intf_1aa6c337f5c1ee140a0972fb3d4dcfb3e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf_1aa6c337f5c1ee140a0972fb3d4dcfb3e8" kindref="member">setMinMaxSigned</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>min,<sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{minSignedValue<sp/>=<sp/>min;<sp/>maxSignedValue<sp/>=<sp/>max;}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classargparser_1_1varg__intf_1a705a9c247bfdbb1f9ca553ac276d9af5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf_1a705a9c247bfdbb1f9ca553ac276d9af5" kindref="member">setMinMaxUnsigned</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>min,<sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>max)<sp/><sp/>{minUnsignedValue<sp/>=<sp/>min;<sp/>maxUnsignedValue<sp/>=<sp/>max;}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classargparser_1_1varg__intf_1ad18a930df13f705c25f23679778312ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf_1ad18a930df13f705c25f23679778312ea" kindref="member">setMinMaxDouble</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{minDoubleValue<sp/>=<sp/>min;<sp/>maxDoubleValue<sp/>=<sp/>max;}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classargparser_1_1varg__intf_1a311cf94678e263ed69ede356d6d99c29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf_1a311cf94678e263ed69ede356d6d99c29" kindref="member">setTypeString</ref>(<ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" kindref="member">typeStringFormat_e</ref><sp/>fmtType);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classargparser_1_1varg__intf_1a0a293afbb6c6a010cb7a46c7cb53a39d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref><sp/><ref refid="classargparser_1_1varg__intf_1a0a293afbb6c6a010cb7a46c7cb53a39d" kindref="member">getBoolValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newValue,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>parsedValue);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classargparser_1_1varg__intf_1ae0070fd1bdf19a3cfb0de7dea2d3a8e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref><sp/><ref refid="classargparser_1_1varg__intf_1ae0070fd1bdf19a3cfb0de7dea2d3a8e9" kindref="member">getCharValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newValue,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>parsedValue);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classargparser_1_1varg__intf_1a9c0883da18d87e5eb6ea7a5d3df70eee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref><sp/><ref refid="classargparser_1_1varg__intf_1a9c0883da18d87e5eb6ea7a5d3df70eee" kindref="member">getSignedValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newValue,<sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;parsedValue)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classargparser_1_1varg__intf_1a3c0e994cb881d352dc9c0eda49d8be39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref><sp/><ref refid="classargparser_1_1varg__intf_1a3c0e994cb881d352dc9c0eda49d8be39" kindref="member">getUnsignedValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newValue,<sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>&amp;parsedValue)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classargparser_1_1varg__intf_1a0db1d5c7509997b4deb05353bf1faa97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref><sp/><ref refid="classargparser_1_1varg__intf_1a0db1d5c7509997b4deb05353bf1faa97" kindref="member">getDoubleValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newValue,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>parsedValue)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173" refid="classargparser_1_1varg__intf_1ae0ff8b571b93bd20d7be35844a2b18d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classargparser_1_1varg__intf_1ae0ff8b571b93bd20d7be35844a2b18d3" kindref="member">varg_intf</ref>();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="classargparser_1_1varg__intf_1ac80d23cc8ce2f7abdcb7bbc8de090a35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classargparser_1_1varg__intf_1ac80d23cc8ce2f7abdcb7bbc8de090a35" kindref="member">varg_intf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref>&amp;<sp/>other)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="classargparser_1_1varg__intf_1a22027194048defd3d6940ac3818e86c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classargparser_1_1varg__intf_1a22027194048defd3d6940ac3818e86c2" kindref="member">varg_intf</ref>(<ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref>&amp;&amp;<sp/>other)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="classargparser_1_1varg__intf_1a2d0d081fb21d75575c4920f8b3382843" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref>&amp;<sp/><ref refid="classargparser_1_1varg__intf_1a2d0d081fb21d75575c4920f8b3382843" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref>&amp;<sp/>other)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="classargparser_1_1varg__intf_1ad9595510b842d0246a66df427d3429fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref>&amp;<sp/><ref refid="classargparser_1_1varg__intf_1ad9595510b842d0246a66df427d3429fd" kindref="member">operator=</ref>(<ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref>&amp;&amp;<sp/>other)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classargparser_1_1varg__intf_1a73e3f6024948cbb35f43822759437fd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf_1a73e3f6024948cbb35f43822759437fd5" kindref="member">~varg_intf</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classargparser_1_1varg__intf_1a4c2423cfa709debc96d4ce0fdcb748c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classargparser_1_1varg__intf_1a4c2423cfa709debc96d4ce0fdcb748c9" kindref="member">getTypeString</ref>()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>typeString.c_str();}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classargparser_1_1varg__intf_1a38a21bf04c0171dc7d3f0867f4cb58c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf_1a38a21bf04c0171dc7d3f0867f4cb58c2" kindref="member">isList</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classargparser_1_1varg__intf_1aff51aa5494f71b180b34b53daa4f80cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref><sp/><ref refid="classargparser_1_1varg__intf_1aff51aa5494f71b180b34b53daa4f80cd" kindref="member">setValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>newValue)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classargparser_1_1varg__intf_1afff5b621a9f94f5a8a2f59971e66425f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref><sp/><ref refid="classargparser_1_1varg__intf_1afff5b621a9f94f5a8a2f59971e66425f" kindref="member">setValue</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="classargparser_1_1varg__intf_1aaa74f4bf7c2de32faf2276db08f90d4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classargparser_1_1varg__intf_1aaa74f4bf7c2de32faf2276db08f90d4d" kindref="member">isEmpty</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal">};<sp/></highlight><highlight class="comment">//<sp/>end<sp/>of<sp/>namespace<sp/>argparser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="varg/inc/varg_intf.h"/>
+  </compounddef>
+</doxygen>

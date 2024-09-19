@@ -1,0 +1,778 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classargparser_1_1varg__intf" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>argparser::varg_intf</compoundname>
+    <derivedcompoundref refid="classargparser_1_1listvarg" prot="public" virt="non-virtual">argparser::listvarg&lt; T &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classargparser_1_1varg" prot="public" virt="non-virtual">argparser::varg&lt; T &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classargparser_1_1vargenum" prot="public" virt="non-virtual">argparser::vargenum&lt; T &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classargparser_1_1vargincrement" prot="public" virt="non-virtual">argparser::vargincrement</derivedcompoundref>
+    <includes refid="varg__intf_8h" local="no">varg_intf.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classargparser_1_1varg__intf_1a0dbc1a3b091594862fe5c9a64ea145a5" prot="private" static="no" mutable="no">
+        <type>long long int</type>
+        <definition>long long int argparser::varg_intf::maxSignedValue</definition>
+        <argsstring></argsstring>
+        <name>maxSignedValue</name>
+        <briefdescription>
+<para>Maximum allowed signed integer value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="72" column="29" bodyfile="varg/inc/varg_intf.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1varg__intf_1ae9f6aaa61b0a371db1d6b9a325640905" prot="private" static="no" mutable="no">
+        <type>long long int</type>
+        <definition>long long int argparser::varg_intf::minSignedValue</definition>
+        <argsstring></argsstring>
+        <name>minSignedValue</name>
+        <briefdescription>
+<para>Minimum allowed signed integer value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="73" column="29" bodyfile="varg/inc/varg_intf.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1varg__intf_1a0af3a461df6c620bcdbb255cf2554c79" prot="private" static="no" mutable="no">
+        <type>long long unsigned</type>
+        <definition>long long unsigned argparser::varg_intf::maxUnsignedValue</definition>
+        <argsstring></argsstring>
+        <name>maxUnsignedValue</name>
+        <briefdescription>
+<para>Maximum allowed unsigned integer value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="74" column="29" bodyfile="varg/inc/varg_intf.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1varg__intf_1a55dd208ad9f15b05b3c93f475cc483d6" prot="private" static="no" mutable="no">
+        <type>long long unsigned</type>
+        <definition>long long unsigned argparser::varg_intf::minUnsignedValue</definition>
+        <argsstring></argsstring>
+        <name>minUnsignedValue</name>
+        <briefdescription>
+<para>Minimum allowed unsigned integer value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="75" column="29" bodyfile="varg/inc/varg_intf.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1varg__intf_1ad66e9f56d545392a0b3d4b250e598450" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double argparser::varg_intf::minDoubleValue</definition>
+        <argsstring></argsstring>
+        <name>minDoubleValue</name>
+        <briefdescription>
+<para>Minimum allowed floating point value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="76" column="29" bodyfile="varg/inc/varg_intf.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1varg__intf_1a6063ec4c64bdbe42fe39fa55510e299f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double argparser::varg_intf::maxDoubleValue</definition>
+        <argsstring></argsstring>
+        <name>maxDoubleValue</name>
+        <briefdescription>
+<para>Minimum allowed floating point value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="77" column="29" bodyfile="varg/inc/varg_intf.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1varg__intf_1ac5a1d37cbbea92e86d43f42a56cbbd6d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string argparser::varg_intf::typeString</definition>
+        <argsstring></argsstring>
+        <name>typeString</name>
+        <briefdescription>
+<para>Type description string with min/max values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="79" column="29" bodyfile="varg/inc/varg_intf.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1aa6c337f5c1ee140a0972fb3d4dcfb3e8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::varg_intf::setMinMaxSigned</definition>
+        <argsstring>(long long int min, long long int max)</argsstring>
+        <name>setMinMaxSigned</name>
+        <param>
+          <type>long long int</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>long long int</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Set the Min Max Signed object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Minimum signed value allowed to be assigned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Minimum signed value allowed to be assigned </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="88" column="14" bodyfile="varg/inc/varg_intf.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a705a9c247bfdbb1f9ca553ac276d9af5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::varg_intf::setMinMaxUnsigned</definition>
+        <argsstring>(long long unsigned min, long long unsigned max)</argsstring>
+        <name>setMinMaxUnsigned</name>
+        <param>
+          <type>long long unsigned</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>long long unsigned</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Set the Min Max Signed object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Minimum unsigned value allowed to be assigned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Minimum unsigned value allowed to be assigned </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="96" column="14" bodyfile="varg/inc/varg_intf.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1ad18a930df13f705c25f23679778312ea" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::varg_intf::setMinMaxDouble</definition>
+        <argsstring>(double min, double max)</argsstring>
+        <name>setMinMaxDouble</name>
+        <param>
+          <type>double</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Set the Min Max Signed object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Minimum floating point value allowed to be assigned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Minimum floating point value allowed to be assigned </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="104" column="14" bodyfile="varg/inc/varg_intf.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a311cf94678e263ed69ede356d6d99c29" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::varg_intf::setTypeString</definition>
+        <argsstring>(typeStringFormat_e fmtType)</argsstring>
+        <name>setTypeString</name>
+        <param>
+          <type><ref refid="varg__intf_8h_1ad0d13e790d922b1a6cbb05cdecb8f61b" kindref="member">typeStringFormat_e</ref></type>
+          <declname>fmtType</declname>
+        </param>
+        <briefdescription>
+<para>Construct a type string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="109" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a9c0883da18d87e5eb6ea7a5d3df70eee" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>valueParseStatus_e argparser::varg_intf::getSignedValue</definition>
+        <argsstring>(const char *newValue, long long int &amp;parsedValue) const</argsstring>
+        <name>getSignedValue</name>
+        <param>
+          <type>const char *</type>
+          <declname>newValue</declname>
+        </param>
+        <param>
+          <type>long long int &amp;</type>
+          <declname>parsedValue</declname>
+        </param>
+        <briefdescription>
+<para>Get a signed value from the input string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Input string to parse </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parsedValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- return long long integer value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value was below the lower set limit </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="144" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a3c0e994cb881d352dc9c0eda49d8be39" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>valueParseStatus_e argparser::varg_intf::getUnsignedValue</definition>
+        <argsstring>(const char *newValue, long long unsigned &amp;parsedValue) const</argsstring>
+        <name>getUnsignedValue</name>
+        <param>
+          <type>const char *</type>
+          <declname>newValue</declname>
+        </param>
+        <param>
+          <type>long long unsigned &amp;</type>
+          <declname>parsedValue</declname>
+        </param>
+        <briefdescription>
+<para>Get a unsigned value from the input string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Input string to parse </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parsedValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- return long long unsigned value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value was below the lower set limit </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="157" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a0db1d5c7509997b4deb05353bf1faa97" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>valueParseStatus_e argparser::varg_intf::getDoubleValue</definition>
+        <argsstring>(const char *newValue, double &amp;parsedValue) const</argsstring>
+        <name>getDoubleValue</name>
+        <param>
+          <type>const char *</type>
+          <declname>newValue</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>parsedValue</declname>
+        </param>
+        <briefdescription>
+<para>Get the Double Value object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input argument string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parsedValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- return double value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value was below the lower set limit </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="170" column="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a0a293afbb6c6a010cb7a46c7cb53a39d" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>static valueParseStatus_e argparser::varg_intf::getBoolValue</definition>
+        <argsstring>(const char *newValue, bool &amp;parsedValue)</argsstring>
+        <name>getBoolValue</name>
+        <param>
+          <type>const char *</type>
+          <declname>newValue</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>parsedValue</declname>
+        </param>
+        <briefdescription>
+<para>Gt the Bool Value object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input argument string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parsedValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- parsed boolean value if parsing succeeded</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="120" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1ae0070fd1bdf19a3cfb0de7dea2d3a8e9" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>static valueParseStatus_e argparser::varg_intf::getCharValue</definition>
+        <argsstring>(const char *newValue, char &amp;parsedValue)</argsstring>
+        <name>getCharValue</name>
+        <param>
+          <type>const char *</type>
+          <declname>newValue</declname>
+        </param>
+        <param>
+          <type>char &amp;</type>
+          <declname>parsedValue</declname>
+        </param>
+        <briefdescription>
+<para>Get the New character object value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input argument string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parsedValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- parsed character value if parsing succeeded</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="131" column="35"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1ae0ff8b571b93bd20d7be35844a2b18d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::varg_intf::varg_intf</definition>
+        <argsstring>()</argsstring>
+        <name>varg_intf</name>
+        <briefdescription>
+<para>Default constructor for <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="173" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1ac80d23cc8ce2f7abdcb7bbc8de090a35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::varg_intf::varg_intf</definition>
+        <argsstring>(const varg_intf &amp;other)=default</argsstring>
+        <name>varg_intf</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor for <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="174" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a22027194048defd3d6940ac3818e86c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::varg_intf::varg_intf</definition>
+        <argsstring>(varg_intf &amp;&amp;other)=default</argsstring>
+        <name>varg_intf</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference copy constructor for <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="175" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a2d0d081fb21d75575c4920f8b3382843" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> &amp;</type>
+        <definition>varg_intf&amp; argparser::varg_intf::operator=</definition>
+        <argsstring>(const varg_intf &amp;other)=default</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy assignment constructor for <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="176" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1ad9595510b842d0246a66df427d3429fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> &amp;</type>
+        <definition>varg_intf&amp; argparser::varg_intf::operator=</definition>
+        <argsstring>(varg_intf &amp;&amp;other)=default</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference copy assignment constructor for <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="177" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a73e3f6024948cbb35f43822759437fd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual argparser::varg_intf::~varg_intf</definition>
+        <argsstring>()=default</argsstring>
+        <name>~varg_intf</name>
+        <briefdescription>
+<para>Destroy the varg object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="182" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a4c2423cfa709debc96d4ce0fdcb748c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>virtual const char* argparser::varg_intf::getTypeString</definition>
+        <argsstring>()</argsstring>
+        <name>getTypeString</name>
+        <reimplementedby refid="classargparser_1_1vargenum_1ac14def44f9636b2cc719c2f147b958c9">getTypeString</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargincrement_1a355742627de36b5332524f52a12c6404">getTypeString</reimplementedby>
+        <briefdescription>
+<para>Get the base argument type as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>char* - Base type string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="189" column="28" bodyfile="varg/inc/varg_intf.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1a38a21bf04c0171dc7d3f0867f4cb58c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool argparser::varg_intf::isList</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isList</name>
+        <reimplementedby refid="classargparser_1_1listvarg_1a0034885a73bf516de9cf72662ef5bb20">isList</reimplementedby>
+        <reimplementedby refid="classargparser_1_1varg_1a782623f5709b13de778d5573b65babaa">isList</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargenum_1a0c6bab8670987a786b86fe43ffaad172">isList</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargincrement_1a0e49392b5aae3b8a4b09a000d4883273">isList</reimplementedby>
+        <briefdescription>
+<para>Return if varg is a list of elements or a single element type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true - List type variable, multiple arguement values are allowed </para>
+</simplesect>
+<simplesect kind="return"><para>false - Only 0 or 1 argument values are allowed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="197" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1aff51aa5494f71b180b34b53daa4f80cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>virtual valueParseStatus_e argparser::varg_intf::setValue</definition>
+        <argsstring>(const char *newValue)=0</argsstring>
+        <name>setValue</name>
+        <reimplementedby refid="classargparser_1_1listvarg_1a5ebc28913e6598b67ebef3960bafbf08">setValue</reimplementedby>
+        <reimplementedby refid="classargparser_1_1varg_1a343b0fd604ca370b0af0bc583a28365d">setValue</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargenum_1ab75aefafe0e3272805f3a8f77acbeba7">setValue</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargincrement_1a54703806112d6a2709706177f67743a9">setValue</reimplementedby>
+        <param>
+          <type>const char *</type>
+          <declname>newValue</declname>
+        </param>
+        <briefdescription>
+<para>Virtual place holder for the template variable implementation setValue with input function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Input character string</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit </para>
+</simplesect>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="209" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1afff5b621a9f94f5a8a2f59971e66425f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>virtual valueParseStatus_e argparser::varg_intf::setValue</definition>
+        <argsstring>()=0</argsstring>
+        <name>setValue</name>
+        <reimplementedby refid="classargparser_1_1listvarg_1ae6414065eddd88cb2d7871ab47a6d024">setValue</reimplementedby>
+        <reimplementedby refid="classargparser_1_1varg_1ad8a0e0438e3442c9458bdf12e65929f0">setValue</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargenum_1a9fa818bf4e3369b86fa5418df37d3ea8">setValue</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargincrement_1ae7295fac52cc1ba1d0670aebeff81d16">setValue</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Virtual place holder for the template variable implementation setValue function</para>
+<para><simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="216" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1varg__intf_1aaa74f4bf7c2de32faf2276db08f90d4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool argparser::varg_intf::isEmpty</definition>
+        <argsstring>()=0</argsstring>
+        <name>isEmpty</name>
+        <reimplementedby refid="classargparser_1_1listvarg_1a0198566f31aff0af72f62d1604dc8201">isEmpty</reimplementedby>
+        <reimplementedby refid="classargparser_1_1varg_1ad0145640c4b96084ac5eae9fac9043f2">isEmpty</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargenum_1a8d909380d1839e6764a3655d48864f43">isEmpty</reimplementedby>
+        <reimplementedby refid="classargparser_1_1vargincrement_1a2a10679530c70be3bfd0bd13c6fca336">isEmpty</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Virtual place holder for the template variable implementation isEmpty function</para>
+<para><simplesect kind="return"><para>true - if the variable is empty </para>
+</simplesect>
+<simplesect kind="return"><para>false - if variable is not empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_intf.h" line="224" column="22"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Base variable argument varg interface and methods. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>argparser::vargenum&lt; T &gt;</label>
+        <link refid="classargparser_1_1vargenum"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>argparser::varg&lt; T &gt;</label>
+        <link refid="classargparser_1_1varg"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>argparser::varg_intf</label>
+        <link refid="classargparser_1_1varg__intf"/>
+      </node>
+      <node id="5">
+        <label>argparser::vargincrement</label>
+        <link refid="classargparser_1_1vargincrement"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>argparser::listvarg&lt; T &gt;</label>
+        <link refid="classargparser_1_1listvarg"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="varg/inc/varg_intf.h" line="69" column="1" bodyfile="varg/inc/varg_intf.h" bodystart="70" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classargparser_1_1varg__intf_1a0a293afbb6c6a010cb7a46c7cb53a39d" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>getBoolValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1ae0070fd1bdf19a3cfb0de7dea2d3a8e9" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>getCharValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a0db1d5c7509997b4deb05353bf1faa97" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>getDoubleValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a9c0883da18d87e5eb6ea7a5d3df70eee" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>getSignedValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a4c2423cfa709debc96d4ce0fdcb748c9" prot="public" virt="virtual"><scope>argparser::varg_intf</scope><name>getTypeString</name></member>
+      <member refid="classargparser_1_1varg__intf_1a3c0e994cb881d352dc9c0eda49d8be39" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>getUnsignedValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1aaa74f4bf7c2de32faf2276db08f90d4d" prot="public" virt="pure-virtual"><scope>argparser::varg_intf</scope><name>isEmpty</name></member>
+      <member refid="classargparser_1_1varg__intf_1a38a21bf04c0171dc7d3f0867f4cb58c2" prot="public" virt="pure-virtual"><scope>argparser::varg_intf</scope><name>isList</name></member>
+      <member refid="classargparser_1_1varg__intf_1a6063ec4c64bdbe42fe39fa55510e299f" prot="private" virt="non-virtual"><scope>argparser::varg_intf</scope><name>maxDoubleValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a0dbc1a3b091594862fe5c9a64ea145a5" prot="private" virt="non-virtual"><scope>argparser::varg_intf</scope><name>maxSignedValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a0af3a461df6c620bcdbb255cf2554c79" prot="private" virt="non-virtual"><scope>argparser::varg_intf</scope><name>maxUnsignedValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1ad66e9f56d545392a0b3d4b250e598450" prot="private" virt="non-virtual"><scope>argparser::varg_intf</scope><name>minDoubleValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1ae9f6aaa61b0a371db1d6b9a325640905" prot="private" virt="non-virtual"><scope>argparser::varg_intf</scope><name>minSignedValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a55dd208ad9f15b05b3c93f475cc483d6" prot="private" virt="non-virtual"><scope>argparser::varg_intf</scope><name>minUnsignedValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a2d0d081fb21d75575c4920f8b3382843" prot="public" virt="non-virtual"><scope>argparser::varg_intf</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1varg__intf_1ad9595510b842d0246a66df427d3429fd" prot="public" virt="non-virtual"><scope>argparser::varg_intf</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1varg__intf_1ad18a930df13f705c25f23679778312ea" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>setMinMaxDouble</name></member>
+      <member refid="classargparser_1_1varg__intf_1aa6c337f5c1ee140a0972fb3d4dcfb3e8" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>setMinMaxSigned</name></member>
+      <member refid="classargparser_1_1varg__intf_1a705a9c247bfdbb1f9ca553ac276d9af5" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>setMinMaxUnsigned</name></member>
+      <member refid="classargparser_1_1varg__intf_1a311cf94678e263ed69ede356d6d99c29" prot="protected" virt="non-virtual"><scope>argparser::varg_intf</scope><name>setTypeString</name></member>
+      <member refid="classargparser_1_1varg__intf_1aff51aa5494f71b180b34b53daa4f80cd" prot="public" virt="pure-virtual"><scope>argparser::varg_intf</scope><name>setValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1afff5b621a9f94f5a8a2f59971e66425f" prot="public" virt="pure-virtual"><scope>argparser::varg_intf</scope><name>setValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1ac5a1d37cbbea92e86d43f42a56cbbd6d" prot="private" virt="non-virtual"><scope>argparser::varg_intf</scope><name>typeString</name></member>
+      <member refid="classargparser_1_1varg__intf_1ae0ff8b571b93bd20d7be35844a2b18d3" prot="public" virt="non-virtual"><scope>argparser::varg_intf</scope><name>varg_intf</name></member>
+      <member refid="classargparser_1_1varg__intf_1ac80d23cc8ce2f7abdcb7bbc8de090a35" prot="public" virt="non-virtual"><scope>argparser::varg_intf</scope><name>varg_intf</name></member>
+      <member refid="classargparser_1_1varg__intf_1a22027194048defd3d6940ac3818e86c2" prot="public" virt="non-virtual"><scope>argparser::varg_intf</scope><name>varg_intf</name></member>
+      <member refid="classargparser_1_1varg__intf_1a73e3f6024948cbb35f43822759437fd5" prot="public" virt="virtual"><scope>argparser::varg_intf</scope><name>~varg_intf</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

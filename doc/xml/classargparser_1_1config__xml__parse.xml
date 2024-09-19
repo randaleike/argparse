@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classargparser_1_1config__xml__parse" kind="class" language="C++" prot="public">
+    <compoundname>argparser::config_xml_parse</compoundname>
+    <includes refid="config__xml__parse_8h" local="no">config_xml_parse.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classargparser_1_1config__xml__parse_1a9c6430dab358cf05c2e1dd1792b241dd" prot="private" static="no" mutable="no">
+        <type>std::list&lt; <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> * &gt;</type>
+        <definition>std::list&lt;varg_intf*&gt; argparser::config_xml_parse::keyArgList</definition>
+        <argsstring></argsstring>
+        <name>keyArgList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="47" column="21" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1config__xml__parse_1ad8253e389b4090869a533a6de267d601" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool argparser::config_xml_parse::errorAbort</definition>
+        <argsstring></argsstring>
+        <name>errorAbort</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="48" column="33" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1config__xml__parse_1ac123c28771c66ec88e8d14a839da06e0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::config_xml_parse::debugMsgLevel</definition>
+        <argsstring></argsstring>
+        <name>debugMsgLevel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="49" column="33" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1config__xml__parse_1af4ef33e7fecd3c0d8c75a67a7a64bb72" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string argparser::config_xml_parse::fileName</definition>
+        <argsstring></argsstring>
+        <name>fileName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="50" column="33" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a1c1f523fed80f02b164454650610cfde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::config_xml_parse::config_xml_parse</definition>
+        <argsstring>(char *xmlFileName, bool abortOnError=false, int debugLevel=0)</argsstring>
+        <name>config_xml_parse</name>
+        <param>
+          <type>char *</type>
+          <declname>xmlFileName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>abortOnError</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>debugLevel</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new config xml parse object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xmlFileName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- XML initialization file to parse </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>abortOnError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>debugLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="62" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1acc88ece796f0f0d43ef5ba84f345ce88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::config_xml_parse::~config_xml_parse</definition>
+        <argsstring>()</argsstring>
+        <name>~config_xml_parse</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="67" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a5968bc1b3f2b156869c43a5dea9d3f7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::config_xml_parse::setDebugLevel</definition>
+        <argsstring>(int debugLevel=0)</argsstring>
+        <name>setDebugLevel</name>
+        <param>
+          <type>int</type>
+          <declname>debugLevel</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Set the active debug message level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>debugLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="74" column="14" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a0ba46c2fcd11c47ac5e7d4eee1e1f3aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::config_xml_parse::addArgument</definition>
+        <argsstring>(varg_intf *arg, char *argKey, int nargs=1, bool required=false)</argsstring>
+        <name>addArgument</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> *</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argKey</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nargs</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Add a new key based environment argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the defined var argument to fill </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- JSON key value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nargs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : List argument with up to N arguments, if more than N arguments are found it is flagged as an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="90" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1acd96860123ef163bf6b5b211d9e8d7ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool argparser::config_xml_parse::parse</definition>
+        <argsstring>()</argsstring>
+        <name>parse</name>
+        <briefdescription>
+<para>Parse the configuration file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true - XML input file parsed without error. </para>
+</simplesect>
+<simplesect kind="return"><para>false - An error occurred during XML input file parsing or key processing and abort on error is set to true. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="99" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a651ad5e78ca3fe31fcb6769b729671c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::config_xml_parse::displayHelp</definition>
+        <argsstring>(std::ostream outStream=std::cerr)</argsstring>
+        <name>displayHelp</name>
+        <param>
+          <type>std::ostream</type>
+          <declname>outStream</declname>
+          <defval>std::cerr</defval>
+        </param>
+        <briefdescription>
+<para>Print the formatted help message to the input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Output streem to use for text output. Default is the standard error stream </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="106" column="14"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>XML configuration file parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="config_xml_parse/inc/config_xml_parse.h" line="44" column="1" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="45" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classargparser_1_1config__xml__parse_1a0ba46c2fcd11c47ac5e7d4eee1e1f3aa" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>addArgument</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1a1c1f523fed80f02b164454650610cfde" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>config_xml_parse</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1ac123c28771c66ec88e8d14a839da06e0" prot="private" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>debugMsgLevel</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1a651ad5e78ca3fe31fcb6769b729671c0" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>displayHelp</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1ad8253e389b4090869a533a6de267d601" prot="private" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>errorAbort</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1af4ef33e7fecd3c0d8c75a67a7a64bb72" prot="private" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>fileName</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1a9c6430dab358cf05c2e1dd1792b241dd" prot="private" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>keyArgList</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1acd96860123ef163bf6b5b211d9e8d7ec" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>parse</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1a5968bc1b3f2b156869c43a5dea9d3f7a" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>setDebugLevel</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1acc88ece796f0f0d43ef5ba84f345ce88" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>~config_xml_parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

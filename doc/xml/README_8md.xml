@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Executable<sp/>input<sp/>argument<sp/>parsing<sp/>and<sp/>storage<sp/>utilities</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>a<sp/>set<sp/>of<sp/>libraries<sp/>to<sp/>parse<sp/>argument<sp/>inputs<sp/>and<sp/>store<sp/>the<sp/>parsing<sp/>value<sp/>results<sp/>into<sp/></highlight></codeline>
+<codeline><highlight class="normal">vararg<sp/>variables.<sp/><sp/>The<sp/>intent<sp/>of<sp/>the<sp/>library<sp/>is<sp/>to<sp/>provide<sp/>a<sp/>quick<sp/>and<sp/>easy<sp/>initialization<sp/></highlight></codeline>
+<codeline><highlight class="normal">input<sp/>parsing<sp/>utility<sp/>so<sp/>developers<sp/>can<sp/>focus<sp/>on<sp/>actual<sp/>executable<sp/>functionality.&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>libvarg</highlight></codeline>
+<codeline><highlight class="normal">Is<sp/>a<sp/>library<sp/>containing<sp/>a<sp/>set<sp/>of<sp/>variable<sp/>argument<sp/>value<sp/>storage<sp/>templates<sp/>classes.<sp/><sp/>The<sp/>varg<sp/></highlight></codeline>
+<codeline><highlight class="normal">template<sp/>classes<sp/>implement<sp/>interger,<sp/>unsigned<sp/>integer,<sp/>floating<sp/>point,<sp/>text<sp/>strings,<sp/>boolean<sp/>flags,</highlight></codeline>
+<codeline><highlight class="normal">incrementing<sp/>and<sp/>enumeration<sp/>values.<sp/><sp/>In<sp/>addition<sp/>listvarg<sp/>templates<sp/>implement<sp/>a<sp/>list<sp/>version<sp/>of<sp/></highlight></codeline>
+<codeline><highlight class="normal">the<sp/>varg<sp/>templates<sp/>for<sp/>storage<sp/>of<sp/>multiple<sp/>array<sp/>like<sp/>value<sp/>inputs.</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>libcmd_line_parse</highlight></codeline>
+<codeline><highlight class="normal">Is<sp/>a<sp/>library<sp/>to<sp/>parse<sp/>the<sp/>input<sp/>command<sp/>line<sp/>for<sp/>an<sp/>executable.<sp/><sp/>It<sp/>uses<sp/>vargs<sp/>and<sp/>listvargs<sp/>classes</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>store<sp/>the<sp/>results<sp/>of<sp/>the<sp/>command<sp/>line<sp/>parsing.<sp/><sp/>The<sp/>cmd_line_parse<sp/>class<sp/>uses<sp/>an<sp/>add<sp/>argument<sp/></highlight></codeline>
+<codeline><highlight class="normal">interface<sp/>similar<sp/>to<sp/>the<sp/>Python<sp/>randaleike/argparse<sp/>class<sp/>to<sp/>define<sp/>the<sp/>association<sp/>between<sp/>the<sp/>command<sp/>line<sp/></highlight></codeline>
+<codeline><highlight class="normal">input<sp/>and<sp/>the<sp/>varg/listvarg<sp/>value<sp/>storage<sp/>location.</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>libenvparse</highlight></codeline>
+<codeline><highlight class="normal">Is<sp/>a<sp/>library<sp/>to<sp/>parse<sp/>the<sp/>input<sp/>environment<sp/>for<sp/>an<sp/>executable.<sp/><sp/>It<sp/>uses<sp/>vargs<sp/>and<sp/>listvargs<sp/>classes</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>store<sp/>the<sp/>results<sp/>of<sp/>the<sp/>environment<sp/>parsing.<sp/><sp/>The<sp/>envparse<sp/>uses<sp/>an<sp/>add<sp/>argument<sp/>interface<sp/>to<sp/></highlight></codeline>
+<codeline><highlight class="normal">define<sp/>the<sp/>association<sp/>between<sp/>the<sp/>environment<sp/>argument<sp/>input<sp/>and<sp/>the<sp/>varg/listvarg<sp/>value<sp/>storage</highlight></codeline>
+<codeline><highlight class="normal">location.</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>libjson_arg_parser<sp/>-<sp/>Not<sp/>implemented<sp/>yet</highlight></codeline>
+<codeline><highlight class="normal">Is<sp/>a<sp/>library<sp/>to<sp/>parse<sp/>an<sp/>input<sp/>JSON<sp/>file<sp/>for<sp/>an<sp/>executable.<sp/><sp/>It<sp/>uses<sp/>vargs<sp/>and<sp/>listvargs<sp/>classes</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>store<sp/>the<sp/>results<sp/>of<sp/>the<sp/>JSON<sp/>parsing.<sp/><sp/>The<sp/>config_json_parse<sp/>uses<sp/>an<sp/>add<sp/>argument<sp/>interface<sp/>to<sp/></highlight></codeline>
+<codeline><highlight class="normal">define<sp/>the<sp/>association<sp/>between<sp/>the<sp/>JSON<sp/>argument<sp/>input<sp/>and<sp/>the<sp/>varg/listvarg<sp/>value<sp/>storage</highlight></codeline>
+<codeline><highlight class="normal">location.</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>libxml_arg_parser<sp/>-<sp/>Not<sp/>implemented<sp/>yet</highlight></codeline>
+<codeline><highlight class="normal">Is<sp/>a<sp/>library<sp/>to<sp/>parse<sp/>an<sp/>input<sp/>XML<sp/>file<sp/>for<sp/>an<sp/>executable.<sp/><sp/>It<sp/>uses<sp/>vargs<sp/>and<sp/>listvargs<sp/>classes</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>store<sp/>the<sp/>results<sp/>of<sp/>the<sp/>XML<sp/>parsing.<sp/><sp/>The<sp/>config_xml_parse<sp/>uses<sp/>an<sp/>add<sp/>argument<sp/>interface<sp/>to<sp/></highlight></codeline>
+<codeline><highlight class="normal">define<sp/>the<sp/>association<sp/>between<sp/>the<sp/>XML<sp/>argument<sp/>input<sp/>and<sp/>the<sp/>varg/listvarg<sp/>value<sp/>storage</highlight></codeline>
+<codeline><highlight class="normal">location.</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>libargparse</highlight></codeline>
+<codeline><highlight class="normal">Single<sp/>library<sp/>containing<sp/>libvarg,<sp/>libcmd_line_parse<sp/>and<sp/>libenvparse</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[Homepage<sp/>for<sp/>this<sp/>project](https://github.com/randaleike/argparse)&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">[Repository<sp/>for<sp/>this<sp/>project](https://github.com/randaleike/argparse)&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">[Documentation<sp/>for<sp/>this<sp/>project](https://github.com/randaleike/argparse/doc)&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">[To<sp/>report<sp/>issues](https://github.com/randaleike/argparse/issues)&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">[Changelog<sp/>for<sp/>this<sp/>project](https://github.com/randaleike/argparse/CHANGELOG.md)&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">[Contribution<sp/>guidelines<sp/>for<sp/>this<sp/>project](https://github.com/randaleike/argparse/CONTRIBUTING.md)&lt;br&gt;</highlight></codeline>
+    </programlisting>
+    <location file="README.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classargparser_1_1vargincrement" kind="class" language="C++" prot="public">
+    <compoundname>argparser::vargincrement</compoundname>
+    <basecompoundref refid="classargparser_1_1varg__intf" prot="public" virt="non-virtual">argparser::varg_intf</basecompoundref>
+    <includes refid="vargincrement_8h" local="no">vargincrement.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classargparser_1_1vargincrement_1a7c6fab3c42d7b5025e329950bb75e543" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::vargincrement::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <briefdescription>
+<para>Current saved value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="45" column="19" bodyfile="varg/inc/vargincrement.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classargparser_1_1vargincrement_1a4532841d9fc42dca059ed37fc0973385" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::vargincrement::vargincrement</definition>
+        <argsstring>()</argsstring>
+        <name>vargincrement</name>
+        <briefdescription>
+<para>Construct a <ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="50" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1vargincrement_1a2fe4e1881b9c0a888412923a727482cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual argparser::vargincrement::~vargincrement</definition>
+        <argsstring>()</argsstring>
+        <name>~vargincrement</name>
+        <briefdescription>
+<para>Destroy the varg object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="55" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1vargincrement_1a355742627de36b5332524f52a12c6404" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>virtual const char* argparser::vargincrement::getTypeString</definition>
+        <argsstring>()</argsstring>
+        <name>getTypeString</name>
+        <reimplements refid="classargparser_1_1varg__intf_1a4c2423cfa709debc96d4ce0fdcb748c9">getTypeString</reimplements>
+        <briefdescription>
+<para>Get the base argument type as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>const char* - Base type string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="62" column="28" bodyfile="varg/inc/vargincrement.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1vargincrement_1a0e49392b5aae3b8a4b09a000d4883273" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool argparser::vargincrement::isList</definition>
+        <argsstring>() const</argsstring>
+        <name>isList</name>
+        <reimplements refid="classargparser_1_1varg__intf_1a38a21bf04c0171dc7d3f0867f4cb58c2">isList</reimplements>
+        <briefdescription>
+<para>Return if varg is a list of elements or a single element type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true - List type variable, multiple arguement values are allowed </para>
+</simplesect>
+<simplesect kind="return"><para>false - Only 0 or 1 argument values are allowed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="70" column="22" bodyfile="varg/inc/vargincrement.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1vargincrement_1a54703806112d6a2709706177f67743a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>virtual valueParseStatus_e argparser::vargincrement::setValue</definition>
+        <argsstring>(const char *newValue)</argsstring>
+        <name>setValue</name>
+        <reimplements refid="classargparser_1_1varg__intf_1aff51aa5494f71b180b34b53daa4f80cd">setValue</reimplements>
+        <param>
+          <type>const char *</type>
+          <declname>newValue</declname>
+        </param>
+        <briefdescription>
+<para>Virtual interface method implementation for the template variable implementation setValue with input function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Input character string</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>valueParseStatus_e::PARSE_INVALID_INPUT_e - increment variables don&apos;t take in input </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="79" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1vargincrement_1ae7295fac52cc1ba1d0670aebeff81d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="varg__intf_8h_1a0bc71769ac6cba8f1babc54727a490d9" kindref="member">valueParseStatus_e</ref></type>
+        <definition>virtual valueParseStatus_e argparser::vargincrement::setValue</definition>
+        <argsstring>()</argsstring>
+        <name>setValue</name>
+        <reimplements refid="classargparser_1_1varg__intf_1afff5b621a9f94f5a8a2f59971e66425f">setValue</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Virtual interface method implementation for the template variable implementation setValue function</para>
+<para><simplesect kind="return"><para>valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully incremented </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="86" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1vargincrement_1a2a10679530c70be3bfd0bd13c6fca336" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool argparser::vargincrement::isEmpty</definition>
+        <argsstring>()</argsstring>
+        <name>isEmpty</name>
+        <reimplements refid="classargparser_1_1varg__intf_1aaa74f4bf7c2de32faf2276db08f90d4d">isEmpty</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Virtual interface method implementation for the template variable implementation isEmpty function</para>
+<para><simplesect kind="return"><para>true - Base variable is never empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/vargincrement.h" line="93" column="22" bodyfile="varg/inc/vargincrement.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Variable argument type template class. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>argparser::varg_intf</label>
+        <link refid="classargparser_1_1varg__intf"/>
+      </node>
+      <node id="1">
+        <label>argparser::vargincrement</label>
+        <link refid="classargparser_1_1vargincrement"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>argparser::varg_intf</label>
+        <link refid="classargparser_1_1varg__intf"/>
+      </node>
+      <node id="1">
+        <label>argparser::vargincrement</label>
+        <link refid="classargparser_1_1vargincrement"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="varg/inc/vargincrement.h" line="41" column="1" bodyfile="varg/inc/vargincrement.h" bodystart="42" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classargparser_1_1varg__intf_1a0a293afbb6c6a010cb7a46c7cb53a39d" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>getBoolValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1ae0070fd1bdf19a3cfb0de7dea2d3a8e9" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>getCharValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a0db1d5c7509997b4deb05353bf1faa97" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>getDoubleValue</name></member>
+      <member refid="classargparser_1_1varg__intf_1a9c0883da18d87e5eb6ea7a5d3df70eee" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>getSignedValue</name></member>
+      <member refid="classargparser_1_1vargincrement_1a355742627de36b5332524f52a12c6404" prot="public" virt="virtual"><scope>argparser::vargincrement</scope><name>getTypeString</name></member>
+      <member refid="classargparser_1_1varg__intf_1a3c0e994cb881d352dc9c0eda49d8be39" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>getUnsignedValue</name></member>
+      <member refid="classargparser_1_1vargincrement_1a2a10679530c70be3bfd0bd13c6fca336" prot="public" virt="virtual"><scope>argparser::vargincrement</scope><name>isEmpty</name></member>
+      <member refid="classargparser_1_1vargincrement_1a0e49392b5aae3b8a4b09a000d4883273" prot="public" virt="virtual"><scope>argparser::vargincrement</scope><name>isList</name></member>
+      <member refid="classargparser_1_1varg__intf_1a2d0d081fb21d75575c4920f8b3382843" prot="public" virt="non-virtual"><scope>argparser::vargincrement</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1varg__intf_1ad9595510b842d0246a66df427d3429fd" prot="public" virt="non-virtual"><scope>argparser::vargincrement</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1varg__intf_1ad18a930df13f705c25f23679778312ea" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>setMinMaxDouble</name></member>
+      <member refid="classargparser_1_1varg__intf_1aa6c337f5c1ee140a0972fb3d4dcfb3e8" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>setMinMaxSigned</name></member>
+      <member refid="classargparser_1_1varg__intf_1a705a9c247bfdbb1f9ca553ac276d9af5" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>setMinMaxUnsigned</name></member>
+      <member refid="classargparser_1_1varg__intf_1a311cf94678e263ed69ede356d6d99c29" prot="protected" virt="non-virtual"><scope>argparser::vargincrement</scope><name>setTypeString</name></member>
+      <member refid="classargparser_1_1vargincrement_1a54703806112d6a2709706177f67743a9" prot="public" virt="virtual"><scope>argparser::vargincrement</scope><name>setValue</name></member>
+      <member refid="classargparser_1_1vargincrement_1ae7295fac52cc1ba1d0670aebeff81d16" prot="public" virt="virtual"><scope>argparser::vargincrement</scope><name>setValue</name></member>
+      <member refid="classargparser_1_1vargincrement_1a7c6fab3c42d7b5025e329950bb75e543" prot="public" virt="non-virtual"><scope>argparser::vargincrement</scope><name>value</name></member>
+      <member refid="classargparser_1_1varg__intf_1ae0ff8b571b93bd20d7be35844a2b18d3" prot="public" virt="non-virtual"><scope>argparser::vargincrement</scope><name>varg_intf</name></member>
+      <member refid="classargparser_1_1varg__intf_1ac80d23cc8ce2f7abdcb7bbc8de090a35" prot="public" virt="non-virtual"><scope>argparser::vargincrement</scope><name>varg_intf</name></member>
+      <member refid="classargparser_1_1varg__intf_1a22027194048defd3d6940ac3818e86c2" prot="public" virt="non-virtual"><scope>argparser::vargincrement</scope><name>varg_intf</name></member>
+      <member refid="classargparser_1_1vargincrement_1a4532841d9fc42dca059ed37fc0973385" prot="public" virt="non-virtual"><scope>argparser::vargincrement</scope><name>vargincrement</name></member>
+      <member refid="classargparser_1_1varg__intf_1a73e3f6024948cbb35f43822759437fd5" prot="public" virt="virtual"><scope>argparser::vargincrement</scope><name>~varg_intf</name></member>
+      <member refid="classargparser_1_1vargincrement_1a2fe4e1881b9c0a888412923a727482cd" prot="public" virt="virtual"><scope>argparser::vargincrement</scope><name>~vargincrement</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

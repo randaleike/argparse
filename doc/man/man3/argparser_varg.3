@@ -1,0 +1,171 @@
+.TH "argparser::varg< T >" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+argparser::varg< T > \- Variable argument type template class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <varg\&.h>\fP
+.PP
+Inherits \fBargparser::varg_intf\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBvarg\fP (T defaultValue)"
+.br
+.RI "Construct a \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "\fBvarg\fP (T defaultValue, T flagValue)"
+.br
+.RI "Construct a \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "\fBvarg\fP (T defaultValue, T min, T max)"
+.br
+.RI "Construct a \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "virtual \fB~varg\fP ()"
+.br
+.RI "Destroy the varg object\&. "
+.ti -1c
+.RI "virtual bool \fBisList\fP () const"
+.br
+.RI "Return if varg is a list of elements or a single element type\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP (const char *newValue)"
+.br
+.RI "Virtual interface method implementation for the template variable implementation setValue with input function\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisEmpty\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "T \fBvalue\fP"
+.br
+.RI "Current saved value\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T>
+.br
+class argparser::varg< T >"
+Variable argument type template class\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T > \fBargparser::varg\fP< T >::\fBvarg\fP (T defaultValue)"
+
+.PP
+Construct a \fBvarg_intf\fP object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdefaultValue\fP - Initial value of \fBvarg\&.value\fP 
+.RE
+.PP
+
+.SS "template<typename T > \fBargparser::varg\fP< T >::\fBvarg\fP (T defaultValue, T flagValue)\fC [inline]\fP"
+
+.PP
+Construct a \fBvarg_intf\fP object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdefaultValue\fP - Initial value of \fBvarg\&.value\fP 
+.br
+\fIflagValue\fP - Flag set value of \fBvarg\&.value\fP 
+.RE
+.PP
+
+.SS "template<typename T > \fBargparser::varg\fP< T >::\fBvarg\fP (T defaultValue, T min, T max)"
+
+.PP
+Construct a \fBvarg_intf\fP object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdefaultValue\fP - Initial value of \fBvarg\&.value\fP 
+.br
+\fImin\fP - Minimum allowed set value 
+.br
+\fImax\fP - Maximum allowed set value 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T > virtual bool \fBargparser::varg\fP< T >::isEmpty ()\fC [inline]\fP, \fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation isEmpty function
+.PP
+\fBReturns\fP
+.RS 4
+true - Base variable is never empty 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual bool \fBargparser::varg\fP< T >::isList () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Return if varg is a list of elements or a single element type\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true - List type variable, multiple arguement values are allowed 
+.PP
+false - Only 0 or 1 argument values are allowed\&. 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual \fBvalueParseStatus_e\fP \fBargparser::varg\fP< T >::setValue ()\fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation setValue function
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual \fBvalueParseStatus_e\fP \fBargparser::varg\fP< T >::setValue (const char * newValue)\fC [virtual]\fP"
+
+.PP
+Virtual interface method implementation for the template variable implementation setValue with input function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Input character string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

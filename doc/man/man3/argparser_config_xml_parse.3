@@ -1,0 +1,117 @@
+.TH "argparser::config_xml_parse" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+argparser::config_xml_parse \- XML configuration file parser\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <config_xml_parse\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBconfig_xml_parse\fP (char *xmlFileName, bool abortOnError=false, int debugLevel=0)"
+.br
+.RI "Construct a new config xml parse object\&. "
+.ti -1c
+.RI "\fB~config_xml_parse\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "void \fBsetDebugLevel\fP (int debugLevel=0)"
+.br
+.RI "Set the active debug message level\&. "
+.ti -1c
+.RI "void \fBaddArgument\fP (\fBvarg_intf\fP *arg, char *argKey, int nargs=1, bool required=false)"
+.br
+.RI "Add a new key based environment argument\&. "
+.ti -1c
+.RI "bool \fBparse\fP ()"
+.br
+.RI "Parse the configuration file\&. "
+.ti -1c
+.RI "void \fBdisplayHelp\fP (std::ostream outStream=std::cerr)"
+.br
+.RI "Print the formatted help message to the input stream\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+XML configuration file parser\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "argparser::config_xml_parse::config_xml_parse (char * xmlFileName, bool abortOnError = \fCfalse\fP, int debugLevel = \fC0\fP)"
+
+.PP
+Construct a new config xml parse object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIxmlFileName\fP - XML initialization file to parse 
+.br
+\fIabortOnError\fP - True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false\&. 
+.br
+\fIdebugLevel\fP - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose\&. Default = 0, none\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void argparser::config_xml_parse::addArgument (\fBvarg_intf\fP * arg, char * argKey, int nargs = \fC1\fP, bool required = \fCfalse\fP)"
+
+.PP
+Add a new key based environment argument\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIarg\fP - Pointer to the defined var argument to fill 
+.br
+\fIargKey\fP - JSON key value 
+.br
+\fInargs\fP - Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : List argument with up to N arguments, if more than N arguments are found it is flagged as an error 
+.br
+\fIrequired\fP - True if argument is required, false if arguemnt is optional 
+.RE
+.PP
+
+.SS "void argparser::config_xml_parse::displayHelp (std::ostream outStream = \fCstd::cerr\fP)"
+
+.PP
+Print the formatted help message to the input stream\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIoutStream\fP - Output streem to use for text output\&. Default is the standard error stream 
+.RE
+.PP
+
+.SS "bool argparser::config_xml_parse::parse ()"
+
+.PP
+Parse the configuration file\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true - XML input file parsed without error\&. 
+.PP
+false - An error occurred during XML input file parsing or key processing and abort on error is set to true\&. 
+.RE
+.PP
+
+.SS "void argparser::config_xml_parse::setDebugLevel (int debugLevel = \fC0\fP)\fC [inline]\fP"
+
+.PP
+Set the active debug message level\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdebugLevel\fP - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose\&. Default = 0, none\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

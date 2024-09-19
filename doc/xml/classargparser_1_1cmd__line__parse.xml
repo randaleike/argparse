@@ -1,0 +1,1600 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classargparser_1_1cmd__line__parse" kind="class" language="C++" prot="public">
+    <compoundname>argparser::cmd_line_parse</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">parser_base</basecompoundref>
+    <includes refid="cmd__line__parse_8h" local="no">cmd_line_parse.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a70fe20daa57b223a8e9210c673026ace" prot="private" static="no" mutable="no">
+        <type>std::list&lt; ArgEntry &gt;</type>
+        <definition>std::list&lt;ArgEntry&gt; argparser::cmd_line_parse::positionalArgList</definition>
+        <argsstring></argsstring>
+        <name>positionalArgList</name>
+        <briefdescription>
+<para>List of positional arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="54" column="23" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1af95670976b466424a45369f9ae4af32e" prot="private" static="no" mutable="no">
+        <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> *</type>
+        <definition>varg_intf* argparser::cmd_line_parse::helpFlag</definition>
+        <argsstring></argsstring>
+        <name>helpFlag</name>
+        <briefdescription>
+<para>Default help flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="55" column="32" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a08768b31e8f904dca065b6ae9b17e21b" prot="private" static="no" mutable="no">
+        <type>parserstr</type>
+        <definition>parserstr argparser::cmd_line_parse::programName</definition>
+        <argsstring></argsstring>
+        <name>programName</name>
+        <briefdescription>
+<para>Program name to display in the usage %(prog) field of the help message, default = argv[0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="58" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1aebaf855d1179508182ffa744d942e674" prot="private" static="no" mutable="no">
+        <type>parserstr</type>
+        <definition>parserstr argparser::cmd_line_parse::usageText</definition>
+        <argsstring></argsstring>
+        <name>usageText</name>
+        <briefdescription>
+<para>Text to display in the usage field of the help message, default = &quot;%(prog) [options]&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="59" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a12f6104b116327f589715b7fd9972880" prot="private" static="no" mutable="no">
+        <type>parserstr</type>
+        <definition>parserstr argparser::cmd_line_parse::descriptionText</definition>
+        <argsstring></argsstring>
+        <name>descriptionText</name>
+        <briefdescription>
+<para>Text to display in the description field of the help message, default = &quot;&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="60" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a39ab3c2c6eda704e9e51f5e8abab06b5" prot="private" static="no" mutable="no">
+        <type>parserstr</type>
+        <definition>parserstr argparser::cmd_line_parse::epilogText</definition>
+        <argsstring></argsstring>
+        <name>epilogText</name>
+        <briefdescription>
+<para>Text to display at the end of the help message, default = &quot;&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="61" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1aeeddfc7cab490914fad199cd63e166c1" prot="private" static="no" mutable="no">
+        <type>parserstr</type>
+        <definition>parserstr argparser::cmd_line_parse::keyPrefix</definition>
+        <argsstring></argsstring>
+        <name>keyPrefix</name>
+        <briefdescription>
+<para>Key value prefix, default = &apos;-&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="64" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1ab5ab3c89f61bb86d758277a1b65a175e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::displayHelpOnError</definition>
+        <argsstring></argsstring>
+        <name>displayHelpOnError</name>
+        <briefdescription>
+<para>True = display the help message by default on a parsing error, False = do not display help message on a parsing error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="67" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a3682f09370c8e14dd1afa0a38d2a017e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::enableDefaultHelp</definition>
+        <argsstring></argsstring>
+        <name>enableDefaultHelp</name>
+        <briefdescription>
+<para>True = add default help argument to the key arg list, false = do not add default help argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="68" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1aabf1a3ffa956bfce0372c6acd863d790" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::ignoreUnknownKey</definition>
+        <argsstring></argsstring>
+        <name>ignoreUnknownKey</name>
+        <briefdescription>
+<para>True = unknown key is not an error, false = unknown key is an error, default = false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="69" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1aa0957071b06a592436fff19aa57eae72" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::singleCharArgListAllowed</definition>
+        <argsstring></argsstring>
+        <name>singleCharArgListAllowed</name>
+        <briefdescription>
+<para>True = single character key list allowed, false = all key arguments must be separarted, default = true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="70" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a4777a2ce9555daf66d4d028c689406fe" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::cmd_line_parse::positionNumber</definition>
+        <argsstring></argsstring>
+        <name>positionNumber</name>
+        <briefdescription>
+<para>Position list argument number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="73" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a8d475cea7ea2659e25c6eda182317cce" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::cmd_line_parse::parseingPositionNumber</definition>
+        <argsstring></argsstring>
+        <name>parseingPositionNumber</name>
+        <briefdescription>
+<para>Parseing position argument number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="74" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a1edb888bb254db27af72138a9c6b5cb2" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::cmd_line_parse::currentArgumentIndex</definition>
+        <argsstring></argsstring>
+        <name>currentArgumentIndex</name>
+        <briefdescription>
+<para>current argv array index being processed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="75" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a433e13108cece1d432f0b97fd353c8a1" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::cmd_line_parse::argcount</definition>
+        <argsstring></argsstring>
+        <name>argcount</name>
+        <briefdescription>
+<para>argc value from the parse call </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="76" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a2693c3bc3c9b7bbec3b9448d286a9d84" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; parserstr &gt;</type>
+        <definition>std::vector&lt;parserstr&gt; argparser::cmd_line_parse::argvArray</definition>
+        <argsstring></argsstring>
+        <name>argvArray</name>
+        <briefdescription>
+<para>argv value from the parse call </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="77" column="22" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a76557aa9d93c186b845c63186da9d9ea" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::cmd_line_parse::debugMsgLevel</definition>
+        <argsstring></argsstring>
+        <name>debugMsgLevel</name>
+        <briefdescription>
+<para>debugging message level </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="78" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a445441255fb3bf3f54c383783c766fbb" prot="private" static="no" mutable="no">
+        <type>parserstr</type>
+        <definition>parserstr argparser::cmd_line_parse::positionalStop</definition>
+        <argsstring></argsstring>
+        <name>positionalStop</name>
+        <briefdescription>
+<para>Name of the positional argument to stop parsing on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="79" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classargparser_1_1cmd__line__parse_1a3b6ba263906a5c55c462b37d2dbdea32" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::positionalStopArgumentFound</definition>
+        <argsstring></argsstring>
+        <name>positionalStopArgumentFound</name>
+        <briefdescription>
+<para>Flag to abort processing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="80" column="33" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1aae6fd21f96afb789b19894186467bbaa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::isCurrentArgKeySwitch</definition>
+        <argsstring>()</argsstring>
+        <name>isCurrentArgKeySwitch</name>
+        <briefdescription>
+<para>Test if the current command line argument is a key switch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true - Next command line argument is a key switch </para>
+</simplesect>
+<simplesect kind="return"><para>false - Next argument is a value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="88" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1ae44181f59d5432cc748752501072efe7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::checkRequiredArgsFound</definition>
+        <argsstring>()</argsstring>
+        <name>checkRequiredArgsFound</name>
+        <briefdescription>
+<para>Make sure all arguments that are marked as required were found during the command line parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="94" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a0426155a4838715320facc25ae10d6a7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::addDefaultHelpArgument</definition>
+        <argsstring>()</argsstring>
+        <name>addDefaultHelpArgument</name>
+        <briefdescription>
+<para>Add the default help argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="99" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1abc645ea675f804728b6c1337baed9fab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ArgEntry &amp;</type>
+        <definition>ArgEntry&amp; argparser::cmd_line_parse::findMatchingArg</definition>
+        <argsstring>(const parserstr &amp;keystring, bool &amp;found)</argsstring>
+        <name>findMatchingArg</name>
+        <param>
+          <type>const parserstr &amp;</type>
+          <declname>keystring</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>found</declname>
+        </param>
+        <briefdescription>
+<para>Find the argument object that matches the input string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keystring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Input string to match </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>found</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Set to true if match was found, else false</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ArgEntry - Reference to the ArgEntry from the ArgEntry if match was found. Or nullptr if not. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="109" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a9d3f7df850df4f90fdfa2b43209e23a0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t argparser::cmd_line_parse::getInitialValueList</definition>
+        <argsstring>(parserstr &amp;valueString, std::list&lt; parserstr &gt; &amp;valueList)</argsstring>
+        <name>getInitialValueList</name>
+        <param>
+          <type>parserstr &amp;</type>
+          <declname>valueString</declname>
+        </param>
+        <param>
+          <type>std::list&lt; parserstr &gt; &amp;</type>
+          <declname>valueList</declname>
+        </param>
+        <briefdescription>
+<para>Get the Initial Value List object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueInput</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- delimited list of value data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Reference to the current value string list</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>size_t - number of elements in the list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="119" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a7be2bc4a6c7a260b8e9cf0dd7021cbb9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t argparser::cmd_line_parse::getInitialValueList</definition>
+        <argsstring>(const char *valueString, std::list&lt; parserstr &gt; &amp;valueList)</argsstring>
+        <name>getInitialValueList</name>
+        <param>
+          <type>const char *</type>
+          <declname>valueString</declname>
+        </param>
+        <param>
+          <type>std::list&lt; parserstr &gt; &amp;</type>
+          <declname>valueList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="120" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1af15f2f33625d965f7ceba2cb4fb9c767" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::assignKeyFlagValue</definition>
+        <argsstring>(ArgEntry &amp;currentArg, const char *keyString, parserstr &amp;valueString)</argsstring>
+        <name>assignKeyFlagValue</name>
+        <param>
+          <type>ArgEntry &amp;</type>
+          <declname>currentArg</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>keyString</declname>
+        </param>
+        <param>
+          <type>parserstr &amp;</type>
+          <declname>valueString</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>       @brief Assign the flag value to the key argument
+
+       @param currentArg - Pointer to the argument to set
+       @param keyString  - Key value that was matched
+       @param valueString - Reference to the embedded value string if present, else empty string
+
+       @ * @ingroup argparser
+</verbatim> eturn bool - False = assignment worked, true = assignment failed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="132" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1ab2752469388f49bc7b854241a1e1bf58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool argparser::cmd_line_parse::assignKeyValue</definition>
+        <argsstring>(ArgEntry &amp;currentArg, const char *keyString, parserstr &amp;valueString)</argsstring>
+        <name>assignKeyValue</name>
+        <param>
+          <type>ArgEntry &amp;</type>
+          <declname>currentArg</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>keyString</declname>
+        </param>
+        <param>
+          <type>parserstr &amp;</type>
+          <declname>valueString</declname>
+        </param>
+        <briefdescription>
+<para>Assign multiple values to a list argument storeage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>currentArg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument to set </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Key value that was matched </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Reference to the embedded value string if present, else empty string</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool - False = assignment worked, true = assignment failed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="143" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a96114d10018be28b307d5ad3aceee17d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::parseSingleKeyArg</definition>
+        <argsstring>(const char *searchString, parserstr valueString)</argsstring>
+        <name>parseSingleKeyArg</name>
+        <param>
+          <type>const char *</type>
+          <declname>searchString</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>valueString</declname>
+        </param>
+        <briefdescription>
+<para>Parse a single key argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>searchString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Key argument value to find and set </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Value string from the argument or empty string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="151" column="14"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1ad9ba676ca33a4730b7a4e72de9d8cdc1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::parseKeyArg</definition>
+        <argsstring>()</argsstring>
+        <name>parseKeyArg</name>
+        <briefdescription>
+<para>Parse the input key argument type and update the parsing state data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="158" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a71d46a16148318d0e5f8d198ff2bf592" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::parsePositionalArg</definition>
+        <argsstring>()</argsstring>
+        <name>parsePositionalArg</name>
+        <briefdescription>
+<para>Parse the input positional argument type and update the parsing state data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="163" column="14"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1ae4d24755dbba4394ac94648aa15afe29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::cmd_line_parse::cmd_line_parse</definition>
+        <argsstring>()</argsstring>
+        <name>cmd_line_parse</name>
+        <briefdescription>
+<para>default Constructor </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="169" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1ae8d3519edc3077187906c4d07e5ed4e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::cmd_line_parse::cmd_line_parse</definition>
+        <argsstring>(const cmd_line_parse &amp;other)</argsstring>
+        <name>cmd_line_parse</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1cmd__line__parse" kindref="compound">cmd_line_parse</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="176" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a910fc426790fba3c7ada37ef9de29f51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::cmd_line_parse::cmd_line_parse</definition>
+        <argsstring>(cmd_line_parse &amp;&amp;other)</argsstring>
+        <name>cmd_line_parse</name>
+        <param>
+          <type><ref refid="classargparser_1_1cmd__line__parse" kindref="compound">cmd_line_parse</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference Copy Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="183" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a872ca129c0344584672f9fc39f28e4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::cmd_line_parse::cmd_line_parse</definition>
+        <argsstring>(parserstr &amp;usage, parserstr &amp;description, bool abortOnError=false, bool disableDefaultHelp=false, int debugLevel=debugVerbosityLevel_e::noDebugMsg)</argsstring>
+        <name>cmd_line_parse</name>
+        <param>
+          <type>parserstr &amp;</type>
+          <declname>usage</declname>
+        </param>
+        <param>
+          <type>parserstr &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>abortOnError</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disableDefaultHelp</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>debugLevel</declname>
+          <defval>debugVerbosityLevel_e::noDebugMsg</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Usage string for the help display </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Description string for the help display </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>abortOnError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True = abort parsing on first error, False (default) = Log error and continue parsing command line data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>disableDefaultHelp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- False (default) = Display help screen if a parsing error occured, True = Disable help display screen </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>debugLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Verbosity level of debug messages 0 (default) - Only error messages 4 - Error and informational messages 5+ - Error, informational and flow tracking messages </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="196" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1af5e137126d63c842e86544d125ef12ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::cmd_line_parse::cmd_line_parse</definition>
+        <argsstring>(const char *usage, const char *description, bool abortOnError=false, bool disableDefaultHelp=false, int debugLevel=debugVerbosityLevel_e::noDebugMsg)</argsstring>
+        <name>cmd_line_parse</name>
+        <param>
+          <type>const char *</type>
+          <declname>usage</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>abortOnError</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disableDefaultHelp</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>debugLevel</declname>
+          <defval>debugVerbosityLevel_e::noDebugMsg</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Usage string for the help display </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Description string for the help display </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>abortOnError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True = abort parsing on first error, False (default) = Log error and continue parsing command line data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>disableDefaultHelp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- False (default) = Display help screen if a parsing error occured, True = Disable help display screen </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>debugLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Verbosity level of debug messages 0 (default) - Only error messages 4 - Error and informational messages 5+ - Error, informational and flow tracking messages </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="210" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1afe3c9094b40ec50676e73a619032b26d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classargparser_1_1cmd__line__parse" kindref="compound">cmd_line_parse</ref> &amp;</type>
+        <definition>cmd_line_parse&amp; argparser::cmd_line_parse::operator=</definition>
+        <argsstring>(const cmd_line_parse &amp;other)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1cmd__line__parse" kindref="compound">cmd_line_parse</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy Assignment Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="218" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1abe161779e2a3db5c52f6e236a42187cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classargparser_1_1cmd__line__parse" kindref="compound">cmd_line_parse</ref> &amp;</type>
+        <definition>cmd_line_parse&amp; argparser::cmd_line_parse::operator=</definition>
+        <argsstring>(cmd_line_parse &amp;&amp;other)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classargparser_1_1cmd__line__parse" kindref="compound">cmd_line_parse</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference Copy Assignment Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="225" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a9466479a240369fd543671f259a7146f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::cmd_line_parse::~cmd_line_parse</definition>
+        <argsstring>()=default</argsstring>
+        <name>~cmd_line_parse</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="230" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a58f01bd42e24149e63acbe5f43d96dfa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::setEpilog</definition>
+        <argsstring>(parserstr epilog)</argsstring>
+        <name>setEpilog</name>
+        <param>
+          <type>parserstr</type>
+          <declname>epilog</declname>
+        </param>
+        <briefdescription>
+<para>Set the Epilog text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>epilog</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Text to display at the end of the help block </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="240" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a0ebfa7342124b6a4a9b0fe3835f887bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::setProgramName</definition>
+        <argsstring>(parserstr progName)</argsstring>
+        <name>setProgramName</name>
+        <param>
+          <type>parserstr</type>
+          <declname>progName</declname>
+        </param>
+        <briefdescription>
+<para>Set the Program Name for the usage string using a string as input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>progName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Program name to use in the usage string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="247" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a8e3ef018f8fecc955cfb393e8d56da94" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::setProgramName</definition>
+        <argsstring>(char *progName)</argsstring>
+        <name>setProgramName</name>
+        <param>
+          <type>char *</type>
+          <declname>progName</declname>
+        </param>
+        <briefdescription>
+<para>Set the Program Name for the usage string using char* as input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>progName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Program name to use in the usage string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="254" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1aeead2d76595b0e77275f6debd804fa5e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::setKeyPrefix</definition>
+        <argsstring>(parserstr prefix)</argsstring>
+        <name>setKeyPrefix</name>
+        <param>
+          <type>parserstr</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Set the argument key prefix value using string input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The argument key prefix is the character or string the identifies an input argument key string. Any input argument that does not begin with this character is assumed to be a positional argument value.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- argument prefix value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="266" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a3a9bc7a61b444382db92e73d9bd12ce9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::setKeyPrefix</definition>
+        <argsstring>(char *prefix)</argsstring>
+        <name>setKeyPrefix</name>
+        <param>
+          <type>char *</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Set the argument key prefix value using char* input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The argument key prefix is the character or string the identifies an input argument key string. Any input argument that does not begin with this character is assumed to be a positional argument value.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- argument prefix value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="278" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a6af4c9cac79b5952f88c3b63f736b1e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::disableDefaultHelpArgument</definition>
+        <argsstring>()</argsstring>
+        <name>disableDefaultHelpArgument</name>
+        <briefdescription>
+<para>Disable the default help argument setup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="283" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a3f4856f49e3f0fa36a2824b51b392140" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::disableHelpDisplayOnError</definition>
+        <argsstring>()</argsstring>
+        <name>disableHelpDisplayOnError</name>
+        <briefdescription>
+<para>Disable the help display on parsing error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="288" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="288" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a5300f185c8cd758650725cad6347a66a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::disableSingleCharListArgument</definition>
+        <argsstring>()</argsstring>
+        <name>disableSingleCharListArgument</name>
+        <briefdescription>
+<para>Disable the single character list input argument parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="293" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1aef43551afd1c483ef5b7b32ca41367e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::enableUnknowArgumentIgnore</definition>
+        <argsstring>()</argsstring>
+        <name>enableUnknowArgumentIgnore</name>
+        <briefdescription>
+<para>Enable flag to ignore unknown arguments, default is to generate an error if an unknown argument is found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="300" column="14" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="300" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a2bfffeee0612e8ae0e25de53a6c90581" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::addKeyArgument</definition>
+        <argsstring>(varg_intf *arg, parserstr name, parserstr argKeys, parserstr helpText, int nargs=1, bool required=false)</argsstring>
+        <name>addKeyArgument</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> *</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>argKeys</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nargs</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Add a new key based command line argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the defined var argument to fill </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Delimieted list of argument key values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nargs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : List argument with up to N arguments, if more than N arguments are found it is flagged as an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="321" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a1630aadda86c67e4877a54eefe2c7de5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::addFlagArgument</definition>
+        <argsstring>(varg_intf *arg, parserstr name, parserstr argKeys, parserstr helpText, bool required=false)</argsstring>
+        <name>addFlagArgument</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> *</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>argKeys</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Add a new key based flag command line argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the defined var argument to fill </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Delimieted list of argument key values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="332" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a06a5059f827ab416ffeb9763a221b083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::addPositionalArgument</definition>
+        <argsstring>(varg_intf *arg, parserstr name, parserstr helpText, int nargs=1, bool required=false)</argsstring>
+        <name>addPositionalArgument</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> *</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>parserstr</type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nargs</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Add a new positinal based command line argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the defined var argument to fill </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Name of the argument </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nargs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : List argument with up to N arguments, if more than N arguments are found it is flagged as an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="349" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a24df57484747660a73c8b385b8a7b7ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::setPositionalNameStop</definition>
+        <argsstring>(const char *positionalArgumentName)</argsstring>
+        <name>setPositionalNameStop</name>
+        <param>
+          <type>const char *</type>
+          <declname>positionalArgumentName</declname>
+        </param>
+        <briefdescription>
+<para>Set the name of the positional argument to stop parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>positionalArgumentName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Positional name to find </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="359" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a5f3e181e3a7a055d89e171f333365873" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int argparser::cmd_line_parse::parse</definition>
+        <argsstring>(int argc, char *argv[], int startingArgIndex=1, int endingArgIndex=-1)</argsstring>
+        <name>parse</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>startingArgIndex</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>endingArgIndex</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+<para>Parse the input command line arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>argc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of char pointers in the argv[] array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Array of command line text entries </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startingArgIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- argv index to start parsing arguments </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endingArgIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- argv index to stop parsing arguments, -1 == argc</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int - Index of the last argument parsed or -1 if an error occured </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="373" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a69909e54b3b16bd9e3d9d1711887837e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::displayOptionHelp</definition>
+        <argsstring>(std::ostream &amp;outStream=std::cerr)</argsstring>
+        <name>displayOptionHelp</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>outStream</declname>
+          <defval>std::cerr</defval>
+        </param>
+        <briefdescription>
+<para>Print the formatted option help message to the input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Output streem to use for text output. Default is the standard error stream </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="381" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1a721742801a46a31f785758e137f96f03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::displayPositionHelp</definition>
+        <argsstring>(std::ostream &amp;outStream=std::cerr)</argsstring>
+        <name>displayPositionHelp</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>outStream</declname>
+          <defval>std::cerr</defval>
+        </param>
+        <briefdescription>
+<para>Print the formatted environment help message to the input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Output streem to use for text output. Default is the standard error stream </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="388" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1cmd__line__parse_1ab6c91be59d5a12efc78757e942af4fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::cmd_line_parse::displayHelp</definition>
+        <argsstring>(std::ostream &amp;outStream=std::cerr)</argsstring>
+        <name>displayHelp</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>outStream</declname>
+          <defval>std::cerr</defval>
+        </param>
+        <briefdescription>
+<para>Print the formatted help message to the input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Output streem to use for text output. Default is the standard error stream </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc/cmd_line_parse.h" line="395" column="14"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Class definition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Detailed class description </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>parser_base</label>
+      </node>
+      <node id="1">
+        <label>argparser::cmd_line_parse</label>
+        <link refid="classargparser_1_1cmd__line__parse"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>parser_base</label>
+      </node>
+      <node id="1">
+        <label>argparser::cmd_line_parse</label>
+        <link refid="classargparser_1_1cmd__line__parse"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="cmd_line_parse/inc/cmd_line_parse.h" line="50" column="1" bodyfile="cmd_line_parse/inc/cmd_line_parse.h" bodystart="51" bodyend="396"/>
+    <listofallmembers>
+      <member refid="classargparser_1_1cmd__line__parse_1a0426155a4838715320facc25ae10d6a7" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>addDefaultHelpArgument</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a1630aadda86c67e4877a54eefe2c7de5" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>addFlagArgument</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a2bfffeee0612e8ae0e25de53a6c90581" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>addKeyArgument</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a06a5059f827ab416ffeb9763a221b083" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>addPositionalArgument</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a433e13108cece1d432f0b97fd353c8a1" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>argcount</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a2693c3bc3c9b7bbec3b9448d286a9d84" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>argvArray</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1af15f2f33625d965f7ceba2cb4fb9c767" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>assignKeyFlagValue</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1ab2752469388f49bc7b854241a1e1bf58" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>assignKeyValue</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1ae44181f59d5432cc748752501072efe7" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>checkRequiredArgsFound</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1ae4d24755dbba4394ac94648aa15afe29" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>cmd_line_parse</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1ae8d3519edc3077187906c4d07e5ed4e8" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>cmd_line_parse</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a910fc426790fba3c7ada37ef9de29f51" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>cmd_line_parse</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a872ca129c0344584672f9fc39f28e4ae" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>cmd_line_parse</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1af5e137126d63c842e86544d125ef12ec" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>cmd_line_parse</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a1edb888bb254db27af72138a9c6b5cb2" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>currentArgumentIndex</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a76557aa9d93c186b845c63186da9d9ea" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>debugMsgLevel</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a12f6104b116327f589715b7fd9972880" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>descriptionText</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a6af4c9cac79b5952f88c3b63f736b1e4" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>disableDefaultHelpArgument</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a3f4856f49e3f0fa36a2824b51b392140" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>disableHelpDisplayOnError</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a5300f185c8cd758650725cad6347a66a" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>disableSingleCharListArgument</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1ab6c91be59d5a12efc78757e942af4fa4" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>displayHelp</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1ab5ab3c89f61bb86d758277a1b65a175e" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>displayHelpOnError</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a69909e54b3b16bd9e3d9d1711887837e" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>displayOptionHelp</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a721742801a46a31f785758e137f96f03" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>displayPositionHelp</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a3682f09370c8e14dd1afa0a38d2a017e" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>enableDefaultHelp</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1aef43551afd1c483ef5b7b32ca41367e8" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>enableUnknowArgumentIgnore</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a39ab3c2c6eda704e9e51f5e8abab06b5" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>epilogText</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1abc645ea675f804728b6c1337baed9fab" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>findMatchingArg</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a9d3f7df850df4f90fdfa2b43209e23a0" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>getInitialValueList</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a7be2bc4a6c7a260b8e9cf0dd7021cbb9" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>getInitialValueList</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1af95670976b466424a45369f9ae4af32e" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>helpFlag</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1aabf1a3ffa956bfce0372c6acd863d790" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>ignoreUnknownKey</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1aae6fd21f96afb789b19894186467bbaa" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>isCurrentArgKeySwitch</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1aeeddfc7cab490914fad199cd63e166c1" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>keyPrefix</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1afe3c9094b40ec50676e73a619032b26d" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1abe161779e2a3db5c52f6e236a42187cd" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a5f3e181e3a7a055d89e171f333365873" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>parse</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a8d475cea7ea2659e25c6eda182317cce" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>parseingPositionNumber</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1ad9ba676ca33a4730b7a4e72de9d8cdc1" prot="protected" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>parseKeyArg</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a71d46a16148318d0e5f8d198ff2bf592" prot="protected" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>parsePositionalArg</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a96114d10018be28b307d5ad3aceee17d" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>parseSingleKeyArg</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a70fe20daa57b223a8e9210c673026ace" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>positionalArgList</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a445441255fb3bf3f54c383783c766fbb" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>positionalStop</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a3b6ba263906a5c55c462b37d2dbdea32" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>positionalStopArgumentFound</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a4777a2ce9555daf66d4d028c689406fe" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>positionNumber</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a08768b31e8f904dca065b6ae9b17e21b" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>programName</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a58f01bd42e24149e63acbe5f43d96dfa" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>setEpilog</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1aeead2d76595b0e77275f6debd804fa5e" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>setKeyPrefix</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a3a9bc7a61b444382db92e73d9bd12ce9" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>setKeyPrefix</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a24df57484747660a73c8b385b8a7b7ff" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>setPositionalNameStop</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a0ebfa7342124b6a4a9b0fe3835f887bc" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>setProgramName</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a8e3ef018f8fecc955cfb393e8d56da94" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>setProgramName</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1aa0957071b06a592436fff19aa57eae72" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>singleCharArgListAllowed</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1aebaf855d1179508182ffa744d942e674" prot="private" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>usageText</name></member>
+      <member refid="classargparser_1_1cmd__line__parse_1a9466479a240369fd543671f259a7146f" prot="public" virt="non-virtual"><scope>argparser::cmd_line_parse</scope><name>~cmd_line_parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

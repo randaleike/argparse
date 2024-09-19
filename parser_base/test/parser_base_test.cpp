@@ -278,31 +278,19 @@ TEST(parser_base, findMatchingArg)
     bool found;
     argparser::ArgEntry& retArg = testparser.findMatchingArg("--goo", found);
     EXPECT_TRUE(found) << "did not find --goo";
-    if (found) 
-    {
-        EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
-    }
+    EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
 
     retArg = testparser.findMatchingArg("-g", found);
     EXPECT_TRUE(found) << "did not find -g";
-    if (found) 
-    {
-        EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
-    }
+    EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
 
     retArg = testparser.findMatchingArg("--foo", found);
     EXPECT_TRUE(found) << "did not find --foo";
-    if (found) 
-    {
-        EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
-    }
+    EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
 
     retArg = testparser.findMatchingArg("-f", found);
     EXPECT_TRUE(found) << "did not find -f";
-    if (found) 
-    {
-        EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
-    }
+    EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
 }
 
 TEST(parser_base, assignKeyFlagValue) 

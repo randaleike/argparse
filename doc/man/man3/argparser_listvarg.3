@@ -1,0 +1,280 @@
+.TH "argparser::listvarg< T >" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+argparser::listvarg< T > \- Variable list argument type template class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <listvarg\&.h>\fP
+.PP
+Inherits \fBargparser::varg_intf\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBlistvarg\fP ()"
+.br
+.RI "Construct a \fBvarg_intf\fP object\&. "
+.ti -1c
+.RI "virtual \fB~listvarg\fP ()"
+.br
+.RI "Destroy the varg object\&. "
+.ti -1c
+.RI "virtual bool \fBisList\fP () const"
+.br
+.RI "Return if varg is a list of elements or a single element type\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP (const char *newValue)"
+.br
+.RI "Virtual interface method implementation for the template variable implementation setValue with input function\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisEmpty\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::list< T > \fBvalue\fP"
+.br
+.RI "Current saved list values\&. "
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBsetSignedElementValue\fP (const char *newValue)"
+.br
+.RI "Set the value of a signed element and add the new element to the value list object\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBsetUnsignedElementValue\fP (const char *newValue)"
+.br
+.RI "Set the value of an unsigned list element and add the new element to the value list object\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBsetDoubleElementValue\fP (const char *newValue)"
+.br
+.RI "Set the value of a double list element and add the new element to the value list object\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBsetBoolElementValue\fP (const char *newValue)"
+.br
+.RI "Set the value of a boolean element and add the new element to the value list object\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBsetCharElementValue\fP (const char *newValue)"
+.br
+.RI "Set the Element Value object\&. "
+.ti -1c
+.RI "\fBvalueParseStatus_e\fP \fBsetStringElementValue\fP (const char *newValue)"
+.br
+.RI "Set the value of a string element and add the new element to the value list object\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T>
+.br
+class argparser::listvarg< T >"
+Variable list argument type template class\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T > virtual bool \fBargparser::listvarg\fP< T >::isEmpty ()\fC [inline]\fP, \fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation isEmpty function
+.PP
+\fBReturns\fP
+.RS 4
+true - if the list is empty 
+.PP
+false - if list is not empty 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual bool \fBargparser::listvarg\fP< T >::isList () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Return if varg is a list of elements or a single element type\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true - List type variable, multiple arguement values are allowed 
+.PP
+false - Only 0 or 1 argument values are allowed\&. 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setBoolElementValue (const char * newValue)\fC [protected]\fP"
+
+.PP
+Set the value of a boolean element and add the new element to the value list object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - input argument string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.SS "template<typename T > \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setCharElementValue (const char * newValue)\fC [protected]\fP"
+
+.PP
+Set the Element Value object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - input argument string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.SS "template<typename T > \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setDoubleElementValue (const char * newValue)\fC [protected]\fP"
+
+.PP
+Set the value of a double list element and add the new element to the value list object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Pointer to the text value string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.SS "template<typename T > \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setSignedElementValue (const char * newValue)\fC [protected]\fP"
+
+.PP
+Set the value of a signed element and add the new element to the value list object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Pointer to the text value string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.SS "template<typename T > \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setStringElementValue (const char * newValue)\fC [protected]\fP"
+
+.PP
+Set the value of a string element and add the new element to the value list object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - input argument string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.RE
+.PP
+
+.SS "template<typename T > \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setUnsignedElementValue (const char * newValue)\fC [protected]\fP"
+
+.PP
+Set the value of an unsigned list element and add the new element to the value list object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Pointer to the text value string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.SS "template<typename T > virtual \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setValue ()\fC [inline]\fP, \fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation setValue function
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_INVALID_INPUT_e - Lists do not have a default set value 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual \fBvalueParseStatus_e\fP \fBargparser::listvarg\fP< T >::setValue (const char * newValue)\fC [virtual]\fP"
+
+.PP
+Virtual interface method implementation for the template variable implementation setValue with input function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Input character string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_LOW_e - if value exceeds lower value limit 
+.PP
+valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

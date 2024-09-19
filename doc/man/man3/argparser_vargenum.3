@@ -1,0 +1,167 @@
+.TH "argparser::vargenum< T >" 3 "Sat Sep 14 2024" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+argparser::vargenum< T > \- Variable argument enum type template class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <vargenum\&.h>\fP
+.PP
+Inherits \fBargparser::varg_intf\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBvargenum\fP (T defaultValue, const char *name='')"
+.br
+.RI "Construct a vargenum object\&. "
+.ti -1c
+.RI "virtual \fB~vargenum\fP ()"
+.br
+.RI "Destroy the vargenum object\&. "
+.ti -1c
+.RI "virtual const char * \fBgetTypeString\fP ()"
+.br
+.RI "Get the base argument type as a string\&. "
+.ti -1c
+.RI "virtual bool \fBisList\fP () const"
+.br
+.RI "Return if varg is a list of elements or a single element type\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP (const char *newValue)"
+.br
+.RI "Virtual interface method implementation for the template variable implementation setValue with input function\&. "
+.ti -1c
+.RI "virtual \fBvalueParseStatus_e\fP \fBsetValue\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisEmpty\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetEnumValue\fP (const char *entryName, T enumValue)"
+.br
+.RI "Assign enum map values\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "T \fBvalue\fP"
+.br
+.RI "Current saved value\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T>
+.br
+class argparser::vargenum< T >"
+Variable argument enum type template class\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T > \fBargparser::vargenum\fP< T >::\fBvargenum\fP (T defaultValue, const char * name = \fC''\fP)\fC [inline]\fP"
+
+.PP
+Construct a vargenum object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdefaultValue\fP - Default value for the \fBvargenum\&.value\fP to start with 
+.br
+\fIname\fP - name of the enum 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T > virtual const char* \fBargparser::vargenum\fP< T >::getTypeString ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Get the base argument type as a string\&. 
+.PP
+\fBReturns\fP
+.RS 4
+const char* - Base type string 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual bool \fBargparser::vargenum\fP< T >::isEmpty ()\fC [inline]\fP, \fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation isEmpty function
+.PP
+\fBReturns\fP
+.RS 4
+true - Base variable is never empty 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual bool \fBargparser::vargenum\fP< T >::isList () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Return if varg is a list of elements or a single element type\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true - List type variable, multiple arguement values are allowed 
+.PP
+false - Only 0 or 1 argument values are allowed\&. 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > void \fBargparser::vargenum\fP< T >::setEnumValue (const char * entryName, T enumValue)\fC [inline]\fP"
+
+.PP
+Assign enum map values\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIentryName\fP - Name of the enum value 
+.br
+\fIenumValue\fP - Value to assign for the name 
+.RE
+.PP
+
+.SS "template<typename T > virtual \fBvalueParseStatus_e\fP \fBargparser::vargenum\fP< T >::setValue ()\fC [inline]\fP, \fC [virtual]\fP"
+Virtual interface method implementation for the template variable implementation setValue function
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_INVALID_INPUT_e - enum type must have an input string to map to the enum value 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+.SS "template<typename T > virtual \fBvalueParseStatus_e\fP \fBargparser::vargenum\fP< T >::setValue (const char * newValue)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Virtual interface method implementation for the template variable implementation setValue with input function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewValue\fP - Input character string
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+valueParseStatus_e::PARSE_SUCCESS_e - if value was successsfully set 
+.PP
+valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated 
+.RE
+.PP
+
+.PP
+Implements \fBargparser::varg_intf\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.
