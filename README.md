@@ -36,4 +36,4 @@ Single library containing libvarg, libcmd_line_parse and libenvparse
 [Documentation for this project](https://github.com/randaleike/argparse/doc)<br>
 [To report issues](https://github.com/randaleike/argparse/issues)<br>
 [Changelog for this project](https://github.com/randaleike/argparse/CHANGELOG.md)<br>
-[Contribution guidelines for this project](https://github.com/randaleike/argparse/CONTRIBUTING.md)<br>
+[Contribution guidelines for this project]([https://github.com/randaleike/argparse/CONTRIBUTING.md](https://github.com/randaleike/argparse?tab=coc-ov-file))<br>
