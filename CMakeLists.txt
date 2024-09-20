@@ -84,12 +84,15 @@ add_custom_target(unittest
 ####
 # Install package
 ####
-include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
-set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
-set(CPACK_SOURCE_GENERATOR "TGZ")
-include(CPack)
+if (WIN32)
+else()
+    include(CPack)
+    include(InstallRequiredSystemLibraries)
+    set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+    set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+    set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+    set(CPACK_SOURCE_GENERATOR "TGZ")
+endif()
 
 ####
 # cmd_line_parse sample generation
