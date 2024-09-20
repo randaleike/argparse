@@ -51,11 +51,13 @@ set (vargMockInclude
 set (vargMockSrc
     )
 
-#find_package(PkgConfig)
-#pkg_search_module(GTEST REQUIRED gtest_main)
-
+find_package(GTest REQUIRED)
+include(GoogleTest)
+enable_testing()
+include_directories(${GTEST_INCLUDE_DIR})
+    
 add_executable(${PROJECT_NAME}_test ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})
-target_link_libraries(${PROJECT_NAME}_test ${GTEST_LDFLAGS})
+target_link_libraries(${PROJECT_NAME}_test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
 gtest_discover_tests(${PROJECT_NAME}_test)

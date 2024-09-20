@@ -84,7 +84,6 @@ add_custom_target(unittest
 ####
 # Install package
 ####
-#find_package(PkgConfig)
 include(CPack)
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")

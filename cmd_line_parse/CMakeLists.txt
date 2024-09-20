@@ -55,11 +55,13 @@ set (cmd_line_parseExternalLib
     parser_base
     )
 
-#find_package(PkgConfig)
-#pkg_search_module(GTEST REQUIRED gtest_main)
+find_package(GTest REQUIRED)
+include(GoogleTest)
+enable_testing()
+include_directories(${GTEST_INCLUDE_DIR})
 
 add_executable(${PROJECT_NAME}_test ${cmd_line_parseUnitTestSrc} ${cmd_line_parseUnitTestMock} )
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})
-target_link_libraries(${PROJECT_NAME}_test ${cmd_line_parseExternalLib} ${GTEST_LDFLAGS})
+target_link_libraries(${PROJECT_NAME}_test ${cmd_line_parseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
 gtest_discover_tests(${PROJECT_NAME}_test)
