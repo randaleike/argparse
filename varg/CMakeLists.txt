@@ -51,8 +51,8 @@ set (vargMockInclude
 set (vargMockSrc
     )
 
-find_package(PkgConfig)
-pkg_search_module(GTEST REQUIRED gtest_main)
+#find_package(PkgConfig)
+#pkg_search_module(GTEST REQUIRED gtest_main)
 
 add_executable(${PROJECT_NAME}_test ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})

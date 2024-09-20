@@ -84,13 +84,16 @@ add_custom_target(unittest
 ####
 # Install package
 ####
+#find_package(PkgConfig)
+include(CPack)
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+
 if (WIN32)
+    set(CPACK_SOURCE_GENERATOR "ZIP")
 else()
-    include(CPack)
-    include(InstallRequiredSystemLibraries)
-    set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
-    set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
-    set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
     set(CPACK_SOURCE_GENERATOR "TGZ")
 endif()
 
