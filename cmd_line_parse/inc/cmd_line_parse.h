@@ -30,7 +30,6 @@
 
 // Includes
 #include <cstdlib>
-#include <unistd.h>
 #include <cstdio>
 #include <string>
 #include <list>

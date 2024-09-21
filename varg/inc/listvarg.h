@@ -30,7 +30,6 @@
 
 // Includes
 #include <stdlib.h>
-#include <unistd.h>
 #include <list>
 #include "varg_intf.h"
 
