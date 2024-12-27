@@ -316,7 +316,7 @@ eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& a
  */
 eAssignmentReturn parser_base::assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& failedValue)
 {
-    auto requiredValueCount = abs(currentArg.nargs);
+    size_t requiredValueCount = abs(currentArg.nargs);
 
     if (assignmentValues.empty())
     {

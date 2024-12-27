@@ -140,8 +140,14 @@ bool envparser::parse()
     // Scan the environment
     for (auto & currentArg : parser_base::getKeyArgList())
     {
+#if defined(__linux__) || defined(__unix__)
         const char* envValue = getenv(currentArg.name.c_str());
         if (NULL != envValue)
+#elif defined(_WIN64) || defined(_WIN32)
+        size_t count = 0;
+        char* envValue = nullptr;
+        if ((_dupenv_s(&envValue, &count, currentArg.name.c_str()) == 0) && (nullptr != envValue))
+#endif
         {
             // Process the return value string
             std::list<std::string> assignmentValues;

@@ -37,6 +37,11 @@
 #include <cmath>
 #include "varg_intf.h"
 
+#if defined(__linux__) || defined(__unix__)
+    #define SSCANF sscanf
+#elif defined(_WIN64) || defined(_WIN32)
+    #define SSCANF sscanf_s
+#endif
 namespace argparser
 {
 //============================================================================================================================
@@ -143,7 +148,7 @@ valueParseStatus_e varg_intf::getCharValue(const char* newValue, char& parsedVal
 valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int &parsedValue) const
 {
     valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
-    int                parseCount   = sscanf(newValue, "%lld", &parsedValue);
+    int parseCount = SSCANF(newValue, "%lld", &parsedValue);
     if (1 == parseCount)
     {
         if (parsedValue > maxSignedValue)
@@ -184,7 +189,7 @@ valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long u
         testChar++;
     }
 
-    int parseCount = sscanf(newValue, "%llu", &parsedValue);
+    int parseCount = SSCANF(newValue, "%llu", &parsedValue);
     if ((1 == parseCount) && (*testChar != '-'))
     {
         if (parsedValue > maxUnsignedValue)
@@ -218,7 +223,7 @@ valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long u
 valueParseStatus_e varg_intf::getDoubleValue(const char* newValue, double &parsedValue) const
 {
     valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
-    int                parseCount   = sscanf(newValue, "%lf", &parsedValue);
+    int                parseCount   = SSCANF(newValue, "%lf", &parsedValue);
     double             absValue     = std::fabs(parsedValue);
 
     if (1 == parseCount)
