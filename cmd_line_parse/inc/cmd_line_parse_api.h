@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2023-2024 Randal Eike
+ Copyright (c) 2023-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -35,244 +35,13 @@ extern "C" {
 //=================================================================================================
 //========================= Parser Typedef definitions ============================================
 //=================================================================================================
-struct argData;
-typedef struct argData* argHandle;                      ///< Argument data structure pointer abstraction
-
 struct cmdLineParser;
-typedef struct cmdLineParser* cmdLineParserHandle;      ///< Command line parser structure pointer abstraction
-typedef char const* parsercstr;                         ///< Parser 'C' string abstraction
 
-//=================================================================================================
-//=================================================================================================
-//======================== Parser Argument API interface methods ==================================
-//=================================================================================================
-//=================================================================================================
-/**
- * @brief Create a short int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createShortIntParserArg(short int* arg);
-
-/**
- * @brief Create a int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createIntParserArg(int* arg);
-
-/**
- * @brief Create a long int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLongIntParserArg(long int* arg);
-
-/**
- * @brief Create a long long int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLLongIntParserArg(long long int* arg);
-
-/**
- * @brief Create a short unsigned int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createShortUIntParserArg(short unsigned* arg);
-
-/**
- * @brief Create an unsigned int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createUIntParserArg(unsigned* arg);
-
-/**
- * @brief Create a long unsigned int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLongUIntParserArg(long unsigned* arg);
-
-/**
- * @brief Create a long long unsigned int parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLLongUIntParserArg(long long unsigned* arg);
-
-/**
- * @brief Create a double parser argument object
- *
- * @param arg - Pointer to the argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createFloatParserArg(double* arg);
-
-/**
- * @brief Create a single character parser argument object
- *
- * @param arg - Pointer to the character argument storage
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createCharParserArg(char* arg);
-
-/**
- * @brief Create a string parser argument object
- *
- * @param arg - Pointer to the string argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createStringParserArg(char* arg, int elementCount);
-
-/**
- * @brief Create a parser argument object
- *
- * @param defaultValue - Initial value
- * @param setValue     - Value if flag variable was found
- * @param flag         - Pointer to the argument storage 
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createParserFlagArg(bool defaultValue, bool setValue, bool* flag);
-
-/**
- * @brief Create a incrementing parser argument object
- *
- * @param flag - Pointer to the argument storage 
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createIncrementingFlagArg(int* flag);
-
-/**
- * @brief Create a short integer array parser argument object
- *
- * @param arg - Pointer to the short integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createShortIntArrayParserArg(short int arg[], int elementCount);
-
-/**
- * @brief Create a integer array parser argument object
- *
- * @param arg - Pointer to the integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createIntArrayParserArg(int arg[], int elementCount);
-
-/**
- * @brief Create a long integer array parser argument object
- *
- * @param arg - Pointer to the long integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLongIntArrayParserArg(long int arg[], int elementCount);
-
-/**
- * @brief Create a long long integer array parser argument object
- *
- * @param arg - Pointer to the long long integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLLongIntArrayParserArg(long long int arg[], int elementCount);
-
-/**
- * @brief Create an short unsigned array parser argument object
- *
- * @param arg - Pointer to the short unsigned integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createShortUIntArrayParserArg(short unsigned arg[], int elementCount);
-
-/**
- * @brief Create an unsigned array parser argument object
- *
- * @param arg - Pointer to the unsigned integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createUIntArrayParserArg(unsigned arg[], int elementCount);
-
-/**
- * @brief Create an long unsigned array parser argument object
- *
- * @param arg - Pointer to the long unsigned integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLongUIntArrayParserArg(long unsigned arg[], int elementCount);
-
-/**
- * @brief Create an long long unsigned array parser argument object
- *
- * @param arg - Pointer to the long long unsigned integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createLLongUIntArrayParserArg(long long unsigned arg[], int elementCount);
-
-/**
- * @brief Create a double array parser argument object
- *
- * @param arg - Pointer to the integer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createDoubleArrayParserArg(double arg[], int elementCount);
-
-/**
- * @brief Create a double array parser argument object
- *
- * @param arg - Pointer to the constant character pointer array argument storage
- * @param elementCount - Size of the array in elements
- *
- * @return argHandle - Handle to use when adding the argument to the parser argument list
- */
-argHandle createStringArrayParserArg(char** arg, int elementCount);
-
-/**
- * @brief Release the parser argument handle.
- *
- * @param arg - Argument handle to release
- */
-void releaseParserArg(argHandle arg);
+// NOLINTBEGIN
+typedef struct cvarptr* argHandle;                  ///< Command line parser varg structure pointer abstraction
+typedef struct cmdLineParser* cmdLineParserHandle;  ///< Command line parser structure pointer abstraction
+typedef char const* parsercstr;                     ///< Parser 'C' string abstraction
+// NOLINTEND
 
 //=================================================================================================
 //=================================================================================================
@@ -291,7 +60,7 @@ void releaseParserArg(argHandle arg);
  *
  * @return cmdLineParserHandle - Handle to the created argument parser
  */
-cmdLineParserHandle getParser(const parsercstr usage, const parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel);
+cmdLineParserHandle getParser(parsercstr usage, parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel);
 
 /**
  * @brief Release the parser instance
@@ -312,7 +81,7 @@ void releaseParser(cmdLineParserHandle parser, bool releaseArgHandles);
  * @param parser - Handle value returned by getParser()
  * @param epilog - Text to display at the end of the help block
  */
-void setEpilog(cmdLineParserHandle parser, const parsercstr epilog);
+void setEpilog(cmdLineParserHandle parser, parsercstr epilog);
 
 /**
  * @brief Set the Program Name for the usage string
@@ -320,7 +89,7 @@ void setEpilog(cmdLineParserHandle parser, const parsercstr epilog);
  * @param parser - Handle value returned by getParser()
  * @param progName - Program name to use in the usage string
  */
-void setProgramName(cmdLineParserHandle parser, const parsercstr progName);
+void setProgramName(cmdLineParserHandle parser, parsercstr progName);
 
 /**
  * @brief Set the argument key prefix value.
@@ -370,20 +139,20 @@ void enableUnknowArgumentIgnore(cmdLineParserHandle parser);
  * @brief Add a new key based command line argument to the argument list
  *
  * @param parser     - Handle value returned by getParser()
- * @param arg        - Handle of the argument to add
+ * @param valueAddr        - Handle of the argument to add
  * @param name       - Human name used in the help messages
  * @param argKeys    - Delimieted list of argument key values
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addKeyArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
-                    const parsercstr helpText, const bool required);
+void addKeyArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys,
+                    parsercstr helpText, bool required);
 
 /**
  * @brief Add a new key based command line array argument to the argument list
  *
  * @param parser     - Handle value returned by getParser()
- * @param arg        - Handle of the argument to add
+ * @param valueAddr        - Handle of the argument to add
  * @param name       - Human name used in the help messages
  * @param argKeys    - Delimieted list of argument key values
  * @param helpText   - Help text to be printed in the help message
@@ -396,51 +165,51 @@ void addKeyArgument(cmdLineParserHandle parser, const argHandle arg, const parse
  *                         are found it is flagged as an error
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addKeyArrayArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
-                         const parsercstr helpText, const int nargs, const bool required);
+void addKeyArrayArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys,
+                         parsercstr helpText, int nargs, bool required);
 
 /**
  * @brief Add a new key based flag command line argument to the argument list
  *
  * @param parser     - Handle value returned by getParser()
- * @param arg        - Handle of the argument to add
+ * @param valueAddr        - Handle of the argument to add
  * @param name       - Human name used in the help messages
  * @param argKeys    - Delimieted list of argument key values
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addFlagArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
-                     const parsercstr helpText, const bool required);
+void addFlagArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys,
+                     parsercstr helpText, bool required);
 
 /**
  * @brief Add a new key based incrementing command line argument to the argument list
  *
  * @param parser     - Handle value returned by getParser()
- * @param arg        - Handle of the argument to add
+ * @param valueAddr        - Handle of the argument to add
  * @param name       - Human name used in the help messages
  * @param argKeys    - Delimieted list of argument key values
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addIncrementingArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr argKeys, 
-                             const parsercstr helpText, const bool required);
+void addIncrementingArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys,
+                             parsercstr helpText, bool required);
 
 /**
  * @brief Add a new positinal based command line argument to the argument list
  *
  * @param parser     - Handle value returned by getParser()
- * @param arg        - Handle of the argument to add
+ * @param valueAddr        - Handle of the argument to add
  * @param name       - Human name used in the help messages
  * @param helpText   - Help text to be printed in the help message
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addPositionalArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr helpText, const bool required);
+void addPositionalArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr helpText, bool required);
 
 /**
  * @brief Add a new positinal based command line array argument to the argument list
  *
  * @param parser     - Handle value returned by getParser()
- * @param arg        - Handle of the argument to add
+ * @param valueAddr        - Handle of the argument to add
  * @param name       - Human name used in the help messages
  * @param helpText   - Help text to be printed in the help message
  * @param nargs      - Number of argument values that follow
@@ -452,8 +221,8 @@ void addPositionalArgument(cmdLineParserHandle parser, const argHandle arg, cons
  *                         are found it is flagged as an error
  * @param required   - True if argument is required, false if arguemnt is optional
  */
-void addPositionalArrayArgument(cmdLineParserHandle parser, const argHandle arg, const parsercstr name, const parsercstr helpText, 
-                                const int nargs, const bool required);
+void addPositionalArrayArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr helpText,
+                                int nargs, bool required);
 
 //=================================================================================================
 //======================= Commandline parser interface methods ====================================
@@ -464,7 +233,7 @@ void addPositionalArrayArgument(cmdLineParserHandle parser, const argHandle arg,
  * @param parser - Handle value returned by getParser()
  * @param positionalArgumentName - Positional name to find
  */
-void setPositionalNameStop(cmdLineParserHandle parser, const parsercstr positionalArgumentName);
+void setPositionalNameStop(cmdLineParserHandle parser, parsercstr positionalArgumentName);
 
 /**
  * @brief Parse the input command line arguments

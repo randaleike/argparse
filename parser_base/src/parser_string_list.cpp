@@ -348,7 +348,7 @@ std::list<parserstr> BaseParserStringList::formatStringToLength(parserstr baseSt
     parserstr workingString = baseString;
     size_t breakPos = parserstr::npos;
 
-    if (debugMsgLevel > debugVerbosityLevel_e::verboseDebug) 
+    if (debugMsgLevel > debugVerbosityLevel_e::verboseDebug)
     {
         std::cerr << "Start string: \"" << workingString << "\"" << std::endl;
     }
@@ -368,7 +368,7 @@ std::list<parserstr> BaseParserStringList::formatStringToLength(parserstr baseSt
             workingString.erase(0, breakPos);
         }
 
-        if (debugMsgLevel > debugVerbosityLevel_e::verboseDebug) 
+        if (debugMsgLevel > debugVerbosityLevel_e::verboseDebug)
         {
             std::cerr << "Current string: \"" << workingString << "\"" << std::endl;
         }
@@ -407,7 +407,7 @@ void BaseParserStringList::setDebugMsgLevel(int msgLevel)
 BaseParserStringList* BaseParserStringList::getInternationalizedClass()
 {
 #if defined(DYNAMIC_INTERNATIONALIZATION)
-    BaseParserStringList* parserLang;
+    BaseParserStringList* parserLang = nullptr;
  #if defined(__linux__) || defined(__unix__)
     const parserchar* langSetting = getenv("LANG");
     if (nullptr != langSetting)

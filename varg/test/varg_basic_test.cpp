@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -21,23 +21,23 @@
 */
 
 /**
- * @file varg_test.cpp
+ * @file varg_basic_test.cpp
  * @ingroup argparser_unittest
  * @defgroup Argument parsing utilities unit test
  * @{
  */
 
 // Includes
+#include <array>
+#include <iterator>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <climits>
 #include "varg.h"
 #include "vargincrement.h"
 #include "vargenum.h"
 #include <gtest/gtest.h>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <limits.h>
-
-const double testValues[] = {3.14,1.345e6,30.1,1e6,2.76};
 
 /*
 * Integer varg test
@@ -46,14 +46,23 @@ template <typename T> class IntegerUnitTest : public testing::Test
 {
     private:
 
+    protected:
+        std::array<T, 13> initValues {{0, 1, -1, 10, -11, 12, 55, -133, 116, -1958, 1876, 11653, -15639}};  // NOLINT
+        std::array<T, 12> flagValues {{2, -2, 20, -21, 32, 66, -233, 126, -1948, 1856, 12653, -13639}};     // NOLINT
+
     public:
-        IntegerUnitTest() {}
-        ~IntegerUnitTest() override {}
+        IntegerUnitTest() = default;
+        IntegerUnitTest(const IntegerUnitTest& other) = default;
+        IntegerUnitTest(IntegerUnitTest&& other) = default;
+        IntegerUnitTest& operator=(const IntegerUnitTest& other) = default;
+        IntegerUnitTest& operator=(IntegerUnitTest&& other) = default;
 
-        long long int getMaxValue(void);
-        long long int getMinValue(void);
+        ~IntegerUnitTest() override = default;
 
-        std::string getExpectedTypeString(void)
+        long long int getMaxValue();
+        long long int getMinValue();
+
+        std::string getExpectedTypeString()
         {
             std::stringstream typeString;
             typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
@@ -74,71 +83,74 @@ template <typename T> class IntegerUnitTest : public testing::Test
             return minString.str();
         }
 
-        bool runMaxMinTest(void);
+        bool runMaxMinTest();
 };
 
-template <> long long int IntegerUnitTest<short int>::getMaxValue(void)       {return SHRT_MAX;}
-template <> long long int IntegerUnitTest<int>::getMaxValue(void)             {return INT_MAX;}
-template <> long long int IntegerUnitTest<long int>::getMaxValue(void)        {return LONG_MAX;}
-template <> long long int IntegerUnitTest<long long int>::getMaxValue(void)   {return LLONG_MAX;}
+template <> long long int IntegerUnitTest<short int>::getMaxValue()       {return SHRT_MAX;}
+template <> long long int IntegerUnitTest<int>::getMaxValue()             {return INT_MAX;}
+template <> long long int IntegerUnitTest<long int>::getMaxValue()        {return LONG_MAX;}
+template <> long long int IntegerUnitTest<long long int>::getMaxValue()   {return LLONG_MAX;}
 
-template <> long long int IntegerUnitTest<short int>::getMinValue(void)       {return SHRT_MIN;}
-template <> long long int IntegerUnitTest<int>::getMinValue(void)             {return INT_MIN;}
-template <> long long int IntegerUnitTest<long int>::getMinValue(void)        {return LONG_MIN;}
-template <> long long int IntegerUnitTest<long long int>::getMinValue(void)   {return LLONG_MIN;}
+template <> long long int IntegerUnitTest<short int>::getMinValue()       {return SHRT_MIN;}
+template <> long long int IntegerUnitTest<int>::getMinValue()             {return INT_MIN;}
+template <> long long int IntegerUnitTest<long int>::getMinValue()        {return LONG_MIN;}
+template <> long long int IntegerUnitTest<long long int>::getMinValue()   {return LLONG_MIN;}
 
-template <> bool IntegerUnitTest<long long int>::runMaxMinTest(void)        {return false;}
-template <> bool IntegerUnitTest<long int>::runMaxMinTest(void)             {return false;}
-template <typename T> bool IntegerUnitTest<T>::runMaxMinTest(void)          {return true;}
+template <> bool IntegerUnitTest<long long int>::runMaxMinTest()          {return false;}
+template <> bool IntegerUnitTest<long int>::runMaxMinTest()               {return false;}
+template <typename T> bool IntegerUnitTest<T>::runMaxMinTest()            {return true;}
 
 TYPED_TEST_SUITE_P(IntegerUnitTest);
-TYPED_TEST_P(IntegerUnitTest, ConstructorValueSignedPos)
+TYPED_TEST_P(IntegerUnitTest, ConstructorValueSigned)
 {
-    argparser::varg< TypeParam > testvar(1);
-    EXPECT_EQ(1, testvar.value);
-}
-
-TYPED_TEST_P(IntegerUnitTest, ConstructorValueSignedNeg)
-{
-    argparser::varg< TypeParam > testvar(-1);
-    EXPECT_EQ(-1, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(testValue, testvar.value);
+    }
 }
 
 TYPED_TEST_P(IntegerUnitTest, ConstructorValueDefaultFlag)
 {
-    const TypeParam testValue = 10;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(testValue, testvar.value);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-    EXPECT_EQ(0, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(testValue, testvar.value);
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+        EXPECT_EQ(0, testvar.value);
+    }
 }
 
 TYPED_TEST_P(IntegerUnitTest, ConstructorValueFlag)
 {
-    const TypeParam initValue = 10;
-    const TypeParam setValue = -100;
-    argparser::varg< TypeParam > testvar(initValue,setValue);
-    EXPECT_EQ(initValue, testvar.value);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-    EXPECT_EQ(setValue, testvar.value);
+    for (const TypeParam flagValue : this->flagValues)
+    {
+        for (const TypeParam testValue : this->initValues)
+        {
+            argparser::varg< TypeParam > testvar(testValue, flagValue);
+            EXPECT_EQ(testValue, testvar.value);
+            EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+            EXPECT_EQ(flagValue, testvar.value);
+        }
+    }
 }
 
-TYPED_TEST_P(IntegerUnitTest, ValueSetPassSignedPos)
+TYPED_TEST_P(IntegerUnitTest, ValueSetPassSigned)
 {
-    const TypeParam testValue = -21;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(testValue, testvar.value);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("33"));
-    EXPECT_EQ(33, testvar.value);
-}
+    const std::array<int, 12> assignValues {{2, -2, 33, -21, 32, 66,
+                                             -233, 126, -1948, 1856, 12653, -13639}};
 
-TYPED_TEST_P(IntegerUnitTest, ValueSetPassSignedNeg)
-{
-    const TypeParam testValue = 25;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(testValue, testvar.value);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("-44"));
-    EXPECT_EQ(-44, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        for (const TypeParam assignValue : assignValues)
+        {
+            argparser::varg< TypeParam > testvar(testValue);
+            std::string setString = std::to_string(assignValue);
+            EXPECT_EQ(testValue, testvar.value);
+            EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+            EXPECT_EQ(assignValue, testvar.value);
+        }
+    }
 }
 
 TYPED_TEST_P(IntegerUnitTest, ValueSetFail)
@@ -168,7 +180,7 @@ TYPED_TEST_P(IntegerUnitTest, ValueSetMaxFail)
         const TypeParam testValue = 48;
         argparser::varg< TypeParam > testvar(testValue);
         EXPECT_EQ(testValue, testvar.value);
-        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, testvar.setValue(maxValue.c_str()));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(maxValue.c_str()));
         EXPECT_EQ(testValue, testvar.value);
     }
 }
@@ -191,7 +203,7 @@ TYPED_TEST_P(IntegerUnitTest, ValueSetMinFail)
         const TypeParam testValue = -57;
         argparser::varg< TypeParam > testvar(testValue);
         EXPECT_EQ(testValue, testvar.value);
-        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_BOUNDARY_LOW_e, testvar.setValue(minValue.c_str()));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(minValue.c_str()));
         EXPECT_EQ(testValue, testvar.value);
     }
 }
@@ -211,12 +223,11 @@ TYPED_TEST_P(IntegerUnitTest, GetTypeString)
     EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
 }
 
-REGISTER_TYPED_TEST_SUITE_P(IntegerUnitTest, ConstructorValueSignedPos, ConstructorValueSignedNeg, ConstructorValueFlag, ConstructorValueDefaultFlag,
-                                             ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetFail, 
-                                             ValueSetMaxPass, ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail,
-                                             IsListTest, GetTypeString);
+REGISTER_TYPED_TEST_SUITE_P(IntegerUnitTest, ConstructorValueSigned, ConstructorValueFlag, ConstructorValueDefaultFlag,
+                                             ValueSetPassSigned, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
+                                             ValueSetMinPass, ValueSetMinFail, IsListTest, GetTypeString);
 
-typedef testing::Types<short int, int, long int, long long int> intTypes;
+typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_int, IntegerUnitTest, intTypes);
 
 /*
@@ -226,14 +237,23 @@ template <typename T> class UIntegerUnitTest : public testing::Test
 {
     private:
 
+    protected:
+        const std::array<T, 13> initValues {{0, 1, 5, 10, 31, 12, 55, 133, 116, 1958, 1876, 11653, 15639}}; // NOLINT
+        const std::array<T, 12> flagValues {{2, 2, 20, 21, 32, 66, 233, 126, 1948, 1856, 12653, 13639}};    // NOLINT
+
     public:
-        UIntegerUnitTest() {}
-        ~UIntegerUnitTest() override {}
+        UIntegerUnitTest() = default;
+        UIntegerUnitTest(const UIntegerUnitTest& other) = default;
+        UIntegerUnitTest(UIntegerUnitTest&& other) = default;
+        UIntegerUnitTest& operator=(const UIntegerUnitTest& other) = default;
+        UIntegerUnitTest& operator=(UIntegerUnitTest&& other) = default;
 
-        long long unsigned getMaxValue(void);
-        long long unsigned getMinValue(void)     {return 0ULL;}
+        ~UIntegerUnitTest() override = default;
 
-        std::string getExpectedTypeString(void)
+        long long unsigned getMaxValue();
+        long long unsigned getMinValue()     {return 0ULL;}
+
+        std::string getExpectedTypeString()
         {
             std::stringstream typeString;
             typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
@@ -254,52 +274,70 @@ template <typename T> class UIntegerUnitTest : public testing::Test
             return minString.str();
         }
 
-        bool runMaxMinTest(void);
+        bool runMaxMinTest();
 };
 
-template <> long long unsigned UIntegerUnitTest<short unsigned>::getMaxValue(void)      {return USHRT_MAX;}
-template <> long long unsigned UIntegerUnitTest<unsigned>::getMaxValue(void)            {return UINT_MAX;}
-template <> long long unsigned UIntegerUnitTest<long unsigned>::getMaxValue(void)       {return ULONG_MAX;}
-template <> long long unsigned UIntegerUnitTest<long long unsigned>::getMaxValue(void)  {return ULLONG_MAX;}
+template <> long long unsigned UIntegerUnitTest<short unsigned>::getMaxValue()      {return USHRT_MAX;}
+template <> long long unsigned UIntegerUnitTest<unsigned>::getMaxValue()            {return UINT_MAX;}
+template <> long long unsigned UIntegerUnitTest<long unsigned>::getMaxValue()       {return ULONG_MAX;}
+template <> long long unsigned UIntegerUnitTest<long long unsigned>::getMaxValue()  {return ULLONG_MAX;}
 
-template <> bool UIntegerUnitTest<long long unsigned>::runMaxMinTest(void)              {return false;}
-template <> bool UIntegerUnitTest<long unsigned>::runMaxMinTest(void)                   {return false;}
-template <typename T> bool UIntegerUnitTest<T>::runMaxMinTest(void)                     {return true;}
+template <> bool UIntegerUnitTest<long long unsigned>::runMaxMinTest()              {return false;}
+template <> bool UIntegerUnitTest<long unsigned>::runMaxMinTest()                   {return false;}
+template <typename T> bool UIntegerUnitTest<T>::runMaxMinTest()                     {return true;}
 
 TYPED_TEST_SUITE_P(UIntegerUnitTest);
 TYPED_TEST_P(UIntegerUnitTest, ConstructorValue)
 {
-    const TypeParam testValue = 10;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(testValue, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(testValue, testvar.value);
+    }
 }
 
 TYPED_TEST_P(UIntegerUnitTest, ConstructorValueFlag)
 {
-    const TypeParam initValue = 10;
-    const TypeParam setValue = 33;
-    argparser::varg< TypeParam > testvar(initValue, setValue);
-    EXPECT_EQ(initValue, testvar.value);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-    EXPECT_EQ(setValue, testvar.value);
+    for (const TypeParam setValue : this->flagValues)
+    {
+        for (const TypeParam testValue : this->initValues)
+        {
+            argparser::varg< TypeParam > testvar(testValue, setValue);
+            EXPECT_EQ(testValue, testvar.value);
+            EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+            EXPECT_EQ(setValue, testvar.value);
+        }
+    }
 }
 
 TYPED_TEST_P(UIntegerUnitTest, ConstructorValueDefaultFlag)
 {
-    const TypeParam testValue = 12;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(testValue, testvar.value);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-    EXPECT_EQ(0, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(testValue, testvar.value);
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+        EXPECT_EQ(0, testvar.value);
+    }
 }
 
 TYPED_TEST_P(UIntegerUnitTest, ValueSetPass)
 {
-    const TypeParam testValue = 20;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(testValue, testvar.value);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("33"));
-    EXPECT_EQ(33, testvar.value);
+    const std::array<TypeParam, 12> assignValues {{2, 5, 33, 21, 32, 66,
+                                                   233, 126, 1948, 1856, 12653, 13639}};
+
+    for (const TypeParam testValue : this->initValues)
+    {
+        for (const TypeParam assignValue : assignValues)
+        {
+            argparser::varg< TypeParam > testvar(testValue);
+            EXPECT_EQ(testValue, testvar.value);
+
+            std::string setString = std::to_string(assignValue);
+            EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+            EXPECT_EQ(assignValue, testvar.value);
+        }
+    }
 }
 
 TYPED_TEST_P(UIntegerUnitTest, ValueSetFail)
@@ -329,7 +367,7 @@ TYPED_TEST_P(UIntegerUnitTest, ValueSetMaxFail)
         const TypeParam testValue = 48;
         argparser::varg< TypeParam > testvar(testValue);
         EXPECT_EQ(testValue, testvar.value);
-        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, testvar.setValue(maxValue.c_str()));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(maxValue.c_str()));
         EXPECT_EQ(testValue, testvar.value);
     }
 }
@@ -350,10 +388,10 @@ TYPED_TEST_P(UIntegerUnitTest, GetTypeString)
 }
 
 REGISTER_TYPED_TEST_SUITE_P(UIntegerUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
-                                              ValueSetPass, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail, 
+                                              ValueSetPass, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
                                               IsListTest, GetTypeString);
 
-typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;
+typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_uint, UIntegerUnitTest, uintTypes);
 
 /*
@@ -362,17 +400,25 @@ INSTANTIATE_TYPED_TEST_SUITE_P(varg_uint, UIntegerUnitTest, uintTypes);
 template <typename T> class FloatUnitTest : public testing::Test
 {
     private:
-        std::stringstream typeString;
+
+    protected:
+        const std::array<T, 9> initValues{{3.14,1.345e6,30.1,1e6,2.76, 3.14156, 100, 5.0, 124578}}; // NOLINT
 
     public:
-        FloatUnitTest() {}
-        ~FloatUnitTest() override {}
+        FloatUnitTest() = default;
+        FloatUnitTest(const FloatUnitTest& other) = default;
+        FloatUnitTest(FloatUnitTest&& other) = default;
+        FloatUnitTest& operator=(const FloatUnitTest& other) = default;
+        FloatUnitTest& operator=(FloatUnitTest&& other) = default;
 
-        std::string getExpectedTypeString(void);
+        ~FloatUnitTest() override = default;
+
+        std::string getExpectedTypeString();
 };
 
-template <> std::string FloatUnitTest<double>::getExpectedTypeString(void) 
+template <> std::string FloatUnitTest<double>::getExpectedTypeString()
 {
+    std::stringstream typeString;
     typeString << "<" << std::numeric_limits<double>::min() << ":" << std::numeric_limits<double>::max() << ">";
     return typeString.str();
 }
@@ -381,9 +427,11 @@ TYPED_TEST_SUITE_P(FloatUnitTest);
 
 TYPED_TEST_P(FloatUnitTest, ConstructorValue)
 {
-    const TypeParam testValue = 3.14156;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(testValue, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(testValue, testvar.value);
+    }
 }
 
 TYPED_TEST_P(FloatUnitTest, ConstructorValueFlag)
@@ -405,20 +453,17 @@ TYPED_TEST_P(FloatUnitTest, ConstructorValueDefaultFlag)
     EXPECT_EQ(0.0, testvar.value);
 }
 
-TYPED_TEST_P(FloatUnitTest, ValueSetPass_simple)
+TYPED_TEST_P(FloatUnitTest, ValueSetPass)
 {
+    const std::array< TypeParam, 7> assignValues {{3.1415, 98.6, 5.0, 100.7, 1.59e4, -127, -3.79e8}};
     const TypeParam testValue = 2.76;
     argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("3.1415"));
-    EXPECT_EQ(3.1415, testvar.value);
-}
-
-TYPED_TEST_P(FloatUnitTest, ValueSetPass_exponent)
-{
-    const TypeParam testValue = 1e6;
-    argparser::varg< TypeParam > testvar(testValue);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("1.59e4"));
-    EXPECT_EQ(1.59e4, testvar.value);
+    for (const TypeParam assignValue : assignValues)
+    {
+        std::string setString = std::to_string(assignValue);
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+        EXPECT_EQ(assignValue, testvar.value);
+    }
 }
 
 TYPED_TEST_P(FloatUnitTest, ValueSetPass_integer)
@@ -431,54 +476,71 @@ TYPED_TEST_P(FloatUnitTest, ValueSetPass_integer)
 
 TYPED_TEST_P(FloatUnitTest, ValueSetFail)
 {
-    argparser::varg< TypeParam > testvar(testValues[0]);
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("goo"));
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("goo"));
+        EXPECT_EQ(testValue, testvar.value);
+    }
 }
 
 TYPED_TEST_P(FloatUnitTest, ValueSetMaxPass)
 {
-    argparser::varg< TypeParam > testvar(testValues[1]);
-    EXPECT_EQ(1.345e6, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(testValue, testvar.value);
 
-    std::stringstream maxString;
-    maxString.precision(DBL_MANT_DIG);
-    maxString << std::numeric_limits<double>::max();
+        std::stringstream maxString;
+        maxString.precision(DBL_MANT_DIG);
+        maxString << std::numeric_limits<double>::max();
 
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(maxString.str().c_str()));
-    EXPECT_EQ(std::numeric_limits<double>::max(), testvar.value);
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(maxString.str().c_str()));
+        EXPECT_EQ(std::numeric_limits<double>::max(), testvar.value);
+    }
 }
 
 TYPED_TEST_P(FloatUnitTest, ValueSetMinPass)
 {
-    argparser::varg< TypeParam > testvar(testValues[1]);
-    EXPECT_EQ(1.345e6, testvar.value);
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_EQ(testValue, testvar.value);
 
-    std::stringstream minString;
-    minString.precision(DBL_MANT_DIG);
-    minString << std::numeric_limits<double>::min();
+        std::stringstream minString;
+        minString.precision(DBL_MANT_DIG);
+        minString << std::numeric_limits<double>::min();
 
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(minString.str().c_str()));
-    EXPECT_EQ(std::numeric_limits<double>::min(), testvar.value);
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(minString.str().c_str()));
+        EXPECT_EQ(std::numeric_limits<double>::min(), testvar.value);
+    }
 }
 
 TYPED_TEST_P(FloatUnitTest, IsListTest)
 {
-    argparser::varg< TypeParam > testvar(testValues[2]);
-    EXPECT_FALSE(testvar.isList());
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        EXPECT_FALSE(testvar.isList());
+    }
 }
 
 TYPED_TEST_P(FloatUnitTest, GetTypeString)
 {
-    argparser::varg< TypeParam > testvar(testValues[2]);
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        std::string expectedString = this->getExpectedTypeString();
+        EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+    }
 }
 
 REGISTER_TYPED_TEST_SUITE_P(FloatUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
-                                           ValueSetPass_simple, ValueSetPass_exponent, ValueSetFail, ValueSetPass_integer,
+                                           ValueSetPass, ValueSetFail, ValueSetPass_integer,
                                            ValueSetMaxPass, ValueSetMinPass, IsListTest, GetTypeString);
 
-typedef testing::Types<double> floatTypes;
+//typedef testing::Types<double> floatTypes;
+using floatTypes = testing::Types<double>;
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_float, FloatUnitTest, floatTypes);
 
 /*
@@ -636,26 +698,14 @@ TEST(varg_char, GetTypeString)
 */
 TEST(varg_string, ConstructorValue)
 {
-    const argparser::varg<std::string> testvar("test string");
+    const argparser::vargstring testvar("test string");
     const std::string testValue("test string");
     EXPECT_STREQ(testValue.c_str(), testvar.value.c_str());
-}
-
-TEST(varg_string, ConstructorValueFlag)
-{
-    argparser::varg<std::string> testvar("test string", "flag string");
-    const std::string testValue("test string");
-    EXPECT_STREQ(testValue.c_str(), testvar.value.c_str());
-
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-
-    const std::string flagValue("flag string");
-    EXPECT_STREQ(flagValue.c_str(), testvar.value.c_str());
 }
 
 TEST(varg_string, ValueSetPass)
 {
-    argparser::varg<std::string> testvar("test string");
+    argparser::vargstring testvar("test string");
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("value string"));
 
     const std::string testValue("value string");
@@ -664,14 +714,29 @@ TEST(varg_string, ValueSetPass)
 
 TEST(varg_string, IsListTest)
 {
-    argparser::varg<std::string> testvar("test string");
+    argparser::vargstring testvar("test string");
     EXPECT_FALSE(testvar.isList());
 }
 
 TEST(varg_string, GetTypeString)
 {
-    argparser::varg<std::string> testvar("test string");
+    argparser::vargstring testvar("test string");
     EXPECT_STREQ("<string>", testvar.getTypeString());
+}
+
+TEST(varg_string, MinMaxLengthTest)
+{
+    argparser::vargstring testvar("", 5, 10);   // NOLINT
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(""));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("v"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("va"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("val"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("valu"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("value"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("value test"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("value test1"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("value test12"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("value test really over limit"));
 }
 
 /** @} */

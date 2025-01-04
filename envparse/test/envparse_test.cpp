@@ -1,22 +1,22 @@
-/* 
+/*
  Copyright (c) 2022-2024 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -26,8 +26,8 @@
  * @{
  */
 
-// Includes 
-#include <stdlib.h>
+// Includes
+#include <cstdlib>
 #include "varg.h"
 #include "listvarg.h"
 #include "envparse.h"
@@ -68,18 +68,18 @@ parserstr getEnvKeyHelpMsg(parserstr keys, parserstr keyhelp, size_t argWidth = 
 //======================================================================================
 // Test functions constructor and help
 //======================================================================================
-TEST(envparse, ConstructorBasic) 
-{ 
+TEST(envparse, ConstructorBasic)
+{
     argparser::envparser testvar;
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
     parserstr expectedStr;
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-} 
+}
 
-TEST(envparse, addArgument) 
-{ 
+TEST(envparse, addArgument)
+{
     argparser::envparser testvar;
     argparser::varg<int> testvalvarg(0);
 
@@ -90,10 +90,10 @@ TEST(envparse, addArgument)
     parserstr output = testing::internal::GetCapturedStdout();
     parserstr expectedStr = getEnvHelpHeader() + getEnvKeyHelpMsg("MYENVTEST", "My environment test var", testArgWidth);
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-} 
+}
 
-TEST(envparse, addArgument2) 
-{ 
+TEST(envparse, addArgument2)
+{
     argparser::envparser testvar;
     argparser::varg<int> testvalvarg(0);
     argparser::varg<int> testvalvarg1(0);
@@ -104,14 +104,14 @@ TEST(envparse, addArgument2)
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getEnvHelpHeader() + 
-                            getEnvKeyHelpMsg("MYENVTEST", "My environment test var", testArgWidth2) + 
+    parserstr expectedStr = getEnvHelpHeader() +
+                            getEnvKeyHelpMsg("MYENVTEST", "My environment test var", testArgWidth2) +
                             getEnvKeyHelpMsg("SECONDENVTEST", "My second environment test var", testArgWidth2);;
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-} 
+}
 
-TEST(envparse, addArgumentNargZero) 
-{ 
+TEST(envparse, addArgumentNargZero)
+{
     argparser::envparser testvar;
     argparser::varg<int> testvalvarg(0);
 
@@ -120,21 +120,21 @@ TEST(envparse, addArgumentNargZero)
     parserstr output = testing::internal::GetCapturedStderr();
     parserstr expectedStr = "Environment value MYENVTEST narg must be > 0\n";
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-} 
+}
 
-TEST(envparse, addArgumentInvalidNargs) 
-{ 
-    argparser::envparser testvar; 
+TEST(envparse, addArgumentInvalidNargs)
+{
+    argparser::envparser testvar;
     argparser::varg<int> testvarg(testValue);
 
     testing::internal::CaptureStderr();
-    testvar.addArgument(&testvarg, "tstint", "This is the test key argument", 2); 
+    testvar.addArgument(&testvarg, "tstint", "This is the test key argument", 2);
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("Only list type arguments can have an argument count of 2\n", output.c_str());
-} 
+}
 
-TEST(envparse, parsetest) 
-{ 
+TEST(envparse, parsetest)
+{
     argparser::envparser testvar;
     argparser::varg<int> testvalvarg(0);
     argparser::varg<int> testvalvarg1(0);
@@ -149,10 +149,10 @@ TEST(envparse, parsetest)
     EXPECT_EQ(0, testvalvarg1.value);
     unsetenv("MYENVTEST");
     unsetenv("SECONDENVTEST");
-} 
+}
 
-TEST(envparse, parsetestDual) 
-{ 
+TEST(envparse, parsetestDual)
+{
     argparser::envparser testvar;
     argparser::varg<int> testvalvarg(0);
     argparser::varg<bool> testvalvarg1(false);
@@ -167,10 +167,10 @@ TEST(envparse, parsetestDual)
     EXPECT_EQ(true, testvalvarg1.value);
     unsetenv("MYENVTEST");
     unsetenv("SECONDENVTEST");
-} 
+}
 
-TEST(envparse, parsetestlist) 
-{ 
+TEST(envparse, parsetestlist)
+{
     argparser::envparser testvar;
     argparser::listvarg<int> testlistvarg;
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", 2);
@@ -182,10 +182,10 @@ TEST(envparse, parsetestlist)
     testlistvarg.value.pop_front();
     EXPECT_EQ(21, testlistvarg.value.front());
     unsetenv("MYENVTEST");
-} 
+}
 
-TEST(envparse, parsetestlistTooFew) 
-{ 
+TEST(envparse, parsetestlistTooFew)
+{
     argparser::envparser testvar;
     argparser::listvarg<int> testlistvarg;
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", 3);
@@ -197,10 +197,10 @@ TEST(envparse, parsetestlistTooFew)
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"MYENVTEST\" missing assignment. Expected: 3 found: 2 arguments\n", output.c_str());
     unsetenv("MYENVTEST");
-} 
+}
 
-TEST(envparse, parsetestlistTooMany) 
-{ 
+TEST(envparse, parsetestlistTooMany)
+{
     argparser::envparser testvar(false);
     argparser::listvarg<int> testlistvarg;
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", 3);
@@ -213,10 +213,10 @@ TEST(envparse, parsetestlistTooMany)
     EXPECT_STREQ("\"MYENVTEST\" too many assignment values. Expected: 3 found: 4 arguments\n", output.c_str());
     testing::internal::CaptureStderr();
     unsetenv("MYENVTEST");
-} 
+}
 
-TEST(envparse, parseTestAddDynamicListArg) 
-{ 
+TEST(envparse, parseTestAddDynamicListArg)
+{
     argparser::envparser testvar(false);
     argparser::listvarg<int> testlistvarg;
 
@@ -230,10 +230,10 @@ TEST(envparse, parseTestAddDynamicListArg)
     EXPECT_EQ(22, testlistvarg.value.front());
     testlistvarg.value.pop_front();
     EXPECT_EQ(43, testlistvarg.value.front());
-} 
+}
 
-TEST(envparse, parseTestAddDynamicList2Arg) 
-{ 
+TEST(envparse, parseTestAddDynamicList2Arg)
+{
     argparser::envparser testvar(false);
     argparser::listvarg<int> testlistvarg;
 
@@ -245,10 +245,10 @@ TEST(envparse, parseTestAddDynamicList2Arg)
     EXPECT_EQ(18, testlistvarg.value.front());
     testlistvarg.value.pop_front();
     EXPECT_EQ(22, testlistvarg.value.front());
-} 
+}
 
-TEST(envparse, parseTestAddDynamicListIndefinite2Arg) 
-{ 
+TEST(envparse, parseTestAddDynamicListIndefinite2Arg)
+{
     argparser::envparser testvar(false);
     argparser::listvarg<int> testlistvarg;
 
@@ -260,10 +260,10 @@ TEST(envparse, parseTestAddDynamicListIndefinite2Arg)
     EXPECT_EQ(18, testlistvarg.value.front());
     testlistvarg.value.pop_front();
     EXPECT_EQ(22, testlistvarg.value.front());
-} 
+}
 
-TEST(envparse, parseTestAddDynamicListIndefinite6Arg) 
-{ 
+TEST(envparse, parseTestAddDynamicListIndefinite6Arg)
+{
     argparser::envparser testvar(false);
     argparser::listvarg<int> testlistvarg;
 
@@ -283,13 +283,13 @@ TEST(envparse, parseTestAddDynamicListIndefinite6Arg)
     EXPECT_EQ(11, testlistvarg.value.front());
     testlistvarg.value.pop_front();
     EXPECT_EQ(55, testlistvarg.value.front());
-} 
+}
 
 //======================================================================================
 // Test functions parse
 //======================================================================================
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

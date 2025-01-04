@@ -1,22 +1,22 @@
-/* 
+/*
  Copyright (c) 2022-2024 Randal Eike
- 
- Permission is hereby granted, free of parsercharge, to any person obtaining a 
+
+ Permission is hereby granted, free of parsercharge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -27,9 +27,9 @@
  * @{
  */
 
-#pragma once 
+#pragma once
 
-// Includes 
+// Includes
 #include <cstdlib>
 #include <cstdio>
 #include <string>
@@ -106,30 +106,30 @@ class parser_base
         BaseParserStringList*   parserStringList;               ///< Parser string list
 
     protected:
-        parserchar getKeyListDelimeter()                {return keyListDelimeter;}
-        BaseParserStringList* getParserStringList()     {return parserStringList;}
+        [[nodiscard]] parserchar getKeyListDelimeter() const        {return keyListDelimeter;}
+        BaseParserStringList* getParserStringList()                 {return parserStringList;}
 
-        parserchar getAssignmentDelimeter()             {return assignmentDelimeter;}
-        parserchar getAssignmentListDelimeter()         {return assignmentListDelimeter;}
+        [[nodiscard]] parserchar getAssignmentDelimeter() const     {return assignmentDelimeter;}
+        [[nodiscard]] parserchar getAssignmentListDelimeter() const {return assignmentListDelimeter;}
 
-        bool isParsingError()                           {return parsingError;}
-        void setParsingError(bool orValue)              {parsingError |= orValue;}
-        void clearParsingError()                        {parsingError = false;}
-        bool isParserAbort()                            {return (!(parsingError && errorAbort));}
+        [[nodiscard]] bool isParsingError() const                   {return parsingError;}
+        void setParsingError(bool orValue)                          {parsingError |= orValue;}
+        void clearParsingError()                                    {parsingError = false;}
+        [[nodiscard]] bool isParserAbort() const                    {return (!(parsingError && errorAbort));}
 
-        void resizeMaxOptionLength(size_t newsize)                  {if (newsize > maxOptionLength) maxOptionLength = newsize;}
-        const size_t getOptionKeyWidth()                            {return std::min(maxOptionLength, maxColumnWidth/2);}
-        const size_t getHelpKeyWidth(const size_t optionKeyWidth)   {return (maxColumnWidth - optionKeyWidth - 1);}
-        
-        void addKeyArgListEntry(ArgEntry entry)         {keyArgList.push_back(entry);}
-        std::list<ArgEntry>& getKeyArgList()            {return keyArgList;}
-        bool isKeyArgListEmpty()                        {return keyArgList.empty();}
+        void resizeMaxOptionLength(size_t newsize)                  {if (newsize > maxOptionLength) { maxOptionLength = newsize;}}
+        [[nodiscard]] size_t getOptionKeyWidth() const                            {return std::min(maxOptionLength, maxColumnWidth/2);}
+        [[nodiscard]] size_t getHelpKeyWidth(const size_t optionKeyWidth) const   {return (maxColumnWidth - optionKeyWidth - 1);}
+
+        void addKeyArgListEntry(ArgEntry entry)                 {keyArgList.push_back(entry);}
+        std::list<ArgEntry>& getKeyArgList()                    {return keyArgList;}
+        bool isKeyArgListEmpty()                                {return keyArgList.empty();}
 
         // Unit test helpers
-        bool   getErrorAbortFlag()                      {return errorAbort;}
-        int    getDebugMsgLevel()                       {return debugMsgLevel;}
-        size_t getMaxColumnWidth()                      {return maxColumnWidth;}
-        size_t getMaxOptionLength()                     {return maxOptionLength;}
+        [[nodiscard]] bool   getErrorAbortFlag() const          {return errorAbort;}
+        [[nodiscard]] int    getDebugMsgLevel() const           {return debugMsgLevel;}
+        [[nodiscard]] size_t getMaxColumnWidth() const          {return maxColumnWidth;}
+        [[nodiscard]] size_t getMaxOptionLength() const         {return maxOptionLength;}
 
     public:
         /**
@@ -148,41 +148,41 @@ class parser_base
 
         /**
          * @brief Set the argument key list delimiter.
-         * 
-         * The argument key list delimeter is the parsercharacter or string 
+         *
+         * The argument key list delimeter is the parsercharacter or string
          * the seperates the key values in the argKeys input for the
          * add argument functions.
-         * 
+         *
          * @param delimeter - delimiter value, default = ','
          */
         void setKeyListDelimiter(parserchar delimeter)                  {keyListDelimeter = delimeter;}
 
         /**
-         * @brief Set the argument assignment delimiter.  
-         * 
+         * @brief Set the argument assignment delimiter.
+         *
          * The argument assignent delimiter is the string that delimits
-         * an argument key value from the argument assignment value 
-         * when the key and value are contained within the same command 
+         * an argument key value from the argument assignment value
+         * when the key and value are contained within the same command
          * line argument
-         * 
+         *
          * @param delimeter - delimiter value, default = '='
          */
         void setAssignmentDelimiter(parserchar delimeter)               {assignmentDelimeter = delimeter;}
 
         /**
-         * @brief Set the assignment list delimiter.  
-         * 
+         * @brief Set the assignment list delimiter.
+         *
          * The assignent list delimiter is the string that delimits
-         * multiple assignment input values when the argument 
+         * multiple assignment input values when the argument
          * nargs != 0 or 1
-         * 
+         *
          * @param delimeter - delimiter value, default = ','
          */
         void setAssignmentListDelimiter(parserchar delimeter)           {assignmentListDelimeter = delimeter;}
 
         /**
-         * @brief Set the Debug Message Level 
-         * 
+         * @brief Set the Debug Message Level
+         *
          * @param debugLevel - message level, 0 = no additional debug messages
          *                                    1 = Error debug messages
          *                                    2 = Full trace debug messages
@@ -190,15 +190,15 @@ class parser_base
         void setDebugLevel(int debugLevel)                              {debugMsgLevel = debugLevel;}
 
         /**
-         * @brief Format the input string to the required width.  Break the string 
+         * @brief Format the input string to the required width.  Break the string
          *        if longer than maxWidth at the nearest break parsercharater.  Pad any
          *        output strings to the minwidth with spaces.
-         * 
+         *
          * @param baseString     - Input string
          * @param breakparsercharacter - parsercharacter to break the string at if the input string is to be broken
          * @param maxLength      - maximum length of a string in the output list
-         * 
-         * @return std::list<parserstr> 
+         *
+         * @return std::list<parserstr>
          */
         std::list<parserstr> formatToLength(parserstr baseString, parserchar breakparsercharacter, size_t maxLength);
 
@@ -206,12 +206,12 @@ class parser_base
         //======================= Argument add interface methods ==========================================
         //=================================================================================================
         /**
-         * @brief Break the input argument list into it's parts and add them to 
+         * @brief Break the input argument list into it's parts and add them to
          * the input varg
-         * 
+         *
          * @param arg          - Pointer to the argument to add the key values list
          * @param inputKeyList - Delimited list of argument data
-         * 
+         *
          * @return size_t - number of arguments added to the arg
          */
         size_t addArgKeyList(ArgEntry& arg, parserstr inputKeyList) const;
@@ -221,50 +221,50 @@ class parser_base
         //=================================================================================================
         /**
          * @brief Break the input value list into it's parts
-         * 
+         *
          * @param valueInput - delimited list of value data
          * @param valueList  - Reference to the current value string list
-         * 
+         *
          * @return size_t - number of elements in the list
          */
         size_t getValueList(parserstr& valueString, std::list<parserstr>& valueList) const;
 
         /**
          * @brief Find the argument object that matches the input string
-         * 
+         *
          * @param checkString - Input string to match
          * @param found       - Set to true if match was found, else false
-         * 
+         *
          * @return ArgEntry - Reference to the ArgEntry from the list that matched if found == true
          */
         ArgEntry& findMatchingArg(const parserstr& checkString, bool& found);
 
         /**
          * @brief Assign the flag value to the key argument
-         * 
+         *
          * @param currentArg - Pointer to the argument to set
-         * 
+         *
          * @return eAssignmentReturn - Assignment return status
          */
         static eAssignmentReturn assignKeyFlagValue(ArgEntry& currentArg);
 
         /**
-         * @brief Assign a single value to an argument storage object.  
-         * 
+         * @brief Assign a single value to an argument storage object.
+         *
          * @param currentArg - Pointer to the argument to set
          * @param assignmentValue - Reference to the embedded value string
-         * 
+         *
          * @return eAssignmentReturn - Assignment return status
          */
         static eAssignmentReturn assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue);
 
         /**
-         * @brief Assign multiple values to a list argument storage object.  
-         * 
+         * @brief Assign multiple values to a list argument storage object.
+         *
          * @param currentArg - Pointer to the argument to set
          * @param assignmentValues - List of assignment value strings
          * @param failedValue - Value string that failed assignment in the list
-         * 
+         *
          * @return eAssignmentReturn - Assignment return status
          */
         static eAssignmentReturn assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& failedValue);
@@ -276,9 +276,9 @@ class parser_base
          * @brief Ouput the next argument help block with the option
          *        string and help string properly wrapped to the input
          *        column widths
-         * 
+         *
          * @param outStream       - Output stream for the text
-         * @param baseOptionText  - Raw option string 
+         * @param baseOptionText  - Raw option string
          * @param baseHelpText    - Raw help text string
          * @param optionWidth     - Maximum width of an option text display before it wraps
          * @param helpWidth       - Maximum width of an help text display before it wraps

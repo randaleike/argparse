@@ -13,18 +13,19 @@ project(varg VERSION 0.9.2.0 DESCRIPTION "Varg Library" HOMEPAGE_URL "https://gi
 # varg Files
 ####
 set (vargInclude
+    ${CMAKE_CURRENT_LIST_DIR}/inc/varg_intf.h
     ${CMAKE_CURRENT_LIST_DIR}/inc/varg.h
     ${CMAKE_CURRENT_LIST_DIR}/inc/vargincrement.h
     ${CMAKE_CURRENT_LIST_DIR}/inc/vargenum.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc/varg_intf.h
     ${CMAKE_CURRENT_LIST_DIR}/inc/listvarg.h
+    ${CMAKE_CURRENT_LIST_DIR}/inc/varg_clib.h
     )
 
 set (vargSrc
     ${CMAKE_CURRENT_LIST_DIR}/src/varg_intf.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/varg.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/vargincrement.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/listvarg.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/varg_clib.cpp
     )
 
 ####
@@ -39,6 +40,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set (vargUnitTestSrc
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_intf_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_basic_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/vargptr_basic_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/vargincrement_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/vargenum_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/listvarg_test.cpp
@@ -55,7 +57,7 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 enable_testing()
 include_directories(${GTEST_INCLUDE_DIR})
-    
+
 add_executable(${PROJECT_NAME}_test ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})
 target_link_libraries(${PROJECT_NAME}_test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})

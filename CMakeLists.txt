@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=-*,readability-*)
+set(CMAKE_CXX_CLANG_TIDY clang-tidy --config-file ${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy)
 cmake_policy(SET CMP0048 NEW)
 project(argparse VERSION 0.9.2.0 DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
@@ -25,6 +25,7 @@ include_directories(
     envparse/inc
     config_json_parse/inc
     config_xml_parse/inc
+    varg/src
     )
 
 ####
@@ -54,6 +55,7 @@ set (argparse_libs
     varg
     parser_base
     cmd_line_parse
+    envparse
     )
 
 set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.a)
@@ -106,6 +108,7 @@ set (cmd_line_sample_include
     )
 
 set (cmd_line_sample_libs
+    ${CMAKE_BINARY_DIR}/libenvparse.a
     ${CMAKE_BINARY_DIR}/libcmd_line_parse.a
     ${CMAKE_BINARY_DIR}/libvarg.a
     )
@@ -124,14 +127,14 @@ add_custom_target(samples
 ####
 # sample code unit test generation
 ####
-add_executable(sample-unittest ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample_unittest.cpp)
-add_dependencies(sample-unittest samples) 
-target_link_libraries(sample-unittest ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
-add_custom_target(run-sample-unittest
+add_executable(samples-unittest ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample_unittest.cpp)
+add_dependencies(samples-unittest samples)
+target_link_libraries(samples-unittest ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
+add_custom_target(run-samples-unittest
     COMMENT "Samples unittest execution"
-    COMMAND sample-unittest
+    COMMAND samples-unittest
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS sample-unittest
+    DEPENDS samples-unittest
 )
 
 ####
@@ -141,12 +144,12 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     option(BUILD_DOC "Build Documentation configuration" ON)
     #find_package(Doxygen REQUIRED dot)
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-    set(DOXYGEN_OUT ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+    set(DOXYGEN_OUT ${CMAKE_BINARY_DIR}/Doxyfile)
     configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-    #message("Doxygen build started")
-    #add_custom_target( doc_${PROJECT_NAME} ALL
-    #    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-    #    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    #    COMMENT "Generating API documentation with Doxygen"
-    #    VERBATIM )
+    message("Doxygen build started")
+    add_custom_target( doc_${PROJECT_NAME}
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
 endif()

@@ -27,7 +27,7 @@
  */
 
 // Includes
-#include <stdlib.h>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 #include "varg_intf.h"
@@ -48,15 +48,6 @@ using namespace argparser;
 //  Protected functions
 //============================================================================================================================
 //============================================================================================================================
-
-
-//============================================================================================================================
-//============================================================================================================================
-//  Constructor/Destructor functions
-//============================================================================================================================
-//============================================================================================================================
-envparser::envparser(bool abortOnError, int debugLevel): parser_base(abortOnError,debugLevel), debugMsgLevel(debugLevel)  {}
-envparser::~envparser()         {}
 
 //============================================================================================================================
 //============================================================================================================================
@@ -142,7 +133,7 @@ bool envparser::parse()
     {
 #if defined(__linux__) || defined(__unix__)
         const char* envValue = getenv(currentArg.name.c_str());
-        if (NULL != envValue)
+        if (nullptr != envValue)
 #elif defined(_WIN64) || defined(_WIN32)
         size_t count = 0;
         char* envValue = nullptr;
@@ -153,7 +144,7 @@ bool envparser::parse()
             std::list<std::string> assignmentValues;
             std::string valueString = envValue;
             size_t valueCount = parser_base::getValueList(valueString, assignmentValues);
-            size_t requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
+            auto requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
             if (debugMsgLevel > debugVerbosityLevel_e::veryVerboseDebug)
             {
                 std::cout << "Environment value: " << envValue << std::endl;

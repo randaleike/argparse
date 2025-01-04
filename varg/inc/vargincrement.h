@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -29,44 +29,74 @@
 #pragma once
 
 // Includes
-#include <stdlib.h>
+#include <cstdlib>
 #include "varg_intf.h"
 
 namespace argparser
 {
 /**
- * @brief Variable argument type template class
+ * @brief Incrementing variable argument type template class
  */
 class vargincrement : public varg_intf
 {
     private:
+
     public:
+        // NOLINTNEXTLINE
         int       value;              ///< Current saved value
 
         /**
          * @brief Construct a varg_intf object
          */
-        vargincrement();
+        vargincrement() : value(0) {}
 
         /**
-         * @brief Destroy the varg object
+         * @brief Copy constructor for vargincrement object
+         *
+         * @param other - Reference to the object to copy
          */
-        virtual ~vargincrement();
+        vargincrement(const vargincrement& other) = default;
+
+        /**
+         * @brief Reference copy constructor for vargincrement object
+         *
+         * @param other - Reference to the reference object to copy
+         */
+        vargincrement(vargincrement&& other) = default;
+
+        /**
+         * @brief Assignment copy constructor for vargincrement object
+         *
+         * @param other - Reference to the object to copy
+         */
+        vargincrement& operator=(const vargincrement& other) = default;
+
+        /**
+         * @brief Assignment reference copy constructor for vargincrement object
+         *
+         * @param other - Reference to the reference object to copy
+         */
+        vargincrement& operator=(vargincrement&& other) = default;
+
+        /**
+         * @brief Destroy the vargincrement object
+         */
+        ~vargincrement() override = default;
 
         /**
          * @brief Get the base argument type as a string
          *
          * @return const char* - Base type string
          */
-        virtual const char* getTypeString()             {return "incrementing flag";}
+        const char* getTypeString() override               {return "incrementing flag";}
 
         /**
-         * @brief Return if varg is a list of elements or a single element type
+         * @brief Return if vargincrement is a list of elements or a single element type
          *
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual bool isList() const                     {return false;}
+        [[nodiscard]] bool isList() const override         {return false;}
 
         /**
          * @brief Virtual interface method implementation for the template variable implementation setValue with input function
@@ -75,21 +105,21 @@ class vargincrement : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - increment variables don't take in input
          */
-        virtual valueParseStatus_e setValue(const char* newValue);
+        valueParseStatus_e setValue(const char* newValue) override {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully incremented
          */
-        virtual valueParseStatus_e setValue();
+        valueParseStatus_e setValue() override         {value++; return valueParseStatus_e::PARSE_SUCCESS_e;}
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function
          *
          * @return true - Base variable is never empty
          */
-        virtual bool isEmpty()                              {return false;}
+        [[nodiscard]] bool isEmpty() override          {return false;}
 }; // end of class definition
 
 }; // end of namespace argparser

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -45,8 +45,7 @@ using namespace argparser;
  *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
- * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
- * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+ * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
  */
 template <> valueParseStatus_e listvarg<short unsigned>::setSignedElementValue(const char* newValue)        {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 template <> valueParseStatus_e listvarg<unsigned>::setSignedElementValue(const char* newValue)              {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
@@ -59,7 +58,7 @@ template <> valueParseStatus_e listvarg<std::string>::setSignedElementValue(cons
 
 template <typename T> valueParseStatus_e listvarg<T>::setSignedElementValue(const char* newValue)
 {
-    long long int tempValue;
+    long long int tempValue = 0LL;
     valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
     if (status == valueParseStatus_e::PARSE_SUCCESS_e)
     {
@@ -76,8 +75,7 @@ template <typename T> valueParseStatus_e listvarg<T>::setSignedElementValue(cons
  *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
- * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
- * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+ * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
  */
 template <> valueParseStatus_e listvarg<short int>::setUnsignedElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 template <> valueParseStatus_e listvarg<int>::setUnsignedElementValue(const char* newValue)                 {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
@@ -90,7 +88,7 @@ template <> valueParseStatus_e listvarg<std::string>::setUnsignedElementValue(co
 
 template <typename T> valueParseStatus_e listvarg<T>::setUnsignedElementValue(const char* newValue)
 {
-    long long unsigned tempValue;
+    long long unsigned tempValue = 0ULL;
     valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
     if (status == valueParseStatus_e::PARSE_SUCCESS_e)
     {
@@ -107,12 +105,11 @@ template <typename T> valueParseStatus_e listvarg<T>::setUnsignedElementValue(co
  *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
- * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
- * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+ * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
  */
 template <> valueParseStatus_e listvarg<double>::setDoubleElementValue(const char* newValue)
 {
-    double element;
+    double element = 0.0;
     valueParseStatus_e status = varg_intf::getDoubleValue(newValue, element);
     if (status == valueParseStatus_e::PARSE_SUCCESS_e)
     {
@@ -133,7 +130,7 @@ template <typename T> valueParseStatus_e listvarg<T>::setDoubleElementValue(cons
  */
 template <> valueParseStatus_e listvarg<char>::setCharElementValue(const char* newValue)
 {
-    char element;
+    char element = ' ';
     valueParseStatus_e status = varg_intf::getCharValue(newValue, element);
     if (valueParseStatus_e::PARSE_SUCCESS_e == status)
     {
@@ -152,7 +149,7 @@ template <> valueParseStatus_e listvarg<char>::setCharElementValue(const char* n
  */
 template <> valueParseStatus_e listvarg<bool>::setBoolElementValue(const char* newValue)
 {
-    bool element;
+    bool element = false;
     valueParseStatus_e status = varg_intf::getBoolValue(newValue, element);
     if (valueParseStatus_e::PARSE_SUCCESS_e == status)
     {
