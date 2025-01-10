@@ -21,8 +21,8 @@
 */
 
 /**
- * @file cmd_line_parse_lib_api.cpp
- * @ingroup libcmd_line_parser_unittest
+ * @file varg_clib.cpp
+ * @ingroup libvarg
  * @{
  */
 
@@ -31,6 +31,7 @@
 #include <memory>
 #include "varg_clib.h"
 #include "varg_clib_private.h"
+#include "varg_clib_shared.h"
 
 //=================================================================================================
 //=================================================================================================
@@ -379,6 +380,23 @@ argHandle createEnumArg(int* enumAddr, const char* enumName, size_t enumCount, e
 
     argument->vararg = enumArg;
     return argument;
+}
+
+/**
+ * @brief Get the Assignment Count of the array argument handle
+ *
+ * @param handle - Argument handle to release
+ *
+ * @return size_t - Number of array elements that were assigned
+ */
+size_t getAssignmentCount(argHandle handle)
+{
+    size_t assignmentCount = 0;
+    if (handle != nullptr)
+    {
+        assignmentCount = ((handle->vararg->isList()) ? handle->vararg->getAssignmentCount() : 0);
+    }
+    return assignmentCount;
 }
 
 /**

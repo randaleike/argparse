@@ -95,7 +95,7 @@ template <typename T> class IntegerListUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -270,7 +270,7 @@ template <typename T> class UIntegerListUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -600,7 +600,7 @@ INSTANTIATE_TEST_SUITE_P(listvarg_bool, BoolUnitTestWithBadParams, ::testing::Va
 TEST(listvarg_bool, GetTypeString)
 {
     argparser::listvarg<bool> testvar;
-    EXPECT_STREQ("<t|T|f|F>", testvar.getTypeString());
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
 }
 
 TEST(listvarg_bool, ValueSetPassDoubleEntry)

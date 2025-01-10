@@ -8,6 +8,10 @@ project(parser_base VERSION 0.9.2.0 DESCRIPTION "Parser Base Library" HOMEPAGE_U
 ####
 # parser_base directory cmake include Files
 ####
+include_directories(
+    ${CMAKE_CURRENT_LIST_DIR}/inc
+    ${MY_PROJECT_BASE_DIR}/varg/inc
+    )
 
 ####
 # parser_base Files
@@ -59,7 +63,7 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 enable_testing()
 include_directories(${GTEST_INCLUDE_DIR})
-    
+
 add_executable(${PROJECT_NAME}_test ${parser_baseUnitTest} ${parser_baseUnitTestMock} ${parser_baseTest})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})
 target_link_libraries(${PROJECT_NAME}_test ${parser_baseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})

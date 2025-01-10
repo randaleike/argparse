@@ -292,10 +292,10 @@ void varg_intf::setTypeString(typeStringFormat_e fmtType)
     switch(fmtType)
     {
         case typeStringFormat_e::TYPE_FMT_SIGNED:
-            myTypeStr << "<" << minSignedValue << ":[+]" << maxSignedValue << ">";
+            myTypeStr << "<" << minSignedValue << ":[+|-]" << maxSignedValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_UNSIGNED:
-            myTypeStr << "<" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";
+            myTypeStr << "<[+]" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_DOUBLE:
             myTypeStr << "<" << minDoubleValue << ":" << maxDoubleValue << ">";
@@ -304,7 +304,7 @@ void varg_intf::setTypeString(typeStringFormat_e fmtType)
             myTypeStr << "<char>";
             break;
         case typeStringFormat_e::TYPE_FMT_BOOL:
-            myTypeStr << "<t|T|f|F>";
+            myTypeStr << "<t|T|1|f|F|0>";
             break;
         case typeStringFormat_e::TYPE_FMT_STRING:
             myTypeStr << "<string>";

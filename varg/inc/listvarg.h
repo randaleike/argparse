@@ -181,6 +181,14 @@ template <typename T> class listvarg : public varg_intf
          * @return false - if list is not empty
          */
         [[nodiscard]] bool isEmpty() override          {return value.empty();}
+
+        /**
+         * Virtual place holder for the template variable implementation getAssignmentCount function
+         *
+         * @return size_t - number of elements assigned to list object
+         */
+        size_t getAssignmentCount() override            {return value.size();}
+
 }; // end of class definition
 
 }; // end of namespace argparser

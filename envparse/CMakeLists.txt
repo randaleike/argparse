@@ -8,6 +8,12 @@ project(envparse VERSION 0.9.2.0 DESCRIPTION "Command Line Parser Library" HOMEP
 ####
 # envparse directory cmake include Files
 ####
+include_directories(
+    ${CMAKE_CURRENT_LIST_DIR}/inc
+    ${CMAKE_CURRENT_LIST_DIR}/inc_clib
+    ${MY_PROJECT_BASE_DIR}/parser_base/inc
+    ${MY_PROJECT_BASE_DIR}/varg/inc
+    )
 
 ####
 # envparse base Files
@@ -55,7 +61,7 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 enable_testing()
 include_directories(${GTEST_INCLUDE_DIR})
-    
+
 add_executable(${PROJECT_NAME}_test ${envparseUnitTestSrc} ${envparseUnitTestMock})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})
 target_link_libraries(${PROJECT_NAME}_test ${envparseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})

@@ -222,6 +222,13 @@ class varg_intf
          * @return false - if variable is not empty
          */
         virtual bool isEmpty() = 0;
+
+        /**
+         * Virtual place holder for the template variable implementation getAssignmentCount function
+         *
+         * @return size_t - number of elements assigned to list object
+         */
+        virtual size_t getAssignmentCount()     {return 0;}
 };
 
 }; // end of namespace argparser

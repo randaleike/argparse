@@ -42,8 +42,8 @@ using parserstr = std::string;          ///< Standard parser string definition
 using parserchar = char;                ///< Standard parser character definition
 
 /**
- * @brief Debug messaging verbosity levels 
- * 
+ * @brief Debug messaging verbosity levels
+ *
  */
 enum debugVerbosityLevel_e
 {
@@ -75,7 +75,7 @@ class BaseParserStringList
          *
          * @return size_t - Best break position <= maxLength based on the list of break characters
          */
-        size_t findBestBreakPos(parserstr workingString, std::list<parserchar> breakCharList, size_t maxLength) const;
+        [[nodiscard]] size_t findBestBreakPos(parserstr workingString, std::list<parserchar> breakCharList, size_t maxLength) const;
 
     public:
         BaseParserStringList();
@@ -124,13 +124,13 @@ class BaseParserStringList
 
         // Generic error messages
         virtual parserstr getNotListTypeMessage(int nargs) = 0;
-        virtual parserstr getUnknownArgumentMessage(const parserstr keyString) = 0;
-        virtual parserstr getInvalidAssignmentMessage(const parserstr keyString) = 0;
-        virtual parserstr getAssignmentFailedMessage(const parserstr keyString, parserstr valueString) = 0;
-        virtual parserstr getMissingAssignmentMessage(const parserstr keyString) = 0;
-        virtual parserstr getMissingListAssignmentMessage(const parserstr keyString, size_t expected, size_t found) = 0;
-        virtual parserstr getTooManyAssignmentMessage(const parserstr keyString, size_t expected, size_t found) = 0;
-        virtual parserstr getMissingArgumentMessage(const parserstr keyString) = 0;
+        virtual parserstr getUnknownArgumentMessage(parserstr keyString) = 0;
+        virtual parserstr getInvalidAssignmentMessage(parserstr keyString) = 0;
+        virtual parserstr getAssignmentFailedMessage(parserstr keyString, parserstr valueString) = 0;
+        virtual parserstr getMissingAssignmentMessage(parserstr keyString) = 0;
+        virtual parserstr getMissingListAssignmentMessage(parserstr keyString, size_t expected, size_t found) = 0;
+        virtual parserstr getTooManyAssignmentMessage(parserstr keyString, size_t expected, size_t found) = 0;
+        virtual parserstr getMissingArgumentMessage(parserstr keyString) = 0;
         virtual parserstr getArgumentCreationError(parserstr keyString) = 0;
 
         // Command line parser specific strings

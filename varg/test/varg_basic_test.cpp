@@ -65,7 +65,7 @@ template <typename T> class IntegerUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -223,9 +223,37 @@ TYPED_TEST_P(IntegerUnitTest, GetTypeString)
     EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
 }
 
+TYPED_TEST_P(IntegerUnitTest, SetMinMax)
+{
+    const TypeParam testValue = 12;
+    const TypeParam maxValue = 48;
+    const TypeParam minValue = -5;
+    argparser::varg< TypeParam > testvar(testValue, minValue, maxValue);
+
+    std::string setString = std::to_string(minValue);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((minValue - 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((minValue + 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+
+    setString = std::to_string(maxValue);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((maxValue + 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((maxValue - 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+
+    std::stringstream expectedTypeString;
+    expectedTypeString << "<" << minValue << ":[+|-]" << maxValue << ">";
+
+    std::string expectedString = this->getExpectedTypeString();
+    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
+}
+
 REGISTER_TYPED_TEST_SUITE_P(IntegerUnitTest, ConstructorValueSigned, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                              ValueSetPassSigned, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
-                                             ValueSetMinPass, ValueSetMinFail, IsListTest, GetTypeString);
+                                             ValueSetMinPass, ValueSetMinFail, IsListTest, GetTypeString, SetMinMax);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_int, IntegerUnitTest, intTypes);
@@ -256,7 +284,7 @@ template <typename T> class UIntegerUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -387,9 +415,37 @@ TYPED_TEST_P(UIntegerUnitTest, GetTypeString)
     EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
 }
 
+TYPED_TEST_P(UIntegerUnitTest, SetMinMax)
+{
+    const TypeParam testValue = 8;
+    const TypeParam maxValue = 57;
+    const TypeParam minValue = 5;
+    argparser::varg< TypeParam > testvar(testValue, minValue, maxValue);
+
+    std::string setString = std::to_string(minValue);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((minValue - 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((minValue + 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+
+    setString = std::to_string(maxValue);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((maxValue + 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((maxValue - 1));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+
+    std::stringstream expectedTypeString;
+    expectedTypeString << "<[+]" << minValue << ":[+]" << maxValue << ">";
+
+    std::string expectedString = this->getExpectedTypeString();
+    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
+}
+
 REGISTER_TYPED_TEST_SUITE_P(UIntegerUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                               ValueSetPass, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
-                                              IsListTest, GetTypeString);
+                                              IsListTest, GetTypeString, SetMinMax);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_uint, UIntegerUnitTest, uintTypes);
@@ -535,9 +591,38 @@ TYPED_TEST_P(FloatUnitTest, GetTypeString)
     }
 }
 
+TYPED_TEST_P(FloatUnitTest, SetMinMax)
+{
+    const TypeParam testValue = 2.7;
+    const TypeParam maxValue = 8.3;
+    const TypeParam minValue = 1.3;
+    const TypeParam adjust = 0.0001;
+    argparser::varg< TypeParam > testvar(testValue, minValue, maxValue);
+
+    std::string setString = std::to_string(minValue);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((minValue - adjust));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((minValue + adjust));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+
+    setString = std::to_string(maxValue);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((maxValue + adjust));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(setString.c_str()));
+    setString = std::to_string((maxValue - adjust));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
+
+    std::stringstream expectedTypeString;
+    expectedTypeString << "<" << minValue << ":" << maxValue << ">";
+
+    std::string expectedString = this->getExpectedTypeString();
+    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
+}
+
 REGISTER_TYPED_TEST_SUITE_P(FloatUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                            ValueSetPass, ValueSetFail, ValueSetPass_integer,
-                                           ValueSetMaxPass, ValueSetMinPass, IsListTest, GetTypeString);
+                                           ValueSetMaxPass, ValueSetMinPass, IsListTest, GetTypeString, SetMinMax);
 
 //typedef testing::Types<double> floatTypes;
 using floatTypes = testing::Types<double>;
@@ -648,7 +733,7 @@ TEST(varg_bool, IsListTest)
 TEST(varg_bool, GetTypeString)
 {
     argparser::varg<bool> testvar(false);
-    EXPECT_STREQ("<t|T|f|F>", testvar.getTypeString());
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
 }
 
 /*

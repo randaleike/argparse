@@ -66,10 +66,8 @@ cmdLineParserHandle getParser(parsercstr usage, parsercstr description, bool abo
  * @brief Release the parser instance
  *
  * @param parser - Handle value returned by getParser()
- * @param releaseArgHandles - True, release the argument handles that were assigned to the parer add argument calls
- *                            False, Do not release the argument handles assigned to the parser
  */
-void releaseParser(cmdLineParserHandle parser, bool releaseArgHandles);
+void releaseParser(cmdLineParserHandle parser);
 
 //=================================================================================================
 //======================= Parser setup interface methods ==========================================

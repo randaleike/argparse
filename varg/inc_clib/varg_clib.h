@@ -280,6 +280,15 @@ argHandle createStringArrayParserArg(char* valueArray, size_t arraySize);
 argHandle createEnumArg(int* enumAddr, const char* enumName, size_t enumCount, enumValueSpec* enumValueList);
 
 /**
+ * @brief Get the Assignment Count of the array argument handle
+ *
+ * @param handle - Argument handle to release
+ *
+ * @return size_t - Number of array elements that were assigned
+ */
+size_t getAssignmentCount(argHandle handle);
+
+/**
  * @brief Release the parser argument handle.
  *
  * @param handle - Argument handle to release

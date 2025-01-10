@@ -21,8 +21,8 @@
 */
 
 /**
- * @file cmd_line_parse_lib_api.cpp
- * @ingroup libcmd_line_parser
+ * @file varg_clib_private.h
+ * @ingroup libvarg
  * @{
  */
 
@@ -379,7 +379,7 @@ template <typename T> class vargcarray : public varg_intf
             valueParseStatus_e status = argValue.setValue(newValue);
             if (status == valueParseStatus_e::PARSE_SUCCESS_e)
             {
-                if (currentElementIndex >= elementCount)
+                if (currentElementIndex < elementCount)
                 {
                     cstorage[currentElementIndex++] = argValue.value;       // NOLINT
                     assignmentCount++;
@@ -393,14 +393,22 @@ template <typename T> class vargcarray : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e
          */
-        valueParseStatus_e setValue() override {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+        valueParseStatus_e setValue() override  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function
          *
          * @return true - Base variable is never empty
          */
-        bool isEmpty() override                {return (nullptr == cstorage);}
+        bool isEmpty() override                 {return (nullptr == cstorage);}
+
+        /**
+         * Virtual place holder for the template variable implementation getAssignmentCount function
+         *
+         * @return size_t - number of elements assigned to list object
+         */
+        size_t getAssignmentCount() override    {return assignmentCount;}
+
 }; // end of class vargcarray definition
 
 /**
@@ -615,16 +623,5 @@ class vargcstring : public varg_intf
 }; // end of class definition
 
 }; // end of namespace argparser
-
-//=================================================================================================
-//========================= Structure definitions =================================================
-//=================================================================================================
-/**
- * @brief Generic varg C abstraction
- */
-struct cvarptr
-{
-    argparser::varg_intf* vararg{nullptr};
-};
 
 /** @} */

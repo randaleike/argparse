@@ -18,15 +18,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 # include directories
-include_directories(
-    varg/inc
-    parser_base/inc
-    cmd_line_parse/inc
-    envparse/inc
-    config_json_parse/inc
-    config_xml_parse/inc
-    varg/src
-    )
+set(MY_PROJECT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 ####
 # Unit testing

@@ -8,6 +8,10 @@ project(varg VERSION 0.9.2.0 DESCRIPTION "Varg Library" HOMEPAGE_URL "https://gi
 ####
 # varg directory cmake include Files
 ####
+include_directories(
+    ${CMAKE_CURRENT_LIST_DIR}/inc
+    ${CMAKE_CURRENT_LIST_DIR}/inc_clib
+    )
 
 ####
 # varg Files
@@ -18,7 +22,8 @@ set (vargInclude
     ${CMAKE_CURRENT_LIST_DIR}/inc/vargincrement.h
     ${CMAKE_CURRENT_LIST_DIR}/inc/vargenum.h
     ${CMAKE_CURRENT_LIST_DIR}/inc/listvarg.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc/varg_clib.h
+    ${CMAKE_CURRENT_LIST_DIR}/inc/varg_clib_shared.h
+    ${CMAKE_CURRENT_LIST_DIR}/inc_clib/varg_clib.h
     )
 
 set (vargSrc
@@ -44,6 +49,7 @@ set (vargUnitTestSrc
     ${CMAKE_CURRENT_LIST_DIR}/test/vargincrement_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/vargenum_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/listvarg_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/varg_clib_api_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_test.cpp
     )
 

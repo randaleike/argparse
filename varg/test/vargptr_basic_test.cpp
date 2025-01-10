@@ -59,7 +59,7 @@ template <typename T> class IntegerPtrUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -265,7 +265,7 @@ template <typename T> class UIntegerPtrUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -683,7 +683,7 @@ TEST(vargptr_bool, GetTypeString)
 {
     bool testValue = false;
     argparser::vargptr<bool> testvar(&testValue);
-    EXPECT_STREQ("<t|T|f|F>", testvar.getTypeString());
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
 }
 
 /*

@@ -243,7 +243,6 @@ TEST(cmd_line_parse, parseTestFlagFailure)
     // NOLINTEND
 
     testing::internal::CaptureStderr();
-    testvar.disableHelpDisplayOnError();
     EXPECT_EQ(-1, testvar.parse(2, argv));     // NOLINT
 
     parserstr output = testing::internal::GetCapturedStderr();

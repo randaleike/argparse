@@ -29,7 +29,7 @@
 // Includes
 #include <iostream>
 #include "cmd_line_parse.h"
-#include "varg_clib_private.h"
+#include "varg_clib_shared.h"
 #include "cmd_line_parse_api_lib_private.h"
 
 //=================================================================================================
@@ -63,10 +63,8 @@ cmdLineParserHandle getParser(parsercstr usage, parsercstr description, bool abo
  * @brief Release the parser instance
  *
  * @param parser - Handle value returned by getParser()
- * @param releaseArgHandles - True, release the argument handles that were assigned to the parer add argument calls
- *                            False, Do not release the argument handles assigned to the parser
  */
-void releaseParser(cmdLineParserHandle parser, bool releaseArgHandles)
+void releaseParser(cmdLineParserHandle parser)
 {
     delete parser->object;      // NOLINT
     delete parser;              // NOLINT
@@ -418,7 +416,7 @@ void setPositionalNameStop(cmdLineParserHandle parser, parsercstr positionalArgu
  * @param parser - Handle value returned by getParser()
  * @param argc - Number of char pointers in the argv[] array
  * @param argv - Array of command line text entries
- * @param startingArgIndex - argv index to start parsing arguments
+ * @param startingArgIndex - argv index to start parsing arguments, -1 or 0 = 1
  * @param endingArgIndex - argv index to stop parsing arguments, -1 == argc
  *
  * @return int - Index of the last argument parsed or -1 if an error occured
@@ -428,6 +426,7 @@ int parse(cmdLineParserHandle parser, int argc, char* argv[], int startingArgInd
     int parserStatus = -1;
     if (parser != nullptr)
     {
+        startingArgIndex = ((startingArgIndex < 1) ? 1 : startingArgIndex);
         parserStatus = parser->object->parse(argc, argv, startingArgIndex, endingArgIndex);
     }
     return parserStatus;
