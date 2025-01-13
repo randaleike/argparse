@@ -379,14 +379,22 @@ template <typename T> class vargcarray : public varg_intf
             valueParseStatus_e status = argValue.setValue(newValue);
             if (status == valueParseStatus_e::PARSE_SUCCESS_e)
             {
-                if (currentElementIndex < elementCount)
+                if (currentElementIndex >= elementCount)
                 {
-                    cstorage[currentElementIndex++] = argValue.value;       // NOLINT
-                    assignmentCount++;
+                    currentElementIndex = 0;
                 }
+                cstorage[currentElementIndex++] = argValue.value;       // NOLINT
+                assignmentCount++;
             }
             return status;
         }
+
+        /**
+         * @brief Get the base argument type as a string
+         *
+         * @return const char* - Base type string
+         */
+        const char* getTypeString() override                        {return argValue.getTypeString();}
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
@@ -507,8 +515,8 @@ class vargcstring : public varg_intf
     private:
         char*           cstorage;               ///< Pointer to the array cstorage location
         size_t          elementCount;           ///< Number of elements the array can store
+        size_t          assignmentCount;        ///< Number of characters assigned
         vargstring      argValue;               ///< Temporary argument cstorage
-
     public:
         /**
          * @brief Construct a vargcarray object
@@ -516,7 +524,11 @@ class vargcstring : public varg_intf
          * @param valueArray - Pointer to the value cstorage array
          * @param arraySize - Number of elements in the cstorage array
          */
-        vargcstring(char* valueArray, size_t arraySize) : cstorage(valueArray), elementCount(arraySize), argValue("") {}
+        vargcstring(char* valueArray, size_t arraySize) :
+            cstorage(valueArray), elementCount(arraySize), assignmentCount(0), argValue("")
+        {
+            varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_STRING);
+        }
 
         /**
          * @brief Construct a vargcstring object
@@ -527,7 +539,11 @@ class vargcstring : public varg_intf
          * @param max - Maximum allowed set value
          */
         vargcstring(char* valueArray, size_t arraySize, size_t min, size_t max) :
-        cstorage(valueArray), elementCount(arraySize), argValue("", min, max) {}
+            cstorage(valueArray), elementCount(arraySize), assignmentCount(0), argValue("", min, max)
+        {
+            varg_intf::setTypeString(typeStringFormat_e::TYPE_FMT_STRING);
+        }
+
 
         /**
          * @brief Copy constructor for vargcstring object
@@ -563,13 +579,6 @@ class vargcstring : public varg_intf
         ~vargcstring() override = default;
 
         /**
-         * @brief Get the base argument type as a string
-         *
-         * @return const char* - Base type string
-         */
-        const char* getTypeString() override                        {return argValue.getTypeString();}
-
-        /**
          * @brief Return if vargptrincrement is a list of elements or a single element type
          *
          * @return true - List type variable, multiple arguement values are allowed
@@ -596,10 +605,11 @@ class vargcstring : public varg_intf
                 size_t index = 0;
                 for (char& stringChar : argValue.value)
                 {
-                    *currentChar = '\0';
                     if (index < (elementCount-1))
                     {
                         *currentChar++ = stringChar;        // NOLINT
+                        *currentChar = '\0';
+                        assignmentCount++;
                     }
                     index++;
                 }
@@ -619,7 +629,14 @@ class vargcstring : public varg_intf
          *
          * @return true - Base variable is never empty
          */
-        [[nodiscard]] bool isEmpty() override                       {return (nullptr == cstorage);}
+        [[nodiscard]] bool isEmpty() override                       {return ((nullptr == cstorage) && (argValue.isEmpty()));}
+
+        /**
+         * Virtual place holder for the template variable implementation getAssignmentCount function
+         *
+         * @return size_t - number of elements assigned to list object
+         */
+        size_t getAssignmentCount() override                        {return assignmentCount;}
 }; // end of class definition
 
 }; // end of namespace argparser

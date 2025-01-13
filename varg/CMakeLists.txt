@@ -45,10 +45,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set (vargUnitTestSrc
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_intf_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_basic_test.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/test/vargptr_basic_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/vargincrement_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/vargenum_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/listvarg_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/vargptr_basic_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/vargcarray_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_clib_api_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/varg_test.cpp
     )
