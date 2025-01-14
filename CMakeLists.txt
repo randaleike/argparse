@@ -99,8 +99,18 @@ set (cmd_line_sample_include
     -I${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc
     )
 
+set (cmd_line_clib_sample_include
+    -I${CMAKE_CURRENT_SOURCE_DIR}/varg/inc_clib
+    -I${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc_clib
+    )
+
 set (cmd_line_sample_libs
     ${CMAKE_BINARY_DIR}/libenvparse.a
+    ${CMAKE_BINARY_DIR}/libcmd_line_parse.a
+    ${CMAKE_BINARY_DIR}/libvarg.a
+    )
+
+set (cmd_line_sample_clibs
     ${CMAKE_BINARY_DIR}/libcmd_line_parse.a
     ${CMAKE_BINARY_DIR}/libvarg.a
     )
@@ -112,6 +122,7 @@ add_custom_target(samples
     COMMAND ${CMAKE_CXX_COMPILER} -o sample3.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample3.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
     COMMAND ${CMAKE_CXX_COMPILER} -o sample4.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample4.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
     COMMAND ${CMAKE_CXX_COMPILER} -o sample5.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample5.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} -std=c++17 ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
+    COMMAND ${CMAKE_CXX_COMPILER} -o sample6.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample6.c ${cmd_line_sample_clibs} ${cmd_line_clib_sample_include} ${CMAKE_C_COMPILE_FLAG} ${CMAKE_C_LINK_LIBRARY_FLAG}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS argparse
     )

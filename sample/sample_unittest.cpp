@@ -294,7 +294,7 @@ TEST(sample3, example6)
     expectedStr += " subcommand             Example of a positional argument as  \n";
     expectedStr += "                        subcommand                           \n\n";
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-    
+
     std::string expectedTerminalStr = "Number of arguments passed in: 2 Number of arguments parsed: 2\n";
     expectedTerminalStr += "Subcommand Argument Value: three\n";
     expectedTerminalStr += "Sub Command 3 Parser failed, help displayed\n";
@@ -371,7 +371,7 @@ TEST(sample4, example1)
     expectedStr += " subcommand             Example of a positional argument as subcommand after    \n";
     expectedStr += "                        options                                                 \n\n";
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-    
+
     std::string expectedTerminalStr = "Parser failed, help displayed\n";
     EXPECT_STREQ(expectedTerminalStr.c_str(), terminaloutput.c_str());
 }
@@ -546,7 +546,7 @@ TEST(sample4, example10)
     expectedStr += " -h,--help,-?           show this help message and exit                         \n";
     expectedStr += " -o, --output=argString Example of a switched string argument                   \n\n";
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-    
+
     std::string expectedTerminalStr = "Number of arguments passed in: 2 Number of global arguments parsed: 2\n";
     expectedTerminalStr            += "Subcommand Argument Value:     three\n";
     expectedTerminalStr            += "Global Flag Argument Value:    false\n";
@@ -633,7 +633,7 @@ TEST(sample5, example1)
     expectedStr += "\nPositional Arguments:\n";
     expectedStr += " subcommand           Example of a positional enum argument as subcommand       \n\n";
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-    
+
     std::string expectedTerminalStr = "Parser failed, help displayed\n";
     EXPECT_STREQ(expectedTerminalStr.c_str(), terminaloutput.c_str());
 }
@@ -727,9 +727,84 @@ TEST(sample5, example6)
     expectedStr += "\nPositional Arguments:\n";
     expectedStr += " subcommand           Example of a positional enum argument as subcommand       \n\n";
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-    
+
     std::string expectedTerminalStr = "Parser failed, help displayed\n";
     EXPECT_STREQ(expectedTerminalStr.c_str(), terminaloutput.c_str());
+}
+
+TEST(sample6, example1)
+{
+    testing::internal::CaptureStdout();
+    EXPECT_EQ(0, std::system("./sample6.exe"));
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::string expectedStr = "Number of arguments passed in: 1 Number of arguments parsed: 1\n";
+    expectedStr += "Positional Argument Value: \n";
+    expectedStr += "Integer Argument Value:    2\n";
+    expectedStr += "Counter Argument Value:    0\n";
+    expectedStr += "String Argument Value:     default\n";
+    expectedStr += "Flag Argument Value:       false\n";
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+}
+
+TEST(sample6, example2)
+{
+    testing::internal::CaptureStdout();
+    EXPECT_EQ(0, std::system("./sample6.exe -f -c -i 8 -o bar foo"));
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::string expectedStr = "Number of arguments passed in: 8 Number of arguments parsed: 8\n";
+    expectedStr += "Positional Argument Value: foo\n";
+    expectedStr += "Integer Argument Value:    8\n";
+    expectedStr += "Counter Argument Value:    1\n";
+    expectedStr += "String Argument Value:     bar\n";
+    expectedStr += "Flag Argument Value:       true\n";
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+}
+
+TEST(sample6, example3)
+{
+    testing::internal::CaptureStdout();
+    EXPECT_EQ(0, std::system("./sample6.exe -fci 7 -o bar foo"));
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::string expectedStr = "Number of arguments passed in: 6 Number of arguments parsed: 6\n";
+    expectedStr += "Positional Argument Value: foo\n";
+    expectedStr += "Integer Argument Value:    7\n";
+    expectedStr += "Counter Argument Value:    1\n";
+    expectedStr += "String Argument Value:     bar\n";
+    expectedStr += "Flag Argument Value:       true\n";
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+}
+
+TEST(sample6, example4)
+{
+    testing::internal::CaptureStdout();
+    EXPECT_EQ(0, std::system("./sample6.exe --flag -c -c --count --input 6 --output bar foo"));
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::string expectedStr = "Number of arguments passed in: 10 Number of arguments parsed: 10\n";
+    expectedStr += "Positional Argument Value: foo\n";
+    expectedStr += "Integer Argument Value:    6\n";
+    expectedStr += "Counter Argument Value:    3\n";
+    expectedStr += "String Argument Value:     bar\n";
+    expectedStr += "Flag Argument Value:       true\n";
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+}
+
+TEST(sample6, example5)
+{
+    testing::internal::CaptureStdout();
+    EXPECT_EQ(0, std::system("./sample6.exe -fcccc -o bar foo"));
+    std::string output = testing::internal::GetCapturedStdout();
+
+    std::string expectedStr = "Number of arguments passed in: 5 Number of arguments parsed: 5\n";
+    expectedStr += "Positional Argument Value: foo\n";
+    expectedStr += "Integer Argument Value:    2\n";
+    expectedStr += "Counter Argument Value:    4\n";
+    expectedStr += "String Argument Value:     bar\n";
+    expectedStr += "Flag Argument Value:       true\n";
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
 
 int main(int argc, char **argv)
