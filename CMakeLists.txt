@@ -1,5 +1,5 @@
 # Arg parser Library CMake file
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_CLANG_TIDY clang-tidy --config-file ${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy)
@@ -146,13 +146,24 @@ add_custom_target(run-samples-unittest
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     option(BUILD_DOC "Build Documentation configuration" ON)
     #find_package(Doxygen REQUIRED dot)
-    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-    set(DOXYGEN_OUT ${CMAKE_BINARY_DIR}/Doxyfile)
-    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-    message("Doxygen build started")
-    add_custom_target( doc_${PROJECT_NAME}
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM )
+    set(DOXYGEN_CPPIN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-cpp.in)
+    set(DOXYGEN_CPPOUT ${CMAKE_BINARY_DIR}/Doxyfile-cpp)
+    configure_file(${DOXYGEN_CPPIN} ${DOXYGEN_CPPOUT} @ONLY)
+
+    set(DOXYGEN_CIN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-c.in)
+    set(DOXYGEN_COUT ${CMAKE_BINARY_DIR}/Doxyfile-c)
+    configure_file(${DOXYGEN_CIN} ${DOXYGEN_COUT} @ONLY)
+
+    #message("Doxygen build started")
+    #add_custom_target( doc_cpp_${PROJECT_NAME}
+    #    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
+    #    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    #    COMMENT "Generating CPP API documentation with Doxygen"
+    #    VERBATIM )
+
+    #add_custom_target( doc_c_${PROJECT_NAME}
+    #    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_COUT}
+    #    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    #    COMMENT "Generating C API documentation with Doxygen"
+    #    VERBATIM )
 endif()

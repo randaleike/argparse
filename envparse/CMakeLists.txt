@@ -1,5 +1,5 @@
 # envparse Library CMake file
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 cmake_policy(SET CMP0048 NEW)
