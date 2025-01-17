@@ -65,15 +65,20 @@ enum eAddStatusReturn
  */
 struct ArgEntry
 {
-    parserstr   name;                                   ///< Argument name
-    parserstr   help;                                   ///< Help description string
-    parserstr   optionString;                           ///< Help option string
-    varg_intf*  argData;                                ///< Argument data and storage object
-    int         nargs;                                  ///< Number of argument data values expected
-    int         position;                               ///< Argument position index, 0 == any
-    bool        isRequired;                             ///< True if this is a required argument, else false if it is optional
-    bool        isFound;                                ///< True if the argument key was found during parsing, else false if it was not
-    std::list<parserstr>  keyList;                      ///< List of keys associated with the argument
+    parserstr   name{};                         ///< Argument name
+    parserstr   help{};                         ///< Help description string
+    parserstr   optionString{};                 ///< Help option string
+    varg_intf* argData{};                       ///< Argument data and storage object
+    int         nargs{};                        ///< Number of argument data values expected
+    int         position{};                     ///< Argument position index, 0 == any
+    bool        isRequired{};                   ///< True if this is a required argument, else false if it is optional
+    bool        isFound{};                      ///< True if the argument key was found during parsing, else false if it was not
+    std::list<parserstr>  keyList{};            ///< List of keys associated with the argument
+    ArgEntry() {}
+    ArgEntry(parserstr newName, parserstr newHelp, parserstr optiontxt, varg_intf* arg, int argCnt, int location, bool required) :
+        name{ newName }, help{ newHelp }, optionString{ optiontxt }, argData{ arg },
+        nargs{ argCnt }, position{ location }, isRequired{ required }, isFound{ false },
+        keyList{} {}
 };
 
 /**
@@ -85,7 +90,7 @@ class parser_base
 {
     private:
         // Argument lists
-        ArgEntry                nullEntry;                      ///< Return entry if argument key list is not found
+        ArgEntry                dummyEntry;                      ///< Return entry if argument key list is not found
         std::list<ArgEntry>     keyArgList;                     ///< List of key based arguments
 
         // Help page text enhancements
@@ -136,10 +141,10 @@ class parser_base
          * @brief Constructor
          */
         parser_base(bool abortOnError = false, int debugLevel = 0);
-        parser_base(const parser_base& other);
-        parser_base(parser_base&& other);
-        parser_base& operator=(const parser_base& other);
-        parser_base& operator=(parser_base&& other);
+        parser_base(const parser_base& other) noexcept;
+        parser_base(parser_base&& other) noexcept;
+        parser_base& operator=(const parser_base& other) noexcept;
+        parser_base& operator=(parser_base&& other) noexcept;
 
         /**
          * @brief Destructor

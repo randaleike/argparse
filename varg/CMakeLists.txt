@@ -8,10 +8,6 @@ project(varg VERSION 0.9.2.0 DESCRIPTION "Varg Library" HOMEPAGE_URL "https://gi
 ####
 # varg directory cmake include Files
 ####
-include_directories(
-    ${CMAKE_CURRENT_LIST_DIR}/inc
-    ${CMAKE_CURRENT_LIST_DIR}/inc_clib
-    )
 
 ####
 # varg Files

@@ -180,11 +180,11 @@ valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int
             }
         }
     }
-    catch (std::invalid_argument const & err)
+    catch (std::invalid_argument)
     {
         returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
-    catch (std::out_of_range const & err)
+    catch (std::out_of_range)
     {
         returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
     }
@@ -227,11 +227,11 @@ valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long u
             }
         }
     }
-    catch (std::invalid_argument const & err)
+    catch (std::invalid_argument)
     {
         returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
-    catch (std::out_of_range const & err)
+    catch (std::out_of_range)
     {
         returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
     }
@@ -270,11 +270,11 @@ valueParseStatus_e varg_intf::getDoubleValue(const char* newValue, double &parse
             }
         }
     }
-    catch (std::invalid_argument const & err)
+    catch (std::invalid_argument)
     {
         returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
-    catch (std::out_of_range const & err)
+    catch (std::out_of_range)
     {
         returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
     }

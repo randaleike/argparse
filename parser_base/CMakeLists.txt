@@ -8,10 +8,6 @@ project(parser_base VERSION 0.9.2.0 DESCRIPTION "Parser Base Library" HOMEPAGE_U
 ####
 # parser_base directory cmake include Files
 ####
-include_directories(
-    ${CMAKE_CURRENT_LIST_DIR}/inc
-    ${MY_PROJECT_BASE_DIR}/varg/inc
-    )
 
 ####
 # parser_base Files

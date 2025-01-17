@@ -8,14 +8,6 @@ project(cmd_line_parse VERSION 0.9.0.0 DESCRIPTION "Command Line Parser Library"
 ####
 # cmd_line_parse directory cmake include Files
 ####
-include_directories(
-    ${CMAKE_CURRENT_LIST_DIR}/inc
-    ${CMAKE_CURRENT_LIST_DIR}/inc_clib
-    ${MY_PROJECT_BASE_DIR}/parser_base/inc
-    ${MY_PROJECT_BASE_DIR}/varg/inc
-    ${MY_PROJECT_BASE_DIR}/varg/inc_clib
-    ${MY_PROJECT_BASE_DIR}/varg/src
-    )
 
 ####
 # cmd line parse base Files

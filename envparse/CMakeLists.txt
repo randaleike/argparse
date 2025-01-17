@@ -8,12 +8,6 @@ project(envparse VERSION 0.9.2.0 DESCRIPTION "Command Line Parser Library" HOMEP
 ####
 # envparse directory cmake include Files
 ####
-include_directories(
-    ${CMAKE_CURRENT_LIST_DIR}/inc
-    ${CMAKE_CURRENT_LIST_DIR}/inc_clib
-    ${MY_PROJECT_BASE_DIR}/parser_base/inc
-    ${MY_PROJECT_BASE_DIR}/varg/inc
-    )
 
 ####
 # envparse base Files

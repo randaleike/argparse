@@ -29,8 +29,8 @@
 
 // Includes
 #include <gtest/gtest.h>
+#include <array>
 #include <string>
-#include <iostream>
 #include <sstream>
 #include "../src/varg_clib_private.h"
 

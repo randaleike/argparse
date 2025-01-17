@@ -33,6 +33,15 @@
 #include "envparse.h"
 #include <gtest/gtest.h>
 
+#if ((WIN32) || (WIN64))
+    #include <Windows.h>
+    #define SETENV(name, value, overwrite)  SetEnvironmentVariable(name, value)
+    #define UNSETENV(name)                  SetEnvironmentVariable(name, "")
+#else
+    #define SETENV(name, value, overwrite)  setenv(name, value, overwrite)
+    #define UNSETENV(name)                  unsetenv(name)
+#endif
+
 const size_t defaultArgWidth = 14;
 const size_t testArgWidth = 21;
 const size_t testArgWidth2 = 29;
@@ -142,13 +151,13 @@ TEST(envparse, parsetest)
     testvar.addArgument(&testvalvarg, "MYENVTEST", "My environment test var");
     testvar.addArgument(&testvalvarg1, "SECONDENVTEST", "My second environment test var");
 
-    setenv("MYENVTEST","10", 1);
-    unsetenv("SECONDENVTEST");
+    SETENV("MYENVTEST","10", 1);
+    UNSETENV("SECONDENVTEST");
     EXPECT_TRUE(testvar.parse());
     EXPECT_EQ(10, testvalvarg.value);
     EXPECT_EQ(0, testvalvarg1.value);
-    unsetenv("MYENVTEST");
-    unsetenv("SECONDENVTEST");
+    UNSETENV("MYENVTEST");
+    UNSETENV("SECONDENVTEST");
 }
 
 TEST(envparse, parsetestDual)
@@ -160,13 +169,13 @@ TEST(envparse, parsetestDual)
     testvar.addArgument(&testvalvarg, "MYENVTEST", "My environment test var");
     testvar.addArgument(&testvalvarg1, "SECONDENVTEST", "My second environment test var");
 
-    setenv("MYENVTEST","10", 1);
-    setenv("SECONDENVTEST","true", 1);
+    SETENV("MYENVTEST","10", 1);
+    SETENV("SECONDENVTEST","true", 1);
     EXPECT_TRUE(testvar.parse());
     EXPECT_EQ(10, testvalvarg.value);
     EXPECT_EQ(true, testvalvarg1.value);
-    unsetenv("MYENVTEST");
-    unsetenv("SECONDENVTEST");
+    UNSETENV("MYENVTEST");
+    UNSETENV("SECONDENVTEST");
 }
 
 TEST(envparse, parsetestlist)
@@ -175,13 +184,13 @@ TEST(envparse, parsetestlist)
     argparser::listvarg<int> testlistvarg;
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", 2);
 
-    setenv("MYENVTEST","10,21", 1);
+    SETENV("MYENVTEST","10,21", 1);
     EXPECT_TRUE(testvar.parse());
     EXPECT_EQ(2, testlistvarg.value.size());
     EXPECT_EQ(10, testlistvarg.value.front());
     testlistvarg.value.pop_front();
     EXPECT_EQ(21, testlistvarg.value.front());
-    unsetenv("MYENVTEST");
+    UNSETENV("MYENVTEST");
 }
 
 TEST(envparse, parsetestlistTooFew)
@@ -190,13 +199,13 @@ TEST(envparse, parsetestlistTooFew)
     argparser::listvarg<int> testlistvarg;
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", 3);
 
-    setenv("MYENVTEST","10,21", 1);
+    SETENV("MYENVTEST","10,21", 1);
     testing::internal::CaptureStderr();
     EXPECT_FALSE(testvar.parse());
     EXPECT_EQ(0, testlistvarg.value.size());
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"MYENVTEST\" missing assignment. Expected: 3 found: 2 arguments\n", output.c_str());
-    unsetenv("MYENVTEST");
+    UNSETENV("MYENVTEST");
 }
 
 TEST(envparse, parsetestlistTooMany)
@@ -205,14 +214,14 @@ TEST(envparse, parsetestlistTooMany)
     argparser::listvarg<int> testlistvarg;
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", 3);
 
-    setenv("MYENVTEST","10,21,32,45", 1);
+    SETENV("MYENVTEST","10,21,32,45", 1);
     testing::internal::CaptureStderr();
     EXPECT_FALSE(testvar.parse());
     EXPECT_EQ(0, testlistvarg.value.size());
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"MYENVTEST\" too many assignment values. Expected: 3 found: 4 arguments\n", output.c_str());
     testing::internal::CaptureStderr();
-    unsetenv("MYENVTEST");
+    UNSETENV("MYENVTEST");
 }
 
 TEST(envparse, parseTestAddDynamicListArg)
@@ -221,7 +230,7 @@ TEST(envparse, parseTestAddDynamicListArg)
     argparser::listvarg<int> testlistvarg;
 
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", -3);
-    setenv("MYENVTEST","18,22,43", 1);
+    SETENV("MYENVTEST","18,22,43", 1);
 
     EXPECT_TRUE(testvar.parse());
     EXPECT_EQ(3, testlistvarg.value.size());
@@ -238,7 +247,7 @@ TEST(envparse, parseTestAddDynamicList2Arg)
     argparser::listvarg<int> testlistvarg;
 
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", -3);
-    setenv("MYENVTEST","18,22", 1);
+    SETENV("MYENVTEST","18,22", 1);
 
     EXPECT_TRUE(testvar.parse());
     EXPECT_EQ(2, testlistvarg.value.size());
@@ -253,7 +262,7 @@ TEST(envparse, parseTestAddDynamicListIndefinite2Arg)
     argparser::listvarg<int> testlistvarg;
 
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", -1);
-    setenv("MYENVTEST","18,22", 1);
+    SETENV("MYENVTEST","18,22", 1);
 
     EXPECT_TRUE(testvar.parse());
     EXPECT_EQ(2, testlistvarg.value.size());
@@ -268,7 +277,7 @@ TEST(envparse, parseTestAddDynamicListIndefinite6Arg)
     argparser::listvarg<int> testlistvarg;
 
     testvar.addArgument(&testlistvarg, "MYENVTEST", "My environment test var", -1);
-    setenv("MYENVTEST","18,22,13,12,11,55", 1);
+    SETENV("MYENVTEST","18,22,13,12,11,55", 1);
 
     EXPECT_TRUE(testvar.parse());
     EXPECT_EQ(6, testlistvarg.value.size());

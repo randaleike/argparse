@@ -59,27 +59,27 @@ parser_base::parser_base(bool abortOnError, int debugLevel) :
     parserStringList(BaseParserStringList::getInternationalizedClass())
 {
     keyArgList.clear();
-    nullEntry = {};
+    dummyEntry = {};
 }
 
-parser_base::parser_base(const parser_base& other) :
+parser_base::parser_base(const parser_base& other) noexcept :
     maxColumnWidth(other.assignmentDelimeter), maxOptionLength(other.maxOptionLength),
     keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter), assignmentListDelimeter(other.assignmentListDelimeter),
     errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
-    keyArgList(other.keyArgList), nullEntry(other.nullEntry), parserStringList(other.parserStringList)
+    keyArgList(other.keyArgList), dummyEntry(other.dummyEntry), parserStringList(other.parserStringList)
 {
 }
 
-parser_base::parser_base(parser_base&& other) :
+parser_base::parser_base(parser_base&& other) noexcept :
     maxColumnWidth(other.assignmentDelimeter), maxOptionLength(other.maxOptionLength),
     keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter), assignmentListDelimeter(other.assignmentListDelimeter),
     errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
-    keyArgList(other.keyArgList), nullEntry(other.nullEntry), parserStringList(other.parserStringList)
+    keyArgList(other.keyArgList), dummyEntry(other.dummyEntry), parserStringList(other.parserStringList)
 {
     other.keyArgList.clear();
 }
 
-parser_base& parser_base::operator=(const parser_base& other)
+parser_base& parser_base::operator=(const parser_base& other) noexcept
 {
     if (this != &other)
     {
@@ -92,13 +92,13 @@ parser_base& parser_base::operator=(const parser_base& other)
         debugMsgLevel           = other.debugMsgLevel;
         parsingError            = false;
         keyArgList              = other.keyArgList;
-        nullEntry               = {};
+        dummyEntry               = {};
         parserStringList        = other.parserStringList;
     }
     return *this;
 }
 
-parser_base& parser_base::operator=(parser_base&& other)
+parser_base& parser_base::operator=(parser_base&& other) noexcept
 {
     if (this != &other)
     {
@@ -111,7 +111,7 @@ parser_base& parser_base::operator=(parser_base&& other)
         debugMsgLevel           = other.debugMsgLevel;
         parsingError            = false;
         keyArgList              = other.keyArgList;
-        nullEntry               = {};
+        dummyEntry               = {};
         parserStringList        = other.parserStringList;
 
         other.keyArgList.clear();
@@ -276,7 +276,7 @@ ArgEntry& parser_base::findMatchingArg(const parserstr& checkString, bool& found
         }
     }
 
-    return nullEntry;
+    return dummyEntry;
 }
 
 /**

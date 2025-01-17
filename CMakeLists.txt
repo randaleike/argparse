@@ -7,8 +7,25 @@ cmake_policy(SET CMP0048 NEW)
 project(argparse VERSION 0.9.2.0 DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 # Base includes
-include(GNUInstallDirs)
+if (MSVC)
+    include(GNUInstallDirs)
+endif()
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/parser_base/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc_clib
+    )
 
+set(MY_PROJECT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+    
 # control where the static and shared libraries are built so that on windows
 # we don't need to tinker with the path to run the executable
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
@@ -50,16 +67,29 @@ set (argparse_libs
     envparse
     )
 
+if (MSVC)
+    set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.lib)
+    add_custom_target(${PROJECT_NAME}
+        COMMAND LIB.EXE -x $<TARGET_FILE:varg>
+        COMMAND ar -x $<TARGET_FILE:parser_base>
+        COMMAND ar -x $<TARGET_FILE:cmd_line_parse>
+        COMMAND ar -x $<TARGET_FILE:envparse>
+        COMMAND ar rcs ${C_LIB} *.o
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        DEPENDS ${argparse_libs}
+        )
+else()
 set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.a)
-add_custom_target(${PROJECT_NAME}
-    COMMAND ar -x $<TARGET_FILE:varg>
-    COMMAND ar -x $<TARGET_FILE:parser_base>
-    COMMAND ar -x $<TARGET_FILE:cmd_line_parse>
-    COMMAND ar -x $<TARGET_FILE:envparse>
-    COMMAND ar rcs ${C_LIB} *.o
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS ${argparse_libs}
-    )
+    add_custom_target(${PROJECT_NAME}
+        COMMAND ar -x $<TARGET_FILE:varg>
+        COMMAND ar -x $<TARGET_FILE:parser_base>
+        COMMAND ar -x $<TARGET_FILE:cmd_line_parse>
+        COMMAND ar -x $<TARGET_FILE:envparse>
+        COMMAND ar rcs ${C_LIB} *.o
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        DEPENDS ${argparse_libs}
+        )
+endif()
 
 ####
 # Library unit testing
