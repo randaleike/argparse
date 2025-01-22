@@ -33,6 +33,7 @@
 extern "C" {
 #else
 #include <stddef.h>
+#include <stdbool.h>
 #endif
 
 //=================================================================================================
@@ -277,7 +278,7 @@ argHandle createStringArrayParserArg(char* valueArray, size_t arraySize);
  *
  * @return argHandle - Handle to use when adding the argument to the parser argument list
  */
-argHandle createEnumArg(int* enumAddr, const char* enumName, size_t enumCount, enumValueSpec* enumValueList);
+argHandle createEnumArg(int* enumAddr, const char* enumName, size_t enumCount, struct enumValueSpec* enumValueList);
 
 /**
  * @brief Get the Assignment Count of the array argument handle

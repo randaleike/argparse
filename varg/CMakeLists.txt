@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 cmake_policy(SET CMP0048 NEW)
 project(varg VERSION 0.9.2.0 DESCRIPTION "Varg Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+endif()
+
 ####
 # varg directory cmake include Files
 ####
@@ -13,13 +18,8 @@ project(varg VERSION 0.9.2.0 DESCRIPTION "Varg Library" HOMEPAGE_URL "https://gi
 # varg Files
 ####
 set (vargInclude
-    ${CMAKE_CURRENT_LIST_DIR}/inc/varg_intf.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc/varg.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc/vargincrement.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc/vargenum.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc/listvarg.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc/varg_clib_shared.h
-    ${CMAKE_CURRENT_LIST_DIR}/inc_clib/varg_clib.h
+    ${CMAKE_CURRENT_LIST_DIR}/inc
+    ${CMAKE_CURRENT_LIST_DIR}/inc_clib
     )
 
 set (vargSrc
@@ -33,6 +33,7 @@ set (vargSrc
 # varg library
 ####
 add_library(${PROJECT_NAME} STATIC ${vargSrc})
+target_include_directories(${PROJECT_NAME} PRIVATE ${vargInclude})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 ####
@@ -59,10 +60,9 @@ set (vargMockSrc
 find_package(GTest REQUIRED)
 include(GoogleTest)
 enable_testing()
-include_directories(${GTEST_INCLUDE_DIR})
 
 add_executable(${PROJECT_NAME}_test ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
-target_include_directories(${PROJECT_NAME}_test PRIVATE ${include_directories})
+target_include_directories(${PROJECT_NAME}_test PRIVATE ${vargInclude} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
 gtest_discover_tests(${PROJECT_NAME}_test)

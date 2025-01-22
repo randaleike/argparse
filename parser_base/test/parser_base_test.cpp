@@ -549,8 +549,7 @@ TEST(parser_base, assignListKeyValueBadInput)
                                    (&testvarg),
                                    3,
                                    0,
-                                   true,
-                                   false};
+                                   true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
