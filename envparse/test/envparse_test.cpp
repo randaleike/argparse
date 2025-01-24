@@ -38,8 +38,8 @@
     #define SETENV(name, value, overwrite)  SetEnvironmentVariable(name, value)
     #define UNSETENV(name)                  SetEnvironmentVariable(name, "")
 #else
-    #define SETENV(name, value, overwrite)  setenv(name, value, overwrite)
-    #define UNSETENV(name)                  unsetenv(name)
+    int SETENV(const char* name, const char* value, int overwrite) {return setenv(name, value, overwrite);}
+    int UNSETENV(const char* name)                                 {return unsetenv(name);}
 #endif
 
 const size_t defaultArgWidth = 14;

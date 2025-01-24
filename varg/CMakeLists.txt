@@ -1,13 +1,16 @@
 # varg Library CMake file
 cmake_minimum_required(VERSION 3.12)
+cmake_policy(SET CMP0048 NEW)
+project(varg VERSION 0.9.2.0 LANGUAGES C CXX DESCRIPTION "Varg Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-cmake_policy(SET CMP0048 NEW)
-project(varg VERSION 0.9.2.0 DESCRIPTION "Varg Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    include(GNUInstallDirs)
 endif()
 
 ####
@@ -61,7 +64,7 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
+add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${vargInclude} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})

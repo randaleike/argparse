@@ -31,7 +31,9 @@
 #include <cstdio>
 #include <string>
 #include <list>
+#include <iostream>
 #include "varg_intf.h"
+#include "parser_base.h"
 
 namespace argparser
 {
@@ -41,12 +43,9 @@ namespace argparser
 *
 * Detailed class description
 */
-class config_json_parse
+class config_json_parse : public parser_base
 {
     private:
-        std::list<varg_intf*>   keyArgList;
-        bool                    errorAbort;
-        int                     debugMsgLevel;
         std::string             fileName;
 
     protected:
@@ -59,19 +58,40 @@ class config_json_parse
          * @param abortOnError - True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false.
          * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
          */
-        config_json_parse(char* jsonFileName, bool abortOnError = false, int debugLevel = 0);
+        config_json_parse(const char* jsonFileName, bool abortOnError = false, int debugLevel = 0);
+
+        /**
+         * @brief Copy Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_json_parse(const config_json_parse& other) = default;
+
+        /**
+         * @brief Reference Copy Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_json_parse(config_json_parse&& other) = default;
+
+        /**
+         * @brief Copy Assignment Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_json_parse& operator=(const config_json_parse& other);
+
+        /**
+         * @brief Reference Copy Assignment Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_json_parse& operator=(config_json_parse&& other);
 
         /**
          * @brief Destructor
          */
-        ~config_json_parse();
-
-        /**
-         * @brief Set the Debug Message Level
-         *
-         * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
-         */
-        void setDebugLevel(int debugLevel = 0)      {debugMsgLevel = debugLevel;}
+        ~config_json_parse() = default;
 
         /**
          * @brief Add a new key based environment argument
@@ -102,7 +122,7 @@ class config_json_parse
          *
          * @param outStream - Output streem to use for text output.  Default is the standard error stream
          */
-        void displayHelp(std::ostream outStream = std::cerr);
+        void displayHelp(std::ostream &outStream = std::cerr);
 };
 
 }; // end of namespace argparser

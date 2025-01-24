@@ -1,10 +1,10 @@
-# cmd_line_parse Library CMake file
+# config_xml_parse Library CMake file
 cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 cmake_policy(SET CMP0048 NEW)
-project(cmd_line_parse VERSION 0.9.0.0 LANGUAGES C CXX
-        DESCRIPTION "Command Line Parser Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
+project(config_xml_parse VERSION 0.9.0.0 LANGUAGES C CXX
+        DESCRIPTION "JSON Config File Parser Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
@@ -14,7 +14,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
 ####
-# cmd_line_parse directory cmake include Files
+# config_xml_parse directory cmake include Files
 ####
 set (cmd_line_includes
      ${MASTER_PROJECT_BASE_DIR}/varg/inc
@@ -24,49 +24,46 @@ set (cmd_line_includes
      ${CMAKE_CURRENT_LIST_DIR}/inc_clib)
 
 ####
-# cmd line parse base Files
+# config_xml_parse base Files
 ####
-
-set (cmd_line_parseSrc
+set (config_xml_parseSrc
     ${MASTER_PROJECT_BASE_DIR}/parser_base/src/parser_base.cpp
     ${MASTER_PROJECT_BASE_DIR}/parser_base/src/parser_string_list.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cmd_line_parse.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cmd_line_parse_api_lib.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/config_xml_parse.cpp
     )
 
 
 ####
-# cmd_line_parse library
+# config_xml_parse library
 ####
-add_library(${PROJECT_NAME} STATIC ${cmd_line_parseSrc})
+add_library(${PROJECT_NAME} STATIC ${config_xml_parseSrc})
 target_include_directories(${PROJECT_NAME} PRIVATE ${cmd_line_includes})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 ####
-# cmd_line_parse Unit testing
+# config_xml_parse Unit testing
 ####
-set (cmd_line_parseUnitTestSrc
-    ${cmd_line_parseSrc}
-    ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_test.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_api_test.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_unittest.cpp
+set (config_xml_parseUnitTestSrc
+    ${config_xml_parseSrc}
+    ${CMAKE_CURRENT_LIST_DIR}/test/config_xml_parse_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test/config_xml_parse_unittest.cpp
     )
 
-set (cmd_line_parseMockIncude
+set (config_xml_parseMockIncude
     )
 
-set (cmd_line_parseMockSrc
+set (config_xml_parseMockSrc
     )
 
-set (cmd_line_parseUnitTestMock
+set (config_xml_parseUnitTestMock
     )
 
-set (cmd_line_parseExternalLib
+set (config_xml_parseExternalLib
     varg
     )
 
-add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${cmd_line_parseUnitTestSrc} ${cmd_line_parseUnitTestMock} )
+add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${config_xml_parseUnitTestSrc} ${config_xml_parseUnitTestMock} )
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${cmd_line_includes} ${GTEST_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test ${cmd_line_parseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_test ${config_xml_parseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
 gtest_discover_tests(${PROJECT_NAME}_test)

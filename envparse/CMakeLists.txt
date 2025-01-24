@@ -8,6 +8,8 @@ project(envparse VERSION 0.9.2.0 DESCRIPTION "Command Line Parser Library" HOMEP
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    include(GNUInstallDirs)
 endif()
 
 ####
@@ -60,11 +62,7 @@ set (envparseExternalLib
     varg
     )
 
-find_package(GTest REQUIRED)
-include(GoogleTest)
-enable_testing()
-
-add_executable(${PROJECT_NAME}_test ${envparseUnitTestSrc} ${envparseUnitTestMock})
+add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${envparseUnitTestSrc} ${envparseUnitTestMock})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${envparseInclude} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test ${envparseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})

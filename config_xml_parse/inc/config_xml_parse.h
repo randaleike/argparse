@@ -31,7 +31,9 @@
 #include <cstdio>
 #include <string>
 #include <list>
+#include <iostream>
 #include "varg_intf.h"
+#include "parser_base.h"
 
 namespace argparser
 {
@@ -40,12 +42,9 @@ namespace argparser
 * @brief XML configuration file parser
 *
 */
-class config_xml_parse
+class config_xml_parse : public parser_base
 {
     private:
-        std::list<varg_intf*>   keyArgList;
-        bool                    errorAbort;
-        int                     debugMsgLevel;
         std::string             fileName;
 
     protected:
@@ -58,19 +57,40 @@ class config_xml_parse
          * @param abortOnError - True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false.
          * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
          */
-        config_xml_parse(char* xmlFileName, bool abortOnError = false, int debugLevel = 0);
+        config_xml_parse(const char* xmlFileName, bool abortOnError = false, int debugLevel = 0);
+
+        /**
+         * @brief Copy Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_xml_parse(const config_xml_parse& other) = default;
+
+        /**
+         * @brief Reference Copy Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_xml_parse(config_xml_parse&& other) = default;
+
+        /**
+         * @brief Copy Assignment Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_xml_parse& operator=(const config_xml_parse& other);
+
+        /**
+         * @brief Reference Copy Assignment Constructor
+         *
+         * @param other - Source object for the copy
+         */
+        config_xml_parse& operator=(config_xml_parse&& other);
 
         /**
          * @brief Destructor
          */
-        ~config_xml_parse();
-
-        /**
-         * @brief Set the active debug message level
-         *
-         * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
-         */
-        void setDebugLevel(int debugLevel = 0)      {debugMsgLevel = debugLevel;}
+        ~config_xml_parse() = default;
 
         /**
          * @brief Add a new key based environment argument
@@ -102,7 +122,7 @@ class config_xml_parse
          *
          * @param outStream - Output streem to use for text output.  Default is the standard error stream
          */
-        void displayHelp(std::ostream outStream = std::cerr);
+        void displayHelp(std::ostream &outStream = std::cerr);
 };
 
 }; // end of namespace argparser

@@ -35,6 +35,7 @@
 #include <string>
 #include <list>
 #include <iostream>
+#include <utility>
 #include "varg_intf.h"
 #include "parser_string_list.h"
 
@@ -74,11 +75,10 @@ struct ArgEntry
     bool        isRequired{};                   ///< True if this is a required argument, else false if it is optional
     bool        isFound{};                      ///< True if the argument key was found during parsing, else false if it was not
     std::list<parserstr>  keyList{};            ///< List of keys associated with the argument
-    ArgEntry() {}
+    ArgEntry() = default;
     ArgEntry(parserstr newName, parserstr newHelp, parserstr optiontxt, varg_intf* arg, int argCnt, int location, bool required) :
-        name{ newName }, help{ newHelp }, optionString{ optiontxt }, argData{ arg },
-        nargs{ argCnt }, position{ location }, isRequired{ required }, isFound{ false },
-        keyList{} {}
+        name{std::move( newName )}, help{std::move( newHelp )}, optionString{std::move( optiontxt )}, argData{ arg },
+        nargs{ argCnt }, position{ location }, isRequired{ required } {}
 };
 
 /**
@@ -288,7 +288,7 @@ class parser_base
          * @param optionWidth     - Maximum width of an option text display before it wraps
          * @param helpWidth       - Maximum width of an help text display before it wraps
          */
-        void displayArgHelpBlock(std::ostream &outStream, parserstr baseOptionText, parserstr baseHelpText, const size_t optionWidth, const size_t helpWidth);
+        void displayArgHelpBlock(std::ostream &outStream, parserstr baseOptionText, parserstr baseHelpText, size_t optionWidth, size_t helpWidth);
 };
 
 }; // end of namespace argparser

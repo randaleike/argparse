@@ -448,38 +448,6 @@ cmd_line_parse::cmd_line_parse() : usageText("%(prog) [options]"), keyPrefix("-"
     addDefaultHelpArgument();
 }
 
-cmd_line_parse::cmd_line_parse(const cmd_line_parse& other) :
-    parser_base(other), programName(other.programName),
-    usageText(other.usageText), descriptionText(other.descriptionText), keyPrefix(other.keyPrefix),
-    displayHelpOnError(other.displayHelpOnError), enableDefaultHelp(other.enableDefaultHelp),
-    ignoreUnknownKey(other.ignoreUnknownKey), singleCharArgListAllowed(other.singleCharArgListAllowed),
-    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
-    debugMsgLevel(other.debugMsgLevel), positionalStopArgumentFound(false),
-    positionalArgList(other.positionalArgList), helpFlag(nullptr)
-{
-    argvArray.clear();
-    if (nullptr != other.helpFlag)
-    {
-        addDefaultHelpArgument();
-    }
-}
-
-cmd_line_parse::cmd_line_parse(cmd_line_parse&& other) :
-    parser_base(other), programName(other.programName),
-    usageText(other.usageText), descriptionText(other.descriptionText), keyPrefix(other.keyPrefix),
-    displayHelpOnError(other.displayHelpOnError), enableDefaultHelp(other.enableDefaultHelp),
-    ignoreUnknownKey(other.ignoreUnknownKey), singleCharArgListAllowed(other.singleCharArgListAllowed),
-    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
-    debugMsgLevel(other.debugMsgLevel), positionalStopArgumentFound(false),
-    positionalArgList(other.positionalArgList), helpFlag(nullptr)
-{
-    argvArray.clear();
-    if (nullptr != other.helpFlag)
-    {
-        addDefaultHelpArgument();
-    }
-}
-
 cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
     parser_base(abortOnError, debugLevel), keyPrefix("-"),
     displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
@@ -527,6 +495,38 @@ cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool 
     }
 
     if (!disableDefaultHelp)
+    {
+        addDefaultHelpArgument();
+    }
+}
+
+cmd_line_parse::cmd_line_parse(const cmd_line_parse& other) :
+    parser_base(other), programName(other.programName),
+    usageText(other.usageText), descriptionText(other.descriptionText), keyPrefix(other.keyPrefix),
+    displayHelpOnError(other.displayHelpOnError), enableDefaultHelp(other.enableDefaultHelp),
+    ignoreUnknownKey(other.ignoreUnknownKey), singleCharArgListAllowed(other.singleCharArgListAllowed),
+    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
+    debugMsgLevel(other.debugMsgLevel), positionalStopArgumentFound(false),
+    positionalArgList(other.positionalArgList), helpFlag(nullptr)
+{
+    argvArray.clear();
+    if (nullptr != other.helpFlag)
+    {
+        addDefaultHelpArgument();
+    }
+}
+
+cmd_line_parse::cmd_line_parse(cmd_line_parse&& other) :
+    parser_base(other), programName(other.programName),
+    usageText(other.usageText), descriptionText(other.descriptionText), keyPrefix(other.keyPrefix),
+    displayHelpOnError(other.displayHelpOnError), enableDefaultHelp(other.enableDefaultHelp),
+    ignoreUnknownKey(other.ignoreUnknownKey), singleCharArgListAllowed(other.singleCharArgListAllowed),
+    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
+    debugMsgLevel(other.debugMsgLevel), positionalStopArgumentFound(false),
+    positionalArgList(other.positionalArgList), helpFlag(nullptr)
+{
+    argvArray.clear();
+    if (nullptr != other.helpFlag)
     {
         addDefaultHelpArgument();
     }
