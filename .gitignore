@@ -9,6 +9,7 @@ __pycache__
 
 # Cmake files
 [Bb]uild*/
+Testing
 *.Cmake
 MakeFile
 

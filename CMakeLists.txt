@@ -88,6 +88,7 @@ endif()
 ####
 # Library unit testing
 ####
+include (CTest)
 find_package(GTest REQUIRED)
 include(GoogleTest)
 enable_testing()
@@ -95,12 +96,18 @@ enable_testing()
 add_custom_target(unittest
     COMMENT "Run unittest"
     COMMAND ./varg_test
+    COMMAND ./parser_base_test
     COMMAND ./cmd_line_parse_test
     COMMAND ./envparse_test
+    COMMAND ./config_json_parse_test
+    COMMAND ./config_xml_parse_test
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS varg_test
+    DEPENDS parser_base_test
     DEPENDS cmd_line_parse_test
     DEPENDS envparse_test
+    DEPENDS config_json_parse_test
+    DEPENDS config_xml_parse_test
     )
 
 ####
@@ -131,19 +138,15 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     set(DOXYGEN_COUT ${CMAKE_BINARY_DIR}/Doxyfile-c)
     configure_file(${DOXYGEN_CIN} ${DOXYGEN_COUT} @ONLY)
 
-    #find_package(Doxygen REQUIRED dot)
-    #message("Doxygen build started")
-    #add_custom_target( doc_cpp_${PROJECT_NAME}
-    #    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
-    #    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    #    COMMENT "Generating CPP API documentation with Doxygen"
-    #    VERBATIM )
+    find_package(Doxygen REQUIRED dot)
+    message("Doxygen build started")
+    add_custom_target(${PROJECT_NAME}_gendoc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_COUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
 
-    #add_custom_target( doc_c_${PROJECT_NAME}
-    #    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_COUT}
-    #    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    #    COMMENT "Generating C API documentation with Doxygen"
-    #    VERBATIM )
 endif()
 
 ####
