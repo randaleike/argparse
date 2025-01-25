@@ -64,6 +64,6 @@ set (envparseExternalLib
 
 add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${envparseUnitTestSrc} ${envparseUnitTestMock})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${envparseInclude} ${GTEST_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test ${envparseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_test PUBLIC ${envparseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
 gtest_discover_tests(${PROJECT_NAME}_test)

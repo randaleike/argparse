@@ -98,9 +98,9 @@ add_custom_target(unittest
     COMMAND ./cmd_line_parse_test
     COMMAND ./envparse_test
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS ${CMAKE_BINARY_DIR}/varg_test
-    DEPENDS ${CMAKE_BINARY_DIR}/cmd_line_parse_test
-    DEPENDS ${CMAKE_BINARY_DIR}/envparse_test
+    DEPENDS varg_test
+    DEPENDS cmd_line_parse_test
+    DEPENDS envparse_test
     )
 
 ####

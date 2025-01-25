@@ -66,6 +66,6 @@ set (parser_baseExternalLib
 
 add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${parser_baseUnitTest} ${parser_baseUnitTestMock} ${parser_baseTest})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${parser_baseInclude} ${GTEST_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test ${parser_baseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_test PUBLIC ${parser_baseExternalLib} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
 gtest_discover_tests(${PROJECT_NAME}_test)

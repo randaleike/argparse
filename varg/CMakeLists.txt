@@ -63,9 +63,10 @@ set (vargMockSrc
 find_package(GTest REQUIRED)
 include(GoogleTest)
 enable_testing()
-
+message("gtest lib=${GTEST_LIBRARIES}")
+message("gtest_main lib=${GTEST_MAIN_LIBRARIES}")
 add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
-target_include_directories(${PROJECT_NAME}_test PRIVATE ${vargInclude} ${GTEST_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
+target_include_directories(${PROJECT_NAME}_test PUBLIC ${vargInclude} ${GTEST_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME}_test PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PUBLIC ${GTEST_CFLAGS})
 gtest_discover_tests(${PROJECT_NAME}_test)
