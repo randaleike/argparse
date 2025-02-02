@@ -1,5 +1,5 @@
 # Sample code CMake file
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14)
 cmake_policy(SET CMP0048 NEW)
 project(sample_code VERSION 0.9.2.0 LANGUAGES C CXX
         DESCRIPTION "Argument input parser sample code executable" HOMEPAGE_URL "https://github.com/randaleike/argparse")
@@ -74,8 +74,9 @@ add_custom_target(samples
 ####
 add_executable(samples-unittest EXCLUDE_FROM_ALL ${SAMPLE_SOURCE_DIR}/test/sample_unittest.cpp)
 target_include_directories(samples-unittest SYSTEM PRIVATE ${GTEST_INCLUDE_DIR})
-target_link_libraries(samples-unittest PUBLIC ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} ${pthread_lib})
+target_link_libraries(samples-unittest PUBLIC GTest::gtest_main ${pthread_lib})
 add_dependencies(samples-unittest ${cxx_sample_files} ${c_sample_files})
+gtest_discover_tests(samples-unittest)
 
 add_custom_target(run-samples-unittest
     COMMENT "Samples unittest execution"

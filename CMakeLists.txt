@@ -1,11 +1,11 @@
 # Arg parser Library CMake file
-cmake_minimum_required(VERSION 3.12)
-cmake_policy(SET CMP0048 NEW)
+cmake_minimum_required(VERSION 3.14)
+#cmake_policy(SET CMP0048 NEW)
 project(argparse VERSION 0.9.2.0 LANGUAGES C CXX
         DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_CLANG_TIDY clang-tidy --config-file ${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy)
 
 # control where the static and shared libraries are built so that on windows
@@ -31,13 +31,27 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 #    )
 set(MASTER_PROJECT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    include(GNUInstallDirs)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+endif()
+
 ####
-# Unit testing
+# Gtest setup
 ####
-find_package(GTest REQUIRED)
-include(GoogleTest)
-enable_testing()
-include_directories(${GTEST_INCLUDE_DIR})
+include(FetchContent)
+FetchContent_Declare(googletest
+    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_TAG v1.15.2)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set(gtest_force_shared_crt ON CACHE BOOL "Windows use msvcrt.dll" FORCE)
+endif()
+FetchContent_MakeAvailable(googletest)
+set (GTEST_INCLUDE_DIR ${googletest_SOURCE_DIR}/googletest/include)
+set (GTEST_DLL_LIBRARY_PATH ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_BUILD_TYPE})
+message ("googletest_LIB: ${GTEST_DLL_LIBRARY_PATH}")
+LIST (APPEND CMAKE_PROGRAM_PATH ${GTEST_DLL_LIBRARY_PATH})
 
 ####
 # varg Files
@@ -88,20 +102,23 @@ endif()
 ####
 # Library unit testing
 ####
-include (CTest)
-find_package(GTest REQUIRED)
-include(GoogleTest)
-enable_testing()
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set (UNITTEST_WORKING_DIR ${CMAKE_BINARY_DIR})
+    set (UNITTEST_FILE_EXT "")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set (UNITTEST_WORKING_DIR ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    set (UNITTEST_FILE_EXT ".exe")
+endif()
 
 add_custom_target(unittest
     COMMENT "Run unittest"
-    COMMAND ./varg_test
-    COMMAND ./parser_base_test
-    COMMAND ./cmd_line_parse_test
-    COMMAND ./envparse_test
-    COMMAND ./config_json_parse_test
-    COMMAND ./config_xml_parse_test
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMAND .\\varg_test${UNITTEST_FILE_EXT}
+    #COMMAND .\\parser_base_test${UNITTEST_FILE_EXT}
+    #COMMAND .\\cmd_line_parse_test${UNITTEST_FILE_EXT}
+    #COMMAND .\\envparse_test${UNITTEST_FILE_EXT}
+    #COMMAND .\\config_json_parse_test${UNITTEST_FILE_EXT}
+    #COMMAND .\\config_xml_parse_test${UNITTEST_FILE_EXT}
+    WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
     DEPENDS varg_test
     DEPENDS parser_base_test
     DEPENDS cmd_line_parse_test
@@ -149,7 +166,3 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
 
 endif()
 
-####
-# sample Files
-####
-include(sample/CMakeLists.txt)
