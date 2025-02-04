@@ -33,7 +33,7 @@
 #include "envparse.h"
 #include <gtest/gtest.h>
 
-#if ((WIN32) || (WIN64))
+#if ((_WIN32) || (_WIN64))
     #include <Windows.h>
     #define SETENV(name, value, overwrite)  SetEnvironmentVariable(name, value)
     #define UNSETENV(name)                  SetEnvironmentVariable(name, "")
