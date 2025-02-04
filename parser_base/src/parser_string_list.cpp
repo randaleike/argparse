@@ -96,6 +96,12 @@ class BaseParserStringListEnglish : public BaseParserStringList
 
         parserstr getEnvironmentNoFlags(parserstr argKey) override
         {parser_str_stream parserstr;  parserstr << "Environment value " << argKey << " narg must be > 0"; return parserstr.str();}
+
+        parserstr getJsonArgumentsMessage() override
+        {return "Available JSON argument values:";}
+
+        parserstr getXmlArgumentsMessage() override
+        {return "Available XML argument values:";}
 };
 #endif
 
@@ -150,6 +156,13 @@ class BaseParserStringListSpanish : public BaseParserStringList
 
         parserstr getEnvironmentNoFlags(parserstr argKey) override
         {parser_str_stream parserstr;  parserstr << "Valores ambiental " << argKey << " narg debe ser > 0"; return parserstr.str();}
+
+        parserstr getJsonArgumentsMessage() override
+        {return "Valores de argumentos JSON disponibles:";}
+
+        parserstr getXmlArgumentsMessage() override
+        {return "Valores de argumentos XML disponibles:";}
+
 };
 #endif
 
@@ -204,6 +217,14 @@ class BaseParserStringListFrench : public BaseParserStringList
 
         parserstr getEnvironmentNoFlags(parserstr argKey) override
         {parser_str_stream parserstr;  parserstr << "Valeurs environnementale " << argKey << " narg doit être > 0"; return parserstr.str();}
+
+        parserstr getJsonArgumentsMessage() override
+        {return "Valeurs d'argument JSON disponibles :";}
+
+        parserstr getXmlArgumentsMessage() override
+        {return "Valeurs d'argument XML disponibles :";}
+
+
 };
 #endif
 
@@ -258,6 +279,13 @@ class BaseParserStringListChineseSimplified : public BaseParserStringList
 
         parserstr getEnvironmentNoFlags(parserstr argKey) override
         {parser_str_stream parserstr;  parserstr << "环境价值 " << argKey << " narg 必须 > 0"; return parserstr.str();}
+
+        parserstr getJsonArgumentsMessage() override
+        {return "可用的 JSON 参数值：";}
+
+        parserstr getXmlArgumentsMessage() override
+        {return "可用的 XML 参数值：";}
+
 };
 #endif
 

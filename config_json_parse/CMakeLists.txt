@@ -3,17 +3,10 @@ cmake_minimum_required(VERSION 3.14)
 project(config_json_parse VERSION 0.2.0.0 LANGUAGES C CXX
         DESCRIPTION "JSON Config File Parser Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    include(GNUInstallDirs)
-endif()
-
 ####
 # config_json_parse directory cmake include Files
 ####
-set (cmd_line_includes
+set (config_json_includes
      ${MASTER_PROJECT_BASE_DIR}/varg/inc
      ${MASTER_PROJECT_BASE_DIR}/varg/inc_clib
      ${MASTER_PROJECT_BASE_DIR}/parser_base/inc
@@ -34,7 +27,7 @@ set (config_json_parseSrc
 # config_json_parse library
 ####
 add_library(${PROJECT_NAME} STATIC ${config_json_parseSrc})
-target_include_directories(${PROJECT_NAME} PRIVATE ${cmd_line_includes})
+target_include_directories(${PROJECT_NAME} PUBLIC ${config_json_includes})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 ####
@@ -62,8 +55,8 @@ set (config_json_parseExternalLib
 enable_testing()
 
 add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${config_json_parseUnitTestSrc} ${config_json_parseUnitTestMock} )
-target_include_directories(${PROJECT_NAME}_test PRIVATE ${cmd_line_includes} ${GTEST_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_json_includes} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_json_parseExternalLib} GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}_test DISCOVERY_MODE PRE_TEST)
+gtest_discover_tests(${PROJECT_NAME}_test)

@@ -61,4 +61,4 @@ target_include_directories(${PROJECT_NAME}_test PRIVATE ${parser_baseInclude} ${
 target_link_libraries(${PROJECT_NAME}_test PRIVATE ${parser_baseExternalLib} GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}_test DISCOVERY_MODE PRE_TEST)
+gtest_discover_tests(${PROJECT_NAME}_test)

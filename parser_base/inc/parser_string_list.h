@@ -142,6 +142,12 @@ class BaseParserStringList
         // Environment parser specific strings and messages
         virtual parserstr getEnvArgumentsMessage() = 0;
         virtual parserstr getEnvironmentNoFlags(parserstr argKey) = 0;
+
+        // JSON parser specific strings and messages
+        virtual parserstr getJsonArgumentsMessage() = 0;
+
+        // XML parser specific strings and messages
+        virtual parserstr getXmlArgumentsMessage() = 0;
 };
 
 }; // end of namespace argparser

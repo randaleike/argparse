@@ -16,19 +16,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
-#include_directories(
-#    ${CMAKE_CURRENT_SOURCE_DIR}/parser_base/inc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc_clib
-#    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc_clib
-#    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc_clib
-#    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/inc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/_clib
-#    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc_clib
-#    )
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/parser_base/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc_clib
+    )
 set(MASTER_PROJECT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -39,6 +39,7 @@ endif()
 ####
 # Gtest setup
 ####
+include(CTest)
 include(FetchContent)
 FetchContent_Declare(googletest
     GIT_REPOSITORY https://github.com/google/googletest
@@ -105,19 +106,15 @@ endif()
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set (UNITTEST_WORKING_DIR ${CMAKE_BINARY_DIR})
     set (UNITTEST_FILE_EXT "")
+    set (UNITTEST_EXE_CMD "./")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set (UNITTEST_WORKING_DIR ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
     set (UNITTEST_FILE_EXT ".exe")
+    set (UNITTEST_EXE_CMD ".\\")
 endif()
 
-add_custom_target(unittest
-    COMMENT "Run unittest"
-    COMMAND .\\varg_test${UNITTEST_FILE_EXT}
-    #COMMAND .\\parser_base_test${UNITTEST_FILE_EXT}
-    #COMMAND .\\cmd_line_parse_test${UNITTEST_FILE_EXT}
-    #COMMAND .\\envparse_test${UNITTEST_FILE_EXT}
-    #COMMAND .\\config_json_parse_test${UNITTEST_FILE_EXT}
-    #COMMAND .\\config_xml_parse_test${UNITTEST_FILE_EXT}
+add_custom_target(build-unittest
+    COMMENT "Build library unittest"
     WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
     DEPENDS varg_test
     DEPENDS parser_base_test
@@ -126,6 +123,18 @@ add_custom_target(unittest
     DEPENDS config_json_parse_test
     DEPENDS config_xml_parse_test
     )
+
+add_custom_target(run-unittest
+    COMMENT "Run library unittest"
+    COMMAND ${UNITTEST_EXE_CMD}varg_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}parser_base_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}cmd_line_parse_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}envparse_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}config_json_parse_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}config_xml_parse_test${UNITTEST_FILE_EXT}
+    WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
+    DEPENDS build-unittest
+)
 
 ####
 # Install package
@@ -166,3 +175,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
 
 endif()
 
+####
+# Samples generation
+####
+add_subdirectory(sample)

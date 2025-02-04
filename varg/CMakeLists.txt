@@ -65,6 +65,4 @@ target_link_libraries(${PROJECT_NAME}_test PUBLIC ${varargExtLibs} GTest::gtest_
 target_compile_options(${PROJECT_NAME}_test PUBLIC )
 
 include(GoogleTest)
-
-include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}_test DISCOVERY_MODE PRE_TEST)
+gtest_discover_tests(${PROJECT_NAME}_test)

@@ -6,7 +6,7 @@ project(config_xml_parse VERSION 0.2.0.0 LANGUAGES C CXX
 ####
 # config_xml_parse directory cmake include Files
 ####
-set (cmd_line_includes
+set (config_xml_includes
      ${MASTER_PROJECT_BASE_DIR}/varg/inc
      ${MASTER_PROJECT_BASE_DIR}/varg/inc_clib
      ${MASTER_PROJECT_BASE_DIR}/parser_base/inc
@@ -27,7 +27,7 @@ set (config_xml_parseSrc
 # config_xml_parse library
 ####
 add_library(${PROJECT_NAME} STATIC ${config_xml_parseSrc})
-target_include_directories(${PROJECT_NAME} PRIVATE ${cmd_line_includes})
+target_include_directories(${PROJECT_NAME} PUBLIC ${config_xml_includes})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 ####
@@ -55,8 +55,8 @@ set (config_xml_parseExternalLib
 enable_testing()
 
 add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${config_xml_parseUnitTestSrc} ${config_xml_parseUnitTestMock} )
-target_include_directories(${PROJECT_NAME}_test PRIVATE ${cmd_line_includes} ${GTEST_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_xml_includes} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_xml_parseExternalLib} GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}_test DISCOVERY_MODE PRE_TEST)
+gtest_discover_tests(${PROJECT_NAME}_test)

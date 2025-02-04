@@ -27,8 +27,9 @@
  */
 
 // Includes
+#include <iostream>
+#include <fstream>
 #include "config_json_parse.h"
-#include "parser_base.h"
 
 using namespace argparser;
 
@@ -102,8 +103,18 @@ void config_json_parse::addArgument(varg_intf* arg, char* argKey, int nargs, boo
 */
 bool config_json_parse::parse()
 {
-    /** @todo implement code */
-    return true;
+    bool parseStatus = true;
+    std::ifstream parseFile(fileName);
+    if (!parseFile)
+    {
+        std::cerr << "Failed to open json input file \"" << fileName << "\"" << std::endl;
+        parseStatus = false;
+    }
+    else
+    {
+        /** @todo implement parse */
+    }
+    return parseStatus;
 }
 
 /**
@@ -113,8 +124,19 @@ bool config_json_parse::parse()
 */
 void config_json_parse::displayHelp(std::ostream &outStream)
 {
-    /** @todo implement code */
-    outStream << "Todo: implement code" << std::endl;
+    const size_t optionKeyWidth = parser_base::getOptionKeyWidth();
+    const size_t helpKeyWidth = parser_base::getHelpKeyWidth(optionKeyWidth);
+
+    if (!parser_base::isKeyArgListEmpty())
+    {
+        // Display the key arguments help
+        outStream << parser_base::getParserStringList()->getJsonArgumentsMessage() << std::endl;
+        for (auto const& keyArg : parser_base::getKeyArgList())
+        {
+            // Display the arg block
+            displayArgHelpBlock(outStream, keyArg.optionString, keyArg.help, optionKeyWidth, helpKeyWidth);
+        }
+    }
 }
 
 /** @} */
