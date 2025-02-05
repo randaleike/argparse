@@ -15,14 +15,11 @@ cmake --build build --config %1
 # Make library unittests
 cmake --build build --config %1 --target build-unittest
 
-# Run the library unittests
-cd build;ctest --build-config %1 --exclude-regex samples
-
 # Make the samples
 cmake --build build --config %1 --target samples
 
 # Make the samples unittest
 cmake --build build --config %1 --target samples-unittest
 
-# Run the samples unittests
-cd build;ctest --build-config %1 --tests-regex samples
+# Run the library unittests
+cd build;ctest --build-config %1 --exclude-regex samples

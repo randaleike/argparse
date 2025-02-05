@@ -164,7 +164,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     set(DOXYGEN_COUT ${CMAKE_BINARY_DIR}/Doxyfile-c)
     configure_file(${DOXYGEN_CIN} ${DOXYGEN_COUT} @ONLY)
 
-    find_package(Doxygen REQUIRED dot)
+    find_package(Doxygen dot)
     message("Doxygen build started")
     add_custom_target(${PROJECT_NAME}_gendoc
         COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
