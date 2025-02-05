@@ -45,11 +45,11 @@ Copyright (c) 2022-2023 Randal Eike
     const char* sample6 = "./sample6";
 #elif defined(_WIN64) || defined(_WIN32)
     const char* sample1 = "sample1.exe";
-    const char* sample2 = ".\\sample2.exe";
-    const char* sample3 = ".\\sample3.exe";
-    const char* sample4 = ".\\sample4.exe";
-    const char* sample5 = ".\\sample5.exe";
-    const char* sample6 = ".\\sample6.exe";
+    const char* sample2 = "sample2.exe";
+    const char* sample3 = "sample3.exe";
+    const char* sample4 = "sample4.exe";
+    const char* sample5 = "sample5.exe";
+    const char* sample6 = "sample6.exe";
 #else
     #error "Define getenv for this OS!"
 #endif
