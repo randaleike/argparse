@@ -37,9 +37,11 @@
     #include <Windows.h>
     #define SETENV(name, value, overwrite)  SetEnvironmentVariable(name, value)
     #define UNSETENV(name)                  SetEnvironmentVariable(name, "")
-#else
+#elif defined(__linux__) || defined(__unix__)
     int SETENV(const char* name, const char* value, int overwrite) {return setenv(name, value, overwrite);}
     int UNSETENV(const char* name)                                 {return unsetenv(name);}
+#else
+    #error "Define setenv/unsetenv for this OS!"
 #endif
 
 const size_t defaultArgWidth = 14;

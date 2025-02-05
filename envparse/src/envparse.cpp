@@ -27,8 +27,10 @@
  */
 
 // Includes
+#include <codecvt>
 #include <cstdlib>
 #include <cstring>
+#include <locale>
 #include <string>
 #include "varg_intf.h"
 #include "varg.h"
@@ -48,6 +50,50 @@ using namespace argparser;
 //  Protected functions
 //============================================================================================================================
 //============================================================================================================================
+/**
+ * @brief Get the Environment Var value
+ * 
+ * @param searchName - Name of the environment varable to find
+ * @param envValue - Reference to a string to store the response in
+ * 
+ * @return bool - true if the search name was found, else false if not 
+ */
+bool envparser::getEnvironmentVar(parserstr searchName, parserstr& envValue)
+{
+    bool foundStatus = false;
+#if defined(__linux__) || defined(__unix__)
+    const char* foundValue = getenv(searchName.c_str());
+    if (nullptr != foundValue)
+    {
+        envValue = foundValue;
+        foundStatus = true;
+    }
+#elif defined(_WIN64) || defined(_WIN32)
+    DWORD buffRetSize = 0;
+  #ifdef UNICODE
+    std::wstring envName(searchName.begin(), searchName.end());
+    buffRetSize = GetEnvironmentVariable(envName.c_str(), envRetBuffer, bufferSize);
+    if (0 != buffRetSize)
+    {
+        #ifdef UNICODE
+            std::wstring cvtValue(envRetBuffer);
+            envValue = std::string(cvtValue.begin(), cvtValue.end());
+        #else
+            envValue = envRetBuffer;
+        #endif
+  #else
+    buffRetSize = GetEnvironmentVariable(searchName.c_str(), envRetBuffer, bufferSize);
+    if (0 != buffRetSize)
+    {
+        envValue = envRetBuffer;
+  #endif
+        foundStatus = true;
+    }
+#else
+    #error "Define getEnvironmentVar() method for this OS!"
+#endif
+    return foundStatus;
+}
 
 //============================================================================================================================
 //============================================================================================================================
@@ -128,17 +174,13 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
  */
 bool envparser::parse()
 {
+
     // Scan the environment
     for (auto & currentArg : parser_base::getKeyArgList())
     {
-#if defined(__linux__) || defined(__unix__)
-        const char* envValue = getenv(currentArg.name.c_str());
-        if (nullptr != envValue)
-#elif defined(_WIN64) || defined(_WIN32)
-        size_t count = 0;
-        char* envValue = nullptr;
-        if ((_dupenv_s(&envValue, &count, currentArg.name.c_str()) == 0) && (nullptr != envValue))
-#endif
+        parserstr envValue;
+        bool found = getEnvironmentVar(currentArg.name, envValue);
+        if (found)
         {
             // Process the return value string
             std::list<std::string> assignmentValues;

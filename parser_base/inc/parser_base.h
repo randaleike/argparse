@@ -69,7 +69,7 @@ struct ArgEntry
     parserstr   name{};                         ///< Argument name
     parserstr   help{};                         ///< Help description string
     parserstr   optionString{};                 ///< Help option string
-    varg_intf* argData{};                       ///< Argument data and storage object
+    varg_intf*  argData{};                      ///< Argument data and storage object
     int         nargs{};                        ///< Number of argument data values expected
     int         position{};                     ///< Argument position index, 0 == any
     bool        isRequired{};                   ///< True if this is a required argument, else false if it is optional

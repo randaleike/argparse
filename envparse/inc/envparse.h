@@ -33,9 +33,15 @@
 #include <iostream>
 #include "varg_intf.h"
 #include "parser_base.h"
+#if defined(_WIN64) || defined(_WIN32)
+    #include <windows.h>
+#endif
+
 
 namespace argparser
 {
+
+const size_t bufferSize = 4096;         ///< Size of the environment read buffer if needed   
 
 /**
 * @brief Class definition
@@ -46,8 +52,20 @@ class envparser : public parser_base
 {
     private:
         int     debugMsgLevel;
+        #if defined(_WIN64) || defined(_WIN32)
+            TCHAR envRetBuffer[bufferSize];         ///< Environment value read buffer for getEnvironmentVar() method
+        #endif
 
     protected:
+        /**
+         * @brief Get the Environment Var value
+         * 
+         * @param searchName - Name of the environment varable to find
+         * @param envValue - Reference to a string to store the response in
+         * 
+         * @return bool - true if the search name was found, else false if not 
+         */
+        bool getEnvironmentVar(parserstr searchName, parserstr& envValue);
 
     public:
         /**
