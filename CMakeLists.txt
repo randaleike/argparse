@@ -39,10 +39,16 @@ endif()
 ####
 # Gtest setup
 ####
+if(DEFINED ENV{GITHUB_ACTION})
+    set(GTEST_GITHUB_REPO https://randaleike:$ENV{GTEST_FETCH}@github.com/google/googletest)
+else()
+    set(GTEST_GITHUB_REPO https://github.com/google/googletest)
+endif()
+
 include(CTest)
 include(FetchContent)
 FetchContent_Declare(googletest
-    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_REPOSITORY ${GTEST_GITHUB_REPO}
     GIT_TAG v1.15.2)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
