@@ -170,15 +170,17 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     set(DOXYGEN_COUT ${CMAKE_BINARY_DIR}/Doxyfile-c)
     configure_file(${DOXYGEN_CIN} ${DOXYGEN_COUT} @ONLY)
 
-    find_package(Doxygen)
-    message("Doxygen build started")
-    add_custom_target(${PROJECT_NAME}_gendoc
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_COUT}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM )
-
+    if(DEFINED ENV{GITHUB_ACTION})
+    else()
+        find_package(Doxygen)
+        message("Doxygen build started")
+        add_custom_target(${PROJECT_NAME}_gendoc
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_COUT}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM )
+        endif()
 endif()
 
 ####

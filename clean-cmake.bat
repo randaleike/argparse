@@ -17,6 +17,11 @@ if exist .\build-cl-debug\ (
     rmdir /S /Q .\build-gcc-debug
 )
 
+REM Remove Testing
+if exist .\Testing\ (
+    rmdir /S /Q .\Testing
+)
+
 REM Remove log file if it exists
 if exist test-cmake-win.log (
     del test-cmake-win.log
