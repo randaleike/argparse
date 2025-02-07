@@ -45,14 +45,14 @@ const int    testValue       = 10;
 //======================================================================================
 parserstr getDefaultUsage(parserstr inputuseage = "%(prog) [options]")
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return parserStr->getUsageMessage() + "\n" + inputuseage;
+    argparser::BaseParserStringList parserStr;
+    return parserStr.getUsageMessage() + "\n" + inputuseage;
 }
 
 parserstr getOptionArgMsg()
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return "\n"+parserStr->getSwitchArgumentsMessage()+"\n";
+    argparser::BaseParserStringList parserStr;
+    return "\n"+parserStr.getSwitchArgumentsMessage()+"\n";
 }
 
 parserstr getOptionMsg(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
@@ -90,8 +90,8 @@ parserstr getDescriptionStr(parserstr descstr)
 
 parserstr getPositionalArgMsg()
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return "\n"+parserStr->getPositionalArgumentsMessage()+"\n";
+    argparser::BaseParserStringList parserStr;
+    return "\n"+parserStr.getPositionalArgumentsMessage()+"\n";
 }
 
 parserstr getPositionalMsg(parserstr name, parserstr help, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)

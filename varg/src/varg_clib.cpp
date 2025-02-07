@@ -217,7 +217,7 @@ argHandle createIncrementingArg(int* incValueAddr)
 argHandle createShortIntArrayParserArg(short int* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<short int>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<short int>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -232,7 +232,7 @@ argHandle createShortIntArrayParserArg(short int* valueArray, size_t arraySize)
 argHandle createIntArrayParserArg(int* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<int>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<int>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -247,7 +247,7 @@ argHandle createIntArrayParserArg(int* valueArray, size_t arraySize)
 argHandle createLongIntArrayParserArg(long int* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<long int>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<long int>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -262,7 +262,7 @@ argHandle createLongIntArrayParserArg(long int* valueArray, size_t arraySize)
 argHandle createLLongIntArrayParserArg(long long int* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<long long int>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<long long int>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -277,7 +277,7 @@ argHandle createLLongIntArrayParserArg(long long int* valueArray, size_t arraySi
 argHandle createShortUIntArrayParserArg(short unsigned* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<short unsigned>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<short unsigned>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -292,7 +292,7 @@ argHandle createShortUIntArrayParserArg(short unsigned* valueArray, size_t array
 argHandle createUIntArrayParserArg(unsigned* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<unsigned>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<unsigned>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -307,7 +307,7 @@ argHandle createUIntArrayParserArg(unsigned* valueArray, size_t arraySize)
 argHandle createLongUIntArrayParserArg(long unsigned* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<long unsigned>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<long unsigned>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -322,7 +322,7 @@ argHandle createLongUIntArrayParserArg(long unsigned* valueArray, size_t arraySi
 argHandle createLLUIntArrayParserArg(long long unsigned* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<long long unsigned>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<long long unsigned>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -337,7 +337,7 @@ argHandle createLLUIntArrayParserArg(long long unsigned* valueArray, size_t arra
 argHandle createDoubleArrayParserArg(double* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
-    argument->vararg = new argparser::vargcarray<double>(valueArray, arraySize);
+    argument->vararg = new argparser::vargcarray<double>(valueArray, arraySize); // NOLINT
     return argument;
 }
 
@@ -352,7 +352,7 @@ argHandle createDoubleArrayParserArg(double* valueArray, size_t arraySize)
 argHandle createStringArrayParserArg(char* valueArray, size_t arraySize)
 {
     cvarptr* argument = new cvarptr;        // NOLINT
-    argument->vararg = new argparser::vargcstring(valueArray, arraySize);
+    argument->vararg = new argparser::vargcstring(valueArray, arraySize); // NOLINT
     return argument;
 }
 

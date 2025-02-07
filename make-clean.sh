@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 #check the input
 if [ "$1" != "Debug" && "$1" != "Release" ]
 then
@@ -24,11 +25,11 @@ case "$2" in
 esac
 
 # Clean the old build files
-if [ ! -d "./build" ]
+if [ -d "./build" ]
 then
     rm -rf ./build
 fi
-if [ ! -d "./Testing" ]
+if [ -d "./Testing" ]
 then
     rm -rf ./Testing
 fi

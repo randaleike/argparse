@@ -130,7 +130,7 @@ void config_json_parse::displayHelp(std::ostream &outStream)
     if (!parser_base::isKeyArgListEmpty())
     {
         // Display the key arguments help
-        outStream << parser_base::getParserStringList()->getJsonArgumentsMessage() << std::endl;
+        outStream << parser_base::getParserStringList().getJsonArgumentsMessage() << std::endl;
         for (auto const& keyArg : parser_base::getKeyArgList())
         {
             // Display the arg block

@@ -55,8 +55,7 @@ constexpr size_t DefaultOptionWidth = 0;
 parser_base::parser_base(bool abortOnError, int debugLevel) :
     maxColumnWidth(DefaultColumnWidth), maxOptionLength(DefaultOptionWidth),
     keyListDelimeter(','), assignmentDelimeter('='), assignmentListDelimeter(','),
-    errorAbort(abortOnError), debugMsgLevel(debugLevel), parsingError(false),
-    parserStringList(BaseParserStringList::getInternationalizedClass())
+    errorAbort(abortOnError), debugMsgLevel(debugLevel), parsingError(false)
 {
     keyArgList.clear();
     dummyEntry = {};
@@ -175,7 +174,7 @@ size_t parser_base::addArgKeyList(ArgEntry& arg, parserstr inputKeyList) const
     }
 
     // Add the last one
-    if (inputString.length() != 0)
+    if (!inputString.empty())
     {
         // Erase any trailing spaces preceeding the delimeter
         while (' ' == inputString.back())
@@ -223,7 +222,7 @@ size_t parser_base::getValueList(parserstr& valueString, std::list<parserstr>& v
         }
 
         // Add the last one
-        if (valueString.length() != 0)
+        if (!valueString.empty())
         {
             valueList.push_back(valueString);
             addedCount++;
@@ -301,8 +300,20 @@ eAssignmentReturn parser_base::assignKeyFlagValue(ArgEntry& currentArg)
  */
 eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue)
 {
-    return ((assignmentValue.empty()) ? eAssignNoValue :
-                ((valueParseStatus_e::PARSE_SUCCESS_e == currentArg.argData->setValue(assignmentValue.c_str())) ? eAssignSuccess : eAssignFailed));
+    eAssignmentReturn status = eAssignSuccess;
+    if (assignmentValue.empty())
+    {
+        status = eAssignNoValue;
+    }
+    else
+    {
+        valueParseStatus_e assignStatus = currentArg.argData->setValue(assignmentValue.c_str());
+        if (valueParseStatus_e::PARSE_SUCCESS_e != assignStatus)
+        {
+            status = eAssignFailed;
+        }
+    }
+    return status;
 }
 
 /**
@@ -367,8 +378,8 @@ eAssignmentReturn parser_base::assignListKeyValue(ArgEntry& currentArg, std::lis
 void parser_base::displayArgHelpBlock(std::ostream &outStream, parserstr baseOptionText, parserstr baseHelpText, size_t optionWidth, size_t helpWidth)
 {
     // Format the columns
-    std::list<parserstr> helpTextList = parserStringList->formatStringToLength(baseHelpText, parserStringList->getDefaultBreakCharList(), helpWidth);
-    std::list<parserstr> optionTextList = parserStringList->formatStringToLength(baseOptionText, {'<',' '}, optionWidth);
+    std::list<parserstr> helpTextList = parserStringList.formatStringToLength(baseHelpText, parserStringList.getDefaultBreakCharList(), helpWidth);
+    std::list<parserstr> optionTextList = parserStringList.formatStringToLength(baseOptionText, {'<',' '}, optionWidth);
 
     // Output the column text
     while ((!helpTextList.empty()) || (!optionTextList.empty()))

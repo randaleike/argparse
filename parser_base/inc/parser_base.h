@@ -108,11 +108,12 @@ class parser_base
 
         // Parse tracking data
         bool                    parsingError;                   ///< Set to true if any parsing error was detected.
-        BaseParserStringList*   parserStringList;               ///< Parser string list
+        BaseParserStringList    parserStringList;               ///< Parser string list
 
     protected:
+        BaseParserStringList& getParserStringList()                 {return parserStringList;}
+
         [[nodiscard]] parserchar getKeyListDelimeter() const        {return keyListDelimeter;}
-        BaseParserStringList* getParserStringList()                 {return parserStringList;}
 
         [[nodiscard]] parserchar getAssignmentDelimeter() const     {return assignmentDelimeter;}
         [[nodiscard]] parserchar getAssignmentListDelimeter() const {return assignmentListDelimeter;}

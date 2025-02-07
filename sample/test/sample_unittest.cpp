@@ -37,19 +37,19 @@ Copyright (c) 2022-2023 Randal Eike
 #include <gtest/gtest.h>
 
 #if defined(__linux__) || defined(__unix__)
-    const char* sample1 = "./sample1";
-    const char* sample2 = "./sample2";
-    const char* sample3 = "./sample3";
-    const char* sample4 = "./sample4";
-    const char* sample5 = "./sample5";
-    const char* sample6 = "./sample6";
+    const std::string sample1("./sample1");
+    const std::string sample2("./sample2");
+    const std::string sample3("./sample3");
+    const std::string sample4("./sample4");
+    const std::string sample5("./sample5");
+    const std::string sample6("./sample6");
 #elif defined(_WIN64) || defined(_WIN32)
-    const char* sample1 = "sample1.exe";
-    const char* sample2 = "sample2.exe";
-    const char* sample3 = "sample3.exe";
-    const char* sample4 = "sample4.exe";
-    const char* sample5 = "sample5.exe";
-    const char* sample6 = "sample6.exe";
+    const std::string sample1("sample1.exe");
+    const std::string sample2("sample2.exe");
+    const std::string sample3("sample3.exe");
+    const std::string sample4("sample4.exe");
+    const std::string sample5("sample5.exe");
+    const std::string sample6("sample6.exe");
 #else
     #error "Define getenv for this OS!"
 #endif
@@ -58,7 +58,7 @@ Copyright (c) 2022-2023 Randal Eike
 TEST(sample1, example1)
 {
     testing::internal::CaptureStdout();
-    EXPECT_EQ(0, std::system(sample1));
+    EXPECT_EQ(0, std::system(sample1.c_str()));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 1 Number of arguments parsed: 1\n";
@@ -146,7 +146,7 @@ TEST(sample2, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample2));
+    EXPECT_EQ(0, std::system(sample2.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -220,7 +220,7 @@ TEST(sample3, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample3));
+    EXPECT_EQ(0, std::system(sample3.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -414,7 +414,7 @@ TEST(sample4, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample4));
+    EXPECT_EQ(0, std::system(sample4.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -713,7 +713,7 @@ TEST(sample5, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample5));
+    EXPECT_EQ(0, std::system(sample5.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -847,7 +847,7 @@ TEST(sample5, example6)
 TEST(sample6, example1)
 {
     testing::internal::CaptureStdout();
-    EXPECT_EQ(0, std::system(sample6));
+    EXPECT_EQ(0, std::system(sample6.c_str()));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 1 Number of arguments parsed: 1\n";

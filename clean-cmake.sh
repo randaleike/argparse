@@ -31,7 +31,7 @@ then
 fi
 
 # Remove the testing output
-if [ ! -d "./Testing" ]
+if [ -d "./Testing" ]
 then
     rm -rf ./Testing
 fi

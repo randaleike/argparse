@@ -106,7 +106,7 @@ class test_parser_base : public argparser::parser_base
         size_t getMaxOptionLength()                     {return argparser::parser_base::getMaxOptionLength();}
 
         void   addArgument(argparser::ArgEntry& arg)    {argparser::parser_base::addKeyArgListEntry(arg);}
-        argparser::BaseParserStringList* getStringList() {return argparser::parser_base::getParserStringList();}
+        argparser::BaseParserStringList& getStringList() {return argparser::parser_base::getParserStringList();}
 };
 
 //======================================================================================

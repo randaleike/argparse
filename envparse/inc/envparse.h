@@ -41,7 +41,7 @@
 namespace argparser
 {
 
-const size_t bufferSize = 4096;         ///< Size of the environment read buffer if needed   
+const size_t bufferSize = 4096;         ///< Size of the environment read buffer if needed
 
 /**
 * @brief Class definition
@@ -59,13 +59,13 @@ class envparser : public parser_base
     protected:
         /**
          * @brief Get the Environment Var value
-         * 
+         *
          * @param searchName - Name of the environment varable to find
          * @param envValue - Reference to a string to store the response in
-         * 
-         * @return bool - true if the search name was found, else false if not 
+         *
+         * @return bool - true if the search name was found, else false if not
          */
-        bool getEnvironmentVar(parserstr searchName, parserstr& envValue);
+        static bool getEnvironmentVar(parserstr searchName, parserstr& envValue);
 
     public:
         /**

@@ -45,14 +45,14 @@ const int    testValue       = 10;
 
 parserstr getDefaultUsage_clib(parserstr inputuseage)
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return parserStr->getUsageMessage() + "\n" + inputuseage;
+    argparser::BaseParserStringList parserStr;
+    return parserStr.getUsageMessage() + "\n" + inputuseage;
 }
 
 parserstr getOptionArgMsg_clib()
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return "\n"+parserStr->getSwitchArgumentsMessage()+"\n";
+    argparser::BaseParserStringList parserStr;
+    return "\n"+parserStr.getSwitchArgumentsMessage()+"\n";
 }
 
 parserstr getOptionMsg_clib(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
@@ -89,8 +89,8 @@ parserstr getDescriptionStr_clib(parserstr descstr)
 
 parserstr getPositionalArgMsg_clib()
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return "\n"+parserStr->getPositionalArgumentsMessage()+"\n";
+    argparser::BaseParserStringList parserStr;
+    return "\n"+parserStr.getPositionalArgumentsMessage()+"\n";
 }
 
 parserstr getPositionalMsg_clib(parserstr name, parserstr help, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)

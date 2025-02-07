@@ -55,8 +55,8 @@ const int    testValue = 10;
 //======================================================================================
 parserstr getEnvHelpHeader()
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return parserStr->getEnvArgumentsMessage()+"\n";
+    argparser::BaseParserStringList parserStr;
+    return parserStr.getEnvArgumentsMessage()+"\n";
 }
 
 parserstr getEnvKeyHelpMsg(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth, size_t consoleWidth = defaultColWidth)

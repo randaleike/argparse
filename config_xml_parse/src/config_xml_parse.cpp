@@ -130,7 +130,7 @@ void config_xml_parse::displayHelp(std::ostream &outStream)
     if (!parser_base::isKeyArgListEmpty())
     {
         // Display the key arguments help
-        outStream << parser_base::getParserStringList()->getXmlArgumentsMessage() << std::endl;
+        outStream << parser_base::getParserStringList().getXmlArgumentsMessage() << std::endl;
         for (auto const& keyArg : parser_base::getKeyArgList())
         {
             // Display the arg block

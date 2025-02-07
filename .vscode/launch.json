@@ -104,10 +104,10 @@
             ]
         },
         {
-            "name": "sample-unittest unittest (gdb) Launch",
+            "name": "samples-unittest unittest (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample-unittest",
+            "program": "${workspaceFolder}/build/samples-unittest",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -132,10 +132,10 @@
         // Sample1 debug launch examples
         //========================================================
         {
-            "name": "sample1.exe example1 (gdb) Launch",
+            "name": "sample1 example1 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample1.exe",
+            "program": "${workspaceFolder}/build/sample1",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -156,10 +156,10 @@
             ]
         },
         {
-            "name": "sample1.exe example2 (gdb) Launch",
+            "name": "sample1 example2 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample1.exe",
+            "program": "${workspaceFolder}/build/sample1",
             "args": ["-f", "-c", "-i", "8", "-o", "bar", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -180,10 +180,10 @@
             ]
         },
         {
-            "name": "sample1.exe example3 (gdb) Launch",
+            "name": "sample1 example3 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample1.exe",
+            "program": "${workspaceFolder}/build/sample1",
             "args": ["-fci", "7", "-o", "bar", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -204,10 +204,10 @@
             ]
         },
         {
-            "name": "sample1.exe example4 (gdb) Launch",
+            "name": "sample1 example4 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample1.exe",
+            "program": "${workspaceFolder}/build/sample1",
             "args": ["--flag", "-c", "-c", "--count", "--input", "6", "--output", "bar", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -228,10 +228,10 @@
             ]
         },
         {
-            "name": "sample1.exe example5 (gdb) Launch",
+            "name": "sample1 example5 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample1.exe",
+            "program": "${workspaceFolder}/build/sample1",
             "args": ["-fcccc", "-o", "bar", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -256,10 +256,10 @@
         // Sample2 debug launch examples
         //========================================================
         {
-            "name": "sample2.exe example1 (gdb) Launch",
+            "name": "sample2 example1 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample2.exe",
+            "program": "${workspaceFolder}/build/sample2",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -280,10 +280,10 @@
             ]
         },
         {
-            "name": "sample2.exe example2 (gdb) Launch",
+            "name": "sample2 example2 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample2.exe",
+            "program": "${workspaceFolder}/build/sample2",
             "args": ["-o", "bar"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -304,10 +304,10 @@
             ]
         },
         {
-            "name": "sample2.exe example3 (gdb) Launch",
+            "name": "sample2 example3 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample2.exe",
+            "program": "${workspaceFolder}/build/sample2",
             "args": ["-f", "-c", "-i", "8", "-o", "bar", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -332,10 +332,10 @@
         // Sample3 debug launch examples
         //========================================================
         {
-            "name": "sample3.exe example1 (gdb) Launch",
+            "name": "sample3 example1 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -356,10 +356,10 @@
             ]
         },
         {
-            "name": "sample3.exe example2 (gdb) Launch",
+            "name": "sample3 example2 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["one"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -380,10 +380,10 @@
             ]
         },
         {
-            "name": "sample3.exe example3 (gdb) Launch",
+            "name": "sample3 example3 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["one", "-c"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -404,10 +404,10 @@
             ]
         },
         {
-            "name": "sample3.exe example4 (gdb) Launch",
+            "name": "sample3 example4 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["two"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -428,10 +428,10 @@
             ]
         },
         {
-            "name": "sample3.exe example5 (gdb) Launch",
+            "name": "sample3 example5 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["two", "-i", "7"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -452,10 +452,10 @@
             ]
         },
         {
-            "name": "sample3.exe example6 (gdb) Launch",
+            "name": "sample3 example6 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["three"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -476,10 +476,10 @@
             ]
         },
         {
-            "name": "sample3.exe example7 (gdb) Launch",
+            "name": "sample3 example7 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["three", "-o", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -500,10 +500,10 @@
             ]
         },
         {
-            "name": "sample3.exe example8 (gdb) Launch",
+            "name": "sample3 example8 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["three", "-V", "-o", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -524,10 +524,10 @@
             ]
         },
         {
-            "name": "sample3.exe example9 (gdb) Launch",
+            "name": "sample3 example9 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample3.exe",
+            "program": "${workspaceFolder}/build/sample3",
             "args": ["four"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -552,10 +552,10 @@
         // Sample4 debug launch examples
         //========================================================
         {
-            "name": "sample4.exe example1 (gdb) Launch",
+            "name": "sample4 example1 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -576,10 +576,10 @@
             ]
         },
         {
-            "name": "sample4.exe example2 (gdb) Launch",
+            "name": "sample4 example2 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["one"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -600,10 +600,10 @@
             ]
         },
         {
-            "name": "sample4.exe example3 (gdb) Launch",
+            "name": "sample4 example3 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["-Ui", "4", "one"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -624,10 +624,10 @@
             ]
         },
         {
-            "name": "sample4.exe example4 (gdb) Launch",
+            "name": "sample4 example4 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["-Ui", "4", "one", "-c"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -648,10 +648,10 @@
             ]
         },
         {
-            "name": "sample4.exe example5 (gdb) Launch",
+            "name": "sample4 example5 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["one", "-ccc"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -672,10 +672,10 @@
             ]
         },
         {
-            "name": "sample4.exe example6 (gdb) Launch",
+            "name": "sample4 example6 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["two"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -696,10 +696,10 @@
             ]
         },
         {
-            "name": "sample4.exe example7 (gdb) Launch",
+            "name": "sample4 example7 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["-Ui=3","two"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -720,10 +720,10 @@
             ]
         },
         {
-            "name": "sample4.exe example8 (gdb) Launch",
+            "name": "sample4 example8 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["-Ui=3","two", "-i", "8"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -744,10 +744,10 @@
             ]
         },
         {
-            "name": "sample4.exe example9 (gdb) Launch",
+            "name": "sample4 example9 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["two", "-i", "10"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -768,10 +768,10 @@
             ]
         },
         {
-            "name": "sample4.exe example10 (gdb) Launch",
+            "name": "sample4 example10 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["three"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -792,10 +792,10 @@
             ]
         },
         {
-            "name": "sample4.exe example11 (gdb) Launch",
+            "name": "sample4 example11 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["three", "-o", "foo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -816,10 +816,10 @@
             ]
         },
         {
-            "name": "sample4.exe example12 (gdb) Launch",
+            "name": "sample4 example12 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["-U", "three", "-o", "goo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -840,10 +840,10 @@
             ]
         },
         {
-            "name": "sample4.exe example13 (gdb) Launch",
+            "name": "sample4 example13 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample4.exe",
+            "program": "${workspaceFolder}/build/sample4",
             "args": ["-U", "-i", "6", "three", "-o", "moo"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -868,10 +868,10 @@
         // Sample5 debug launch examples
         //========================================================
         {
-            "name": "sample5.exe example1 (gdb) Launch",
+            "name": "sample5 example1 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample5.exe",
+            "program": "${workspaceFolder}/build/sample5",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -892,10 +892,10 @@
             ]
         },
         {
-            "name": "sample5.exe example2 (gdb) Launch",
+            "name": "sample5 example2 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample5.exe",
+            "program": "${workspaceFolder}/build/sample5",
             "args": ["read"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -916,10 +916,10 @@
             ]
         },
         {
-            "name": "sample5.exe example3 (gdb) Launch",
+            "name": "sample5 example3 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample5.exe",
+            "program": "${workspaceFolder}/build/sample5",
             "args": ["read", "-l", "4", "-f", "foo.c"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -940,10 +940,10 @@
             ]
         },
         {
-            "name": "sample5.exe example4 (gdb) Launch",
+            "name": "sample5 example4 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample5.exe",
+            "program": "${workspaceFolder}/build/sample5",
             "args": ["write", "-l", "4", "-f", "foo.c"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -964,10 +964,10 @@
             ]
         },
         {
-            "name": "sample5.exe example5 (gdb) Launch",
+            "name": "sample5 example5 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample5.exe",
+            "program": "${workspaceFolder}/build/sample5",
             "args": ["append", "-l", "4", "-f", "foo.c"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -988,10 +988,10 @@
             ]
         },
         {
-            "name": "sample5.exe example6 (gdb) Launch",
+            "name": "sample5 example6 (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/sample5.exe",
+            "program": "${workspaceFolder}/build/sample5",
             "args": ["copy", "-l", "4", "-f", "foo.c"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
