@@ -85,7 +85,7 @@ class config_xml_parse : public parser_base
          *
          * @param other - Source object for the copy
          */
-        config_xml_parse& operator=(config_xml_parse&& other);
+        config_xml_parse& operator=(config_xml_parse&& other) noexcept;
 
         /**
          * @brief Destructor

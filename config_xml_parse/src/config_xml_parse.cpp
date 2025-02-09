@@ -65,7 +65,7 @@ config_xml_parse& config_xml_parse::operator=(const config_xml_parse& other)
 *
 * @param other - Source object for the copy
 */
-config_xml_parse& config_xml_parse::operator=(config_xml_parse&& other)
+config_xml_parse& config_xml_parse::operator=(config_xml_parse&& other) noexcept
 {
     if (this != &other)
     {

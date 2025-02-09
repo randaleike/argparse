@@ -65,7 +65,7 @@ config_json_parse& config_json_parse::operator=(const config_json_parse& other)
 *
 * @param other - Source object for the copy
 */
-config_json_parse& config_json_parse::operator=(config_json_parse&& other)
+config_json_parse& config_json_parse::operator=(config_json_parse&& other) noexcept
 {
     if (this != &other)
     {

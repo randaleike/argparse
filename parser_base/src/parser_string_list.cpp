@@ -103,7 +103,7 @@ void BaseParserStringList::intializeMessageGenerator()
         else
         {
             // default to US english
-            msgGeneration = new ParserStringListInterfaceEnglish;
+            msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
         }
     }
     else

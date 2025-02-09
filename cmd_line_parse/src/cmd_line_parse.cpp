@@ -131,7 +131,7 @@ void cmd_line_parse::addDefaultHelpArgument()
     }
 
     // Add the argument to the key argument list
-    helpFlag = new varg<bool>(false, true);
+    helpFlag = new varg<bool>(false, true); // NOLINT
     addKeyArgument(helpFlag, "help", keyList, parser_base::getParserStringList().getHelpString(), 0, false);
 }
 
@@ -516,7 +516,7 @@ cmd_line_parse::cmd_line_parse(const cmd_line_parse& other) :
     }
 }
 
-cmd_line_parse::cmd_line_parse(cmd_line_parse&& other) :
+cmd_line_parse::cmd_line_parse(cmd_line_parse&& other) noexcept :
     parser_base(other), programName(other.programName),
     usageText(other.usageText), descriptionText(other.descriptionText), keyPrefix(other.keyPrefix),
     displayHelpOnError(other.displayHelpOnError), enableDefaultHelp(other.enableDefaultHelp),
@@ -564,7 +564,7 @@ cmd_line_parse& cmd_line_parse::operator=(const cmd_line_parse& other)
     return *this;
 }
 
-cmd_line_parse& cmd_line_parse::operator=(cmd_line_parse&& other)
+cmd_line_parse& cmd_line_parse::operator=(cmd_line_parse&& other) noexcept
 {
     if (this != &other)
     {

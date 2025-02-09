@@ -86,7 +86,7 @@ class config_json_parse : public parser_base
          *
          * @param other - Source object for the copy
          */
-        config_json_parse& operator=(config_json_parse&& other);
+        config_json_parse& operator=(config_json_parse&& other) noexcept;
 
         /**
          * @brief Destructor

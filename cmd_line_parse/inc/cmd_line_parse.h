@@ -206,7 +206,7 @@ class cmd_line_parse : public parser_base
          *
          * @param other - Source object for the copy
          */
-        cmd_line_parse(cmd_line_parse&& other);
+        cmd_line_parse(cmd_line_parse&& other) noexcept;
 
         /**
          * @brief Copy Assignment Constructor
@@ -220,7 +220,7 @@ class cmd_line_parse : public parser_base
          *
          * @param other - Source object for the copy
          */
-        cmd_line_parse& operator=(cmd_line_parse&& other);
+        cmd_line_parse& operator=(cmd_line_parse&& other) noexcept;
 
         /**
          * @brief Destructor
@@ -356,8 +356,6 @@ class cmd_line_parse : public parser_base
          */
         void setPositionalNameStop(const char* positionalArgumentName);
 
-//#pragma clang diagnostic push
-//#pragma clang diagnostic ignored "-Wundef-modernize-array-parameters"
         /**
          * @brief Parse the input command line arguments
          *
@@ -368,8 +366,7 @@ class cmd_line_parse : public parser_base
          *
          * @return int - Index of the last argument parsed or -1 if an error occured
          */
-        int parse(int argc, char* argv[], int startingArgIndex = 1, int endingArgIndex = -1);
-//#pragma clang diagnostic pop
+        int parse(int argc, char* argv[], int startingArgIndex = 1, int endingArgIndex = -1);  // NOLINT
 
         /**
          * @brief Print the formatted option help message to the input stream
