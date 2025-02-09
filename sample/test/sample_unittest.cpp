@@ -37,7 +37,7 @@ Copyright (c) 2022-2023 Randal Eike
 #include <gtest/gtest.h>
 
 #if defined(__linux__) || defined(__unix__)
-    const std::string sample1exe("sample1");
+    const std::string sample1exe("./sample1");
     const std::string sample2exe("./sample2");
     const std::string sample3exe("./sample3");
     const std::string sample4exe("./sample4");
