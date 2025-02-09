@@ -173,7 +173,6 @@ void enableUnknowArgumentIgnore(cmdLineParserHandle parser)
 {
     if (parser != nullptr)
     {
-        parser->object = static_cast<argparser::cmd_line_parse*>(parser->object);
         parser->object->enableUnknowArgumentIgnore();
     }
 }

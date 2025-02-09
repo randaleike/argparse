@@ -65,7 +65,13 @@ class envparser : public parser_base
          *
          * @return bool - true if the search name was found, else false if not
          */
+#if defined(__linux__) || defined(__unix__)
         static bool getEnvironmentVar(parserstr searchName, parserstr& envValue);
+#elif defined(_WIN64) || defined(_WIN32)
+        bool getEnvironmentVar(parserstr searchName, parserstr& envValue);
+#else
+    #error "Define getEnvironmentVar() method for this OS!"
+#endif
 
     public:
         /**

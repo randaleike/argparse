@@ -33,10 +33,10 @@
 #include <cstddef>
 #include <cstdlib>
 #include <cstdio>
+#include <memory>
 #include <string>
 #include <list>
 #include <iostream>
-#include <utility>
 
 #define DYNAMIC_INTERNATIONALIZATION    1
 using parserstr = std::string;          ///< Standard parser string definition
@@ -160,9 +160,9 @@ class BaseParserStringList
     public:
         BaseParserStringList();
         BaseParserStringList(const BaseParserStringList& other);
-        BaseParserStringList(BaseParserStringList&& other);
+        BaseParserStringList(BaseParserStringList&& other) noexcept;
         BaseParserStringList& operator=(const BaseParserStringList& other);
-        BaseParserStringList& operator=(BaseParserStringList&& other);
+        BaseParserStringList& operator=(BaseParserStringList&& other) noexcept;
         ~BaseParserStringList();
 
         // Generic utility

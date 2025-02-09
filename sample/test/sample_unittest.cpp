@@ -37,19 +37,19 @@ Copyright (c) 2022-2023 Randal Eike
 #include <gtest/gtest.h>
 
 #if defined(__linux__) || defined(__unix__)
-    const std::string sample1("./sample1");
-    const std::string sample2("./sample2");
-    const std::string sample3("./sample3");
-    const std::string sample4("./sample4");
-    const std::string sample5("./sample5");
-    const std::string sample6("./sample6");
+    const std::string sample1exe("sample1");
+    const std::string sample2exe("./sample2");
+    const std::string sample3exe("./sample3");
+    const std::string sample4exe("./sample4");
+    const std::string sample5exe("./sample5");
+    const std::string sample6exe("./sample6");
 #elif defined(_WIN64) || defined(_WIN32)
-    const std::string sample1("sample1.exe");
-    const std::string sample2("sample2.exe");
-    const std::string sample3("sample3.exe");
-    const std::string sample4("sample4.exe");
-    const std::string sample5("sample5.exe");
-    const std::string sample6("sample6.exe");
+    const std::string sample1exe("sample1.exe");
+    const std::string sample2exe("sample2.exe");
+    const std::string sample3exe("sample3.exe");
+    const std::string sample4exe("sample4.exe");
+    const std::string sample5exe("sample5.exe");
+    const std::string sample6exe("sample6.exe");
 #else
     #error "Define getenv for this OS!"
 #endif
@@ -58,7 +58,7 @@ Copyright (c) 2022-2023 Randal Eike
 TEST(sample1, example1)
 {
     testing::internal::CaptureStdout();
-    EXPECT_EQ(0, std::system(sample1.c_str()));
+    EXPECT_EQ(0, std::system(sample1exe.c_str()));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 1 Number of arguments parsed: 1\n";
@@ -72,7 +72,7 @@ TEST(sample1, example1)
 
 TEST(sample1, example2)
 {
-    std::string cmd = sample1;
+    std::string cmd = sample1exe;
     cmd += " -f -c -i 8 -o bar foo";
     testing::internal::CaptureStdout();
 
@@ -90,7 +90,7 @@ TEST(sample1, example2)
 
 TEST(sample1, example3)
 {
-    std::string cmd = sample1;
+    std::string cmd = sample1exe;
     cmd += " -fci 7 -o bar foo";
 
     testing::internal::CaptureStdout();
@@ -108,7 +108,7 @@ TEST(sample1, example3)
 
 TEST(sample1, example4)
 {
-    std::string cmd = sample1;
+    std::string cmd = sample1exe;
     cmd += " --flag -c -c --count --input 6 --output bar foo";
 
     testing::internal::CaptureStdout();
@@ -126,7 +126,7 @@ TEST(sample1, example4)
 
 TEST(sample1, example5)
 {
-    std::string cmd = sample1;
+    std::string cmd = sample1exe;
     cmd += "  -fcccc -o bar foo";
 
     testing::internal::CaptureStdout();
@@ -146,7 +146,7 @@ TEST(sample2, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample2.c_str()));
+    EXPECT_EQ(0, std::system(sample2exe.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -171,7 +171,7 @@ TEST(sample2, example1)
 
 TEST(sample2, example2)
 {
-    std::string cmd = sample2;
+    std::string cmd = sample2exe;
     cmd += " -o bar";
 
     testing::internal::CaptureStdout();
@@ -200,7 +200,7 @@ TEST(sample2, example2)
 
 TEST(sample2, example3)
 {
-    std::string cmd = sample2;
+    std::string cmd = sample2exe;
     cmd += " -f -c -i 8 -o bar foo";
 
     testing::internal::CaptureStdout();
@@ -220,7 +220,7 @@ TEST(sample3, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample3.c_str()));
+    EXPECT_EQ(0, std::system(sample3exe.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -241,7 +241,7 @@ TEST(sample3, example1)
 
 TEST(sample3, example2)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " one";
 
     testing::internal::CaptureStdout();
@@ -261,7 +261,7 @@ TEST(sample3, example2)
 
 TEST(sample3, example3)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " one -c";
 
     testing::internal::CaptureStdout();
@@ -281,7 +281,7 @@ TEST(sample3, example3)
 
 TEST(sample3, example4)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " two";
 
     testing::internal::CaptureStdout();
@@ -301,7 +301,7 @@ TEST(sample3, example4)
 
 TEST(sample3, example5)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " two -i 7";
 
     testing::internal::CaptureStdout();
@@ -321,7 +321,7 @@ TEST(sample3, example5)
 
 TEST(sample3, example6)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " three";
 
     testing::internal::CaptureStdout();
@@ -356,7 +356,7 @@ TEST(sample3, example6)
 
 TEST(sample3, example7)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " three -o foo";
 
     testing::internal::CaptureStdout();
@@ -376,7 +376,7 @@ TEST(sample3, example7)
 
 TEST(sample3, example8)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " three -V -o foo";
 
     testing::internal::CaptureStdout();
@@ -396,7 +396,7 @@ TEST(sample3, example8)
 
 TEST(sample3, example9)
 {
-    std::string cmd = sample3;
+    std::string cmd = sample3exe;
     cmd += " four";
 
     testing::internal::CaptureStdout();
@@ -414,7 +414,7 @@ TEST(sample4, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample4.c_str()));
+    EXPECT_EQ(0, std::system(sample4exe.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -439,7 +439,7 @@ TEST(sample4, example1)
 
 TEST(sample4, example2)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " one";
 
     testing::internal::CaptureStdout();
@@ -461,7 +461,7 @@ TEST(sample4, example2)
 
 TEST(sample4, example3)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " -Ui 4 one";
 
     testing::internal::CaptureStdout();
@@ -483,7 +483,7 @@ TEST(sample4, example3)
 
 TEST(sample4, example4)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " -Ui 4 one -c";
 
     testing::internal::CaptureStdout();
@@ -505,7 +505,7 @@ TEST(sample4, example4)
 
 TEST(sample4, example5)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " one -ccc";
 
     testing::internal::CaptureStdout();
@@ -527,7 +527,7 @@ TEST(sample4, example5)
 
 TEST(sample4, example6)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " two";
 
     testing::internal::CaptureStdout();
@@ -549,7 +549,7 @@ TEST(sample4, example6)
 
 TEST(sample4, example7)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " -Ui=3 two";
 
     testing::internal::CaptureStdout();
@@ -571,7 +571,7 @@ TEST(sample4, example7)
 
 TEST(sample4, example8)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " -Ui=3 two -i 8";
 
     testing::internal::CaptureStdout();
@@ -593,7 +593,7 @@ TEST(sample4, example8)
 
 TEST(sample4, example9)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " two -i 10";
 
     testing::internal::CaptureStdout();
@@ -615,7 +615,7 @@ TEST(sample4, example9)
 
 TEST(sample4, example10)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " three";
 
     testing::internal::CaptureStdout();
@@ -645,7 +645,7 @@ TEST(sample4, example10)
 
 TEST(sample4, example11)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " three -o foo";
 
     testing::internal::CaptureStdout();
@@ -667,7 +667,7 @@ TEST(sample4, example11)
 
 TEST(sample4, example12)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " -U three -o goo";
 
     testing::internal::CaptureStdout();
@@ -689,7 +689,7 @@ TEST(sample4, example12)
 
 TEST(sample4, example13)
 {
-    std::string cmd = sample4;
+    std::string cmd = sample4exe;
     cmd += " -U -i 6 three -o moo";
 
     testing::internal::CaptureStdout();
@@ -713,7 +713,7 @@ TEST(sample5, example1)
 {
     testing::internal::CaptureStdout();
     testing::internal::CaptureStderr();
-    EXPECT_EQ(0, std::system(sample5.c_str()));
+    EXPECT_EQ(0, std::system(sample5exe.c_str()));
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
@@ -737,7 +737,7 @@ TEST(sample5, example1)
 
 TEST(sample5, example2)
 {
-    std::string cmd = sample5;
+    std::string cmd = sample5exe;
     cmd += " read";
 
     testing::internal::CaptureStdout();
@@ -757,7 +757,7 @@ TEST(sample5, example2)
 
 TEST(sample5, example3)
 {
-    std::string cmd = sample5;
+    std::string cmd = sample5exe;
     cmd += " read -l 4 -f foo.c";
 
     testing::internal::CaptureStdout();
@@ -777,7 +777,7 @@ TEST(sample5, example3)
 
 TEST(sample5, example4)
 {
-    std::string cmd = sample5;
+    std::string cmd = sample5exe;
     cmd += " write -l 16 -f moo.c";
 
     testing::internal::CaptureStdout();
@@ -797,7 +797,7 @@ TEST(sample5, example4)
 
 TEST(sample5, example5)
 {
-    std::string cmd = sample5;
+    std::string cmd = sample5exe;
     cmd += " append -l 8 -f goo.c";
 
     testing::internal::CaptureStdout();
@@ -817,7 +817,7 @@ TEST(sample5, example5)
 
 TEST(sample5, example6)
 {
-    std::string cmd = sample5;
+    std::string cmd = sample5exe;
     cmd += " copy -l 4 -f foo.c";
 
     testing::internal::CaptureStdout();
@@ -847,7 +847,7 @@ TEST(sample5, example6)
 TEST(sample6, example1)
 {
     testing::internal::CaptureStdout();
-    EXPECT_EQ(0, std::system(sample6.c_str()));
+    EXPECT_EQ(0, std::system(sample6exe.c_str()));
     std::string output = testing::internal::GetCapturedStdout();
 
     std::string expectedStr = "Number of arguments passed in: 1 Number of arguments parsed: 1\n";
@@ -861,7 +861,7 @@ TEST(sample6, example1)
 
 TEST(sample6, example2)
 {
-    std::string cmd = sample6;
+    std::string cmd = sample6exe;
     cmd += " -f -c -i 8 -o bar foo";
 
     testing::internal::CaptureStdout();
@@ -879,7 +879,7 @@ TEST(sample6, example2)
 
 TEST(sample6, example3)
 {
-    std::string cmd = sample6;
+    std::string cmd = sample6exe;
     cmd += " -fci 7 -o bar foo";
 
     testing::internal::CaptureStdout();
@@ -897,7 +897,7 @@ TEST(sample6, example3)
 
 TEST(sample6, example4)
 {
-    std::string cmd = sample6;
+    std::string cmd = sample6exe;
     cmd += " --flag -c -c --count --input 6 --output bar foo";
 
     testing::internal::CaptureStdout();
@@ -915,7 +915,7 @@ TEST(sample6, example4)
 
 TEST(sample6, example5)
 {
-    std::string cmd = sample6;
+    std::string cmd = sample6exe;
     cmd += " -fcccc -o bar foo";
 
     testing::internal::CaptureStdout();

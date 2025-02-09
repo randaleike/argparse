@@ -43,7 +43,7 @@
  */
 struct cmdLineParser
 {
-    argparser::cmd_line_parse*  object{nullptr};             ///< Command line parser object
+    argparser::cmd_line_parse*  object{nullptr};             ///< Command line parser object NOLINT
 };
 
 /** @} */

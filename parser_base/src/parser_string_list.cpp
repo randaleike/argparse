@@ -77,27 +77,27 @@ void BaseParserStringList::intializeMessageGenerator()
         parserstr langString = langSetting;
         if (langString == "en_US.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceEnglish;
+            msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
         }
         else if (langString == "en_UK.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceEnglish;
+            msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
         }
         else if (langString == "es_ES.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceSpanish;
+            msgGeneration = new ParserStringListInterfaceSpanish;   // NOLINT
         }
         else if (langString == "fr_FR.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceFrench;
+            msgGeneration = new ParserStringListInterfaceFrench;   // NOLINT
         }
         else if (langString == "zh_cn_utf8.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceChineseSimplified;
+            msgGeneration = new ParserStringListInterfaceChineseSimplified;   // NOLINT
         }
         else if (langString == "zh_tw_utf8.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceChineseSimplified;
+            msgGeneration = new ParserStringListInterfaceChineseSimplified;   // NOLINT
         }
         /// @todo add additional else if language support above here
         else
@@ -109,22 +109,22 @@ void BaseParserStringList::intializeMessageGenerator()
     else
     {
         // default to US english
-        msgGeneration = new ParserStringListInterfaceEnglish;
+        msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
     }
   #elif defined(_WIN64) || defined(_WIN32)
     LANGID langId = GetUserDefaultUILanguage();
     /// @todo implement windows language detection
-    msgGeneration = new ParserStringListInterfaceEnglish;
+    msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
   #endif
 #else
   #if defined(ENGLISH_ERRORS)
-    msgGeneration = new ParserStringListInterfaceEnglish;
+    msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
   #elif defined(SPANISH_ERRORS)
-    msgGeneration = new ParserStringListInterfaceSpanish;
+    msgGeneration = new ParserStringListInterfaceSpanish;   // NOLINT
   #elif defined(FRENCH_ERRORS)
-    msgGeneration = new ParserStringListInterfaceFrench;
+    msgGeneration = new ParserStringListInterfaceFrench;   // NOLINT
   #elif defined(CHINESE_ERRORS)
-    msgGeneration = new ParserStringListInterfaceChineseSimplified;
+    msgGeneration = new ParserStringListInterfaceChineseSimplified;   // NOLINT
   /// @todo add additional #elif language support above here
   #endif
 #endif
@@ -203,11 +203,12 @@ BaseParserStringList::BaseParserStringList(const BaseParserStringList& other) :
     intializeMessageGenerator();
 }
 
-BaseParserStringList::BaseParserStringList(BaseParserStringList&& other) :
+BaseParserStringList::BaseParserStringList(BaseParserStringList&& other) noexcept :
     defaultBreakList(other.defaultBreakList), debugMsgLevel(other.debugMsgLevel), msgGeneration(nullptr)
 {
     intializeMessageGenerator();
 }
+
 
 BaseParserStringList& BaseParserStringList::operator=(const BaseParserStringList& other)
 {
@@ -221,7 +222,7 @@ BaseParserStringList& BaseParserStringList::operator=(const BaseParserStringList
     return *this;
 }
 
-BaseParserStringList& BaseParserStringList::operator=(BaseParserStringList&& other)
+BaseParserStringList& BaseParserStringList::operator=(BaseParserStringList&& other) noexcept
 {
     if (this != &other)
     {
