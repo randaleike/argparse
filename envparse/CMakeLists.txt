@@ -59,4 +59,7 @@ target_include_directories(${PROJECT_NAME}_test PRIVATE ${envparseInclude} ${GTE
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${envparseExternalLib} GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}_test)
+gtest_add_tests(TARGET ${PROJECT_NAME}_test TEST_LIST envparseAllTests)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set_tests_properties(${envparseAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+endif()

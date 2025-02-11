@@ -76,7 +76,12 @@ target_link_libraries(samples-unittest PUBLIC GTest::gtest_main ${pthread_lib})
 add_dependencies(samples-unittest ${cxx_sample_files} ${c_sample_files})
 
 include(GoogleTest)
-gtest_discover_tests(samples-unittest)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    gtest_add_tests(TARGET samples-unittest WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE} TEST_LIST sampleAllTests)
+    set_tests_properties(${sampleAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+else()
+    gtest_add_tests(TARGET samples-unittest WORKING_DIRECTORY ${CMAKE_BINARY_DIR} TEST_LIST sampleAllTests)
+endif()
 
 add_custom_target(run-samples-unittest
     COMMENT "Samples unittest execution"
