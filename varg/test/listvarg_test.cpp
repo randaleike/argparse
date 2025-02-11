@@ -407,9 +407,9 @@ template <typename T> class DoubleListUnitTest : public testing::Test
     public:
         DoubleListUnitTest() = default;
         DoubleListUnitTest(const DoubleListUnitTest& other) = default;
-        DoubleListUnitTest(DoubleListUnitTest&& other) = default;
+        DoubleListUnitTest(DoubleListUnitTest&& other) noexcept = default;
         DoubleListUnitTest& operator=(const DoubleListUnitTest& other) = default;
-        DoubleListUnitTest& operator=(DoubleListUnitTest&& other) = default;
+        DoubleListUnitTest& operator=(DoubleListUnitTest&& other) noexcept = default;
         ~DoubleListUnitTest() override = default;
 
         std::string getExpectedTypeString();

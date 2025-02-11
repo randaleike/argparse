@@ -423,9 +423,9 @@ template <typename T> class DoubleCarrayUnitTest : public testing::Test
     public:
         DoubleCarrayUnitTest() = default;
         DoubleCarrayUnitTest(const DoubleCarrayUnitTest& other) = default;
-        DoubleCarrayUnitTest(DoubleCarrayUnitTest&& other) = default;
+        DoubleCarrayUnitTest(DoubleCarrayUnitTest&& other) noexcept = default;
         DoubleCarrayUnitTest& operator=(const DoubleCarrayUnitTest& other) = default;
-        DoubleCarrayUnitTest& operator=(DoubleCarrayUnitTest&& other) = default;
+        DoubleCarrayUnitTest& operator=(DoubleCarrayUnitTest&& other) noexcept = default;
         ~DoubleCarrayUnitTest() override = default;
 
         std::string getExpectedTypeString();

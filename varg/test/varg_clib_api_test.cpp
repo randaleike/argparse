@@ -87,7 +87,7 @@ INSTANTIATE_TYPED_TEST_SUITE_P(CreateIntArgVar, CreateVargApi, intTypes);
 //==================================================================
 // List arg test
 //==================================================================
-#define TEST_ARRAY_COUNT    (5)
+#define TEST_ARRAY_COUNT    (5) // NOLINT
 
 template <typename T> class CreateListVargApi : public testing::Test
 {
