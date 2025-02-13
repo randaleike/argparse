@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2023 Randal Eike
+Copyright (c) 2023-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -71,12 +71,12 @@ Copyright (c) 2023 Randal Eike
  */
 int main(int argc, char * argv[])
 {
-    argparser::varg<std::string> positionalArg("");             // Default = empty string
-    argparser::varg<std::string> argString("default");          // Default = "default" string
-    argparser::varg<int>         intArg(2);                     // Default = 2
-    argparser::varg<bool>        flagArg(false, true);          // Default = false, set to true if command line option found
-    argparser::vargincrement     counter;                       // Default = 0, incremented each time the argument flag is found
-    argparser::cmd_line_parse    cmdLineParser("sample1 [switched options ] [positional arg]",
+    argparser::vargstring       positionalArg("");             // Default = empty string
+    argparser::vargstring       argString("default");          // Default = "default" string
+    argparser::varg<int>        intArg(2);                     // Default = 2
+    argparser::varg<bool>       flagArg(false, true);          // Default = false, set to true if command line option found
+    argparser::vargincrement    counter;                       // Default = 0, incremented each time the argument flag is found
+    argparser::cmd_line_parse   cmdLineParser("sample1 [switched options ] [positional arg]",
                                               "Description of the utility to be included in the help display",
                                               true);
 

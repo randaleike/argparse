@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -37,8 +37,12 @@
 template <typename T> class ListBaseUnitTest : public testing::Test
 {
     public:
-        ListBaseUnitTest() {}
-        ~ListBaseUnitTest() override {}
+        ListBaseUnitTest() = default;
+        ListBaseUnitTest(const ListBaseUnitTest& other) = default;
+        ListBaseUnitTest(ListBaseUnitTest&& other) = default;
+        ListBaseUnitTest& operator=(const ListBaseUnitTest& other) = default;
+        ListBaseUnitTest& operator=(ListBaseUnitTest&& other) = default;
+        ~ListBaseUnitTest() override = default;
 };
 
 TYPED_TEST_SUITE_P(ListBaseUnitTest);
@@ -63,9 +67,11 @@ TYPED_TEST_P(ListBaseUnitTest, IsListTest)
 
 REGISTER_TYPED_TEST_SUITE_P(ListBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest);
 
+// NOLINTBEGIN
 typedef testing::Types<short int, int, long int, long long int,
                        unsigned short, unsigned, unsigned long, unsigned long long,
                        double, bool, char, std::string> allTypes;
+// NOLINTEND
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_base, ListBaseUnitTest, allTypes);
 
 /*
@@ -76,16 +82,20 @@ template <typename T> class IntegerListUnitTest : public testing::Test
     private:
 
     public:
-        IntegerListUnitTest() {}
-        ~IntegerListUnitTest() override {}
+        IntegerListUnitTest() = default;
+        IntegerListUnitTest(const IntegerListUnitTest& other) = default;
+        IntegerListUnitTest(IntegerListUnitTest&& other) = default;
+        IntegerListUnitTest& operator=(const IntegerListUnitTest& other) = default;
+        IntegerListUnitTest& operator=(IntegerListUnitTest&& other) = default;
+        ~IntegerListUnitTest() override = default;
 
-        long long int getMaxValue(void);
-        long long int getMinValue(void);
+        long long int getMaxValue();
+        long long int getMinValue();
 
-        std::string getExpectedTypeString(void)
+        std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -103,22 +113,22 @@ template <typename T> class IntegerListUnitTest : public testing::Test
             return minString.str();
         }
 
-        bool runMaxMinTest(void);
+        bool runMaxMinTest();
 };
 
-template <> long long int IntegerListUnitTest<short int>::getMaxValue(void)     {return SHRT_MAX;}
-template <> long long int IntegerListUnitTest<int>::getMaxValue(void)           {return INT_MAX;}
-template <> long long int IntegerListUnitTest<long int>::getMaxValue(void)      {return LONG_MAX;}
-template <> long long int IntegerListUnitTest<long long int>::getMaxValue(void) {return LLONG_MAX;}
+template <> long long int IntegerListUnitTest<short int>::getMaxValue()     {return SHRT_MAX;}
+template <> long long int IntegerListUnitTest<int>::getMaxValue()           {return INT_MAX;}
+template <> long long int IntegerListUnitTest<long int>::getMaxValue()      {return LONG_MAX;}
+template <> long long int IntegerListUnitTest<long long int>::getMaxValue() {return LLONG_MAX;}
 
-template <> long long int IntegerListUnitTest<short int>::getMinValue(void)     {return SHRT_MIN;}
-template <> long long int IntegerListUnitTest<int>::getMinValue(void)           {return INT_MIN;}
-template <> long long int IntegerListUnitTest<long int>::getMinValue(void)      {return LONG_MIN;}
-template <> long long int IntegerListUnitTest<long long int>::getMinValue(void) {return LLONG_MIN;}
+template <> long long int IntegerListUnitTest<short int>::getMinValue()     {return SHRT_MIN;}
+template <> long long int IntegerListUnitTest<int>::getMinValue()           {return INT_MIN;}
+template <> long long int IntegerListUnitTest<long int>::getMinValue()      {return LONG_MIN;}
+template <> long long int IntegerListUnitTest<long long int>::getMinValue() {return LLONG_MIN;}
 
-template <> bool IntegerListUnitTest<long long int>::runMaxMinTest(void)        {return false;}
-template <> bool IntegerListUnitTest<long int>::runMaxMinTest(void)             {return false;}
-template <typename T> bool IntegerListUnitTest<T>::runMaxMinTest(void)          {return true;}
+template <> bool IntegerListUnitTest<long long int>::runMaxMinTest()        {return false;}
+template <> bool IntegerListUnitTest<long int>::runMaxMinTest()             {return false;}
+template <typename T> bool IntegerListUnitTest<T>::runMaxMinTest()          {return true;}
 
 TYPED_TEST_SUITE_P(IntegerListUnitTest);
 
@@ -168,7 +178,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetMaxFail)
     {
         std::string maxValue = this->getMaxString(1LL);
         argparser::listvarg< TypeParam > testvar;
-        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, testvar.setValue(maxValue.c_str()));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(maxValue.c_str()));
         EXPECT_TRUE(testvar.value.empty());
         EXPECT_TRUE(testvar.isEmpty());
     }
@@ -191,7 +201,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetMinFail)
     {
         std::string minValue = this->getMinString(1LL);
         argparser::listvarg< TypeParam > testvar;
-        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_BOUNDARY_LOW_e, testvar.setValue(minValue.c_str()));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(minValue.c_str()));
         EXPECT_TRUE(testvar.value.empty());
         EXPECT_TRUE(testvar.isEmpty());
     }
@@ -233,10 +243,10 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetPassTripleEntry)
 }
 
 REGISTER_TYPED_TEST_SUITE_P(IntegerListUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetFail,
-                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry, 
+                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
                             ValueSetMaxPass, ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail);
 
-typedef testing::Types<short int, int, long int, long long int> intTypes;
+typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_int, IntegerListUnitTest, intTypes);
 
 /*
@@ -247,16 +257,20 @@ template <typename T> class UIntegerListUnitTest : public testing::Test
     private:
 
     public:
-        UIntegerListUnitTest() {}
-        ~UIntegerListUnitTest() override {}
+        UIntegerListUnitTest() = default;
+        UIntegerListUnitTest(const UIntegerListUnitTest& other) = default;
+        UIntegerListUnitTest(UIntegerListUnitTest&& other) = default;
+        UIntegerListUnitTest& operator=(const UIntegerListUnitTest& other) = default;
+        UIntegerListUnitTest& operator=(UIntegerListUnitTest&& other) = default;
+        ~UIntegerListUnitTest() override = default;
 
-        long long unsigned getMaxValue(void);
-        long long unsigned getMinValue(void)     {return 0ULL;}
+        long long unsigned getMaxValue();
+        long long unsigned getMinValue()     {return 0ULL;}
 
-        std::string getExpectedTypeString(void)
+        std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+]" << getMaxValue() << ">";
+            typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -274,17 +288,17 @@ template <typename T> class UIntegerListUnitTest : public testing::Test
             return minString.str();
         }
 
-        bool runMaxMinTest(void);
+        bool runMaxMinTest();
 };
 
-template <> long long unsigned UIntegerListUnitTest<short unsigned>::getMaxValue(void)      {return USHRT_MAX;}
-template <> long long unsigned UIntegerListUnitTest<unsigned>::getMaxValue(void)            {return UINT_MAX;}
-template <> long long unsigned UIntegerListUnitTest<long unsigned>::getMaxValue(void)       {return ULONG_MAX;}
-template <> long long unsigned UIntegerListUnitTest<long long unsigned>::getMaxValue(void)  {return ULLONG_MAX;}
+template <> long long unsigned UIntegerListUnitTest<short unsigned>::getMaxValue()      {return USHRT_MAX;}
+template <> long long unsigned UIntegerListUnitTest<unsigned>::getMaxValue()            {return UINT_MAX;}
+template <> long long unsigned UIntegerListUnitTest<long unsigned>::getMaxValue()       {return ULONG_MAX;}
+template <> long long unsigned UIntegerListUnitTest<long long unsigned>::getMaxValue()  {return ULLONG_MAX;}
 
-template <> bool UIntegerListUnitTest<long long unsigned>::runMaxMinTest(void)              {return false;}
-template <> bool UIntegerListUnitTest<long unsigned>::runMaxMinTest(void)                   {return false;}
-template <typename T> bool UIntegerListUnitTest<T>::runMaxMinTest(void)                     {return true;}
+template <> bool UIntegerListUnitTest<long long unsigned>::runMaxMinTest()              {return false;}
+template <> bool UIntegerListUnitTest<long unsigned>::runMaxMinTest()                   {return false;}
+template <typename T> bool UIntegerListUnitTest<T>::runMaxMinTest()                     {return true;}
 
 TYPED_TEST_SUITE_P(UIntegerListUnitTest);
 TYPED_TEST_P(UIntegerListUnitTest, ValueSetPass)
@@ -309,7 +323,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetFail)
 TYPED_TEST_P(UIntegerListUnitTest, ValueSetFailNeg)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("-1"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("-1"));
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
@@ -332,7 +346,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetMaxFail)
     {
         std::string maxValue = this->getMaxString(1ULL);
         argparser::listvarg< TypeParam > testvar;
-        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, testvar.setValue(maxValue.c_str()));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(maxValue.c_str()));
         EXPECT_TRUE(testvar.value.empty());
         EXPECT_TRUE(testvar.isEmpty());
         EXPECT_EQ(0, testvar.value.size());
@@ -379,7 +393,7 @@ REGISTER_TYPED_TEST_SUITE_P(UIntegerListUnitTest, ValueSetPass, ValueSetFail, Va
                             GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
                             ValueSetMaxPass, ValueSetMaxFail);
 
-typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;
+typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;      // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_uint, UIntegerListUnitTest, uintTypes);
 
 /*
@@ -391,13 +405,17 @@ template <typename T> class DoubleListUnitTest : public testing::Test
         std::stringstream typeString;
 
     public:
-        DoubleListUnitTest() {}
+        DoubleListUnitTest() = default;
+        DoubleListUnitTest(const DoubleListUnitTest& other) = default;
+        DoubleListUnitTest(DoubleListUnitTest&& other) noexcept = default;
+        DoubleListUnitTest& operator=(const DoubleListUnitTest& other) = default;
+        DoubleListUnitTest& operator=(DoubleListUnitTest&& other) noexcept = default;
+        ~DoubleListUnitTest() override = default;
 
-        ~DoubleListUnitTest() override {}
-        std::string getExpectedTypeString(void);
+        std::string getExpectedTypeString();
 };
 
-template <> std::string DoubleListUnitTest<double>::getExpectedTypeString(void) 
+template <> std::string DoubleListUnitTest<double>::getExpectedTypeString()
 {
     typeString << "<" << std::numeric_limits<double>::min() << ":" << std::numeric_limits<double>::max() << ">";
     return typeString.str();
@@ -520,7 +538,7 @@ REGISTER_TYPED_TEST_SUITE_P(DoubleListUnitTest, ValueSetPassSignedPos, ValueSetP
                             ValueSetPassInteger, ValueSetFail, GetTypeString, ValueSetPassDoubleEntry,
                             ValueSetPassTripleEntry, ValueSetMaxPass, ValueSetMinPass);
 
-typedef testing::Types<double> doubleTypes;
+typedef testing::Types<double> doubleTypes;     //NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_double, DoubleListUnitTest, doubleTypes);
 
 /*
@@ -582,7 +600,7 @@ INSTANTIATE_TEST_SUITE_P(listvarg_bool, BoolUnitTestWithBadParams, ::testing::Va
 TEST(listvarg_bool, GetTypeString)
 {
     argparser::listvarg<bool> testvar;
-    EXPECT_STREQ("<t|T|f|F>", testvar.getTypeString());
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
 }
 
 TEST(listvarg_bool, ValueSetPassDoubleEntry)

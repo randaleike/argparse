@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2023 Randal Eike
+Copyright (c) 2023-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -45,7 +45,7 @@ Copyright (c) 2023 Randal Eike
 //  Protected functions
 //============================================================================================================================
 //============================================================================================================================
-int sub_command1(int argc, char * argv[], int lastArg)
+int sub_command1(int argc, char * argv[], int lastArg)  // NOLINT
 {
     argparser::vargincrement     counter;                       // Default = 0, incremented each time the argument flag is found
     argparser::cmd_line_parse    cmdLineParser("sample4 [global options] one [subcommand options]",
@@ -55,23 +55,23 @@ int sub_command1(int argc, char * argv[], int lastArg)
     // Add sub_command1 arguments and parse starting at where we left off which should be arg 2
     cmdLineParser.addFlagArgument(&counter, "counter", "-c,--count", "Example of a incrementing counter argument");
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
-
+    int status = 0;
     if (-1 != sclastArg)
     {
         std::cout << "Number of arguments passed in: " << argc << std::endl;
         std::cout << "Number of subcommand 1 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "Counter Argument Value:    " << counter.value << std::endl;
-        return 0;
     }
     else
     {
         std::cout << "Sub Command 1 Parser failed, help displayed" << std::endl;
-        return 2;
+        status = 2;
     }
+    return status;
 }
 
 
-int sub_command2(int argc, char * argv[], int lastArg)
+int sub_command2(int argc, char * argv[], int lastArg)  // NOLINT
 {
     argparser::varg<int>         intArg(2);                     // Default = 2
     argparser::cmd_line_parse    cmdLineParser("sample4 [global options] two [subcommand options]",
@@ -81,42 +81,44 @@ int sub_command2(int argc, char * argv[], int lastArg)
     // Add sub_command2 arguments and parse starting at where we left off which should be arg 2
     cmdLineParser.addKeyArgument(&intArg, "integerValue", "-i,--input", "Example of a basic integer value argument");
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
+    int status = 0;
     if (-1 != sclastArg)
     {
         std::cout << "Number of arguments passed in: " << argc << std::endl;
         std::cout << "Number of subcommand 2 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "Integer Argument Value:    " << intArg.value << std::endl;
-        return 0;
     }
     else
     {
         std::cout << "Sub Command 2 Parser failed, help displayed" << std::endl;
-        return 3;
+        status = 3;
     }
+    return status;
 }
 
-int sub_command3(int argc, char * argv[], int lastArg)
+int sub_command3(int argc, char * argv[], int lastArg)  // NOLINT
 {
-    argparser::varg<std::string> argString("default");          // Default = "default" string
-    argparser::cmd_line_parse    cmdLineParser("sample4 [global options] three [subcommand options]",
+    argparser::vargstring       argString("default");          // Default = "default" string
+    argparser::cmd_line_parse   cmdLineParser("sample4 [global options] three [subcommand options]",
                                               "Description of the utility to be included in the help display",
                                               true);
 
     // Add sub_command3 arguments and parse starting at where we left off which should be arg 2
     cmdLineParser.addKeyArgument(&argString, "argString", "-o, --output", "Example of a switched string argument", 1, true); // make it required
     int sclastArg = cmdLineParser.parse(argc, argv, lastArg);
+    int status = 0;
     if (-1 != sclastArg)
     {
         std::cout << "Number of arguments passed in: " << argc << std::endl;
         std::cout << "Number of subcommand 3 arguments parsed: " << sclastArg - lastArg <<  " Starting at argument: " << lastArg << std::endl;
         std::cout << "String Argument Value:     " << argString.value << std::endl;
-        return 0;
     }
     else
     {
         std::cout << "Sub Command 3 Parser failed, help displayed" << std::endl;
-        return 4;
+        status = 4;
     }
+    return status;
 }
 
 //============================================================================================================================
@@ -144,10 +146,10 @@ int sub_command3(int argc, char * argv[], int lastArg)
  */
 int main(int argc, char * argv[])
 {
-    argparser::varg<std::string> subcommand("none");            // Default = none
-    argparser::varg<bool>        flagArg(false, true);          // Default = false, set to true if command line option found
-    argparser::varg<int>         intArg(0);                     // Default = 0, set to value if command line option found
-    argparser::cmd_line_parse    cmdLineParser("sample4 [global options] [subcommand] [subcommand options]",
+    argparser::vargstring       subcommand("none");            // Default = none
+    argparser::varg<bool>       flagArg(false, true);          // Default = false, set to true if command line option found
+    argparser::varg<int>        intArg(0);                     // Default = 0, set to value if command line option found
+    argparser::cmd_line_parse   cmdLineParser("sample4 [global options] [subcommand] [subcommand options]",
                                               "Description of the utility to be included in the help display",
                                               true);
 
@@ -159,7 +161,7 @@ int main(int argc, char * argv[])
     // Parse the input arguments and display the result
     cmdLineParser.setPositionalNameStop("subcommand");
     int lastArg = cmdLineParser.parse(argc, argv);
-    if (-1 != lastArg)    
+    if (-1 != lastArg)
     {
         // Display the parsing results
         std::cout << "Number of arguments passed in: " << argc << " Number of global arguments parsed: " << lastArg << std::endl;
@@ -216,7 +218,7 @@ Expected Output:
     Subcommand Argument Value:     one
     Global Flag Argument Value:    false
     Global Integer Argument Value: 0
-    
+
     Number of arguments passed in: 2
     Number of subcommand 1 arguments parsed: 0 Starting at argument: 2
     Counter Argument Value:    0
@@ -312,11 +314,11 @@ Expected Output:
     Description of the utility to be included in the help display
 
     Optional Arguments:
-     -h,--help,-?           show this help message and exit                         
-     -o, --output=argString Example of a switched string argument                   
+     -h,--help,-?           show this help message and exit
+     -o, --output=argString Example of a switched string argument
 
     Sub Command 3 Parser failed, help displayed
-    
+
 Example 11: >sample4.exe three -o foo
 Expected Output:
     Number of arguments passed in: 4 Number of arguments parsed: 2

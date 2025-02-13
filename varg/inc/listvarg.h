@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,7 @@
 #pragma once
 
 // Includes
-#include <stdlib.h>
+#include <cstdlib>
 #include <list>
 #include "varg_intf.h"
 
@@ -49,8 +49,7 @@ template <typename T> class listvarg : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e setSignedElementValue(const char* newValue);
 
@@ -61,8 +60,7 @@ template <typename T> class listvarg : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e setUnsignedElementValue(const char* newValue);
 
@@ -73,8 +71,7 @@ template <typename T> class listvarg : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e setDoubleElementValue(const char* newValue);
 
@@ -85,8 +82,7 @@ template <typename T> class listvarg : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e setBoolElementValue(const char* newValue);
 
@@ -97,8 +93,7 @@ template <typename T> class listvarg : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e setCharElementValue(const char* newValue);
 
@@ -121,9 +116,37 @@ template <typename T> class listvarg : public varg_intf
         listvarg();
 
         /**
+         * @brief Copy constructor for listvarg object
+         *
+         * @param other - Reference to the object to copy
+         */
+        listvarg(const listvarg& other) = default;
+
+        /**
+         * @brief Reference copy constructor for listvarg object
+         *
+         * @param other - Reference to the reference object to copy
+         */
+        listvarg(listvarg&& other) = default;
+
+        /**
+         * @brief Assignment copy constructor for listvarg object
+         *
+         * @param other - Reference to the object to copy
+         */
+        listvarg& operator=(const listvarg& other) = default;
+
+        /**
+         * @brief Assignment reference copy constructor for listvarg object
+         *
+         * @param other - Reference to the reference object to copy
+         */
+        listvarg& operator=(listvarg&& other) = default;
+
+        /**
          * @brief Destroy the varg object
          */
-        virtual ~listvarg()                                             {value.clear();}
+        ~listvarg() override                                            {value.clear();}
 
         /**
          * @brief Return if varg is a list of elements or a single element type
@@ -131,7 +154,7 @@ template <typename T> class listvarg : public varg_intf
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual bool isList() const                                     {return true;}
+        [[nodiscard]] bool isList() const override                 {return true;}
 
         /**
          * @brief Virtual interface method implementation for the template variable implementation setValue with input function
@@ -140,17 +163,16 @@ template <typename T> class listvarg : public varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
-        virtual valueParseStatus_e setValue(const char* newValue);
+        valueParseStatus_e setValue(const char* newValue) override;
 
         /**
          * Virtual interface method implementation for the template variable implementation setValue function
          *
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - Lists do not have a default set value
          */
-        virtual valueParseStatus_e setValue()                           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+        valueParseStatus_e setValue() override         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
         /**
          * Virtual interface method implementation for the template variable implementation isEmpty function
@@ -158,7 +180,15 @@ template <typename T> class listvarg : public varg_intf
          * @return true - if the list is empty
          * @return false - if list is not empty
          */
-        virtual bool isEmpty()                                          {return value.empty();}
+        [[nodiscard]] bool isEmpty() override          {return value.empty();}
+
+        /**
+         * Virtual place holder for the template variable implementation getAssignmentCount function
+         *
+         * @return size_t - number of elements assigned to list object
+         */
+        size_t getAssignmentCount() override            {return value.size();}
+
 }; // end of class definition
 
 }; // end of namespace argparser

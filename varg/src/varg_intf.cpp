@@ -1,22 +1,22 @@
-/* 
+/*
  Copyright (c) 2022-2024 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -27,21 +27,18 @@
  * @{
  */
 
-// Includes 
-#include <stdlib.h>
+// Includes
+#include <cstdlib>
 #include <algorithm>
+#include <stdexcept>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <limits>
 #include <cmath>
+#include <cctype>
 #include "varg_intf.h"
 
-#if defined(__linux__) || defined(__unix__)
-    #define SSCANF sscanf
-#elif defined(_WIN64) || defined(_WIN32)
-    #define SSCANF sscanf_s
-#endif
 namespace argparser
 {
 //============================================================================================================================
@@ -58,63 +55,76 @@ namespace argparser
 
 /**
  * @brief Set the Bool Value object
- * 
+ *
  * @param newValue - input argument string
  * @param parsedValue - parsed boolean value if parsing succeeded
- * 
+ *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
 valueParseStatus_e varg_intf::getBoolValue(const char* newValue, bool& parsedValue)
 {
     valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
-    if (newValue[1] != 0)
+    std::string inputValue(newValue);
+
+    // Strip any whitespace
+    inputValue.erase(std::remove_if(inputValue.begin(), inputValue.end(), ::isspace), inputValue.end());
+
+    // Determine if it's a single or multi-charater string
+    switch (inputValue.size())
     {
-        // Deal with multi-character string
-        std::string testValue    = newValue;
-        std::transform(testValue.begin(), testValue.end(), testValue.begin(), ::toupper);
-        if (testValue == "TRUE")
-        {
-            parsedValue = true;
-        }
-        else if (testValue == "FALSE")
-        {
-            parsedValue = false;
-        }
-        else
-        {
+        case 0:
+            // Empty string
             returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
-        }
-    }
-    else
-    {
-        // Single character 
-        switch(newValue[0])
-        {
-            case 't':
-            case 'T':
-            case '1':
-                parsedValue = true;
-                break;
-            case 'f':
-            case 'F':
-            case '0':
-                parsedValue = false;
-                break;
-            default:
-                returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
-        }
-    }
+            break;
+
+        case 1:
+            // Single character
+            switch(inputValue[0])
+            {
+                case 't':
+                case 'T':
+                case '1':
+                    parsedValue = true;
+                    break;
+                case 'f':
+                case 'F':
+                case '0':
+                    parsedValue = false;
+                    break;
+                default:
+                    returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
+            }
+            break;
+        default:
+            // Deal with multi-character string
+            {
+                std::transform(inputValue.begin(), inputValue.end(), inputValue.begin(), ::toupper);
+                if (inputValue == "TRUE")
+                {
+                    parsedValue = true;
+                }
+                else if (inputValue == "FALSE")
+                {
+                    parsedValue = false;
+                }
+                else
+                {
+                    returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
+                }
+            }
+            break;
+    } // end of switch size
 
     return returnStatus;
 }
 
 /**
  * @brief Set the New character object value
- * 
+ *
  * @param newValue - input argument string
  * @param parsedValue - parsed character value if parsing succeeded
- * 
+ *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
@@ -122,6 +132,9 @@ valueParseStatus_e varg_intf::getCharValue(const char* newValue, char& parsedVal
 {
     valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
     std::string inputValue(newValue);
+
+    // Strip any whitespace
+    inputValue.erase(std::remove_if(inputValue.begin(), inputValue.end(), ::isspace), inputValue.end());
 
     if ((inputValue.length() > 1) || (inputValue.empty()))
     {
@@ -136,34 +149,46 @@ valueParseStatus_e varg_intf::getCharValue(const char* newValue, char& parsedVal
 
 /**
  * @brief Get a signed value from the input string
- * 
+ *
  * @param newValue - Input string to parse
  * @param parsedValue - return long long integer value
- * 
+ *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
- * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
- * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+ * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
  */
 valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int &parsedValue) const
 {
     valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
-    int parseCount = SSCANF(newValue, "%lld", &parsedValue);
-    if (1 == parseCount)
+
+    // Find the first non-whitespace character
+    std::string argString(newValue);
+    std::size_t parseCount(0);
+    try
     {
-        if (parsedValue > maxSignedValue)
+        const long long int numericValue {std::stoll(argString, &parseCount)};
+        if (parseCount >= 1)
         {
-            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
-        }
-        else if (parsedValue < minSignedValue)
-        {
-            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
+            if ((numericValue > maxSignedValue) || (numericValue < minSignedValue))
+            {
+                returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
+            }
+            else
+            {
+                returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
+                parsedValue = numericValue;
+            }
         }
     }
-    else
+    catch (std::invalid_argument)
     {
         returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
     }
+    catch (std::out_of_range)
+    {
+        returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
+    }
+
     return returnStatus;
 }
 
@@ -175,35 +200,40 @@ valueParseStatus_e varg_intf::getSignedValue(const char* newValue, long long int
  *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
- * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
- * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+ * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
  */
 valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long unsigned& parsedValue) const
 {
     valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
-    const char*        testChar     = newValue;
-    
-    // Find the first non-whitespace character
-    while (*testChar <= ' ') 
-    {
-        testChar++;
-    }
+    std::string argString(newValue);
+    std::size_t parseCount(0);
+    std::size_t negativeFound = argString.find('-');
 
-    int parseCount = SSCANF(newValue, "%llu", &parsedValue);
-    if ((1 == parseCount) && (*testChar != '-'))
+    try
     {
-        if (parsedValue > maxUnsignedValue)
+        const long long unsigned numericValue {std::stoull(argString, &parseCount, 0)};
+        if (parseCount >= 1)
         {
-            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
-        }
-        if (parsedValue < minUnsignedValue)
-        {
-            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
+            if ((numericValue > maxUnsignedValue) ||
+                (numericValue < minUnsignedValue) ||
+                (negativeFound != std::string::npos))
+            {
+                returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
+            }
+            else
+            {
+                returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
+                parsedValue = numericValue;
+            }
         }
     }
-    else
+    catch (std::invalid_argument)
     {
         returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
+    }
+    catch (std::out_of_range)
+    {
+        returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
     }
 
     return returnStatus;
@@ -217,29 +247,36 @@ valueParseStatus_e varg_intf::getUnsignedValue(const char* newValue, long long u
  *
  * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
- * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
- * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+ * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
  */
 valueParseStatus_e varg_intf::getDoubleValue(const char* newValue, double &parsedValue) const
 {
     valueParseStatus_e returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
-    int                parseCount   = SSCANF(newValue, "%lf", &parsedValue);
-    double             absValue     = std::fabs(parsedValue);
-
-    if (1 == parseCount)
+    std::string argString(newValue);
+    std::size_t parseCount(0);
+    try
     {
-        if (absValue > maxDoubleValue)
+        const double numericValue {std::stod(argString, &parseCount)};
+        if (parseCount >= 1)
         {
-            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_HIGH_e;
-        }
-        else if (absValue < minDoubleValue)
-        {
-            returnStatus = valueParseStatus_e::PARSE_BOUNDARY_LOW_e;
+            if ((std::abs(numericValue) > maxDoubleValue) || (std::abs(numericValue) < minDoubleValue))
+            {
+                returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
+            }
+            else
+            {
+                returnStatus = valueParseStatus_e::PARSE_SUCCESS_e;
+                parsedValue = numericValue;
+            }
         }
     }
-    else
+    catch (std::invalid_argument)
     {
         returnStatus = valueParseStatus_e::PARSE_INVALID_INPUT_e;
+    }
+    catch (std::out_of_range)
+    {
+        returnStatus = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
     }
 
     return returnStatus;
@@ -255,10 +292,10 @@ void varg_intf::setTypeString(typeStringFormat_e fmtType)
     switch(fmtType)
     {
         case typeStringFormat_e::TYPE_FMT_SIGNED:
-            myTypeStr << "<" << minSignedValue << ":[+]" << maxSignedValue << ">";
+            myTypeStr << "<" << minSignedValue << ":[+|-]" << maxSignedValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_UNSIGNED:
-            myTypeStr << "<" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";
+            myTypeStr << "<[+]" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_DOUBLE:
             myTypeStr << "<" << minDoubleValue << ":" << maxDoubleValue << ">";
@@ -267,7 +304,7 @@ void varg_intf::setTypeString(typeStringFormat_e fmtType)
             myTypeStr << "<char>";
             break;
         case typeStringFormat_e::TYPE_FMT_BOOL:
-            myTypeStr << "<t|T|f|F>";
+            myTypeStr << "<t|T|1|f|F|0>";
             break;
         case typeStringFormat_e::TYPE_FMT_STRING:
             myTypeStr << "<string>";
@@ -287,14 +324,11 @@ void varg_intf::setTypeString(typeStringFormat_e fmtType)
 /**
  * @brief Construct a varg_intf object
  */
-varg_intf::varg_intf()
+varg_intf::varg_intf() : maxSignedValue(LLONG_MAX), minSignedValue(LLONG_MIN),
+                         maxUnsignedValue(ULLONG_MAX), minUnsignedValue(0ULL),
+                         maxDoubleValue(std::numeric_limits<double>::max()), minDoubleValue(std::numeric_limits<double>::min())
+
 {
-    maxSignedValue = LLONG_MAX;
-    minSignedValue = LLONG_MIN;
-    maxUnsignedValue = ULLONG_MAX;
-    minUnsignedValue = 0ULL;
-    maxDoubleValue = std::numeric_limits<double>::max();
-    minDoubleValue = std::numeric_limits<double>::min();
 }
 
 //============================================================================================================================

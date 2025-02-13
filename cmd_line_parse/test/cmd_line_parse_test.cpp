@@ -45,14 +45,14 @@ const int    testValue       = 10;
 //======================================================================================
 parserstr getDefaultUsage(parserstr inputuseage = "%(prog) [options]")
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return parserStr->getUsageMessage() + "\n" + inputuseage;
+    argparser::BaseParserStringList parserStr;
+    return parserStr.getUsageMessage() + "\n" + inputuseage;
 }
 
 parserstr getOptionArgMsg()
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return "\n"+parserStr->getSwitchArgumentsMessage()+"\n";
+    argparser::BaseParserStringList parserStr;
+    return "\n"+parserStr.getSwitchArgumentsMessage()+"\n";
 }
 
 parserstr getOptionMsg(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
@@ -90,8 +90,8 @@ parserstr getDescriptionStr(parserstr descstr)
 
 parserstr getPositionalArgMsg()
 {
-    argparser::BaseParserStringList* parserStr = argparser::BaseParserStringList::getInternationalizedClass();
-    return "\n"+parserStr->getPositionalArgumentsMessage()+"\n";
+    argparser::BaseParserStringList parserStr;
+    return "\n"+parserStr.getPositionalArgumentsMessage()+"\n";
 }
 
 parserstr getPositionalMsg(parserstr name, parserstr help, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
@@ -183,9 +183,9 @@ TEST(cmd_line_parse, addKeyArgHelp)
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") + 
-                            getOptionArgMsg() + getDefaultHelpMsg(testArgWidth) + 
-                            getOptionMsg("-i,--val=tstint", "This is the test key argument", testArgWidth) + 
+    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") +
+                            getOptionArgMsg() + getDefaultHelpMsg(testArgWidth) +
+                            getOptionMsg("-i,--val=tstint", "This is the test key argument", testArgWidth) +
                             getEpilogStr("");
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
@@ -219,11 +219,13 @@ TEST(cmd_line_parse, parseTestFlag)
     testvar.addFlagArgument(&testflgvarg, "flag", "-f,--flag", "This is the flag argument");
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-f";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
-    EXPECT_EQ(2, testvar.parse(2, argv));
+    EXPECT_EQ(2, testvar.parse(2, argv));   // NOLINT
     EXPECT_TRUE(testflgvarg.value);
 }
 
@@ -234,13 +236,15 @@ TEST(cmd_line_parse, parseTestFlagFailure)
     testvar.addFlagArgument(&testflgvarg, "flag", "-f,--flag", "This is the flag argument");
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-f=false";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
-    testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(2, argv));
+    EXPECT_EQ(-1, testvar.parse(2, argv));     // NOLINT
+
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_FALSE(testflgvarg.value);
     EXPECT_STREQ("\"-f\" invalid assignment\n", output.c_str());
@@ -254,11 +258,13 @@ TEST(cmd_line_parse, parseTestKeyWithAssign)
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i=5";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
-    EXPECT_EQ(2, testvar.parse(2, argv));
+    EXPECT_EQ(2, testvar.parse(2, argv));   // NOLINT
     EXPECT_EQ(5, testkeyvarg.value);
 }
 
@@ -270,13 +276,15 @@ TEST(cmd_line_parse, parseTestKeyAssignMissing)
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(2, argv));
+    EXPECT_EQ(-1, testvar.parse(2, argv));  // NOLINT
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(10, testkeyvarg.value);
     EXPECT_STREQ("\"-i\" missing assignment value\n", output.c_str());
@@ -290,13 +298,16 @@ TEST(cmd_line_parse, parseTestKeyAssignFail)
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i=foo";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(2, argv));
+    EXPECT_EQ(-1, testvar.parse(2, argv));     // NOLINT
+
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(10, testkeyvarg.value);
     EXPECT_STREQ("\"-i foo\" assignment failed\n", output.c_str());
@@ -310,12 +321,14 @@ TEST(cmd_line_parse, parseTestKeyAssignNextArg)
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "18";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
-    EXPECT_EQ(3, testvar.parse(3, argv));
+    EXPECT_EQ(3, testvar.parse(3, argv));      // NOLINT
     EXPECT_EQ(18, testkeyvarg.value);
 }
 
@@ -327,11 +340,13 @@ TEST(cmd_line_parse, parsePositional)
     testvar.addPositionalArgument(&testposvarg, "postst", "This is a positional argument", 1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "42";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
-    EXPECT_EQ(2, testvar.parse(2, argv));
+    EXPECT_EQ(2, testvar.parse(2, argv));      // NOLINT
     EXPECT_EQ(42, testposvarg.value);
 }
 
@@ -343,13 +358,16 @@ TEST(cmd_line_parse, parsePositionalFailed)
     testvar.addPositionalArgument(&testposvarg, "postst", "This is a positional argument", 1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "goo";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(2, argv));
+    EXPECT_EQ(-1, testvar.parse(2, argv));     // NOLINT
+
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(0, testposvarg.value);
     EXPECT_STREQ("\"postst goo\" assignment failed\n", output.c_str());
@@ -367,14 +385,16 @@ TEST(cmd_line_parse, parseTestMultiple)
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-f";
     parserchar opt2[] = "-i";
     parserchar val2[] = "5";
     parserchar opt3[] = "42";
     parserchar* argv[] = {progname, opt1, opt2, val2, opt3};
+    // NOLINTEND
 
-    EXPECT_EQ(5, testvar.parse(5, argv));
+    EXPECT_EQ(5, testvar.parse(5, argv));      // NOLINT
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_EQ(42, testposvarg.value);
     EXPECT_EQ(5, testkeyvarg.value);
@@ -399,12 +419,14 @@ TEST(cmd_line_parse, parseTestAddListArg)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "18,22,43";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
-    EXPECT_EQ(3, testvar.parse(3, argv));
+    EXPECT_EQ(3, testvar.parse(3, argv));          // NOLINT
     EXPECT_EQ(3, testlistvarg.value.size());
     EXPECT_EQ(18, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -421,14 +443,16 @@ TEST(cmd_line_parse, parseTestAddListArgMultipleArgv)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "19";
     parserchar val2[] = "21";
     parserchar val3[] = "42";
     parserchar* argv[] = {progname, opt1, val1, val2, val3};
+    // NOLINTEND
 
-    EXPECT_EQ(5, testvar.parse(5, argv));
+    EXPECT_EQ(5, testvar.parse(5, argv));      // NOLINT
     EXPECT_EQ(3, testlistvarg.value.size());
     EXPECT_EQ(19, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -445,14 +469,16 @@ TEST(cmd_line_parse, parseTestAddListArgTooFew)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "18,22";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(3, argv));
+    EXPECT_EQ(-1, testvar.parse(3, argv));     // NOLINT
     EXPECT_EQ(0, testlistvarg.value.size());
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"-i\" missing assignment. Expected: 3 found: 2 arguments\n", output.c_str());
@@ -466,14 +492,16 @@ TEST(cmd_line_parse, parseTestAddListArgTooMany)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "18,22,42,56";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(3, argv));
+    EXPECT_EQ(-1, testvar.parse(3, argv));     // NOLINT
     EXPECT_EQ(0, testlistvarg.value.size());
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"-i\" too many assignment values. Expected: 3 found: 4 arguments\n", output.c_str());
@@ -487,12 +515,14 @@ TEST(cmd_line_parse, parseTestAddDynamicListArg)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "18,22,43";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
-    EXPECT_EQ(3, testvar.parse(3, argv));
+    EXPECT_EQ(3, testvar.parse(3, argv));      // NOLINT
     EXPECT_EQ(3, testlistvarg.value.size());
     EXPECT_EQ(18, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -509,12 +539,14 @@ TEST(cmd_line_parse, parseTestAddDynamicListArg2Vals)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "18,22";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
-    EXPECT_EQ(3, testvar.parse(3, argv));
+    EXPECT_EQ(3, testvar.parse(3, argv));      // NOLINT
     EXPECT_EQ(2, testlistvarg.value.size());
     EXPECT_EQ(18, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -529,13 +561,15 @@ TEST(cmd_line_parse, parseTestAddDynamicListArg2ValsMultiArgv)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "81";
     parserchar val2[] = "13";
     parserchar* argv[] = {progname, opt1, val1, val2};
+    // NOLINTEND
 
-    EXPECT_EQ(4, testvar.parse(4, argv));
+    EXPECT_EQ(4, testvar.parse(4, argv));      // NOLINT
     EXPECT_EQ(2, testlistvarg.value.size());
     EXPECT_EQ(81, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -552,14 +586,16 @@ TEST(cmd_line_parse, parseTestAddDynamicListArgMultiArgvSwitchTermination)
     argparser::varg<bool> testflgvarg(false, true);
     testvar.addFlagArgument(&testflgvarg, "tstflg", "-f,--flag", "This is the test flag argument");
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "81";
     parserchar val2[] = "13";
     parserchar val3[] = "-f";
     parserchar* argv[] = {progname, opt1, val1, val2, val3};
+    // NOLINTEND
 
-    EXPECT_EQ(5, testvar.parse(5, argv));
+    EXPECT_EQ(5, testvar.parse(5, argv));      // NOLINT
     EXPECT_EQ(2, testlistvarg.value.size());
     EXPECT_EQ(81, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -574,13 +610,15 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1ArgcTermination)
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", -1);
     testvar.disableHelpDisplayOnError();
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "81";
     parserchar val2[] = "13";
     parserchar* argv[] = {progname, opt1, val1, val2};
+    // NOLINTEND
 
-    EXPECT_EQ(4, testvar.parse(4, argv));
+    EXPECT_EQ(4, testvar.parse(4, argv));      // NOLINT
     EXPECT_EQ(2, testlistvarg.value.size());
     EXPECT_EQ(81, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -597,15 +635,16 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1SwitchTermination)
     argparser::varg<bool> testflgvarg(false, true);
     testvar.addFlagArgument(&testflgvarg, "tstflg", "-f,--flag", "This is the test flag argument");
 
-
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "81";
     parserchar val2[] = "13";
     parserchar val3[] = "-f";
     parserchar* argv[] = {progname, opt1, val1, val2, val3};
+    // NOLINTEND
 
-    EXPECT_EQ(5, testvar.parse(5, argv));
+    EXPECT_EQ(5, testvar.parse(5, argv));      // NOLINT
     EXPECT_EQ(2, testlistvarg.value.size());
     EXPECT_EQ(81, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -622,7 +661,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1LongSwitchTermination)
     argparser::varg<bool> testflgvarg(false, true);
     testvar.addFlagArgument(&testflgvarg, "tstflg", "-f,--flag", "This is the test flag argument");
 
-
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "81";
@@ -632,8 +671,9 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1LongSwitchTermination)
     parserchar val5[] = "16";
     parserchar opt2[] = "-f";
     parserchar* argv[] = {progname, opt1, val1, val2, val3, val4, val5, opt2};
+    // NOLINTEND
 
-    EXPECT_EQ(8, testvar.parse(8, argv));
+    EXPECT_EQ(8, testvar.parse(8, argv));      // NOLINT
     EXPECT_EQ(5, testlistvarg.value.size());
     EXPECT_EQ(81, testlistvarg.value.front());
     testlistvarg.value.pop_front();
@@ -656,17 +696,18 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailAssignment)
     argparser::varg<bool> testflgvarg(false, true);
     testvar.addFlagArgument(&testflgvarg, "tstflg", "-f,--flag", "This is the test flag argument");
 
-
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar val1[] = "81";
     parserchar val2[] = "foo";
     parserchar val3[] = "-f";
     parserchar* argv[] = {progname, opt1, val1, val2, val3};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(5, argv));
+    EXPECT_EQ(-1, testvar.parse(5, argv));     // NOLINT
     EXPECT_EQ(1, testlistvarg.value.size());
     EXPECT_EQ(81, testlistvarg.value.front());
     parserstr output = testing::internal::GetCapturedStderr();
@@ -684,11 +725,13 @@ TEST(cmd_line_parse, parseTestDualSingleCharFlag)
     argparser::varg<bool> testflgvarg1(false, true);
     testvar.addFlagArgument(&testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument");
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-if";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
-    EXPECT_EQ(2, testvar.parse(2, argv));
+    EXPECT_EQ(2, testvar.parse(2, argv));    // NOLINT
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
 }
@@ -706,10 +749,13 @@ TEST(cmd_line_parse, parseTestTripleSingleCharFlag)
     argparser::varg<bool> testflgvarg2(true, false);
     testvar.addFlagArgument(&testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument");
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-ifg";
     parserchar* argv[] = {progname, opt1};
-    EXPECT_EQ(2, testvar.parse(2, argv));
+    // NOLINTEND
+
+    EXPECT_EQ(2, testvar.parse(2, argv));      // NOLINT
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
     EXPECT_FALSE(testflgvarg2.value);
@@ -728,11 +774,13 @@ TEST(cmd_line_parse, parseTestDualSingleCharFlagVal)
     argparser::varg<int> testvalvarg2(0);
     testvar.addKeyArgument(&testvalvarg2, "tstval", "-g,--goo", "This is the test value argument", 1);
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-ifg=42";
     parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
 
-    EXPECT_EQ(2, testvar.parse(2, argv));
+    EXPECT_EQ(2, testvar.parse(2, argv));      // NOLINT
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
     EXPECT_EQ(42, testvalvarg2.value);
@@ -751,12 +799,14 @@ TEST(cmd_line_parse, parseTestDualSingleCharFlagValNextargv)
     argparser::varg<int> testvalvarg2(0);
     testvar.addKeyArgument(&testvalvarg2, "tstval", "-g,--goo", "This is the test value argument", 1);
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-ifg";
     parserchar val1[] = "42";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
-    EXPECT_EQ(3, testvar.parse(3, argv));
+    EXPECT_EQ(3, testvar.parse(3, argv));      // NOLINT
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
     EXPECT_EQ(42, testvalvarg2.value);
@@ -775,14 +825,16 @@ TEST(cmd_line_parse, parseTestMissingRequired)
     argparser::varg<int> testvalvarg2(0);
     testvar.addKeyArgument(&testvalvarg2, "tstval", "-g,--goo", "This is the test value argument", 1);
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-fg";
     parserchar val1[] = "42";
     parserchar* argv[] = {progname, opt1, val1};
+    // NOLINTEND
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
-    EXPECT_EQ(-1, testvar.parse(3, argv));
+    EXPECT_EQ(-1, testvar.parse(3, argv));     // NOLINT
     EXPECT_FALSE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
     EXPECT_EQ(42, testvalvarg2.value);
@@ -794,7 +846,7 @@ TEST(cmd_line_parse, parseTestMultiplePositionalArgs)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
-    argparser::varg<std::string> testsubarg("");
+    argparser::vargstring testsubarg("");
     testvar.addPositionalArgument(&testsubarg, "subcmd", "This is the test subcmd argument");
 
     argparser::varg<bool> testflgvarg(false, true);
@@ -806,9 +858,10 @@ TEST(cmd_line_parse, parseTestMultiplePositionalArgs)
     argparser::varg<bool> testflgvarg2(true, false);
     testvar.addFlagArgument(&testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument");
 
-    argparser::varg<std::string> testoutname("outname");
+    argparser::vargstring testoutname("outname");
     testvar.addPositionalArgument(&testoutname, "outputname", "This is the test output name argument");
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "foo";
     parserchar opt2[] = "-i";
@@ -816,10 +869,12 @@ TEST(cmd_line_parse, parseTestMultiplePositionalArgs)
     parserchar opt4[] = "-g";
     parserchar opt5[] = "george";
     parserchar* argv[] = {progname, opt1, opt2, opt3, opt4, opt5};
+    // NOLINTEND
+
     int argc = sizeof(argv) / sizeof(argv[0]);
 
     // Parse
-    EXPECT_EQ(argc, testvar.parse(argc, argv));
+    EXPECT_EQ(argc, testvar.parse(argc, argv));        // NOLINT
     EXPECT_STREQ("foo", testsubarg.value.c_str());
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
@@ -831,7 +886,7 @@ TEST(cmd_line_parse, parseTestTwoPhasedParse)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
-    argparser::varg<std::string> testsubarg("");
+    argparser::vargstring testsubarg("");
     testvar.addPositionalArgument(&testsubarg, "subcmd", "This is the test subcmd argument");
 
     argparser::varg<bool> testflgvarg(false, true);
@@ -843,16 +898,19 @@ TEST(cmd_line_parse, parseTestTwoPhasedParse)
     argparser::varg<bool> testflgvarg2(true, false);
     testvar.addFlagArgument(&testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument");
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "foo";
     parserchar opt2[] = "-i";
     parserchar opt3[] = "-f";
     parserchar opt4[] = "-g";
     parserchar* argv[] = {progname, opt1, opt2, opt3, opt4};
+    // NOLINTEND
+
     int argc = sizeof(argv) / sizeof(argv[0]);
 
     // Phase 1
-    EXPECT_EQ(2, testvar.parse(argc, argv, 1, 2));
+    EXPECT_EQ(2, testvar.parse(argc, argv, 1, 2));     // NOLINT
     EXPECT_STREQ("foo", testsubarg.value.c_str());
     EXPECT_FALSE(testflgvarg.value);
     EXPECT_FALSE(testflgvarg1.value);
@@ -860,7 +918,7 @@ TEST(cmd_line_parse, parseTestTwoPhasedParse)
 
     // Phase 2
     testsubarg.value = "phase2";
-    EXPECT_EQ(argc, testvar.parse(argc, argv, 2));
+    EXPECT_EQ(argc, testvar.parse(argc, argv, 2));     // NOLINT
     EXPECT_STREQ("phase2", testsubarg.value.c_str());
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
@@ -871,7 +929,7 @@ TEST(cmd_line_parse, parseTestThreePhasedParse)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
-    argparser::varg<std::string> testsubarg("");
+    argparser::vargstring testsubarg("");
     testvar.addPositionalArgument(&testsubarg, "subcmd", "This is the test subcmd argument");
 
     argparser::varg<bool> testflgvarg(false, true);
@@ -883,9 +941,10 @@ TEST(cmd_line_parse, parseTestThreePhasedParse)
     argparser::varg<bool> testflgvarg2(true, false);
     testvar.addFlagArgument(&testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument");
 
-    argparser::varg<std::string> testoutname("outname");
+    argparser::vargstring testoutname("outname");
     testvar.addPositionalArgument(&testoutname, "outputname", "This is the test output name argument");
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "foo";
     parserchar opt2[] = "-i";
@@ -893,10 +952,12 @@ TEST(cmd_line_parse, parseTestThreePhasedParse)
     parserchar opt4[] = "-g";
     parserchar opt5[] = "george";
     parserchar* argv[] = {progname, opt1, opt2, opt3, opt4, opt5};
+    // NOLINTEND
+
     int argc = sizeof(argv) / sizeof(argv[0]);
 
     // Phase 1
-    EXPECT_EQ(2, testvar.parse(argc, argv, 1, 2));
+    EXPECT_EQ(2, testvar.parse(argc, argv, 1, 2));     // NOLINT
     EXPECT_STREQ("foo", testsubarg.value.c_str());
     EXPECT_FALSE(testflgvarg.value);
     EXPECT_FALSE(testflgvarg1.value);
@@ -905,7 +966,7 @@ TEST(cmd_line_parse, parseTestThreePhasedParse)
 
     // Phase 2
     testsubarg.value = "phase2";
-    EXPECT_EQ(argc-1, testvar.parse(argc, argv, 2, argc-1));
+    EXPECT_EQ(argc-1, testvar.parse(argc, argv, 2, argc-1));       // NOLINT
     EXPECT_STREQ("phase2", testsubarg.value.c_str());
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
@@ -913,7 +974,7 @@ TEST(cmd_line_parse, parseTestThreePhasedParse)
     EXPECT_STREQ("outname", testoutname.value.c_str());
 
     // Phase 3
-    EXPECT_EQ(argc, testvar.parse(argc, argv, argc-1));
+    EXPECT_EQ(argc, testvar.parse(argc, argv, argc-1));            // NOLINT
     EXPECT_STREQ("phase2", testsubarg.value.c_str());
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
@@ -934,10 +995,10 @@ TEST(cmd_line_parse, parseTestTwPhasedTwoParserPositionalStop)
     argparser::varg<bool> testflgvarg2(true, false);
     testvar.addFlagArgument(&testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument");
 
-    argparser::varg<std::string> testsubarg("");
+    argparser::vargstring testsubarg("");
     testvar.addPositionalArgument(&testsubarg, "subcmd", "This is the test subcmd argument");
 
-
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar opt1[] = "-i";
     parserchar opt2[] = "-f";
@@ -949,11 +1010,13 @@ TEST(cmd_line_parse, parseTestTwPhasedTwoParserPositionalStop)
     parserchar opt8[] = "-o";
     parserchar opt9[] = "myfile";
     parserchar* argv[] = {progname, opt1, opt2, opt3, opt4, opt5, opt6, opt7, opt8, opt9};
+    // NOLINTEND
+
     int argc = sizeof(argv) / sizeof(argv[0]);
 
     // Phase 1
     testvar.setPositionalNameStop("subcmd");
-    EXPECT_EQ(5, testvar.parse(argc, argv));
+    EXPECT_EQ(5, testvar.parse(argc, argv));       // NOLINT
     EXPECT_TRUE(testflgvarg.value);
     EXPECT_TRUE(testflgvarg1.value);
     EXPECT_FALSE(testflgvarg2.value);
@@ -967,10 +1030,10 @@ TEST(cmd_line_parse, parseTestTwPhasedTwoParserPositionalStop)
     argparser::varg<int> testCmd1Valuevarg(0);
     cmd1Parser.addKeyArgument(&testCmd1Valuevarg, "testCmd1Value", "-y", "This is the cmd1 test value argument");
 
-    argparser::varg<std::string> testCmd1OutArg("");
+    argparser::vargstring testCmd1OutArg("");
     cmd1Parser.addKeyArgument(&testCmd1OutArg, "testCmd1OutArg", "-o, --output", "This is the cmd1 test output argument");
 
-    EXPECT_EQ(argc, cmd1Parser.parse(argc, argv, 5));
+    EXPECT_EQ(argc, cmd1Parser.parse(argc, argv, 5));      // NOLINT
     EXPECT_TRUE(testCmd1flgvarg.value);
     EXPECT_EQ(13, testCmd1Valuevarg.value);
     //EXPECT_STREQ("myfile", testCmd1OutArg.value.c_str());
@@ -983,17 +1046,20 @@ TEST(cmd_line_parse, parseTestMissingRequiredSubcommand)
     argparser::varg<bool>        flagArg(false, true);          // Default = false, set to true if command line option found
     testvar.addFlagArgument(&flagArg, "version", "-V,--version", "Example of a simple true/false flag argument");
 
-    argparser::varg<std::string> subcommand("none");            // Default = none
+    argparser::vargstring subcommand("none");            // Default = none
     testvar.addPositionalArgument(&subcommand, "subcommand", "Example of a positional argument as subcommand", 1, true); // sub command argument
 
+    // NOLINTBEGIN
     parserchar progname[] = "runprog";
     parserchar* argv[] = {progname};
+    // NOLINTEND
+
     int argc = sizeof(argv) / sizeof(argv[0]);
 
     testing::internal::CaptureStderr();
     testvar.disableHelpDisplayOnError();
 
-    EXPECT_EQ(-1, testvar.parse(argc, argv, 1, 2));
+    EXPECT_EQ(-1, testvar.parse(argc, argv, 1, 2));    // NOLINT
     EXPECT_FALSE(flagArg.value);
     EXPECT_STREQ("none", subcommand.value.c_str());
     parserstr output = testing::internal::GetCapturedStderr();

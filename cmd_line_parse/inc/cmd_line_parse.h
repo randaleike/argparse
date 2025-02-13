@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2020 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -87,7 +87,7 @@ class cmd_line_parse : public parser_base
         bool isCurrentArgKeySwitch();
 
         /**
-        * @brief Make sure all arguments that are marked as required were found during the 
+        * @brief Make sure all arguments that are marked as required were found during the
         *        command line parsing
         */
         void checkRequiredArgsFound();
@@ -125,13 +125,12 @@ class cmd_line_parse : public parser_base
          * @param keyString  - Key value that was matched
          * @param valueString - Reference to the embedded value string if present, else empty string
          *
-         * @ * @ingroup argparser
-eturn bool - False = assignment worked, true = assignment failed
+         * @return bool - False = assignment worked, true = assignment failed
          */
         bool assignKeyFlagValue(ArgEntry& currentArg, const char* keyString, parserstr& valueString);
 
         /**
-         * @brief Assign multiple values to a list argument storeage.
+         * @brief Assign multiple values to a list argument storage.
          *
          * @param currentArg - Pointer to the argument to set
          * @param keyString  - Key value that was matched
@@ -168,46 +167,46 @@ eturn bool - False = assignment worked, true = assignment failed
         cmd_line_parse();
 
         /**
+         * @brief Constructor with input
+         *
+         * @param usage - Usage string for the help display
+         * @param description - Description string for the help display
+         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
+         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
+         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
+         *                                                       4 - Error and informational messages
+         *                                                       5+ - Error, informational and flow tracking messages
+         */
+        cmd_line_parse(parserstr& usage, parserstr& description, bool abortOnError = false, bool disableDefaultHelp = false,
+                       int debugLevel = debugVerbosityLevel_e::noDebugMsg);
+
+        /**
+         * @brief Constructor with input
+         *
+         * @param usage - Usage string for the help display
+         * @param description - Description string for the help display
+         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
+         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
+         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
+         *                                                       4 - Error and informational messages
+         *                                                       5+ - Error, informational and flow tracking messages
+         */
+        cmd_line_parse(const char* usage, const char* description, bool abortOnError = false, bool disableDefaultHelp = false,
+                       int debugLevel = debugVerbosityLevel_e::noDebugMsg);
+
+        /**
          * @brief Copy Constructor
          *
          * @param other - Source object for the copy
          */
         cmd_line_parse(const cmd_line_parse& other);
-        
+
         /**
          * @brief Reference Copy Constructor
          *
          * @param other - Source object for the copy
          */
-        cmd_line_parse(cmd_line_parse&& other);
-
-        /**
-         * @brief Constructor with input
-         *
-         * @param usage - Usage string for the help display
-         * @param description - Description string for the help display
-         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
-         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
-         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
-         *                                                       4 - Error and informational messages
-         *                                                       5+ - Error, informational and flow tracking messages
-         */        
-        cmd_line_parse(parserstr& usage, parserstr& description, bool abortOnError = false, bool disableDefaultHelp = false, 
-                       int debugLevel = debugVerbosityLevel_e::noDebugMsg);
-
-        /**
-         * @brief Constructor with input
-         *
-         * @param usage - Usage string for the help display
-         * @param description - Description string for the help display
-         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
-         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
-         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
-         *                                                       4 - Error and informational messages
-         *                                                       5+ - Error, informational and flow tracking messages
-         */        
-        cmd_line_parse(const char* usage, const char* description, bool abortOnError = false, bool disableDefaultHelp = false, 
-                       int debugLevel = debugVerbosityLevel_e::noDebugMsg);
+        cmd_line_parse(cmd_line_parse&& other) noexcept;
 
         /**
          * @brief Copy Assignment Constructor
@@ -221,7 +220,7 @@ eturn bool - False = assignment worked, true = assignment failed
          *
          * @param other - Source object for the copy
          */
-        cmd_line_parse& operator=(cmd_line_parse&& other);
+        cmd_line_parse& operator=(cmd_line_parse&& other) noexcept;
 
         /**
          * @brief Destructor
@@ -357,8 +356,6 @@ eturn bool - False = assignment worked, true = assignment failed
          */
         void setPositionalNameStop(const char* positionalArgumentName);
 
-//#pragma clang diagnostic push
-//#pragma clang diagnostic ignored "-Wundef-modernize-array-parameters"
         /**
          * @brief Parse the input command line arguments
          *
@@ -369,8 +366,7 @@ eturn bool - False = assignment worked, true = assignment failed
          *
          * @return int - Index of the last argument parsed or -1 if an error occured
          */
-        int parse(int argc, char* argv[], int startingArgIndex = 1, int endingArgIndex = -1);
-//#pragma clang diagnostic pop
+        int parse(int argc, char* argv[], int startingArgIndex = 1, int endingArgIndex = -1);  // NOLINT
 
         /**
          * @brief Print the formatted option help message to the input stream

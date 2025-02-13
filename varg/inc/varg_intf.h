@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -38,19 +38,20 @@ namespace argparser
 {
 
 /**
- * @brief SetValue return code values 
+ * @brief SetValue return code values
  */
 enum valueParseStatus_e
 {
     PARSE_SUCCESS_e = 0,                ///< Input string successfully parsed
     PARSE_INVALID_INPUT_e,              ///< Input could not be parsed into an appropriate value
-    PARSE_BOUNDARY_LOW_e,               ///< Parsed value exceeds lower value limit
-    PARSE_BOUNDARY_HIGH_e,              ///< Parsed value exceeds upper value limit
+    PARSE_OUT_OF_RANGE_e,               ///< Parsed value exceeds upper or lower value limit
+    PARSE_STORAGE_NULLPTR_e,            ///< Assignment into a vargptr type where the pointer is set to nullptr
+    PARSE_STORAGE_TOO_MANY_e,           ///< Assignment into a varcarray type where the argument count exceeded the element count
 };
 
 /**
  * @brief Type string format type selection
- * 
+ *
  */
 enum typeStringFormat_e
 {
@@ -63,7 +64,7 @@ enum typeStringFormat_e
 };
 
 /**
- * @brief Base variable argument varg interface and methods 
+ * @brief Base variable argument varg interface and methods
  */
 class varg_intf
 {
@@ -76,11 +77,11 @@ class varg_intf
         double              maxDoubleValue;         ///< Minimum allowed floating point value
 
         std::string         typeString;             ///< Type description string with min/max values
-    
+
     protected:
         /**
          * @brief Set the Min Max Signed object
-         * 
+         *
          * @param min - Minimum signed value allowed to be assigned
          * @param max - Minimum signed value allowed to be assigned
          */
@@ -88,7 +89,7 @@ class varg_intf
 
         /**
          * @brief Set the Min Max Signed object
-         * 
+         *
          * @param min - Minimum unsigned value allowed to be assigned
          * @param max - Minimum unsigned value allowed to be assigned
          */
@@ -96,7 +97,7 @@ class varg_intf
 
         /**
          * @brief Set the Min Max Signed object
-         * 
+         *
          * @param min - Minimum floating point value allowed to be assigned
          * @param max - Minimum floating point value allowed to be assigned
          */
@@ -108,7 +109,11 @@ class varg_intf
         void setTypeString(typeStringFormat_e fmtType);
 
         /**
-         * @brief Gt the Bool Value object
+         * @brief Set the Min Max Signed object
+         *
+         * @param min - Minimum floating point value allowed to be assigned
+         * @param max - Minimum floating point value allowed to be assignedvoid varg_intf::ltrim(std::string &s)
+
          *
          * @param newValue - input argument string
          * @param parsedValue - parsed boolean value if parsing succeeded
@@ -120,10 +125,10 @@ class varg_intf
 
         /**
          * @brief Get the New character object value
-         * 
+         *
          * @param newValue - input argument string
          * @param parsedValue - parsed character value if parsing succeeded
-         * 
+         *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
          */
@@ -131,27 +136,25 @@ class varg_intf
 
         /**
          * @brief Get a signed value from the input string
-         * 
+         *
          * @param newValue - Input string to parse
          * @param parsedValue - return long long integer value
-         * 
+         *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e getSignedValue(const char* newValue, long long int &parsedValue) const;
 
         /**
          * @brief Get a unsigned value from the input string
-         * 
+         *
          * @param newValue - Input string to parse
          * @param parsedValue - return long long unsigned value
-         * 
+         *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e getUnsignedValue(const char* newValue, long long unsigned &parsedValue) const;
 
@@ -163,8 +166,7 @@ class varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value was below the lower set limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value was above the upper set limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         valueParseStatus_e getDoubleValue(const char* newValue, double& parsedValue) const;
 
@@ -193,7 +195,7 @@ class varg_intf
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual bool isList() const = 0;
+        [[nodiscard]] virtual bool isList() const = 0;
 
         /**
          * @brief Virtual place holder for the template variable implementation setValue with input function
@@ -202,8 +204,7 @@ class varg_intf
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
          */
         virtual valueParseStatus_e setValue(const char* newValue) = 0;
 
@@ -221,6 +222,13 @@ class varg_intf
          * @return false - if variable is not empty
          */
         virtual bool isEmpty() = 0;
+
+        /**
+         * Virtual place holder for the template variable implementation getAssignmentCount function
+         *
+         * @return size_t - number of elements assigned to list object
+         */
+        virtual size_t getAssignmentCount()     {return 0;}
 };
 
 }; // end of namespace argparser

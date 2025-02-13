@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -33,7 +33,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <limits.h>
+#include <climits>
 
 using namespace argparser;
 
@@ -54,15 +54,19 @@ class vargintfUnitTest : public varg_intf, public testing::Test
     private:
 
     public:
-        vargintfUnitTest() {}
-        virtual ~vargintfUnitTest() override {}
+        vargintfUnitTest() = default;
+        vargintfUnitTest(const vargintfUnitTest& other) = delete;
+        vargintfUnitTest(vargintfUnitTest&& other) = delete;
+        vargintfUnitTest& operator=(const vargintfUnitTest& other) = delete;
+        vargintfUnitTest& operator=(vargintfUnitTest&& other) = delete;
+        ~vargintfUnitTest() override = default;
 
         /**
          * @brief Get the base argument type as a string
          *
          * @return char* - Base type string
          */
-        virtual const char* getTypeString() override                       {return varg_intf::getTypeString();}
+        const char* getTypeString() override {return varg_intf::getTypeString();}
 
         /**
          * @brief Return if varg is a list of elements or a single element type
@@ -70,7 +74,7 @@ class vargintfUnitTest : public varg_intf, public testing::Test
          * @return true - List type variable, multiple arguement values are allowed
          * @return false - Only 0 or 1 argument values are allowed.
          */
-        virtual bool isList() const override                               {return false;}
+        [[nodiscard]] bool isList() const override        {return false;}
 
         /**
          * @brief Virtual place holder for the template variable implementation setValue with input function
@@ -79,17 +83,17 @@ class vargintfUnitTest : public varg_intf, public testing::Test
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-         * @return valueParseStatus_e::PARSE_BOUNDARY_LOW_e  - if value exceeds lower value limit
-         * @return valueParseStatus_e::PARSE_BOUNDARY_HIGH_e - if value exceeds upper value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds lower value limit
+         * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e - if value exceeds upper value limit
          */
-        virtual valueParseStatus_e setValue(const char* newValue) override {return valueParseStatus_e::PARSE_SUCCESS_e;}
+        valueParseStatus_e setValue(const char* newValue) override {return valueParseStatus_e::PARSE_SUCCESS_e;}
 
         /**
          * Virtual place holder for the template variable implementation setValue function
          *
          * @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
          */
-        virtual valueParseStatus_e setValue() override                     {return valueParseStatus_e::PARSE_SUCCESS_e;}
+        valueParseStatus_e setValue() override                     {return valueParseStatus_e::PARSE_SUCCESS_e;}
 
         /**
          * Virtual place holder for the template variable implementation isEmpty function
@@ -97,7 +101,7 @@ class vargintfUnitTest : public varg_intf, public testing::Test
          * @return true - if the variable is empty
          * @return false - if variable is not empty
          */
-        virtual bool isEmpty() override                                    {return false;}
+        bool isEmpty() override                                    {return false;}
 };
 
 TEST_F(vargintfUnitTest, GetBool_true)
@@ -235,18 +239,18 @@ TEST_F(vargintfUnitTest, GetSignedValue_max_fail)
 {
     long long int testValue = 0;
     vargintfUnitTest::setMinMaxSigned(signedtestMin, signedtestMax);
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getSignedValue("101", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getSignedValue("102", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getSignedValue("200", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("101", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("102", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("200", testValue));
 }
 
 TEST_F(vargintfUnitTest, GetSignedValue_min_fail)
 {
     long long int testValue = 0;
     vargintfUnitTest::setMinMaxSigned(signedtestMin, signedtestMax);
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getSignedValue("-101", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getSignedValue("-102", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getSignedValue("-200", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("-101", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("-102", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("-200", testValue));
 }
 
 TEST_F(vargintfUnitTest, GetUnsignedValue)
@@ -286,18 +290,18 @@ TEST_F(vargintfUnitTest, GetUnsignedValue_max_fail)
 {
     long long unsigned testValue = 0;
     vargintfUnitTest::setMinMaxUnsigned(unsignedtestMin, unsignedtestMax);
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getUnsignedValue("101", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getUnsignedValue("102", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getUnsignedValue("200", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue("101", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue("102", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue("200", testValue));
 }
 
 TEST_F(vargintfUnitTest, GetUnsignedValue_min_fail)
 {
     long long unsigned testValue = 0;
     vargintfUnitTest::setMinMaxUnsigned(unsignedtestMin, unsignedtestMax);
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getUnsignedValue("9", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getUnsignedValue("8", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getUnsignedValue("0", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue("9", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue("8", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue("0", testValue));
 }
 
 TEST_F(vargintfUnitTest, GetDoubleValue)
@@ -337,17 +341,17 @@ TEST_F(vargintfUnitTest, GetDoubleValue_max_fail)
 {
     double testValue = 0;
     vargintfUnitTest::setMinMaxDouble(doubletestMin, doubletestMax);
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getDoubleValue("1.1e7", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getDoubleValue("1e8", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_HIGH_e, vargintfUnitTest::getDoubleValue("2e7", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("1.1e7", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("1e8", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("2e7", testValue));
 }
 
 TEST_F(vargintfUnitTest, GetDoubleValue_min_fail)
 {
     double testValue = 0;
     vargintfUnitTest::setMinMaxDouble(doubletestMin, doubletestMax);
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getDoubleValue("1e-8", testValue));
-    EXPECT_EQ(valueParseStatus_e::PARSE_BOUNDARY_LOW_e, vargintfUnitTest::getDoubleValue("9.99999e-8", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("1e-8", testValue));
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("9.99999e-8", testValue));
 }
 
 /** @} */

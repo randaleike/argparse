@@ -27,8 +27,10 @@
  */
 
 // Includes
-#include <stdlib.h>
+#include <codecvt>
+#include <cstdlib>
 #include <cstring>
+#include <locale>
 #include <string>
 #include "varg_intf.h"
 #include "varg.h"
@@ -48,15 +50,50 @@ using namespace argparser;
 //  Protected functions
 //============================================================================================================================
 //============================================================================================================================
-
-
-//============================================================================================================================
-//============================================================================================================================
-//  Constructor/Destructor functions
-//============================================================================================================================
-//============================================================================================================================
-envparser::envparser(bool abortOnError, int debugLevel): parser_base(abortOnError,debugLevel), debugMsgLevel(debugLevel)  {}
-envparser::~envparser()         {}
+/**
+ * @brief Get the Environment Var value
+ *
+ * @param searchName - Name of the environment varable to find
+ * @param envValue - Reference to a string to store the response in
+ *
+ * @return bool - true if the search name was found, else false if not
+ */
+bool envparser::getEnvironmentVar(parserstr searchName, parserstr& envValue)
+{
+    bool foundStatus = false;
+#if defined(__linux__) || defined(__unix__)
+    const char* foundValue = getenv(searchName.c_str());
+    if (nullptr != foundValue)
+    {
+        envValue = foundValue;
+        foundStatus = true;
+    }
+#elif defined(_WIN64) || defined(_WIN32)
+    DWORD buffRetSize = 0;
+  #ifdef UNICODE
+    std::wstring envName(searchName.begin(), searchName.end());
+    buffRetSize = GetEnvironmentVariable(envName.c_str(), envRetBuffer, bufferSize);
+    if (0 != buffRetSize)
+    {
+        #ifdef UNICODE
+            std::wstring cvtValue(envRetBuffer);
+            envValue = std::string(cvtValue.begin(), cvtValue.end());
+        #else
+            envValue = envRetBuffer;
+        #endif
+  #else
+    buffRetSize = GetEnvironmentVariable(searchName.c_str(), envRetBuffer, bufferSize);
+    if (0 != buffRetSize)
+    {
+        envValue = envRetBuffer;
+  #endif
+        foundStatus = true;
+    }
+#else
+    #error "Define getEnvironmentVar() method for this OS!"
+#endif
+    return foundStatus;
+}
 
 //============================================================================================================================
 //============================================================================================================================
@@ -84,11 +121,11 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
     // Only list type varg_intf are allowed more than 1 value
     if (nargs == 0)
     {
-        std::cerr << parser_base::getParserStringList()->getEnvironmentNoFlags(argKey) << std::endl;
+        std::cerr << parser_base::getParserStringList().getEnvironmentNoFlags(argKey) << std::endl;
     }
     else if ((nargs != 1) && !arg->isList())
     {
-        std::cerr << parser_base::getParserStringList()->getNotListTypeMessage(nargs) << std::endl;
+        std::cerr << parser_base::getParserStringList().getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -137,23 +174,19 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
  */
 bool envparser::parse()
 {
+
     // Scan the environment
     for (auto & currentArg : parser_base::getKeyArgList())
     {
-#if defined(__linux__) || defined(__unix__)
-        const char* envValue = getenv(currentArg.name.c_str());
-        if (NULL != envValue)
-#elif defined(_WIN64) || defined(_WIN32)
-        size_t count = 0;
-        char* envValue = nullptr;
-        if ((_dupenv_s(&envValue, &count, currentArg.name.c_str()) == 0) && (nullptr != envValue))
-#endif
+        parserstr envValue;
+        bool found = getEnvironmentVar(currentArg.name, envValue);
+        if (found)
         {
             // Process the return value string
             std::list<std::string> assignmentValues;
             std::string valueString = envValue;
             size_t valueCount = parser_base::getValueList(valueString, assignmentValues);
-            size_t requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
+            auto requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
             if (debugMsgLevel > debugVerbosityLevel_e::veryVerboseDebug)
             {
                 std::cout << "Environment value: " << envValue << std::endl;
@@ -176,26 +209,26 @@ bool envparser::parse()
 
                 case eAssignTooMany:
                     // Not enough values to meet the minimum required
-                    std::cerr << parser_base::getParserStringList()->getTooManyAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
+                    std::cerr << parser_base::getParserStringList().getTooManyAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
                     parser_base::setParsingError(true);
                     break;
 
                 case eAssignNoValue:
                     // Need at least one value
-                    std::cerr << parser_base::getParserStringList()->getMissingAssignmentMessage(currentArg.name) << std::endl;
+                    std::cerr << parser_base::getParserStringList().getMissingAssignmentMessage(currentArg.name) << std::endl;
                     parser_base::setParsingError(true);
                     break;
 
                 case eAssignTooFew:
                     // More values than required
-                    std::cerr << parser_base::getParserStringList()->getMissingListAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
+                    std::cerr << parser_base::getParserStringList().getMissingListAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
                     parser_base::setParsingError(true);
                     break;
 
                 case eAssignFailed:
                 default:
                     // Failed an assignment
-                    std::cerr << parser_base::getParserStringList()->getAssignmentFailedMessage(currentArg.name, failedAssignment) << std::endl;
+                    std::cerr << parser_base::getParserStringList().getAssignmentFailedMessage(currentArg.name, failedAssignment) << std::endl;
                     parser_base::setParsingError(true);
                     break;
             } // end of switch status
@@ -210,7 +243,7 @@ bool envparser::parse()
         {
             if ((keyArg.isRequired) && !(keyArg.isFound))
             {
-                std::cerr << parser_base::getParserStringList()->getMissingArgumentMessage(keyArg.name) << std::endl;
+                std::cerr << parser_base::getParserStringList().getMissingArgumentMessage(keyArg.name) << std::endl;
                 parser_base::setParsingError(true);
             }
         }
@@ -233,7 +266,7 @@ void envparser::displayHelp(std::ostream &outStream)
     if (!parser_base::isKeyArgListEmpty())
     {
         // Display the key arguments help
-        outStream << parser_base::getParserStringList()->getEnvArgumentsMessage() << std::endl;
+        outStream << parser_base::getParserStringList().getEnvArgumentsMessage() << std::endl;
         for (auto const& keyArg : parser_base::getKeyArgList())
         {
             // Display the arg block

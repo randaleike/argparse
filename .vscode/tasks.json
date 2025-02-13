@@ -1,0 +1,24 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean build",
+            "type": "shell",
+            "command": "${workspaceFolder}/clean_cmake.sh",
+            "windows": {
+              "command": "${workspaceFolder}\\clean_cmake.bat"
+            }
+        },
+        {
+            "label": "Make unittest",
+            "type": "shell",
+            "command": "make unittest",
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            }
+        },
+
+    ]
+}

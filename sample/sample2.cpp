@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2023 Randal Eike
+Copyright (c) 2023-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -71,12 +71,12 @@ Copyright (c) 2023 Randal Eike
  */
 int main(int argc, char * argv[])
 {
-    argparser::varg<std::string> positionalArg("");             // Default = empty string
-    argparser::varg<std::string> argString("default");          // Default = "default" string
-    argparser::varg<int>         intArg(2);                     // Default = 2
-    argparser::varg<bool>        flagArg(false, true);          // Default = false, set to true if command line option found
-    argparser::vargincrement     counter;                       // Default = 0, incremented each time the argument flag is found
-    argparser::cmd_line_parse    cmdLineParser("sample2 [switched options ] [positional arg]",
+    argparser::vargstring       positionalArg("");             // Default = empty string
+    argparser::vargstring       argString("default");          // Default = "default" string
+    argparser::varg<int>        intArg(2);                     // Default = 2
+    argparser::varg<bool>       flagArg(false, true);          // Default = false, set to true if command line option found
+    argparser::vargincrement    counter;                       // Default = 0, incremented each time the argument flag is found
+    argparser::cmd_line_parse   cmdLineParser("sample2 [switched options ] [positional arg]",
                                               "Description of the utility to be included in the help display",
                                               true);
 
@@ -115,16 +115,16 @@ Expected Output:
     sample2 [switched options ] [positional arg]
 
     Description of the utility to be included in the help display
-    
+
     Optional Arguments:
-     -h,--help,-?            show this help message and exit                        
-     -f,--flag               Example of a simple true/false flag argument           
-     -c,--count              Example of a incrementing counter argument             
-     -i,--input=integerValue Example of a basic integer value argument              
-     -o, --output=argString  Example of a switched string argument                  
+     -h,--help,-?            show this help message and exit
+     -f,--flag               Example of a simple true/false flag argument
+     -c,--count              Example of a incrementing counter argument
+     -i,--input=integerValue Example of a basic integer value argument
+     -o, --output=argString  Example of a switched string argument
 
     Positional Arguments:
-     positionalString        Example of a string argument as positional             
+     positionalString        Example of a string argument as positional
 
     Parser failed, help displayed
 
@@ -135,16 +135,16 @@ Expected Output:
     sample2 [switched options ] [positional arg]
 
     Description of the utility to be included in the help display
-    
+
     Optional Arguments:
-     -h,--help,-?            show this help message and exit                        
-     -f,--flag               Example of a simple true/false flag argument           
-     -c,--count              Example of a incrementing counter argument             
-     -i,--input=integerValue Example of a basic integer value argument              
-     -o, --output=argString  Example of a switched string argument                  
+     -h,--help,-?            show this help message and exit
+     -f,--flag               Example of a simple true/false flag argument
+     -c,--count              Example of a incrementing counter argument
+     -i,--input=integerValue Example of a basic integer value argument
+     -o, --output=argString  Example of a switched string argument
 
     Positional Arguments:
-     positionalString        Example of a string argument as positional             
+     positionalString        Example of a string argument as positional
 
     Parser failed, help displayed
 

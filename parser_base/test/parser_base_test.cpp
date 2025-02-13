@@ -1,22 +1,22 @@
-/* 
+/*
  Copyright (c) 2022-2024 Randal Eike
- 
- Permission is hereby granted, free of charge, to any person obtaining a 
+
+ Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
  to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense,
  and/or sell copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included
  in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
@@ -27,7 +27,7 @@
  * @{
  */
 
-// Includes 
+// Includes
 #include "varg_intf.h"
 #include "varg.h"
 #include "listvarg.h"
@@ -42,31 +42,80 @@ const size_t defaultHelpWidth   = 30;
 class test_parser_base : public argparser::parser_base
 {
     public:
-        test_parser_base()  {}
+        /**
+         * @brief Construct a new test parser base object
+         */
+        test_parser_base() = default;
+
+        /**
+         * @brief Construct a new test parser base object with inputs
+         *
+         * @param abortOnError - True if the first error should abort parsing,
+         *                       else false if parsing should continue to the end
+         *                       of the input arguments.
+         * @param debugLevel - Diagnostic message verbosity level,
+         *                     0 = only errors
+         *                     1 = minimal debug messages
+         *                     2 = normal debug messages
+         *                     3 = verbose debug messages
+         *                     4+ = very verbose debug messages
+         */
         test_parser_base(bool abortOnError, int debugLevel) : argparser::parser_base(abortOnError, debugLevel) {}
-        ~test_parser_base() {}
+
+        /**
+         * @brief Copy constructor for test_parser_base object
+         *
+         * @param other - Reference to the object to copy
+         */
+        test_parser_base(const test_parser_base& other) = default;
+
+        /**
+         * @brief Reference copy constructor for test_parser_base object
+         *
+         * @param other - Reference to the reference object to copy
+         */
+        test_parser_base(test_parser_base&& other) = default;
+
+        /**
+         * @brief Assignment copy constructor for test_parser_base object
+         *
+         * @param other - Reference to the object to copy
+         */
+        test_parser_base& operator=(const test_parser_base& other) = default;
+
+        /**
+         * @brief Assignment reference copy constructor for test_parser_base object
+         *
+         * @param other - Reference to the reference object to copy
+         */
+        test_parser_base& operator=(test_parser_base&& other) = default;
+
+        /**
+         * @brief Destroy the test parser base object
+         */
+        ~test_parser_base() = default;
 
         // Protected data accessors
         std::list<argparser::ArgEntry> getKeyArgList()  {return argparser::parser_base::getKeyArgList();}
         parserchar getKeyListDelimiter()                {return argparser::parser_base::getKeyListDelimeter();}
         parserchar getAssignmentDelimiter()             {return argparser::parser_base::getAssignmentDelimeter();}
         parserchar getAssignmentListDelimiter()         {return argparser::parser_base::getAssignmentListDelimeter();}
-        bool getAbortOnError()                          {return argparser::parser_base::getErrorAbortFlag();}        
-        int  getDebugLevel()                            {return argparser::parser_base::getDebugMsgLevel();}  
+        bool getAbortOnError()                          {return argparser::parser_base::getErrorAbortFlag();}
+        int  getDebugLevel()                            {return argparser::parser_base::getDebugMsgLevel();}
         size_t getMaxColumnWitdth()                     {return argparser::parser_base::getMaxColumnWidth();}
         size_t getMaxOptionLength()                     {return argparser::parser_base::getMaxOptionLength();}
 
         void   addArgument(argparser::ArgEntry& arg)    {argparser::parser_base::addKeyArgListEntry(arg);}
-        argparser::BaseParserStringList* getStringList() {return argparser::parser_base::getParserStringList();}  
+        argparser::BaseParserStringList& getStringList() {return argparser::parser_base::getParserStringList();}
 };
 
 //======================================================================================
 // Public Interface testing
 //======================================================================================
 
-TEST(parser_base, ConstructorBasic) 
-{ 
-    test_parser_base testvar; 
+TEST(parser_base, ConstructorBasic)
+{
+    test_parser_base testvar;
     EXPECT_TRUE(testvar.getKeyArgList().empty());
     EXPECT_FALSE(testvar.getAbortOnError());
     EXPECT_EQ(0, testvar.getDebugLevel());
@@ -76,11 +125,11 @@ TEST(parser_base, ConstructorBasic)
     EXPECT_EQ(',', testvar.getKeyListDelimiter());
     EXPECT_EQ('=', testvar.getAssignmentDelimiter());
     EXPECT_EQ(',', testvar.getAssignmentListDelimiter());
-} 
+}
 
-TEST(parser_base, ConstructorInput) 
-{ 
-    test_parser_base testvar(true, 4); 
+TEST(parser_base, ConstructorInput)
+{
+    test_parser_base testvar(true, 4);
     EXPECT_TRUE(testvar.getKeyArgList().empty());
     EXPECT_TRUE(testvar.getAbortOnError());
     EXPECT_EQ(4, testvar.getDebugLevel());
@@ -90,65 +139,65 @@ TEST(parser_base, ConstructorInput)
     EXPECT_EQ(',', testvar.getKeyListDelimiter());
     EXPECT_EQ('=', testvar.getAssignmentDelimiter());
     EXPECT_EQ(',', testvar.getAssignmentListDelimiter());
-} 
+}
 
-TEST(parser_base, setKeyListDelimiter) 
-{ 
+TEST(parser_base, setKeyListDelimiter)
+{
     test_parser_base testvar;
     testvar.setKeyListDelimiter(';');
     EXPECT_EQ(';', testvar.getKeyListDelimiter());
-} 
+}
 
-TEST(parser_base, setAssignmentDelimiter) 
-{ 
+TEST(parser_base, setAssignmentDelimiter)
+{
     test_parser_base testvar;
     testvar.setAssignmentDelimiter('#');
     EXPECT_EQ('#', testvar.getAssignmentDelimiter());
-} 
+}
 
-TEST(parser_base, setAssignmentListDelimiter) 
-{ 
+TEST(parser_base, setAssignmentListDelimiter)
+{
     test_parser_base testvar;
     testvar.setAssignmentListDelimiter(':');
     EXPECT_EQ(':', testvar.getAssignmentListDelimiter());
-} 
+}
 
-TEST(parser_base, setDebugLevel) 
-{ 
+TEST(parser_base, setDebugLevel)
+{
     test_parser_base testvar;
     testvar.setDebugLevel(3);
     EXPECT_EQ(3, testvar.getDebugLevel());
-} 
+}
 
 
-TEST(parser_base, addArgKeyListSingleNospaces) 
-{ 
+TEST(parser_base, addArgKeyListSingleNospaces)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg(0,1);
     parserstr testkeys = "--foo";
-    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
     EXPECT_EQ(1, testparser.addArgKeyList(testArg, testkeys));
     EXPECT_STREQ("--foo", testArg.keyList.front().c_str());
 }
 
-TEST(parser_base, addArgKeyListSingleSpaces) 
-{ 
+TEST(parser_base, addArgKeyListSingleSpaces)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg(0,1);
     parserstr testkeys = " --foo ";
-    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
     EXPECT_EQ(1, testparser.addArgKeyList(testArg, testkeys));
     EXPECT_STREQ("--foo", testArg.keyList.front().c_str());
 }
 
-TEST(parser_base, addArgKeyListDouble) 
-{ 
+TEST(parser_base, addArgKeyListDouble)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg(0,1);
     parserstr testkeys = "--foo,--moo";
-    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
     EXPECT_EQ(2, testparser.addArgKeyList(testArg, testkeys));
     EXPECT_STREQ("--foo", testArg.keyList.front().c_str());
@@ -156,12 +205,12 @@ TEST(parser_base, addArgKeyListDouble)
     EXPECT_STREQ("--moo", testArg.keyList.front().c_str());
 }
 
-TEST(parser_base, addArgKeyListDoubleWithSpace) 
-{ 
+TEST(parser_base, addArgKeyListDoubleWithSpace)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg(0,1);
     parserstr testkeys = " --foo, --moo ";
-    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
     EXPECT_EQ(2, testparser.addArgKeyList(testArg, testkeys));
     EXPECT_STREQ("--foo", testArg.keyList.front().c_str());
@@ -169,12 +218,12 @@ TEST(parser_base, addArgKeyListDoubleWithSpace)
     EXPECT_STREQ("--moo", testArg.keyList.front().c_str());
 }
 
-TEST(parser_base, addArgKeyListTriple) 
-{ 
+TEST(parser_base, addArgKeyListTriple)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg(0,1);
     parserstr testkeys = "--foo,--moo,--goo";
-    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
     EXPECT_EQ(3, testparser.addArgKeyList(testArg, testkeys));
     EXPECT_STREQ("--foo", testArg.keyList.front().c_str());
@@ -184,12 +233,12 @@ TEST(parser_base, addArgKeyListTriple)
     EXPECT_STREQ("--goo", testArg.keyList.front().c_str());
 }
 
-TEST(parser_base, addArgKeyListTripleNewDelimeter) 
-{ 
+TEST(parser_base, addArgKeyListTripleNewDelimeter)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg(0,1);
     parserstr testkeys = "--foo:--moo:--goo";
-    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
     testparser.setKeyListDelimiter(':');
 
     EXPECT_EQ(3, testparser.addArgKeyList(testArg, testkeys));
@@ -200,8 +249,8 @@ TEST(parser_base, addArgKeyListTripleNewDelimeter)
     EXPECT_STREQ("--goo", testArg.keyList.front().c_str());
 }
 
-TEST(parser_base, getValueList) 
-{ 
+TEST(parser_base, getValueList)
+{
     test_parser_base testparser;
     parserstr valueTestString = "1,2,3";
     std::list<parserstr> returnList;
@@ -214,8 +263,8 @@ TEST(parser_base, getValueList)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(parser_base, getValueListNewDelimeter) 
-{ 
+TEST(parser_base, getValueListNewDelimeter)
+{
     test_parser_base testparser;
     parserstr valueTestString = "1;2;3";
     std::list<parserstr> returnList;
@@ -229,8 +278,8 @@ TEST(parser_base, getValueListNewDelimeter)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(parser_base, getValueListPreceedingAssignment) 
-{ 
+TEST(parser_base, getValueListPreceedingAssignment)
+{
     test_parser_base testparser;
     parserstr valueTestString = "=1,2,3";
     std::list<parserstr> returnList;
@@ -243,8 +292,8 @@ TEST(parser_base, getValueListPreceedingAssignment)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(parser_base, getValueListPreceedingAssignmentDelim) 
-{ 
+TEST(parser_base, getValueListPreceedingAssignmentDelim)
+{
     test_parser_base testparser;
     parserstr valueTestString = ":1;2;3";
     std::list<parserstr> returnList;
@@ -259,15 +308,15 @@ TEST(parser_base, getValueListPreceedingAssignmentDelim)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(parser_base, findMatchingArg) 
-{ 
+TEST(parser_base, findMatchingArg)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg1(0,1);
     argparser::varg<bool> testvarg2(false,true);
     parserstr testkeys1 = "--foo,-f";
-    argparser::ArgEntry testArg1 = {"foo", "foo input value", "", (&testvarg1), 0, 0, true, false};
+    argparser::ArgEntry testArg1 = {"foo", "foo input value", "", (&testvarg1), 0, 0, true};
     parserstr testkeys2 = "--goo,-g";
-    argparser::ArgEntry testArg2 = {"goo", "goo input value", "", (&testvarg2), 0, 0, true, false};
+    argparser::ArgEntry testArg2 = {"goo", "goo input value", "", (&testvarg2), 0, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg1, testkeys1);
@@ -275,7 +324,7 @@ TEST(parser_base, findMatchingArg)
     testparser.addArgument(testArg1);
     testparser.addArgument(testArg2);
 
-    bool found;
+    bool found = false;
     argparser::ArgEntry& retArg = testparser.findMatchingArg("--goo", found);
     EXPECT_TRUE(found) << "did not find --goo";
     EXPECT_STREQ("goo", retArg.name.c_str()) << "found not equal goo variable";
@@ -293,12 +342,12 @@ TEST(parser_base, findMatchingArg)
     EXPECT_STREQ("foo", retArg.name.c_str()) << "found not equal foo variable";
 }
 
-TEST(parser_base, assignKeyFlagValue) 
-{ 
+TEST(parser_base, assignKeyFlagValue)
+{
     test_parser_base testparser;
     argparser::varg<bool> testvarg(false,true);
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -307,12 +356,12 @@ TEST(parser_base, assignKeyFlagValue)
     EXPECT_TRUE(testvarg.value);
 }
 
-TEST(parser_base, assignKeyValueWithInput) 
-{ 
+TEST(parser_base, assignKeyValueWithInput)
+{
     test_parser_base testparser;
     argparser::varg<int> testvarg(0,1);
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -322,12 +371,12 @@ TEST(parser_base, assignKeyValueWithInput)
     EXPECT_EQ(54, testvarg.value);
 }
 
-TEST(parser_base, assignKeyValueBadInput) 
-{ 
+TEST(parser_base, assignKeyValueBadInput)
+{
     test_parser_base testparser;
     argparser::varg<bool> testvarg(false,true);
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -337,12 +386,12 @@ TEST(parser_base, assignKeyValueBadInput)
     EXPECT_FALSE(testvarg.value);
 }
 
-TEST(parser_base, assignKeyValueEmptyInputFail) 
-{ 
+TEST(parser_base, assignKeyValueEmptyInputFail)
+{
     test_parser_base testparser;
     argparser::varg<bool> testvarg(false,true);
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -352,12 +401,12 @@ TEST(parser_base, assignKeyValueEmptyInputFail)
     EXPECT_FALSE(testvarg.value);
 }
 
-TEST(parser_base, assignListKeyValueWithInput) 
-{ 
+TEST(parser_base, assignListKeyValueWithInput)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 3, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 3, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -375,12 +424,12 @@ TEST(parser_base, assignListKeyValueWithInput)
     EXPECT_EQ(13, testvarg.value.front());
 }
 
-TEST(parser_base, assignListKeyValueWithInputAnySize) 
-{ 
+TEST(parser_base, assignListKeyValueWithInputAnySize)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -1, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -1, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -398,12 +447,12 @@ TEST(parser_base, assignListKeyValueWithInputAnySize)
     EXPECT_EQ(13, testvarg.value.front());
 }
 
-TEST(parser_base, assignListKeyValueTooMany) 
-{ 
+TEST(parser_base, assignListKeyValueTooMany)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 2, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 2, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -416,12 +465,12 @@ TEST(parser_base, assignListKeyValueTooMany)
     EXPECT_EQ(0, testvarg.value.size());
 }
 
-TEST(parser_base, assignListKeyValueTooManyNegCnt) 
-{ 
+TEST(parser_base, assignListKeyValueTooManyNegCnt)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -2, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -2, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -434,12 +483,12 @@ TEST(parser_base, assignListKeyValueTooManyNegCnt)
     EXPECT_EQ(0, testvarg.value.size());
 }
 
-TEST(parser_base, assignListKeyValueNegCnt) 
-{ 
+TEST(parser_base, assignListKeyValueNegCnt)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -4, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -4, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -457,12 +506,12 @@ TEST(parser_base, assignListKeyValueNegCnt)
     EXPECT_EQ(13, testvarg.value.front());
 }
 
-TEST(parser_base, assignListKeyValueTooFew) 
-{ 
+TEST(parser_base, assignListKeyValueTooFew)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -475,12 +524,12 @@ TEST(parser_base, assignListKeyValueTooFew)
     EXPECT_EQ(0, testvarg.value.size());
 }
 
-TEST(parser_base, assignListKeyValueEmpty) 
-{ 
+TEST(parser_base, assignListKeyValueEmpty)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true, false};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true};
     //testparser.setDebugLevel(5);
 
     std::list<parserstr> returnList;
@@ -489,19 +538,18 @@ TEST(parser_base, assignListKeyValueEmpty)
     EXPECT_EQ(0, testvarg.value.size());
 }
 
-TEST(parser_base, assignListKeyValueBadInput) 
-{ 
+TEST(parser_base, assignListKeyValueBadInput)
+{
     test_parser_base testparser;
     argparser::listvarg<int> testvarg;
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", 
-                                   "goo input value", 
-                                   "", 
-                                   (&testvarg), 
-                                   3, 
-                                   0, 
-                                   true, 
-                                   false};
+    argparser::ArgEntry testArg = {"goo",
+                                   "goo input value",
+                                   "",
+                                   (&testvarg),
+                                   3,
+                                   0,
+                                   true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
@@ -515,59 +563,59 @@ TEST(parser_base, assignListKeyValueBadInput)
     EXPECT_STREQ("moo", failValue.c_str());
 }
 
-TEST(parser_base, displayArgHelpBlockNoWrap) 
-{ 
+TEST(parser_base, displayArgHelpBlockNoWrap)
+{
     test_parser_base testparser;
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "--goo,-g", "goo input value", 
+    testparser.displayArgHelpBlock(std::cout, "--goo,-g", "goo input value",
                                    shortOptionWidth, shortOptionWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("--goo,-g             goo input value     \n", output.c_str());
 }
 
-TEST(parser_base, displayArgHelpBlockHelpWrap) 
-{ 
+TEST(parser_base, displayArgHelpBlockHelpWrap)
+{
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "--foo,-f", 
-                                   "foo input value with a longer help string", 
+    testparser.displayArgHelpBlock(std::cout, "--foo,-f",
+                                   "foo input value with a longer help string",
                                    shortOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("--foo,-f             foo input value with a longer \n                     help string                   \n", output.c_str());
 }
 
-TEST(parser_base, displayArgHelpBlockArgWrap) 
-{ 
+TEST(parser_base, displayArgHelpBlockArgWrap)
+{
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>", 
-                                   "Extra long key value", 
+    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>",
+                                   "Extra long key value",
                                    defaultOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value          \n<--extralongkeyvalue>    \n", output.c_str());
 }
 
-TEST(parser_base, displayArgHelpBlockBothWrap) 
-{ 
+TEST(parser_base, displayArgHelpBlockBothWrap)
+{
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>", 
-                                   "Extra long key value with an extra long help text string just to be sure", 
+    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue><--extralongkeyvalue>",
+                                   "Extra long key value with an extra long help text string just to be sure",
                                    defaultOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());
 }
 
-TEST(parser_base, displayArgHelpBlockBothWrap1) 
-{ 
+TEST(parser_base, displayArgHelpBlockBothWrap1)
+{
     test_parser_base testparser;
 
     testing::internal::CaptureStdout();
-    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue> <--extralongkeyvalue>", 
-                                   "Extra long key value with an extra long help text string just to be sure", 
+    testparser.displayArgHelpBlock(std::cout, "<--longkeyvalue> <--extralongkeyvalue>",
+                                   "Extra long key value with an extra long help text string just to be sure",
                                    defaultOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());

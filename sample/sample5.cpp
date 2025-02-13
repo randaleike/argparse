@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2023 Randal Eike
+Copyright (c) 2023-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -105,8 +105,8 @@ int main(int argc, char * argv[])
     subcommand.setEnumValue("write", subcommand_e::subcmd_write);
     subcommand.setEnumValue("append", subcommand_e::subcms_append);
 
-    argparser::varg<unsigned>          linecount(0);   // Default = 0
-    argparser::varg<std::string>       filename("default.txt");   // Default = default.txt
+    argparser::varg<unsigned>   linecount(0);   // Default = 0
+    argparser::vargstring       filename("default.txt");   // Default = default.txt
 
     argparser::cmd_line_parse   cmdLineParser("sample5 [subcommand] [subcommand options]",
                                               "Description of the utility to be included in the help display",
@@ -129,7 +129,7 @@ int main(int argc, char * argv[])
         switch(subcommand.value)
         {
             case subcommand_e::subcmd_invalid:
-                std::cout << "Unknown subcommand: \"" << argv[1] << "\", valid values: [read|write|append]" << std::endl;
+                std::cout << "Unknown subcommand: \"" << argv[1] << "\", valid values: [read|write|append]" << std::endl; // NOLINT
                 break;
 
             case subcommand_e::subcmd_read:

@@ -1,13 +1,12 @@
 # Arg parser Library CMake file
-cmake_minimum_required(VERSION 3.10)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=-*,readability-*)
-cmake_policy(SET CMP0048 NEW)
-project(argparse VERSION 0.9.2.0 DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
+cmake_minimum_required(VERSION 3.14)
+#cmake_policy(SET CMP0048 NEW)
+project(argparse VERSION 0.9.2.0 LANGUAGES C CXX
+        DESCRIPTION "Executable argument input parser utilities" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
-# Base includes
-include(GNUInstallDirs)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_CLANG_TIDY clang-tidy --config-file ${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy)
 
 # control where the static and shared libraries are built so that on windows
 # we don't need to tinker with the path to run the executable
@@ -17,23 +16,49 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
-# include directories
 include_directories(
-    varg/inc
-    parser_base/inc
-    cmd_line_parse/inc
-    envparse/inc
-    config_json_parse/inc
-    config_xml_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/parser_base/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_json_parse/_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/config_xml_parse/inc_clib
     )
+set(MASTER_PROJECT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    include(GNUInstallDirs)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+endif()
 
 ####
-# Unit testing
+# Gtest setup
 ####
-find_package(GTest REQUIRED)
-include(GoogleTest)
-enable_testing()
-include_directories(${GTEST_INCLUDE_DIR})
+if(DEFINED ENV{GITHUB_ACTION})
+    set(GTEST_GITHUB_REPO https://randaleike:$ENV{GTEST_FETCH}@github.com/google/googletest)
+else()
+    set(GTEST_GITHUB_REPO https://github.com/google/googletest)
+endif()
+
+include(CTest)
+include(FetchContent)
+FetchContent_Declare(googletest
+    GIT_REPOSITORY ${GTEST_GITHUB_REPO}
+    GIT_TAG v1.15.2)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set(gtest_force_shared_crt ON CACHE BOOL "Windows use msvcrt.dll" FORCE)
+endif()
+FetchContent_MakeAvailable(googletest)
+set (GTEST_INCLUDE_DIR ${googletest_SOURCE_DIR}/googletest/include)
+set (GTEST_DLL_LIBRARY_PATH ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_BUILD_TYPE})
+message ("googletest_LIB: ${GTEST_DLL_LIBRARY_PATH}")
+LIST (APPEND CMAKE_PROGRAM_PATH ${GTEST_DLL_LIBRARY_PATH})
 
 ####
 # varg Files
@@ -46,40 +71,76 @@ add_subdirectory (varg)
 add_subdirectory (parser_base)
 add_subdirectory (cmd_line_parse)
 add_subdirectory (envparse)
+add_subdirectory (config_json_parse)
+add_subdirectory (config_xml_parse)
 
 ####
 # Argparse Library build
 ####
 set (argparse_libs
-    varg
-    parser_base
-    cmd_line_parse
+    $<TARGET_FILE:envparse>
+    $<TARGET_FILE:cmd_line_parse>
+    $<TARGET_FILE:varg>
     )
 
-set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.a)
-add_custom_target(${PROJECT_NAME}
-    COMMAND ar -x $<TARGET_FILE:varg>
-    COMMAND ar -x $<TARGET_FILE:parser_base>
-    COMMAND ar -x $<TARGET_FILE:cmd_line_parse>
-    COMMAND ar -x $<TARGET_FILE:envparse>
-    COMMAND ar rcs ${C_LIB} *.o
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS ${argparse_libs}
-    )
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    find_program(LIB_EXE NAMES lib.exe)
+    set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.lib)
+    add_custom_target(${PROJECT_NAME}
+                    COMMAND ${LIB_EXE} /out:${C_LIB} $<TARGET_FILE:varg> $<TARGET_FILE:parser_base> $<TARGET_FILE:cmd_line_parse> $<TARGET_FILE:envparse>
+                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                    DEPENDS ${argparse_libs}
+                    )
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    find_program(LIB_EXE NAMES ar)
+    set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.a)
+    add_custom_target(${PROJECT_NAME}
+                      COMMAND ${LIB_EXE} -x $<TARGET_FILE:varg>
+                      COMMAND ${LIB_EXE} -x $<TARGET_FILE:parser_base>
+                      COMMAND ${LIB_EXE} -x $<TARGET_FILE:cmd_line_parse>
+                      COMMAND ${LIB_EXE} -x $<TARGET_FILE:envparse>
+                      COMMAND ${LIB_EXE} rcs ${C_LIB} *.o
+                      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                      DEPENDS ${argparse_libs}
+                      )
+endif()
+
 
 ####
 # Library unit testing
 ####
-add_custom_target(unittest
-    COMMENT "Run unittest"
-    COMMAND ./varg_test
-    COMMAND ./cmd_line_parse_test
-    COMMAND ./envparse_test
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS ${CMAKE_BINARY_DIR}/varg_test
-    DEPENDS ${CMAKE_BINARY_DIR}/cmd_line_parse_test
-    DEPENDS ${CMAKE_BINARY_DIR}/envparse_test
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set (UNITTEST_WORKING_DIR ${CMAKE_BINARY_DIR})
+    set (UNITTEST_FILE_EXT "")
+    set (UNITTEST_EXE_CMD "./")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set (UNITTEST_WORKING_DIR ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    set (UNITTEST_FILE_EXT ".exe")
+    set (UNITTEST_EXE_CMD ".\\")
+endif()
+
+add_custom_target(build-unittest
+    COMMENT "Build library unittest"
+    WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
+    DEPENDS varg_test
+    DEPENDS parser_base_test
+    DEPENDS cmd_line_parse_test
+    DEPENDS envparse_test
+    DEPENDS config_json_parse_test
+    DEPENDS config_xml_parse_test
     )
+
+add_custom_target(run-unittest
+    COMMENT "Run library unittest"
+    COMMAND ${UNITTEST_EXE_CMD}varg_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}parser_base_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}cmd_line_parse_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}envparse_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}config_json_parse_test${UNITTEST_FILE_EXT}
+    COMMAND ${UNITTEST_EXE_CMD}config_xml_parse_test${UNITTEST_FILE_EXT}
+    WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
+    DEPENDS build-unittest
+)
 
 ####
 # Install package
@@ -97,56 +158,32 @@ else()
 endif()
 
 ####
-# cmd_line_parse sample generation
-####
-set (cmd_line_sample_include
-    -I${CMAKE_CURRENT_SOURCE_DIR}/varg/inc
-    -I${CMAKE_CURRENT_SOURCE_DIR}/parser_base/inc
-    -I${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc
-    )
-
-set (cmd_line_sample_libs
-    ${CMAKE_BINARY_DIR}/libcmd_line_parse.a
-    ${CMAKE_BINARY_DIR}/libvarg.a
-    )
-
-add_custom_target(samples
-    COMMENT "Samples build"
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample1.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample1.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample2.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample2.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample3.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample3.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample4.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample4.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    COMMAND ${CMAKE_CXX_COMPILER} -o sample5.exe ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample5.cpp ${cmd_line_sample_libs} ${cmd_line_sample_include} -std=c++17 ${CMAKE_CXX_COMPILE_FLAG} ${CMAKE_CXX_LINK_LIBRARY_FLAG}
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS argparse
-    )
-
-####
-# sample code unit test generation
-####
-add_executable(sample-unittest ${CMAKE_CURRENT_SOURCE_DIR}/sample/sample_unittest.cpp)
-add_dependencies(sample-unittest samples) 
-target_link_libraries(sample-unittest ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
-add_custom_target(run-sample-unittest
-    COMMENT "Samples unittest execution"
-    COMMAND sample-unittest
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS sample-unittest
-)
-
-####
 # argparse doxygen generation
 ####
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     option(BUILD_DOC "Build Documentation configuration" ON)
-    #find_package(Doxygen REQUIRED dot)
-    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-    set(DOXYGEN_OUT ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
-    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-    #message("Doxygen build started")
-    #add_custom_target( doc_${PROJECT_NAME} ALL
-    #    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-    #    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    #    COMMENT "Generating API documentation with Doxygen"
-    #    VERBATIM )
+    set(DOXYGEN_CPPIN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-cpp.in)
+    set(DOXYGEN_CPPOUT ${CMAKE_BINARY_DIR}/Doxyfile-cpp)
+    configure_file(${DOXYGEN_CPPIN} ${DOXYGEN_CPPOUT} @ONLY)
+
+    set(DOXYGEN_CIN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile-c.in)
+    set(DOXYGEN_COUT ${CMAKE_BINARY_DIR}/Doxyfile-c)
+    configure_file(${DOXYGEN_CIN} ${DOXYGEN_COUT} @ONLY)
+
+    if(DEFINED ENV{GITHUB_ACTION})
+    else()
+        find_package(Doxygen)
+        message("Doxygen build started")
+        add_custom_target(${PROJECT_NAME}_gendoc
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_COUT}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM )
+        endif()
 endif()
+
+####
+# Samples generation
+####
+add_subdirectory(sample)
