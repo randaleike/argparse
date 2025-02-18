@@ -137,7 +137,7 @@ class BaseParserStringList
     private:
         int                     debugMsgLevel;      ///< Debug message level
         std::list<parserchar>   defaultBreakList;   ///< Default list of break characters based on language.
-        ParserStringListInterface* msgGeneration;   ///< Language specific message generation object.
+        std::shared_ptr<ParserStringListInterface> msgGeneration;   ///< Language specific message generation object.
 
         /**
          * @brief Determine the message generator language and

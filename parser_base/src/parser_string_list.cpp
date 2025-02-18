@@ -32,6 +32,7 @@
 #include <cstring>
 #include <string>
 #include <sstream>
+#include <memory>
 #include "../inc/parser_string_list.h"
 #if defined(DYNAMIC_INTERNATIONALIZATION)
   #if defined(__linux__) || defined(__unix__)
@@ -69,6 +70,7 @@ using namespace argparser;
  */
 void BaseParserStringList::intializeMessageGenerator()
 {
+
 #if defined(DYNAMIC_INTERNATIONALIZATION)
  #if defined(__linux__) || defined(__unix__)
     const parserchar* langSetting = getenv("LANG");
@@ -77,54 +79,70 @@ void BaseParserStringList::intializeMessageGenerator()
         parserstr langString = langSetting;
         if (langString == "en_US.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
+            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
         }
         else if (langString == "en_UK.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
+            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
         }
         else if (langString == "es_ES.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceSpanish;   // NOLINT
+            msgGeneration = std::make_shared<ParserStringListInterfaceSpanish>();
         }
         else if (langString == "fr_FR.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceFrench;   // NOLINT
+            msgGeneration = std::make_shared<ParserStringListInterfaceFrench>();
         }
         else if (langString == "zh_cn_utf8.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceChineseSimplified;   // NOLINT
+            msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
         }
         else if (langString == "zh_tw_utf8.UTF-8")
         {
-            msgGeneration = new ParserStringListInterfaceChineseSimplified;   // NOLINT
+            msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
         }
         /// @todo add additional else if language support above here
         else
         {
             // default to US english
-            msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
+            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
         }
     }
     else
     {
         // default to US english
-        msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
+        msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
     }
   #elif defined(_WIN64) || defined(_WIN32)
     LANGID langId = GetUserDefaultUILanguage();
-    /// @todo implement windows language detection
-    msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
+    switch(langId & 0x0FF)
+    {
+        case 0x04:
+            msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
+            break;
+        case 0x09:
+            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
+            break;
+        case 0x0A:
+            msgGeneration = std::make_shared<ParserStringListInterfaceSpanish>();
+            break;
+        case 0x0C:
+            msgGeneration = std::make_shared<ParserStringListInterfaceFrench>();
+            break;
+            /// @todo add additional cases as needed
+        default:
+            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
+    }
   #endif
 #else
   #if defined(ENGLISH_ERRORS)
-    msgGeneration = new ParserStringListInterfaceEnglish;   // NOLINT
+    msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
   #elif defined(SPANISH_ERRORS)
-    msgGeneration = new ParserStringListInterfaceSpanish;   // NOLINT
+    msgGeneration = std::make_shared<ParserStringListInterfaceSpanish>();
   #elif defined(FRENCH_ERRORS)
-    msgGeneration = new ParserStringListInterfaceFrench;   // NOLINT
+    msgGeneration = std::make_shared<ParserStringListInterfaceFrench>();
   #elif defined(CHINESE_ERRORS)
-    msgGeneration = new ParserStringListInterfaceChineseSimplified;   // NOLINT
+    msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
   /// @todo add additional #elif language support above here
   #endif
 #endif
@@ -238,8 +256,7 @@ BaseParserStringList::~BaseParserStringList()
 {
     if (nullptr != msgGeneration)
     {
-        delete msgGeneration;
-        msgGeneration = nullptr;
+        msgGeneration.reset();
     }
 }
 
