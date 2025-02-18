@@ -59,7 +59,7 @@ enable_testing()
 
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
+add_executable(${PROJECT_NAME}_test  ${vargSrc} ${vargUnitTestSrc} ${vargMockSrc})
 target_include_directories(${PROJECT_NAME}_test PUBLIC ${vargInclude} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${varargExtLibs} GTest::gtest_main)
 target_compile_options(${PROJECT_NAME}_test PUBLIC )

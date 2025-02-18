@@ -45,7 +45,7 @@ set(sample_argparse_libs
 set(cxx_sample_files sample1 sample2 sample3 sample4 sample5)
 
 foreach(samplefile ${cxx_sample_files})
-    add_executable(${samplefile} EXCLUDE_FROM_ALL ${CMAKE_CURRENT_SOURCE_DIR}/${samplefile}.cpp)
+    add_executable(${samplefile} ${CMAKE_CURRENT_SOURCE_DIR}/${samplefile}.cpp)
     target_include_directories(${samplefile} PUBLIC ${samples_cxxlib_include})
     target_compile_options(${samplefile} PRIVATE ${stdlib_compile_options})
     target_link_directories(${samplefile} PRIVATE ${CMAKE_BINARY_DIR})
@@ -54,7 +54,7 @@ endforeach()
 
 set(c_sample_files sample6)
 foreach(samplefile ${c_sample_files})
-    add_executable(${samplefile} EXCLUDE_FROM_ALL ${CMAKE_CURRENT_SOURCE_DIR}/${samplefile}.c)
+    add_executable(${samplefile} ${CMAKE_CURRENT_SOURCE_DIR}/${samplefile}.c)
     target_include_directories(${samplefile} PUBLIC ${samples_clib_include})
     target_link_libraries(${samplefile} PUBLIC ${sample_argparse_libs} ${stdlib_c_link_options})
 endforeach()
@@ -70,7 +70,7 @@ add_custom_target(samples
 ####
 enable_testing()
 
-add_executable(samples-unittest EXCLUDE_FROM_ALL ${CMAKE_CURRENT_SOURCE_DIR}/test/sample_unittest.cpp)
+add_executable(samples-unittest ${CMAKE_CURRENT_SOURCE_DIR}/test/sample_unittest.cpp)
 target_include_directories(samples-unittest SYSTEM PRIVATE ${GTEST_INCLUDE_DIR})
 target_link_libraries(samples-unittest PUBLIC GTest::gtest_main ${pthread_lib})
 add_dependencies(samples-unittest ${cxx_sample_files} ${c_sample_files})

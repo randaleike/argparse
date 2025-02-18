@@ -57,7 +57,7 @@ set (cmd_line_parseExternalLib
 
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${cmd_line_parseUnitTestSrc} ${cmd_line_parseUnitTestMock} )
+add_executable(${PROJECT_NAME}_test  ${cmd_line_parseUnitTestSrc} ${cmd_line_parseUnitTestMock} )
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${cmd_line_includes} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${cmd_line_parseExternalLib} GTest::gtest_main)
 

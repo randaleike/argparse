@@ -54,7 +54,7 @@ set (config_json_parseExternalLib
 
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${config_json_parseUnitTestSrc} ${config_json_parseUnitTestMock} )
+add_executable(${PROJECT_NAME}_test  ${config_json_parseUnitTestSrc} ${config_json_parseUnitTestMock} )
 target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_json_includes} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_json_parseExternalLib} GTest::gtest_main)
 
