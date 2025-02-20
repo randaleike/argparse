@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structenumValueSpec" kind="struct" language="C++" prot="public">
+    <compoundname>enumValueSpec</compoundname>
+    <includes refid="varg__clib_8h" local="no">varg_clib.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structenumValueSpec_1a8d7d8f90c27dfa7d481c9fa70ba6ec31" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* enumValueSpec::enumValueName</definition>
+        <argsstring></argsstring>
+        <name>enumValueName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="53" column="16" bodyfile="varg/inc_clib/varg_clib.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structenumValueSpec_1ac3f60bb92d6e6e56b715be958fc38b0a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int enumValueSpec::enumValue</definition>
+        <argsstring></argsstring>
+        <name>enumValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="54" column="17" bodyfile="varg/inc_clib/varg_clib.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>enum value structure for enum parser argument creation </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="varg/inc_clib/varg_clib.h" line="51" column="1" bodyfile="varg/inc_clib/varg_clib.h" bodystart="52" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structenumValueSpec_1ac3f60bb92d6e6e56b715be958fc38b0a" prot="public" virt="non-virtual"><scope>enumValueSpec</scope><name>enumValue</name></member>
+      <member refid="structenumValueSpec_1a8d7d8f90c27dfa7d481c9fa70ba6ec31" prot="public" virt="non-virtual"><scope>enumValueSpec</scope><name>enumValueName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

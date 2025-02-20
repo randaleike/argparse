@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structcvarptr" kind="struct" language="C++" prot="public">
+    <compoundname>cvarptr</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcvarptr_1a30b81a80efb1b22d3f85443f41c8d57e" prot="public" static="no" mutable="no">
+        <type><ref refid="classargparser_1_1varg__intf" kindref="compound">argparser::varg_intf</ref> *</type>
+        <definition>argparser::varg_intf* cvarptr::vararg</definition>
+        <argsstring></argsstring>
+        <name>vararg</name>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc/varg_clib_shared.h" line="35" column="26" bodyfile="varg/inc/varg_clib_shared.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>argparser::varg_intf</label>
+        <link refid="classargparser_1_1varg__intf"/>
+      </node>
+      <node id="1">
+        <label>cvarptr</label>
+        <link refid="structcvarptr"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>vararg</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="varg/inc/varg_clib_shared.h" line="33" column="1" bodyfile="varg/inc/varg_clib_shared.h" bodystart="34" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structcvarptr_1a30b81a80efb1b22d3f85443f41c8d57e" prot="public" virt="non-virtual"><scope>cvarptr</scope><name>vararg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

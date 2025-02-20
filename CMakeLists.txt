@@ -170,11 +170,11 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     set(DOXYGEN_COUT ${CMAKE_BINARY_DIR}/Doxyfile-c)
     configure_file(${DOXYGEN_CIN} ${DOXYGEN_COUT} @ONLY)
 
-    if(DEFINED ENV{GITHUB_ACTION})
+    if((DEFINED ENV{GITHUB_ACTION}) AND (${CMAKE_SYSTEM_NAME} MATCHES "Windows"))
     else()
         find_package(Doxygen)
         message("Doxygen build started")
-        add_custom_target(${PROJECT_NAME}_gendoc
+        add_custom_target(gendoc
             COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CPPOUT}
             COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_COUT}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}

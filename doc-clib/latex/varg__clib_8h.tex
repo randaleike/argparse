@@ -1,0 +1,549 @@
+\hypertarget{varg__clib_8h}{}\doxysection{varg/inc\+\_\+clib/varg\+\_\+clib.h File Reference}
+\label{varg__clib_8h}\index{varg/inc\_clib/varg\_clib.h@{varg/inc\_clib/varg\_clib.h}}
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+Include dependency graph for varg\+\_\+clib.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{varg__clib_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structenumValueSpec}{enum\+Value\+Spec}}
+\begin{DoxyCompactList}\small\item\em enum value structure for enum parser argument creation \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}\label{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}} 
+typedef struct cvarptr $\ast$ \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}}
+\begin{DoxyCompactList}\small\item\em Argument pointer class abstraction. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_abccacb437499a28195e91a0c685f9561}{create\+Short\+Int\+Parser\+Arg}} (short int $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a short int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_adbb81acc631bdb2ba6ad6e9f1389ba80}{create\+Int\+Parser\+Arg}} (int $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a700e2210d03c14deea669d399882bdb3}{create\+Long\+Int\+Parser\+Arg}} (long int $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a long int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_aaf7cb8ec0bf15856fb6d534baf7056f5}{create\+LLong\+Int\+Parser\+Arg}} (long long int $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a long long int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a1d135756afd673808abd2bdb330ad6d6}{create\+Short\+UInt\+Parser\+Arg}} (short unsigned $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a short unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_aba7b6eedd478f79f7660653d0b8a7cbb}{create\+UInt\+Parser\+Arg}} (unsigned $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create an unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a685bd10ad073894cbb847993f5c2e707}{create\+Long\+UInt\+Parser\+Arg}} (long unsigned $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a long unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a0e3b2b09c66af495203ea1bcc844933a}{create\+LLong\+UInt\+Parser\+Arg}} (long long unsigned $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a long long unsigned int parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a15eff02942c00df080a6f9a82757c5f0}{create\+Float\+Parser\+Arg}} (double $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a double parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a4bdc580f2f02aa4103e4f6792bc35a42}{create\+Char\+Parser\+Arg}} (char $\ast$value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a single character parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a9b294119299b368654821ee42bf3b88e}{create\+Parser\+Flag\+Arg}} (bool $\ast$flag, bool set\+Value)
+\begin{DoxyCompactList}\small\item\em Create a parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a0f542136c628eb3c4f511f52042c9833}{create\+Incrementing\+Arg}} (int $\ast$inc\+Value\+Addr)
+\begin{DoxyCompactList}\small\item\em Create a incrementing parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a2e9499f66bed00e528306c608b7da1f7}{create\+Short\+Int\+Array\+Parser\+Arg}} (short int $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create a short integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a738b046c8acacbd2d9422761375ea6dd}{create\+Int\+Array\+Parser\+Arg}} (int $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create a integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_aca7f4c5e236d83817796f7390e2f0d20}{create\+Long\+Int\+Array\+Parser\+Arg}} (long int $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create a long integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a704fd560a0b20b0053bdf6a2a632227d}{create\+LLong\+Int\+Array\+Parser\+Arg}} (long long int $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create a long long integer array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a7d30f0111bb4d8b93495cc89dae70cd7}{create\+Short\+UInt\+Array\+Parser\+Arg}} (short unsigned $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create an short unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a1037b98d4396796fa6772a60e05b1e48}{create\+UInt\+Array\+Parser\+Arg}} (unsigned $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create an unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a50f7ffd8dc98a1737557b368413b8a9f}{create\+Long\+UInt\+Array\+Parser\+Arg}} (long unsigned $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create an long unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a4ed90cee656d2ea5c574832cdb556405}{create\+LLong\+UInt\+Array\+Parser\+Arg}} (long long unsigned $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create an long long unsigned array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a6d7117e7893c26f81fca06180ee5a60f}{create\+Double\+Array\+Parser\+Arg}} (double $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create a double array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_a5f0e88b9fd57506039efb2e3a7a05b9a}{create\+String\+Array\+Parser\+Arg}} (char $\ast$value\+Array, size\+\_\+t array\+Size)
+\begin{DoxyCompactList}\small\item\em Create a character array parser argument object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} \mbox{\hyperlink{varg__clib_8h_acaa1b65685ec9d3359e8dfdb3e362798}{create\+Enum\+Arg}} (int $\ast$enum\+Addr, const char $\ast$enum\+Name, size\+\_\+t enum\+Count, struct \mbox{\hyperlink{structenumValueSpec}{enum\+Value\+Spec}} $\ast$enum\+Value\+List)
+\begin{DoxyCompactList}\small\item\em Create a enum parser argument object. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{varg__clib_8h_ab000e0ace665d951ac5ff940ccfb0d5f}{get\+Assignment\+Count}} (\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} handle)
+\begin{DoxyCompactList}\small\item\em Get the Assignment Count of the array argument handle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{varg__clib_8h_a2d7bc77db47f8bc5d8a810271cbd5d9d}{release\+Parser\+Arg}} (\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} handle)
+\begin{DoxyCompactList}\small\item\em Release the parser argument handle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{varg__clib_8h_a4bdc580f2f02aa4103e4f6792bc35a42}\label{varg__clib_8h_a4bdc580f2f02aa4103e4f6792bc35a42}} 
+\index{varg\_clib.h@{varg\_clib.h}!createCharParserArg@{createCharParserArg}}
+\index{createCharParserArg@{createCharParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createCharParserArg()}{createCharParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Char\+Parser\+Arg (\begin{DoxyParamCaption}\item[{char $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a single character parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the character argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a6d7117e7893c26f81fca06180ee5a60f}\label{varg__clib_8h_a6d7117e7893c26f81fca06180ee5a60f}} 
+\index{varg\_clib.h@{varg\_clib.h}!createDoubleArrayParserArg@{createDoubleArrayParserArg}}
+\index{createDoubleArrayParserArg@{createDoubleArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createDoubleArrayParserArg()}{createDoubleArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Double\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{double $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create a double array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_acaa1b65685ec9d3359e8dfdb3e362798}\label{varg__clib_8h_acaa1b65685ec9d3359e8dfdb3e362798}} 
+\index{varg\_clib.h@{varg\_clib.h}!createEnumArg@{createEnumArg}}
+\index{createEnumArg@{createEnumArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createEnumArg()}{createEnumArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Enum\+Arg (\begin{DoxyParamCaption}\item[{int $\ast$}]{enum\+Addr,  }\item[{const char $\ast$}]{enum\+Name,  }\item[{size\+\_\+t}]{enum\+Count,  }\item[{struct \mbox{\hyperlink{structenumValueSpec}{enum\+Value\+Spec}} $\ast$}]{enum\+Value\+List }\end{DoxyParamCaption})}
+
+
+
+Create a enum parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em enum\+Addr} & -\/ Pointer to the incrementing integer storage \\
+\hline
+{\em enum\+Name} & -\/ Name of the enum displayed in the help message \\
+\hline
+{\em enum\+Count} & -\/ Number of enum value specification structures \\
+\hline
+{\em enum\+Specs} & -\/ Array of enum specification structures\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a15eff02942c00df080a6f9a82757c5f0}\label{varg__clib_8h_a15eff02942c00df080a6f9a82757c5f0}} 
+\index{varg\_clib.h@{varg\_clib.h}!createFloatParserArg@{createFloatParserArg}}
+\index{createFloatParserArg@{createFloatParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createFloatParserArg()}{createFloatParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Float\+Parser\+Arg (\begin{DoxyParamCaption}\item[{double $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a double parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a0f542136c628eb3c4f511f52042c9833}\label{varg__clib_8h_a0f542136c628eb3c4f511f52042c9833}} 
+\index{varg\_clib.h@{varg\_clib.h}!createIncrementingArg@{createIncrementingArg}}
+\index{createIncrementingArg@{createIncrementingArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createIncrementingArg()}{createIncrementingArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Incrementing\+Arg (\begin{DoxyParamCaption}\item[{int $\ast$}]{inc\+Value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a incrementing parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em inc\+Value\+Addr} & -\/ Pointer to the incrementing integer storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a738b046c8acacbd2d9422761375ea6dd}\label{varg__clib_8h_a738b046c8acacbd2d9422761375ea6dd}} 
+\index{varg\_clib.h@{varg\_clib.h}!createIntArrayParserArg@{createIntArrayParserArg}}
+\index{createIntArrayParserArg@{createIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createIntArrayParserArg()}{createIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{int $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create a integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_adbb81acc631bdb2ba6ad6e9f1389ba80}\label{varg__clib_8h_adbb81acc631bdb2ba6ad6e9f1389ba80}} 
+\index{varg\_clib.h@{varg\_clib.h}!createIntParserArg@{createIntParserArg}}
+\index{createIntParserArg@{createIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createIntParserArg()}{createIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{int $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a704fd560a0b20b0053bdf6a2a632227d}\label{varg__clib_8h_a704fd560a0b20b0053bdf6a2a632227d}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLLongIntArrayParserArg@{createLLongIntArrayParserArg}}
+\index{createLLongIntArrayParserArg@{createLLongIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLLongIntArrayParserArg()}{createLLongIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+LLong\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long int $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create a long long integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_aaf7cb8ec0bf15856fb6d534baf7056f5}\label{varg__clib_8h_aaf7cb8ec0bf15856fb6d534baf7056f5}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLLongIntParserArg@{createLLongIntParserArg}}
+\index{createLLongIntParserArg@{createLLongIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLLongIntParserArg()}{createLLongIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+LLong\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long int $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a long long int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a4ed90cee656d2ea5c574832cdb556405}\label{varg__clib_8h_a4ed90cee656d2ea5c574832cdb556405}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLLongUIntArrayParserArg@{createLLongUIntArrayParserArg}}
+\index{createLLongUIntArrayParserArg@{createLLongUIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLLongUIntArrayParserArg()}{createLLongUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+LLong\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long unsigned $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create an long long unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a0e3b2b09c66af495203ea1bcc844933a}\label{varg__clib_8h_a0e3b2b09c66af495203ea1bcc844933a}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLLongUIntParserArg@{createLLongUIntParserArg}}
+\index{createLLongUIntParserArg@{createLLongUIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLLongUIntParserArg()}{createLLongUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+LLong\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long long unsigned $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a long long unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_aca7f4c5e236d83817796f7390e2f0d20}\label{varg__clib_8h_aca7f4c5e236d83817796f7390e2f0d20}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLongIntArrayParserArg@{createLongIntArrayParserArg}}
+\index{createLongIntArrayParserArg@{createLongIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLongIntArrayParserArg()}{createLongIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Long\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long int $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create a long integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a700e2210d03c14deea669d399882bdb3}\label{varg__clib_8h_a700e2210d03c14deea669d399882bdb3}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLongIntParserArg@{createLongIntParserArg}}
+\index{createLongIntParserArg@{createLongIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLongIntParserArg()}{createLongIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Long\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long int $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a long int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a50f7ffd8dc98a1737557b368413b8a9f}\label{varg__clib_8h_a50f7ffd8dc98a1737557b368413b8a9f}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLongUIntArrayParserArg@{createLongUIntArrayParserArg}}
+\index{createLongUIntArrayParserArg@{createLongUIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLongUIntArrayParserArg()}{createLongUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Long\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long unsigned $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create an long unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a685bd10ad073894cbb847993f5c2e707}\label{varg__clib_8h_a685bd10ad073894cbb847993f5c2e707}} 
+\index{varg\_clib.h@{varg\_clib.h}!createLongUIntParserArg@{createLongUIntParserArg}}
+\index{createLongUIntParserArg@{createLongUIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createLongUIntParserArg()}{createLongUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Long\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{long unsigned $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a long unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a9b294119299b368654821ee42bf3b88e}\label{varg__clib_8h_a9b294119299b368654821ee42bf3b88e}} 
+\index{varg\_clib.h@{varg\_clib.h}!createParserFlagArg@{createParserFlagArg}}
+\index{createParserFlagArg@{createParserFlagArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createParserFlagArg()}{createParserFlagArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Parser\+Flag\+Arg (\begin{DoxyParamCaption}\item[{bool $\ast$}]{flag,  }\item[{bool}]{set\+Value }\end{DoxyParamCaption})}
+
+
+
+Create a parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flag} & -\/ Pointer to the argument storage \\
+\hline
+{\em set\+Value} & -\/ Value if flag variable was found\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a2e9499f66bed00e528306c608b7da1f7}\label{varg__clib_8h_a2e9499f66bed00e528306c608b7da1f7}} 
+\index{varg\_clib.h@{varg\_clib.h}!createShortIntArrayParserArg@{createShortIntArrayParserArg}}
+\index{createShortIntArrayParserArg@{createShortIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createShortIntArrayParserArg()}{createShortIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Short\+Int\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short int $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create a short integer array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_abccacb437499a28195e91a0c685f9561}\label{varg__clib_8h_abccacb437499a28195e91a0c685f9561}} 
+\index{varg\_clib.h@{varg\_clib.h}!createShortIntParserArg@{createShortIntParserArg}}
+\index{createShortIntParserArg@{createShortIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createShortIntParserArg()}{createShortIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Short\+Int\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short int $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a short int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a7d30f0111bb4d8b93495cc89dae70cd7}\label{varg__clib_8h_a7d30f0111bb4d8b93495cc89dae70cd7}} 
+\index{varg\_clib.h@{varg\_clib.h}!createShortUIntArrayParserArg@{createShortUIntArrayParserArg}}
+\index{createShortUIntArrayParserArg@{createShortUIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createShortUIntArrayParserArg()}{createShortUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Short\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short unsigned $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create an short unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a1d135756afd673808abd2bdb330ad6d6}\label{varg__clib_8h_a1d135756afd673808abd2bdb330ad6d6}} 
+\index{varg\_clib.h@{varg\_clib.h}!createShortUIntParserArg@{createShortUIntParserArg}}
+\index{createShortUIntParserArg@{createShortUIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createShortUIntParserArg()}{createShortUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+Short\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{short unsigned $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create a short unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a5f0e88b9fd57506039efb2e3a7a05b9a}\label{varg__clib_8h_a5f0e88b9fd57506039efb2e3a7a05b9a}} 
+\index{varg\_clib.h@{varg\_clib.h}!createStringArrayParserArg@{createStringArrayParserArg}}
+\index{createStringArrayParserArg@{createStringArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createStringArrayParserArg()}{createStringArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+String\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{char $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create a character array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a1037b98d4396796fa6772a60e05b1e48}\label{varg__clib_8h_a1037b98d4396796fa6772a60e05b1e48}} 
+\index{varg\_clib.h@{varg\_clib.h}!createUIntArrayParserArg@{createUIntArrayParserArg}}
+\index{createUIntArrayParserArg@{createUIntArrayParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createUIntArrayParserArg()}{createUIntArrayParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+UInt\+Array\+Parser\+Arg (\begin{DoxyParamCaption}\item[{unsigned $\ast$}]{value\+Array,  }\item[{size\+\_\+t}]{array\+Size }\end{DoxyParamCaption})}
+
+
+
+Create an unsigned array parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Array} & -\/ Pointer to the value storage array \\
+\hline
+{\em array\+Size} & -\/ Number of elements in the storage array\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_aba7b6eedd478f79f7660653d0b8a7cbb}\label{varg__clib_8h_aba7b6eedd478f79f7660653d0b8a7cbb}} 
+\index{varg\_clib.h@{varg\_clib.h}!createUIntParserArg@{createUIntParserArg}}
+\index{createUIntParserArg@{createUIntParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{createUIntParserArg()}{createUIntParserArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}} create\+UInt\+Parser\+Arg (\begin{DoxyParamCaption}\item[{unsigned $\ast$}]{value\+Addr }\end{DoxyParamCaption})}
+
+
+
+Create an unsigned int parser argument object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value\+Addr} & -\/ Pointer to the argument storage\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arg\+Handle -\/ Handle to use when adding the argument to the parser argument list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_ab000e0ace665d951ac5ff940ccfb0d5f}\label{varg__clib_8h_ab000e0ace665d951ac5ff940ccfb0d5f}} 
+\index{varg\_clib.h@{varg\_clib.h}!getAssignmentCount@{getAssignmentCount}}
+\index{getAssignmentCount@{getAssignmentCount}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{getAssignmentCount()}{getAssignmentCount()}}
+{\footnotesize\ttfamily size\+\_\+t get\+Assignment\+Count (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Get the Assignment Count of the array argument handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & -\/ Argument handle to release\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size\+\_\+t -\/ Number of array elements that were assigned 
+\end{DoxyReturn}
+\mbox{\Hypertarget{varg__clib_8h_a2d7bc77db47f8bc5d8a810271cbd5d9d}\label{varg__clib_8h_a2d7bc77db47f8bc5d8a810271cbd5d9d}} 
+\index{varg\_clib.h@{varg\_clib.h}!releaseParserArg@{releaseParserArg}}
+\index{releaseParserArg@{releaseParserArg}!varg\_clib.h@{varg\_clib.h}}
+\doxysubsubsection{\texorpdfstring{releaseParserArg()}{releaseParserArg()}}
+{\footnotesize\ttfamily void release\+Parser\+Arg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{varg__clib_8h_a02d55481ad1f05cb02ebe150be347357}{arg\+Handle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Release the parser argument handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & -\/ Argument handle to release \\
+\hline
+\end{DoxyParams}

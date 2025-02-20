@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_a225338875ebdc03af6fb97e1929bd0f" kind="dir">
+    <compoundname>cmd_line_parse/inc_clib</compoundname>
+    <innerfile refid="cmd__line__parse__api_8h">cmd_line_parse_api.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="cmd_line_parse/inc_clib/"/>
+  </compounddef>
+</doxygen>

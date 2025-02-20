@@ -1,0 +1,197 @@
+\hypertarget{classargparser_1_1config__json__parse}{}\doxysection{argparser\+::config\+\_\+json\+\_\+parse Class Reference}
+\label{classargparser_1_1config__json__parse}\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+
+
+JSON configuration file parser.  
+
+
+
+
+{\ttfamily \#include $<$config\+\_\+json\+\_\+parse.\+h$>$}
+
+
+
+Inheritance diagram for argparser\+::config\+\_\+json\+\_\+parse\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classargparser_1_1config__json__parse__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for argparser\+::config\+\_\+json\+\_\+parse\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classargparser_1_1config__json__parse__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classargparser_1_1config__json__parse_add8c9f587965d67a222e21620105660c}{config\+\_\+json\+\_\+parse}} (const char $\ast$json\+File\+Name, bool abort\+On\+Error=false, int debug\+Level=0)
+\begin{DoxyCompactList}\small\item\em Construct a new config json parse object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1config__json__parse_a8ecb43c80f218c7ee74735fe657268fb}{config\+\_\+json\+\_\+parse}} (const \mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&other)=default
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1config__json__parse_a40f32b61dfe4b49c69a905c67204d6db}{config\+\_\+json\+\_\+parse}} (\mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&\&other)=default
+\begin{DoxyCompactList}\small\item\em Reference Copy Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \& \mbox{\hyperlink{classargparser_1_1config__json__parse_ad1e42021606260abb7f491ce1b993fe1}{operator=}} (const \mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy Assignment Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \& \mbox{\hyperlink{classargparser_1_1config__json__parse_a95b08f82a97bb982983c73b15212455e}{operator=}} (\mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&\&other) noexcept
+\begin{DoxyCompactList}\small\item\em Reference Copy Assignment Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a12c2ad195799ed0a2bcebbc0d92ccdb0}\label{classargparser_1_1config__json__parse_a12c2ad195799ed0a2bcebbc0d92ccdb0}} 
+\mbox{\hyperlink{classargparser_1_1config__json__parse_a12c2ad195799ed0a2bcebbc0d92ccdb0}{$\sim$config\+\_\+json\+\_\+parse}} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__json__parse_a9f1f42bfa1fa991cc73bd982b93294ee}{add\+Argument}} (\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$arg, char $\ast$arg\+Key, int nargs=1, bool required=false)
+\begin{DoxyCompactList}\small\item\em Add a new key based environment argument. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classargparser_1_1config__json__parse_a086c72ea1d26f77c13cfc92c5441ffff}{parse}} ()
+\begin{DoxyCompactList}\small\item\em Parse the configuration file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classargparser_1_1config__json__parse_a37e0d38a33cb513e4e738f190521c429}{display\+Help}} (std\+::ostream \&out\+Stream=std\+::cerr)
+\begin{DoxyCompactList}\small\item\em Print the formatted help message to the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+JSON configuration file parser. 
+
+Detailed class description 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_add8c9f587965d67a222e21620105660c}\label{classargparser_1_1config__json__parse_add8c9f587965d67a222e21620105660c}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!config\_json\_parse@{config\_json\_parse}}
+\index{config\_json\_parse@{config\_json\_parse}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{config\_json\_parse()}{config\_json\_parse()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily argparser\+::config\+\_\+json\+\_\+parse\+::config\+\_\+json\+\_\+parse (\begin{DoxyParamCaption}\item[{const char $\ast$}]{json\+File\+Name,  }\item[{bool}]{abort\+On\+Error = {\ttfamily false},  }\item[{int}]{debug\+Level = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Construct a new config json parse object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em json\+File\+Name} & -\/ JSON initialization file to parse \\
+\hline
+{\em abort\+On\+Error} & -\/ True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false. \\
+\hline
+{\em debug\+Level} & -\/ Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a8ecb43c80f218c7ee74735fe657268fb}\label{classargparser_1_1config__json__parse_a8ecb43c80f218c7ee74735fe657268fb}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!config\_json\_parse@{config\_json\_parse}}
+\index{config\_json\_parse@{config\_json\_parse}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{config\_json\_parse()}{config\_json\_parse()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily argparser\+::config\+\_\+json\+\_\+parse\+::config\+\_\+json\+\_\+parse (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Copy Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a40f32b61dfe4b49c69a905c67204d6db}\label{classargparser_1_1config__json__parse_a40f32b61dfe4b49c69a905c67204d6db}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!config\_json\_parse@{config\_json\_parse}}
+\index{config\_json\_parse@{config\_json\_parse}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{config\_json\_parse()}{config\_json\_parse()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily argparser\+::config\+\_\+json\+\_\+parse\+::config\+\_\+json\+\_\+parse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Reference Copy Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a9f1f42bfa1fa991cc73bd982b93294ee}\label{classargparser_1_1config__json__parse_a9f1f42bfa1fa991cc73bd982b93294ee}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!addArgument@{addArgument}}
+\index{addArgument@{addArgument}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{addArgument()}{addArgument()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+json\+\_\+parse\+::add\+Argument (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1varg__intf}{varg\+\_\+intf}} $\ast$}]{arg,  }\item[{char $\ast$}]{arg\+Key,  }\item[{int}]{nargs = {\ttfamily 1},  }\item[{bool}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add a new key based environment argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & -\/ Pointer to the defined var argument to fill \\
+\hline
+{\em arg\+Key} & -\/ JSON key value \\
+\hline
+{\em nargs} & -\/ Number of argument values that follow 0 \+: Argument is a flag with no following values 1 \+: Simple argument with a single value N \+: List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -\/N \+: List argument with up to N arguments, if more than N arguments are found it is flagged as an error \\
+\hline
+{\em required} & -\/ True if argument is required, false if arguemnt is optional \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a37e0d38a33cb513e4e738f190521c429}\label{classargparser_1_1config__json__parse_a37e0d38a33cb513e4e738f190521c429}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!displayHelp@{displayHelp}}
+\index{displayHelp@{displayHelp}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{displayHelp()}{displayHelp()}}
+{\footnotesize\ttfamily void argparser\+::config\+\_\+json\+\_\+parse\+::display\+Help (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out\+Stream = {\ttfamily std\+:\+:cerr} }\end{DoxyParamCaption})}
+
+
+
+Print the formatted help message to the input stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out\+Stream} & -\/ Output streem to use for text output. Default is the standard error stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a95b08f82a97bb982983c73b15212455e}\label{classargparser_1_1config__json__parse_a95b08f82a97bb982983c73b15212455e}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!operator=@{operator=}}
+\index{operator=@{operator=}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}}\& argparser\+::config\+\_\+json\+\_\+parse\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Reference Copy Assignment Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_ad1e42021606260abb7f491ce1b993fe1}\label{classargparser_1_1config__json__parse_ad1e42021606260abb7f491ce1b993fe1}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!operator=@{operator=}}
+\index{operator=@{operator=}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}}\& argparser\+::config\+\_\+json\+\_\+parse\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classargparser_1_1config__json__parse}{config\+\_\+json\+\_\+parse}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy Assignment Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ Source object for the copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classargparser_1_1config__json__parse_a086c72ea1d26f77c13cfc92c5441ffff}\label{classargparser_1_1config__json__parse_a086c72ea1d26f77c13cfc92c5441ffff}} 
+\index{argparser::config\_json\_parse@{argparser::config\_json\_parse}!parse@{parse}}
+\index{parse@{parse}!argparser::config\_json\_parse@{argparser::config\_json\_parse}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily bool argparser\+::config\+\_\+json\+\_\+parse\+::parse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Parse the configuration file. 
+
+\begin{DoxyReturn}{Returns}
+true -\/ Key name found and key\+Value parsed without error 
+
+false -\/ (Key name not found and required) or key\+Value parsed without error 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+config\+\_\+json\+\_\+parse/inc/\mbox{\hyperlink{config__json__parse_8h}{config\+\_\+json\+\_\+parse.\+h}}\end{DoxyCompactItemize}

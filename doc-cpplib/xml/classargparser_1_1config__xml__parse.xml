@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classargparser_1_1config__xml__parse" kind="class" language="C++" prot="public">
+    <compoundname>argparser::config_xml_parse</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">parser_base</basecompoundref>
+    <includes refid="config__xml__parse_8h" local="no">config_xml_parse.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classargparser_1_1config__xml__parse_1af4ef33e7fecd3c0d8c75a67a7a64bb72" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string argparser::config_xml_parse::fileName</definition>
+        <argsstring></argsstring>
+        <name>fileName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="48" column="33" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a409007812247706bf83b4951cbe83eee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::config_xml_parse::config_xml_parse</definition>
+        <argsstring>(const char *xmlFileName, bool abortOnError=false, int debugLevel=0)</argsstring>
+        <name>config_xml_parse</name>
+        <param>
+          <type>const char *</type>
+          <declname>xmlFileName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>abortOnError</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>debugLevel</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new config xml parse object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xmlFileName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- XML initialization file to parse </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>abortOnError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>debugLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="60" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1ae0793f26e2bb8f8a203e9211996ecdc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::config_xml_parse::config_xml_parse</definition>
+        <argsstring>(const config_xml_parse &amp;other)=default</argsstring>
+        <name>config_xml_parse</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1config__xml__parse" kindref="compound">config_xml_parse</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="67" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1aadca190cdfe52c271a1d0f1c32b29cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::config_xml_parse::config_xml_parse</definition>
+        <argsstring>(config_xml_parse &amp;&amp;other)=default</argsstring>
+        <name>config_xml_parse</name>
+        <param>
+          <type><ref refid="classargparser_1_1config__xml__parse" kindref="compound">config_xml_parse</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference Copy Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="74" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a0d6190423bf12286a474a0442bd56e5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classargparser_1_1config__xml__parse" kindref="compound">config_xml_parse</ref> &amp;</type>
+        <definition>config_xml_parse&amp; argparser::config_xml_parse::operator=</definition>
+        <argsstring>(const config_xml_parse &amp;other)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1config__xml__parse" kindref="compound">config_xml_parse</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy Assignment Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="81" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1aeb58085d879fe16ce5f3c524b9c3d6fb" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classargparser_1_1config__xml__parse" kindref="compound">config_xml_parse</ref> &amp;</type>
+        <definition>config_xml_parse&amp; argparser::config_xml_parse::operator=</definition>
+        <argsstring>(config_xml_parse &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classargparser_1_1config__xml__parse" kindref="compound">config_xml_parse</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference Copy Assignment Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="88" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a8cad71b12a91ffde5a5d5d29c57d12fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::config_xml_parse::~config_xml_parse</definition>
+        <argsstring>()=default</argsstring>
+        <name>~config_xml_parse</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="93" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1a0ba46c2fcd11c47ac5e7d4eee1e1f3aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::config_xml_parse::addArgument</definition>
+        <argsstring>(varg_intf *arg, char *argKey, int nargs=1, bool required=false)</argsstring>
+        <name>addArgument</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> *</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argKey</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nargs</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Add a new key based environment argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the defined var argument to fill </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- JSON key value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nargs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : List argument with up to N arguments, if more than N arguments are found it is flagged as an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="109" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1acd96860123ef163bf6b5b211d9e8d7ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool argparser::config_xml_parse::parse</definition>
+        <argsstring>()</argsstring>
+        <name>parse</name>
+        <briefdescription>
+<para>Parse the configuration file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true - XML input file parsed without error. </para>
+</simplesect>
+<simplesect kind="return"><para>false - An error occurred during XML input file parsing or key processing and abort on error is set to true. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="118" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1config__xml__parse_1ae976d9ccd6f6fbe81c15bcfaee44c221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::config_xml_parse::displayHelp</definition>
+        <argsstring>(std::ostream &amp;outStream=std::cerr)</argsstring>
+        <name>displayHelp</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>outStream</declname>
+          <defval>std::cerr</defval>
+        </param>
+        <briefdescription>
+<para>Print the formatted help message to the input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Output streem to use for text output. Default is the standard error stream </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="config_xml_parse/inc/config_xml_parse.h" line="125" column="14"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>XML configuration file parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>parser_base</label>
+      </node>
+      <node id="1">
+        <label>argparser::config_xml_parse</label>
+        <link refid="classargparser_1_1config__xml__parse"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>parser_base</label>
+      </node>
+      <node id="1">
+        <label>argparser::config_xml_parse</label>
+        <link refid="classargparser_1_1config__xml__parse"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="config_xml_parse/inc/config_xml_parse.h" line="45" column="1" bodyfile="config_xml_parse/inc/config_xml_parse.h" bodystart="46" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classargparser_1_1config__xml__parse_1a0ba46c2fcd11c47ac5e7d4eee1e1f3aa" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>addArgument</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1a409007812247706bf83b4951cbe83eee" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>config_xml_parse</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1ae0793f26e2bb8f8a203e9211996ecdc4" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>config_xml_parse</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1aadca190cdfe52c271a1d0f1c32b29cc6" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>config_xml_parse</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1ae976d9ccd6f6fbe81c15bcfaee44c221" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>displayHelp</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1af4ef33e7fecd3c0d8c75a67a7a64bb72" prot="private" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>fileName</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1a0d6190423bf12286a474a0442bd56e5d" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1aeb58085d879fe16ce5f3c524b9c3d6fb" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1acd96860123ef163bf6b5b211d9e8d7ec" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>parse</name></member>
+      <member refid="classargparser_1_1config__xml__parse_1a8cad71b12a91ffde5a5d5d29c57d12fa" prot="public" virt="non-virtual"><scope>argparser::config_xml_parse</scope><name>~config_xml_parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1061 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="group__libcmd__line__parser" kind="group">
+    <compoundname>libcmd_line_parser</compoundname>
+    <title>Command line argument parsing utilities</title>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__libcmd__line__parser_1ga02d55481ad1f05cb02ebe150be347357" prot="public" static="no">
+        <type>struct cvarptr *</type>
+        <definition>typedef struct cvarptr* argHandle</definition>
+        <argsstring></argsstring>
+        <name>argHandle</name>
+        <briefdescription>
+<para>Command line parser varg structure pointer abstraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="41" column="23" bodyfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" prot="public" static="no">
+        <type>struct cmdLineParser *</type>
+        <definition>typedef struct cmdLineParser* cmdLineParserHandle</definition>
+        <argsstring></argsstring>
+        <name>cmdLineParserHandle</name>
+        <briefdescription>
+<para>Command line parser structure pointer abstraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="42" column="29" bodyfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" prot="public" static="no">
+        <type>char const  *</type>
+        <definition>typedef char const* parsercstr</definition>
+        <argsstring></argsstring>
+        <name>parsercstr</name>
+        <briefdescription>
+<para>Parser &apos;C&apos; string abstraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="43" column="20" bodyfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+        <definition>cmdLineParserHandle getParser</definition>
+        <argsstring>(parsercstr usage, parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel)</argsstring>
+        <name>getParser</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>usage</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>abortOnError</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disableDefaultHelp</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>debugLevel</declname>
+        </param>
+        <briefdescription>
+<para>Get the Parser object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Usage sting for help display </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Description of tool for the help display </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>abortOnError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True = abort parsing on the first error, False = continue parsing to the end </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>disableDefaultHelp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True = display the help mesage if a parsing error occurs, False = do not display the help message until parserDisplayHelp() is called </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>debugLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Debug output verbosity level, 0 = none, 5 = full</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>cmdLineParserHandle - Handle to the created argument parser </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="63" column="21" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="63" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1ga7ee3c7d370468b0961cbefabfce20973" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void releaseParser</definition>
+        <argsstring>(cmdLineParserHandle parser)</argsstring>
+        <name>releaseParser</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+<para>Release the parser instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="70" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="70" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1ga326dae1751d69a7a26b89ef3a166237c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setEpilog</definition>
+        <argsstring>(cmdLineParserHandle parser, parsercstr epilog)</argsstring>
+        <name>setEpilog</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>epilog</declname>
+        </param>
+        <briefdescription>
+<para>Set the Epilog text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epilog</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Text to display at the end of the help block </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="82" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="82" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gaef6bcbc7c59e337d0ae672535759b780" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setProgramName</definition>
+        <argsstring>(cmdLineParserHandle parser, parsercstr progName)</argsstring>
+        <name>setProgramName</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>progName</declname>
+        </param>
+        <briefdescription>
+<para>Set the Program Name for the usage string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Program name to use in the usage string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="90" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="90" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1ga300fd0da58e85a59e45bf542043e3c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setKeyPrefix</definition>
+        <argsstring>(cmdLineParserHandle parser, parsercstr prefix)</argsstring>
+        <name>setKeyPrefix</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Set the argument key prefix value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The argument key prefix is the character or string the identifies an input argument key string. Any input argument that does not begin with this character is assumed to be a positional argument value.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- argument prefix value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="103" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="103" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gace656fd8709811a2e1736f24be9dfdeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void disableDefaultHelpArgument</definition>
+        <argsstring>(cmdLineParserHandle parser)</argsstring>
+        <name>disableDefaultHelpArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+<para>Disable the default help argument setup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="108" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="108" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gabce30b6b5973cea381cb78198d1913b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void disableHelpDisplayOnError</definition>
+        <argsstring>(cmdLineParserHandle parser)</argsstring>
+        <name>disableHelpDisplayOnError</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+<para>Disable the help display on parsing error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="115" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="115" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gaa984d257679ed3c990557bc74041e912" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void disableSingleCharListArgument</definition>
+        <argsstring>(cmdLineParserHandle parser)</argsstring>
+        <name>disableSingleCharListArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+<para>Disable the single character list input argument parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="122" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="122" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gac8ab7b11e940230c8fedfe364ad238d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void enableUnknowArgumentIgnore</definition>
+        <argsstring>(cmdLineParserHandle parser)</argsstring>
+        <name>enableUnknowArgumentIgnore</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+<para>Enable flag to ignore unknown arguments, default is to generate an error if an unknown argument is found. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="131" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="131" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gab874dd7f0fe73524d92635522d725e27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addKeyArgument</definition>
+        <argsstring>(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required)</argsstring>
+        <name>addKeyArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>valueAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>argKeys</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Add a new key based command line argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle of the argument to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Delimieted list of argument key values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="146" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="146" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gad5805cdbab0059f4902e27a318788f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addKeyArrayArgument</definition>
+        <argsstring>(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys, parsercstr helpText, int nargs, bool required)</argsstring>
+        <name>addKeyArrayArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>valueAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>argKeys</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nargs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Add a new key based command line array argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle of the argument to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Delimieted list of argument key values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nargs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : ARRAY argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : ARRAY argument with up to N arguments, if more than N arguments are found it is flagged as an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="166" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="166" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gaf07ec88d602984222b491afa9acb2b6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addFlagArgument</definition>
+        <argsstring>(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required)</argsstring>
+        <name>addFlagArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>valueAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>argKeys</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Add a new key based flag command line argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle of the argument to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Delimieted list of argument key values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="179" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="179" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gaf7d9472f15e869d4eaaafb0750cc8c0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addIncrementingArgument</definition>
+        <argsstring>(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr argKeys, parsercstr helpText, bool required)</argsstring>
+        <name>addIncrementingArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>valueAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>argKeys</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Add a new key based incrementing command line argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle of the argument to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Delimieted list of argument key values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="192" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="192" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gaab9ca255ae9a7daad5afa7d69dc33af7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addPositionalArgument</definition>
+        <argsstring>(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr helpText, bool required)</argsstring>
+        <name>addPositionalArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>valueAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Add a new positinal based command line argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle of the argument to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="204" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="204" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1ga05635a6f8abe87914a32c044276f8c52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addPositionalArrayArgument</definition>
+        <argsstring>(cmdLineParserHandle parser, argHandle valueAddr, parsercstr name, parsercstr helpText, int nargs, bool required)</argsstring>
+        <name>addPositionalArrayArgument</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>valueAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nargs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Add a new positinal based command line array argument to the argument list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle of the argument to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Human name used in the help messages </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nargs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : ARRAY argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : ARRAY argument with up to N arguments, if more than N arguments are found it is flagged as an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="222" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="222" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1ga1888e62279847d31c65951e6a77b29c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setPositionalNameStop</definition>
+        <argsstring>(cmdLineParserHandle parser, parsercstr positionalArgumentName)</argsstring>
+        <name>setPositionalNameStop</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gacf9028810fe220665341a4de52a5a133" kindref="member">parsercstr</ref></type>
+          <declname>positionalArgumentName</declname>
+        </param>
+        <briefdescription>
+<para>Set the name of the positional argument to stop parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionalArgumentName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Positional name to find </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="234" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="234" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gadda159ebef8e09a65ec52c5159ce49db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int parse</definition>
+        <argsstring>(cmdLineParserHandle parser, int argc, char *argv[], int startingArgIndex, int endingArgIndex)</argsstring>
+        <name>parse</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>startingArgIndex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>endingArgIndex</declname>
+        </param>
+        <briefdescription>
+<para>Parse the input command line arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of char pointers in the argv[] array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Array of command line text entries </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startingArgIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- argv index to start parsing arguments </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endingArgIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- argv index to stop parsing arguments, -1 == argc</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int - Index of the last argument parsed or -1 if an error occured </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="247" column="5" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="247" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="group__libcmd__line__parser_1gac6a89e37c71081b560755db44fa131e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void displayHelp</definition>
+        <argsstring>(cmdLineParserHandle parser)</argsstring>
+        <name>displayHelp</name>
+        <param>
+          <type><ref refid="group__libcmd__line__parser_1gaaea7ee304c5316485f837207d09ff6e9" kindref="member">cmdLineParserHandle</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+<para>Print the formatted help message to the input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Handle value returned by <ref refid="group__libcmd__line__parser_1ga6de170a728f00abf3a7fc2260fe50f8d" kindref="member">getParser()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmd_line_parse/inc_clib/cmd_line_parse_api.h" line="254" column="6" declfile="cmd_line_parse/inc_clib/cmd_line_parse_api.h" declline="254" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1070 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="varg__clib_8h" kind="file" language="C++">
+    <compoundname>varg_clib.h</compoundname>
+    <includes local="no">stddef.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="1">
+        <label>varg/inc_clib/varg_clib.h</label>
+        <link refid="varg__clib_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>stddef.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structenumValueSpec" prot="public">enumValueSpec</innerclass>
+      <sectiondef kind="user-defined">
+      <memberdef kind="typedef" id="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" prot="public" static="no">
+        <type>struct cvarptr *</type>
+        <definition>typedef struct cvarptr* argHandle</definition>
+        <argsstring></argsstring>
+        <name>argHandle</name>
+        <briefdescription>
+<para>Argument pointer class abstraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="45" column="23" bodyfile="varg/inc_clib/varg_clib.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1abccacb437499a28195e91a0c685f9561" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createShortIntParserArg</definition>
+        <argsstring>(short int *valueAddr)</argsstring>
+        <name>createShortIntParserArg</name>
+        <param>
+          <type>short int *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a short int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="69" column="11" declfile="varg/inc_clib/varg_clib.h" declline="69" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1adbb81acc631bdb2ba6ad6e9f1389ba80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createIntParserArg</definition>
+        <argsstring>(int *valueAddr)</argsstring>
+        <name>createIntParserArg</name>
+        <param>
+          <type>int *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="78" column="11" declfile="varg/inc_clib/varg_clib.h" declline="78" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a700e2210d03c14deea669d399882bdb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLongIntParserArg</definition>
+        <argsstring>(long int *valueAddr)</argsstring>
+        <name>createLongIntParserArg</name>
+        <param>
+          <type>long int *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a long int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="87" column="11" declfile="varg/inc_clib/varg_clib.h" declline="87" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1aaf7cb8ec0bf15856fb6d534baf7056f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLLongIntParserArg</definition>
+        <argsstring>(long long int *valueAddr)</argsstring>
+        <name>createLLongIntParserArg</name>
+        <param>
+          <type>long long int *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a long long int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="96" column="11" declfile="varg/inc_clib/varg_clib.h" declline="96" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a1d135756afd673808abd2bdb330ad6d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createShortUIntParserArg</definition>
+        <argsstring>(short unsigned *valueAddr)</argsstring>
+        <name>createShortUIntParserArg</name>
+        <param>
+          <type>short unsigned *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a short unsigned int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="105" column="11" declfile="varg/inc_clib/varg_clib.h" declline="105" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1aba7b6eedd478f79f7660653d0b8a7cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createUIntParserArg</definition>
+        <argsstring>(unsigned *valueAddr)</argsstring>
+        <name>createUIntParserArg</name>
+        <param>
+          <type>unsigned *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create an unsigned int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="114" column="11" declfile="varg/inc_clib/varg_clib.h" declline="114" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a685bd10ad073894cbb847993f5c2e707" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLongUIntParserArg</definition>
+        <argsstring>(long unsigned *valueAddr)</argsstring>
+        <name>createLongUIntParserArg</name>
+        <param>
+          <type>long unsigned *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a long unsigned int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="123" column="11" declfile="varg/inc_clib/varg_clib.h" declline="123" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a0e3b2b09c66af495203ea1bcc844933a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLLongUIntParserArg</definition>
+        <argsstring>(long long unsigned *valueAddr)</argsstring>
+        <name>createLLongUIntParserArg</name>
+        <param>
+          <type>long long unsigned *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a long long unsigned int parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="132" column="11" declfile="varg/inc_clib/varg_clib.h" declline="132" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a15eff02942c00df080a6f9a82757c5f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createFloatParserArg</definition>
+        <argsstring>(double *valueAddr)</argsstring>
+        <name>createFloatParserArg</name>
+        <param>
+          <type>double *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a double parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="141" column="11" declfile="varg/inc_clib/varg_clib.h" declline="141" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a4bdc580f2f02aa4103e4f6792bc35a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createCharParserArg</definition>
+        <argsstring>(char *valueAddr)</argsstring>
+        <name>createCharParserArg</name>
+        <param>
+          <type>char *</type>
+          <declname>valueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a single character parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the character argument storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="150" column="11" declfile="varg/inc_clib/varg_clib.h" declline="150" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a9b294119299b368654821ee42bf3b88e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createParserFlagArg</definition>
+        <argsstring>(bool *flag, bool setValue)</argsstring>
+        <name>createParserFlagArg</name>
+        <param>
+          <type>bool *</type>
+          <declname>flag</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>setValue</declname>
+        </param>
+        <briefdescription>
+<para>Create a parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the argument storage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>setValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Value if flag variable was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="160" column="11" declfile="varg/inc_clib/varg_clib.h" declline="160" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a0f542136c628eb3c4f511f52042c9833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createIncrementingArg</definition>
+        <argsstring>(int *incValueAddr)</argsstring>
+        <name>createIncrementingArg</name>
+        <param>
+          <type>int *</type>
+          <declname>incValueAddr</declname>
+        </param>
+        <briefdescription>
+<para>Create a incrementing parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incValueAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the incrementing integer storage</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="169" column="11" declfile="varg/inc_clib/varg_clib.h" declline="169" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a2e9499f66bed00e528306c608b7da1f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createShortIntArrayParserArg</definition>
+        <argsstring>(short int *valueArray, size_t arraySize)</argsstring>
+        <name>createShortIntArrayParserArg</name>
+        <param>
+          <type>short int *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create a short integer array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="179" column="11" declfile="varg/inc_clib/varg_clib.h" declline="179" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a738b046c8acacbd2d9422761375ea6dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createIntArrayParserArg</definition>
+        <argsstring>(int *valueArray, size_t arraySize)</argsstring>
+        <name>createIntArrayParserArg</name>
+        <param>
+          <type>int *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create a integer array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="189" column="11" declfile="varg/inc_clib/varg_clib.h" declline="189" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1aca7f4c5e236d83817796f7390e2f0d20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLongIntArrayParserArg</definition>
+        <argsstring>(long int *valueArray, size_t arraySize)</argsstring>
+        <name>createLongIntArrayParserArg</name>
+        <param>
+          <type>long int *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create a long integer array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="199" column="11" declfile="varg/inc_clib/varg_clib.h" declline="199" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a704fd560a0b20b0053bdf6a2a632227d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLLongIntArrayParserArg</definition>
+        <argsstring>(long long int *valueArray, size_t arraySize)</argsstring>
+        <name>createLLongIntArrayParserArg</name>
+        <param>
+          <type>long long int *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create a long long integer array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="209" column="11" declfile="varg/inc_clib/varg_clib.h" declline="209" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a7d30f0111bb4d8b93495cc89dae70cd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createShortUIntArrayParserArg</definition>
+        <argsstring>(short unsigned *valueArray, size_t arraySize)</argsstring>
+        <name>createShortUIntArrayParserArg</name>
+        <param>
+          <type>short unsigned *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create an short unsigned array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="219" column="11" declfile="varg/inc_clib/varg_clib.h" declline="219" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a1037b98d4396796fa6772a60e05b1e48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createUIntArrayParserArg</definition>
+        <argsstring>(unsigned *valueArray, size_t arraySize)</argsstring>
+        <name>createUIntArrayParserArg</name>
+        <param>
+          <type>unsigned *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create an unsigned array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="229" column="11" declfile="varg/inc_clib/varg_clib.h" declline="229" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a50f7ffd8dc98a1737557b368413b8a9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLongUIntArrayParserArg</definition>
+        <argsstring>(long unsigned *valueArray, size_t arraySize)</argsstring>
+        <name>createLongUIntArrayParserArg</name>
+        <param>
+          <type>long unsigned *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create an long unsigned array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="239" column="11" declfile="varg/inc_clib/varg_clib.h" declline="239" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a4ed90cee656d2ea5c574832cdb556405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createLLongUIntArrayParserArg</definition>
+        <argsstring>(long long unsigned *valueArray, size_t arraySize)</argsstring>
+        <name>createLLongUIntArrayParserArg</name>
+        <param>
+          <type>long long unsigned *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create an long long unsigned array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="249" column="11" declfile="varg/inc_clib/varg_clib.h" declline="249" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a6d7117e7893c26f81fca06180ee5a60f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createDoubleArrayParserArg</definition>
+        <argsstring>(double *valueArray, size_t arraySize)</argsstring>
+        <name>createDoubleArrayParserArg</name>
+        <param>
+          <type>double *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create a double array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="259" column="11" declfile="varg/inc_clib/varg_clib.h" declline="259" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a5f0e88b9fd57506039efb2e3a7a05b9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createStringArrayParserArg</definition>
+        <argsstring>(char *valueArray, size_t arraySize)</argsstring>
+        <name>createStringArrayParserArg</name>
+        <param>
+          <type>char *</type>
+          <declname>valueArray</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>arraySize</declname>
+        </param>
+        <briefdescription>
+<para>Create a character array parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the value storage array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arraySize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of elements in the storage array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="269" column="11" declfile="varg/inc_clib/varg_clib.h" declline="269" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1acaa1b65685ec9d3359e8dfdb3e362798" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+        <definition>argHandle createEnumArg</definition>
+        <argsstring>(int *enumAddr, const char *enumName, size_t enumCount, struct enumValueSpec *enumValueList)</argsstring>
+        <name>createEnumArg</name>
+        <param>
+          <type>int *</type>
+          <declname>enumAddr</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>enumName</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>enumCount</declname>
+        </param>
+        <param>
+          <type>struct <ref refid="structenumValueSpec" kindref="compound">enumValueSpec</ref> *</type>
+          <declname>enumValueList</declname>
+        </param>
+        <briefdescription>
+<para>Create a enum parser argument object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enumAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the incrementing integer storage </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enumName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Name of the enum displayed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enumCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of enum value specification structures </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enumSpecs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Array of enum specification structures</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>argHandle - Handle to use when adding the argument to the parser argument list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="281" column="11" declfile="varg/inc_clib/varg_clib.h" declline="281" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1ab000e0ace665d951ac5ff940ccfb0d5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getAssignmentCount</definition>
+        <argsstring>(argHandle handle)</argsstring>
+        <name>getAssignmentCount</name>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the Assignment Count of the array argument handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Argument handle to release</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>size_t - Number of array elements that were assigned </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="290" column="8" declfile="varg/inc_clib/varg_clib.h" declline="290" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="varg__clib_8h_1a2d7bc77db47f8bc5d8a810271cbd5d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void releaseParserArg</definition>
+        <argsstring>(argHandle handle)</argsstring>
+        <name>releaseParserArg</name>
+        <param>
+          <type><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Release the parser argument handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Argument handle to release </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="varg/inc_clib/varg_clib.h" line="297" column="6" declfile="varg/inc_clib/varg_clib.h" declline="297" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>Copyright<sp/>(c)<sp/>2025<sp/>Randal<sp/>Eike</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"></highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>Permission<sp/>is<sp/>hereby<sp/>granted,<sp/>free<sp/>of<sp/>charge,<sp/>to<sp/>any<sp/>person<sp/>obtaining<sp/>a</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>copy<sp/>of<sp/>this<sp/>software<sp/>and<sp/>associated<sp/>documentation<sp/>files<sp/>(the<sp/>&quot;Software&quot;),</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>to<sp/>deal<sp/>in<sp/>the<sp/>Software<sp/>without<sp/>restriction,<sp/>including<sp/>without<sp/>limitation</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>the<sp/>rights<sp/>to<sp/>use,<sp/>copy,<sp/>modify,<sp/>merge,<sp/>publish,<sp/>distribute,<sp/>sublicense,</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>and/or<sp/>sell<sp/>copies<sp/>of<sp/>the<sp/>Software,<sp/>and<sp/>to<sp/>permit<sp/>persons<sp/>to<sp/>whom<sp/>the</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>Software<sp/>is<sp/>furnished<sp/>to<sp/>do<sp/>so,<sp/>subject<sp/>to<sp/>the<sp/>following<sp/>conditions:</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"></highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>The<sp/>above<sp/>copyright<sp/>notice<sp/>and<sp/>this<sp/>permission<sp/>notice<sp/>shall<sp/>be<sp/>included</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>in<sp/>all<sp/>copies<sp/>or<sp/>substantial<sp/>portions<sp/>of<sp/>the<sp/>Software.</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"></highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>THE<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>&quot;AS<sp/>IS&quot;,<sp/>WITHOUT<sp/>WARRANTY<sp/>OF<sp/>ANY<sp/>KIND,</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>EXPRESS<sp/>OR<sp/>IMPLIED,<sp/>INCLUDING<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO<sp/>THE<sp/>WARRANTIES<sp/>OF</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>MERCHANTABILITY,<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>AND<sp/>NONINFRINGEMENT.</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>AUTHORS<sp/>OR<sp/>COPYRIGHT<sp/>HOLDERS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>CLAIM,<sp/>DAMAGES<sp/>OR<sp/>OTHER<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>AN<sp/>ACTION<sp/>OF<sp/>CONTRACT,</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>TORT<sp/>OR<sp/>OTHERWISE,<sp/>ARISING<sp/>FROM,<sp/>OUT<sp/>OF<sp/>OR<sp/>IN<sp/>CONNECTION<sp/>WITH<sp/>THE</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>SOFTWARE<sp/>OR<sp/>THE<sp/>USE<sp/>OR<sp/>OTHER<sp/>DEALINGS<sp/>IN<sp/>THE<sp/>SOFTWARE.</highlight></codeline>
+<codeline lineno="21"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//=================================================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//==================<sp/>Parser<sp/>argument<sp/>typedef<sp/>and<sp/>structure<sp/>definitions<sp/>============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//=================================================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">cvarptr;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NOLINTBEGIN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">cvarptr*<sp/><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NOLINTEND</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structenumValueSpec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structenumValueSpec" kindref="compound">enumValueSpec</ref></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>enumValueName;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enumValue;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//=================================================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//=================================================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//====================<sp/>Parser<sp/>Argument<sp/>argument<sp/>API<sp/>interface<sp/>methods<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//=================================================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//=================================================================================================</highlight></codeline>
+<codeline lineno="69" refid="varg__clib_8h_1abccacb437499a28195e91a0c685f9561" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1abccacb437499a28195e91a0c685f9561" kindref="member">createShortIntParserArg</ref>(</highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="varg__clib_8h_1adbb81acc631bdb2ba6ad6e9f1389ba80" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1adbb81acc631bdb2ba6ad6e9f1389ba80" kindref="member">createIntParserArg</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="varg__clib_8h_1a700e2210d03c14deea669d399882bdb3" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a700e2210d03c14deea669d399882bdb3" kindref="member">createLongIntParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="varg__clib_8h_1aaf7cb8ec0bf15856fb6d534baf7056f5" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1aaf7cb8ec0bf15856fb6d534baf7056f5" kindref="member">createLLongIntParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="varg__clib_8h_1a1d135756afd673808abd2bdb330ad6d6" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a1d135756afd673808abd2bdb330ad6d6" kindref="member">createShortUIntParserArg</ref>(</highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="varg__clib_8h_1aba7b6eedd478f79f7660653d0b8a7cbb" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1aba7b6eedd478f79f7660653d0b8a7cbb" kindref="member">createUIntParserArg</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="varg__clib_8h_1a685bd10ad073894cbb847993f5c2e707" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a685bd10ad073894cbb847993f5c2e707" kindref="member">createLongUIntParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="varg__clib_8h_1a0e3b2b09c66af495203ea1bcc844933a" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a0e3b2b09c66af495203ea1bcc844933a" kindref="member">createLLongUIntParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="varg__clib_8h_1a15eff02942c00df080a6f9a82757c5f0" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a15eff02942c00df080a6f9a82757c5f0" kindref="member">createFloatParserArg</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="varg__clib_8h_1a4bdc580f2f02aa4103e4f6792bc35a42" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a4bdc580f2f02aa4103e4f6792bc35a42" kindref="member">createCharParserArg</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>valueAddr);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="varg__clib_8h_1a9b294119299b368654821ee42bf3b88e" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a9b294119299b368654821ee42bf3b88e" kindref="member">createParserFlagArg</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">*<sp/>flag,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>setValue);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="varg__clib_8h_1a0f542136c628eb3c4f511f52042c9833" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a0f542136c628eb3c4f511f52042c9833" kindref="member">createIncrementingArg</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>incValueAddr);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="varg__clib_8h_1a2e9499f66bed00e528306c608b7da1f7" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a2e9499f66bed00e528306c608b7da1f7" kindref="member">createShortIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="varg__clib_8h_1a738b046c8acacbd2d9422761375ea6dd" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a738b046c8acacbd2d9422761375ea6dd" kindref="member">createIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="varg__clib_8h_1aca7f4c5e236d83817796f7390e2f0d20" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1aca7f4c5e236d83817796f7390e2f0d20" kindref="member">createLongIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="varg__clib_8h_1a704fd560a0b20b0053bdf6a2a632227d" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a704fd560a0b20b0053bdf6a2a632227d" kindref="member">createLLongIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="varg__clib_8h_1a7d30f0111bb4d8b93495cc89dae70cd7" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a7d30f0111bb4d8b93495cc89dae70cd7" kindref="member">createShortUIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="varg__clib_8h_1a1037b98d4396796fa6772a60e05b1e48" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a1037b98d4396796fa6772a60e05b1e48" kindref="member">createUIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="varg__clib_8h_1a50f7ffd8dc98a1737557b368413b8a9f" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a50f7ffd8dc98a1737557b368413b8a9f" kindref="member">createLongUIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="varg__clib_8h_1a4ed90cee656d2ea5c574832cdb556405" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a4ed90cee656d2ea5c574832cdb556405" kindref="member">createLLongUIntArrayParserArg</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="varg__clib_8h_1a6d7117e7893c26f81fca06180ee5a60f" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a6d7117e7893c26f81fca06180ee5a60f" kindref="member">createDoubleArrayParserArg</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="varg__clib_8h_1a5f0e88b9fd57506039efb2e3a7a05b9a" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1a5f0e88b9fd57506039efb2e3a7a05b9a" kindref="member">createStringArrayParserArg</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>valueArray,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>arraySize);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="varg__clib_8h_1acaa1b65685ec9d3359e8dfdb3e362798" refkind="member"><highlight class="normal"><ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/><ref refid="varg__clib_8h_1acaa1b65685ec9d3359e8dfdb3e362798" kindref="member">createEnumArg</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>enumAddr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>enumName,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>enumCount,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/><ref refid="structenumValueSpec" kindref="compound">enumValueSpec</ref>*<sp/>enumValueList);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="varg__clib_8h_1ab000e0ace665d951ac5ff940ccfb0d5f" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="varg__clib_8h_1ab000e0ace665d951ac5ff940ccfb0d5f" kindref="member">getAssignmentCount</ref>(<ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="varg__clib_8h_1a2d7bc77db47f8bc5d8a810271cbd5d9d" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="varg__clib_8h_1a2d7bc77db47f8bc5d8a810271cbd5d9d" kindref="member">releaseParserArg</ref>(<ref refid="varg__clib_8h_1a02d55481ad1f05cb02ebe150be347357" kindref="member">argHandle</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="varg/inc_clib/varg_clib.h"/>
+  </compounddef>
+</doxygen>

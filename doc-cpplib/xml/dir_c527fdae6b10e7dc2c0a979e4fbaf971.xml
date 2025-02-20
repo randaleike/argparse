@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_c527fdae6b10e7dc2c0a979e4fbaf971" kind="dir">
+    <compoundname>varg</compoundname>
+    <innerdir refid="dir_edb99c5e7cff881da36b387745ce0ef0">varg/inc</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="varg/"/>
+  </compounddef>
+</doxygen>

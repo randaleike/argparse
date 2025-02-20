@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_b5426fdc3fcb0897b18ebd54e711d721" kind="dir">
+    <compoundname>envparse</compoundname>
+    <innerdir refid="dir_b59ca386879e1d8d1d1f200de540e8fc">envparse/inc</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="envparse/"/>
+  </compounddef>
+</doxygen>

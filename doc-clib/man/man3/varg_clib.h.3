@@ -1,0 +1,555 @@
+.TH "varg/inc_clib/varg_clib.h" 3 "Wed Feb 19 2025" "Version 0.9.2.0" "argparse" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+varg/inc_clib/varg_clib.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <stdbool\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBenumValueSpec\fP"
+.br
+.RI "enum value structure for enum parser argument creation "
+.in -1c
+.in +1c
+.ti -1c
+.RI "typedef struct cvarptr * \fBargHandle\fP"
+.br
+.RI "Argument pointer class abstraction\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortIntParserArg\fP (short int *valueAddr)"
+.br
+.RI "Create a short int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateIntParserArg\fP (int *valueAddr)"
+.br
+.RI "Create a int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongIntParserArg\fP (long int *valueAddr)"
+.br
+.RI "Create a long int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongIntParserArg\fP (long long int *valueAddr)"
+.br
+.RI "Create a long long int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortUIntParserArg\fP (short unsigned *valueAddr)"
+.br
+.RI "Create a short unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateUIntParserArg\fP (unsigned *valueAddr)"
+.br
+.RI "Create an unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongUIntParserArg\fP (long unsigned *valueAddr)"
+.br
+.RI "Create a long unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongUIntParserArg\fP (long long unsigned *valueAddr)"
+.br
+.RI "Create a long long unsigned int parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateFloatParserArg\fP (double *valueAddr)"
+.br
+.RI "Create a double parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateCharParserArg\fP (char *valueAddr)"
+.br
+.RI "Create a single character parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateParserFlagArg\fP (bool *flag, bool setValue)"
+.br
+.RI "Create a parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateIncrementingArg\fP (int *incValueAddr)"
+.br
+.RI "Create a incrementing parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortIntArrayParserArg\fP (short int *valueArray, size_t arraySize)"
+.br
+.RI "Create a short integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateIntArrayParserArg\fP (int *valueArray, size_t arraySize)"
+.br
+.RI "Create a integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongIntArrayParserArg\fP (long int *valueArray, size_t arraySize)"
+.br
+.RI "Create a long integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongIntArrayParserArg\fP (long long int *valueArray, size_t arraySize)"
+.br
+.RI "Create a long long integer array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateShortUIntArrayParserArg\fP (short unsigned *valueArray, size_t arraySize)"
+.br
+.RI "Create an short unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateUIntArrayParserArg\fP (unsigned *valueArray, size_t arraySize)"
+.br
+.RI "Create an unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLongUIntArrayParserArg\fP (long unsigned *valueArray, size_t arraySize)"
+.br
+.RI "Create an long unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateLLongUIntArrayParserArg\fP (long long unsigned *valueArray, size_t arraySize)"
+.br
+.RI "Create an long long unsigned array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateDoubleArrayParserArg\fP (double *valueArray, size_t arraySize)"
+.br
+.RI "Create a double array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateStringArrayParserArg\fP (char *valueArray, size_t arraySize)"
+.br
+.RI "Create a character array parser argument object\&. "
+.ti -1c
+.RI "\fBargHandle\fP \fBcreateEnumArg\fP (int *enumAddr, const char *enumName, size_t enumCount, struct \fBenumValueSpec\fP *enumValueList)"
+.br
+.RI "Create a enum parser argument object\&. "
+.ti -1c
+.RI "size_t \fBgetAssignmentCount\fP (\fBargHandle\fP handle)"
+.br
+.RI "Get the Assignment Count of the array argument handle\&. "
+.ti -1c
+.RI "void \fBreleaseParserArg\fP (\fBargHandle\fP handle)"
+.br
+.RI "Release the parser argument handle\&. "
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBargHandle\fP createCharParserArg (char * valueAddr)"
+
+.PP
+Create a single character parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the character argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createDoubleArrayParserArg (double * valueArray, size_t arraySize)"
+
+.PP
+Create a double array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createEnumArg (int * enumAddr, const char * enumName, size_t enumCount, struct \fBenumValueSpec\fP * enumValueList)"
+
+.PP
+Create a enum parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIenumAddr\fP - Pointer to the incrementing integer storage 
+.br
+\fIenumName\fP - Name of the enum displayed in the help message 
+.br
+\fIenumCount\fP - Number of enum value specification structures 
+.br
+\fIenumSpecs\fP - Array of enum specification structures
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createFloatParserArg (double * valueAddr)"
+
+.PP
+Create a double parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createIncrementingArg (int * incValueAddr)"
+
+.PP
+Create a incrementing parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIincValueAddr\fP - Pointer to the incrementing integer storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createIntArrayParserArg (int * valueArray, size_t arraySize)"
+
+.PP
+Create a integer array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createIntParserArg (int * valueAddr)"
+
+.PP
+Create a int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLLongIntArrayParserArg (long long int * valueArray, size_t arraySize)"
+
+.PP
+Create a long long integer array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLLongIntParserArg (long long int * valueAddr)"
+
+.PP
+Create a long long int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLLongUIntArrayParserArg (long long unsigned * valueArray, size_t arraySize)"
+
+.PP
+Create an long long unsigned array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLLongUIntParserArg (long long unsigned * valueAddr)"
+
+.PP
+Create a long long unsigned int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLongIntArrayParserArg (long int * valueArray, size_t arraySize)"
+
+.PP
+Create a long integer array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLongIntParserArg (long int * valueAddr)"
+
+.PP
+Create a long int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLongUIntArrayParserArg (long unsigned * valueArray, size_t arraySize)"
+
+.PP
+Create an long unsigned array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createLongUIntParserArg (long unsigned * valueAddr)"
+
+.PP
+Create a long unsigned int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createParserFlagArg (bool * flag, bool setValue)"
+
+.PP
+Create a parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIflag\fP - Pointer to the argument storage 
+.br
+\fIsetValue\fP - Value if flag variable was found
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createShortIntArrayParserArg (short int * valueArray, size_t arraySize)"
+
+.PP
+Create a short integer array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createShortIntParserArg (short int * valueAddr)"
+
+.PP
+Create a short int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createShortUIntArrayParserArg (short unsigned * valueArray, size_t arraySize)"
+
+.PP
+Create an short unsigned array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createShortUIntParserArg (short unsigned * valueAddr)"
+
+.PP
+Create a short unsigned int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createStringArrayParserArg (char * valueArray, size_t arraySize)"
+
+.PP
+Create a character array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createUIntArrayParserArg (unsigned * valueArray, size_t arraySize)"
+
+.PP
+Create an unsigned array parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueArray\fP - Pointer to the value storage array 
+.br
+\fIarraySize\fP - Number of elements in the storage array
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "\fBargHandle\fP createUIntParserArg (unsigned * valueAddr)"
+
+.PP
+Create an unsigned int parser argument object\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvalueAddr\fP - Pointer to the argument storage
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+argHandle - Handle to use when adding the argument to the parser argument list 
+.RE
+.PP
+
+.SS "size_t getAssignmentCount (\fBargHandle\fP handle)"
+
+.PP
+Get the Assignment Count of the array argument handle\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIhandle\fP - Argument handle to release
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+size_t - Number of array elements that were assigned 
+.RE
+.PP
+
+.SS "void releaseParserArg (\fBargHandle\fP handle)"
+
+.PP
+Release the parser argument handle\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIhandle\fP - Argument handle to release 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for argparse from the source code\&.

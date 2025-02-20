@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classargparser_1_1envparser" kind="class" language="C++" prot="public">
+    <compoundname>argparser::envparser</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">parser_base</basecompoundref>
+    <includes refid="envparse_8h" local="no">envparse.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classargparser_1_1envparser_1a0393a957d49f5836b079727dd5b8278f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int argparser::envparser::debugMsgLevel</definition>
+        <argsstring></argsstring>
+        <name>debugMsgLevel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="54" column="17" bodyfile="envparse/inc/envparse.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classargparser_1_1envparser_1ae6bfea2f7499a9040502669b9b23b0d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>argparser::envparser::envparser</definition>
+        <argsstring>(bool abortOnError=false, int debugLevel=0)</argsstring>
+        <name>envparser</name>
+        <param>
+          <type>bool</type>
+          <declname>abortOnError</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>debugLevel</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get the Environment Var value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>searchName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Name of the environment varable to find </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>envValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Reference to a string to store the response in</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool - true if the search name was found, else false if not</para>
+</simplesect>
+Construct a new envparser object</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>abortOnError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True = abort parsing on the first error, False = continue parsing to the end False = do not display the help message until parserDisplayHelp() is called </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>debugLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Debug output verbosity level, 0 = none, 5 = full </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="84" column="9" bodyfile="envparse/inc/envparse.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1a227e7b39221960510724ddc08c0ab50f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::envparser::envparser</definition>
+        <argsstring>(const envparser &amp;other)</argsstring>
+        <name>envparser</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1envparser" kindref="compound">envparser</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="91" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1a0a9a64847b951c07d7e4fdb57e45e371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::envparser::envparser</definition>
+        <argsstring>(envparser &amp;&amp;other)</argsstring>
+        <name>envparser</name>
+        <param>
+          <type><ref refid="classargparser_1_1envparser" kindref="compound">envparser</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference Copy Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="98" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1affce2472281ef900fa614cfea21d7dab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classargparser_1_1envparser" kindref="compound">envparser</ref> &amp;</type>
+        <definition>envparser&amp; argparser::envparser::operator=</definition>
+        <argsstring>(const envparser &amp;other)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classargparser_1_1envparser" kindref="compound">envparser</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Copy Assignment Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="105" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1a61a2b8f9e3425267d792ad15973ec6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classargparser_1_1envparser" kindref="compound">envparser</ref> &amp;</type>
+        <definition>envparser&amp; argparser::envparser::operator=</definition>
+        <argsstring>(envparser &amp;&amp;other)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classargparser_1_1envparser" kindref="compound">envparser</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Reference Copy Assignment Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Source object for the copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="112" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1a5a582e25acc15121edc4cf5f58599c61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>argparser::envparser::~envparser</definition>
+        <argsstring>()=default</argsstring>
+        <name>~envparser</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="117" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1a175e34425f25fa6a23be7ceefc04a157" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::envparser::addArgument</definition>
+        <argsstring>(varg_intf *arg, const char *argKey, const char *helpText, int nargs=1, bool required=false)</argsstring>
+        <name>addArgument</name>
+        <param>
+          <type><ref refid="classargparser_1_1varg__intf" kindref="compound">varg_intf</ref> *</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>argKey</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>helpText</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nargs</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Add a new key based environment argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to the defined var argument to fill </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Pointer to a character buffer containing the ket string to match when parsing the environment data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>helpText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Help text to be printed in the help message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nargs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Number of argument values that follow 0 : Argument is a flag with no following values 1 : Simple argument with a single value N : List argument with exactly N arguments, if less than N arguments are found it is flagged as an error -N : List argument with up to N arguments, if more than N arguments are found it is flagged as an error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- True if argument is required, false if arguemnt is optional </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="134" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1a18f281234104fad15574fcbfb39545f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool argparser::envparser::parse</definition>
+        <argsstring>()</argsstring>
+        <name>parse</name>
+        <briefdescription>
+<para>Parse the environment for matching entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true - All environment arguments were parsed correctly and all environment required arguments were found </para>
+</simplesect>
+<simplesect kind="return"><para>false - An error occured parsing the input environment arguments or one or more required arguments were not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="145" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classargparser_1_1envparser_1a778c134e228e38de0d88ebe57d02e921" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void argparser::envparser::displayHelp</definition>
+        <argsstring>(std::ostream &amp;outStream=std::cerr)</argsstring>
+        <name>displayHelp</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>outStream</declname>
+          <defval>std::cerr</defval>
+        </param>
+        <briefdescription>
+<para>Print the formatted help message to the input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Output streem to use for text output. Default is the standard error stream </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="envparse/inc/envparse.h" line="152" column="14"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Class definition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Detailed class description </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>argparser::envparser</label>
+        <link refid="classargparser_1_1envparser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>parser_base</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>argparser::envparser</label>
+        <link refid="classargparser_1_1envparser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>parser_base</label>
+      </node>
+    </collaborationgraph>
+    <location file="envparse/inc/envparse.h" line="51" column="1" bodyfile="envparse/inc/envparse.h" bodystart="52" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classargparser_1_1envparser_1a175e34425f25fa6a23be7ceefc04a157" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>addArgument</name></member>
+      <member refid="classargparser_1_1envparser_1a0393a957d49f5836b079727dd5b8278f" prot="private" virt="non-virtual"><scope>argparser::envparser</scope><name>debugMsgLevel</name></member>
+      <member refid="classargparser_1_1envparser_1a778c134e228e38de0d88ebe57d02e921" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>displayHelp</name></member>
+      <member refid="classargparser_1_1envparser_1ae6bfea2f7499a9040502669b9b23b0d7" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>envparser</name></member>
+      <member refid="classargparser_1_1envparser_1a227e7b39221960510724ddc08c0ab50f" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>envparser</name></member>
+      <member refid="classargparser_1_1envparser_1a0a9a64847b951c07d7e4fdb57e45e371" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>envparser</name></member>
+      <member refid="classargparser_1_1envparser_1affce2472281ef900fa614cfea21d7dab" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1envparser_1a61a2b8f9e3425267d792ad15973ec6ac" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>operator=</name></member>
+      <member refid="classargparser_1_1envparser_1a18f281234104fad15574fcbfb39545f1" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>parse</name></member>
+      <member refid="classargparser_1_1envparser_1a5a582e25acc15121edc4cf5f58599c61" prot="public" virt="non-virtual"><scope>argparser::envparser</scope><name>~envparser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
