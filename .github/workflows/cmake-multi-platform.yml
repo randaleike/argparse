@@ -104,9 +104,15 @@ jobs:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: mattnotmitt/doxygen-action@v1.9.5
         with:
           working-directory: ${{ github.workspace }}
           doxyfile-path: ${{ github.workspace }}/build
+
+      - name: Build-cppdoc
+        run: doxygen ${{ github.workspace }}/build/Doxyfile-cpp
+      - name: Build-cdoc
+        run: doxygen ${{ github.workspace }}/build/Doxyfile-c
 
 
