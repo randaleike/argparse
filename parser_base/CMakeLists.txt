@@ -56,7 +56,7 @@ set (parser_baseExternalLib
 
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${parser_baseUnitTest} ${parser_baseUnitTestMock} ${parser_baseTest})
+add_executable(${PROJECT_NAME}_test ${parser_baseUnitTest} ${parser_baseUnitTestMock} ${parser_baseTest})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${parser_baseInclude} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PRIVATE ${parser_baseExternalLib} GTest::gtest_main)
 

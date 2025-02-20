@@ -54,7 +54,7 @@ set (config_xml_parseExternalLib
 
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${config_xml_parseUnitTestSrc} ${config_xml_parseUnitTestMock} )
+add_executable(${PROJECT_NAME}_test  ${config_xml_parseUnitTestSrc} ${config_xml_parseUnitTestMock} )
 target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_xml_includes} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_xml_parseExternalLib} GTest::gtest_main)
 

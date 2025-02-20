@@ -54,7 +54,7 @@ set (envparseExternalLib
 
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test EXCLUDE_FROM_ALL ${envparseUnitTestSrc} ${envparseUnitTestMock})
+add_executable(${PROJECT_NAME}_test  ${envparseUnitTestSrc} ${envparseUnitTestMock})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${envparseInclude} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${envparseExternalLib} GTest::gtest_main)
 

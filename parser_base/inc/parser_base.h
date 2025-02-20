@@ -35,7 +35,6 @@
 #include <string>
 #include <list>
 #include <iostream>
-#include <utility>
 #include "varg_intf.h"
 #include "parser_string_list.h"
 
