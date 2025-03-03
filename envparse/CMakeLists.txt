@@ -57,9 +57,15 @@ enable_testing()
 add_executable(${PROJECT_NAME}_test  ${envparseUnitTestSrc} ${envparseUnitTestMock})
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${envparseInclude} ${GTEST_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${envparseExternalLib} GTest::gtest_main)
+if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
+    target_compile_options(${PROJECT_NAME}_test PRIVATE --coverage)
+    target_link_options(${PROJECT_NAME}_test PRIVATE --coverage)
+endif()
 
 include(GoogleTest)
 gtest_add_tests(TARGET ${PROJECT_NAME}_test TEST_LIST envparseAllTests)
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set_tests_properties(${envparseAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
+

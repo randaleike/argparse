@@ -28,6 +28,8 @@
 
 // Includes
 #include "varg.h"
+#include "vargstring.h"
+#include "vargincrement.h"
 #include "listvarg.h"
 #include "parser_string_list.h"
 #include "cmd_line_parse.h"

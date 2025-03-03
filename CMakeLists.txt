@@ -119,6 +119,15 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set (UNITTEST_EXE_CMD ".\\")
 endif()
 
+set(libUnittestList
+    varg_test
+    parser_base_test
+    cmd_line_parse_test
+    envparse_test
+    config_json_parse_test
+    config_xml_parse_test
+    )
+
 add_custom_target(build-unittest
     COMMENT "Build library unittest"
     WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
@@ -140,7 +149,14 @@ add_custom_target(run-unittest
     COMMAND ${UNITTEST_EXE_CMD}config_xml_parse_test${UNITTEST_FILE_EXT}
     WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
     DEPENDS build-unittest
-)
+    )
+
+add_custom_target(build-coverage-reports
+    COMMENT "Build library unittest coverage report"
+    COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/coverage
+    COMMAND gcovr --html-details ${CMAKE_BINARY_DIR}/coverage/unittest-coverage.html
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
 
 ####
 # Install package

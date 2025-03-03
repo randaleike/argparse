@@ -21,21 +21,35 @@
 */
 
 /**
- * @file varg_clib_shared.h
- * @ingroup libvarg
+ * @file vargcstring_test.cpp
+ * @ingroup argparser_unittest
+ * @defgroup Argument parsing utilities unit test
  * @{
  */
 
-#pragma once
+// Includes
+#include "../src/vargcstring_clib_private.h"
+#include <gtest/gtest.h>
 
-#include "varg_intf.h"
 
-/**
- * @brief C Wrapper structure for the C++ class pointer
- */
-struct cvarptr
+/*
+* String varg test
+*/
+TEST(cstringvarg, ValueSetPass)
 {
-    argparser::varg_intf* vararg{nullptr};      ///< Pointer to the varg object.
-};
+    char testArray[20];                             // NOLINT
+    argparser::vargcstring testvar(testArray, 20);  // NOLINT
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("Test String"));
+    EXPECT_FALSE(testvar.isEmpty());
+    EXPECT_EQ(11, testvar.getAssignmentCount());
+    EXPECT_STREQ("Test String", (&testArray[0]));   // NOLINT
+}
+
+TEST(cstringvarg, GetTypeString)
+{
+    char testArray[20];                             // NOLINT
+    argparser::vargcstring testvar(testArray, 20);  // NOLINT
+    EXPECT_STREQ("<string>", testvar.getTypeString());
+}
 
 /** @} */

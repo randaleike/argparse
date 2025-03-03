@@ -30,7 +30,6 @@
 #include <cmath>
 #include "varg_clib.h"
 #include "varg_clib_shared.h"
-#include "../src/varg_clib_private.h"
 #include <gtest/gtest.h>
 
 const double test_pi = 3.14159265358979323846;

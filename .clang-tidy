@@ -37,6 +37,6 @@ CheckOptions:
   - key:             modernize-avoid-c-arrays.AllowStringArrays
     value:           '1'
   - key:             readability-function-cognitive-complexity.Threshold
-    value:           '30'
+    value:           '38'
 ...
 

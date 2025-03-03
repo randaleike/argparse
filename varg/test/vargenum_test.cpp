@@ -69,10 +69,36 @@ TEST(varg_enum, SetValue)
     EXPECT_EQ(test_enum_e::thirdVal_e, testvar.value);
 }
 
+TEST(varg_enum, SetValueFail)
+{
+    argparser::vargenum<test_enum_e> testvar(test_enum_e::defaultValue_e, "test_enum_e");
+    EXPECT_EQ(test_enum_e::defaultValue_e, testvar.value);
+
+    testvar.setEnumValue("default", test_enum_e::defaultValue_e);
+    testvar.setEnumValue("first", test_enum_e::firstVal_e);
+    testvar.setEnumValue("second", test_enum_e::secondVal_e);
+    testvar.setEnumValue("third", test_enum_e::thirdVal_e);
+
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("notthere"));
+    EXPECT_EQ(test_enum_e::defaultValue_e, testvar.value);
+}
+
 TEST(varg_enum, IsListTest)
 {
     argparser::vargenum<test_enum_e> testvar(test_enum_e::defaultValue_e, "test_enum_e");
     EXPECT_FALSE(testvar.isList());
+}
+
+TEST(varg_enum, IsEmptyTest)
+{
+    argparser::vargenum<test_enum_e> testvar(test_enum_e::defaultValue_e, "test_enum_e");
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TEST(varg_enum, GetAssignmentCount)
+{
+    argparser::vargenum<test_enum_e> testvar(test_enum_e::defaultValue_e, "test_enum_e");
+    EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
 TEST(varg_enum, GetTypeStringDefault)
@@ -85,6 +111,12 @@ TEST(varg_enum, GetTypeString)
 {
     argparser::vargenum<test_enum_e> testvar(test_enum_e::defaultValue_e, "test_enum_e");
     EXPECT_STREQ("test_enum_e", testvar.getTypeString());
+}
+
+TEST(varg_enum, SetValueNoParmTest)
+{
+    argparser::vargenum<test_enum_e> testvar(test_enum_e::defaultValue_e, "test_enum_e");
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
 }
 
 /** @} */

@@ -62,13 +62,6 @@ class vargintfUnitTest : public varg_intf, public testing::Test
         ~vargintfUnitTest() override = default;
 
         /**
-         * @brief Get the base argument type as a string
-         *
-         * @return char* - Base type string
-         */
-        const char* getTypeString() override {return varg_intf::getTypeString();}
-
-        /**
          * @brief Return if varg is a list of elements or a single element type
          *
          * @return true - List type variable, multiple arguement values are allowed
@@ -103,6 +96,15 @@ class vargintfUnitTest : public varg_intf, public testing::Test
          */
         bool isEmpty() override                                    {return false;}
 };
+
+TEST_F(vargintfUnitTest, VirtualOverrideTest)
+{
+    // Just to get 100% coverage
+    EXPECT_FALSE(vargintfUnitTest::isList());
+    EXPECT_FALSE(vargintfUnitTest::isEmpty());
+    EXPECT_EQ(valueParseStatus_e::PARSE_SUCCESS_e, vargintfUnitTest::setValue("dummy"));
+    EXPECT_EQ(valueParseStatus_e::PARSE_SUCCESS_e, vargintfUnitTest::setValue());
+}
 
 TEST_F(vargintfUnitTest, GetBool_true)
 {
@@ -181,6 +183,13 @@ TEST_F(vargintfUnitTest, GetBool_fail)
     EXPECT_TRUE(testValue);
 }
 
+TEST_F(vargintfUnitTest, GetBool_Empty)
+{
+    bool testValue = true;
+    EXPECT_EQ(valueParseStatus_e::PARSE_INVALID_INPUT_e, vargintfUnitTest::getBoolValue("", testValue));
+    EXPECT_TRUE(testValue);
+}
+
 TEST_F(vargintfUnitTest, GetChar)
 {
     char testValue = 0;
@@ -251,6 +260,13 @@ TEST_F(vargintfUnitTest, GetSignedValue_min_fail)
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("-101", testValue));
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("-102", testValue));
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("-200", testValue));
+}
+
+TEST_F(vargintfUnitTest, GetSignedValue_range_error)
+{
+    long long int testValue = 0;
+    const char* overflowString = "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue(overflowString, testValue));
 }
 
 TEST_F(vargintfUnitTest, GetUnsignedValue)
@@ -352,6 +368,11 @@ TEST_F(vargintfUnitTest, GetDoubleValue_min_fail)
     vargintfUnitTest::setMinMaxDouble(doubletestMin, doubletestMax);
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("1e-8", testValue));
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("9.99999e-8", testValue));
+}
+
+TEST_F(vargintfUnitTest, getAssignmentCount)
+{
+    EXPECT_EQ(0, vargintfUnitTest::getAssignmentCount());
 }
 
 /** @} */

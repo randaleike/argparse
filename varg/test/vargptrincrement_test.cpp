@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2023-2025 Randal Eike
+ Copyright (c) 2024-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -29,78 +29,74 @@
 
 // Includes
 #include "varg.h"
-#include "vargincrement.h"
+#include "../src/varginc_clib_private.h"
 #include <gtest/gtest.h>
 
 /*
-* Incrementing varg test
+* Incrementing vargptr test
 */
-TEST(varg_increment, ConstructorTest)
+TEST(vargptr_increment, ConstructorTest)
 {
-    const argparser::vargincrement testvar;
-    EXPECT_EQ(0, testvar.value);
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
+    EXPECT_EQ(0, value);
 }
 
-TEST(varg_increment, ValueSetPass_singleInc)
+TEST(vargptr_increment, ValueSetPass_singleInc)
 {
-    argparser::vargincrement testvar;
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-    EXPECT_EQ(1, testvar.value);
+    EXPECT_EQ(1, value);
 }
 
-TEST(varg_increment, ValueSetPass_doubleInc)
+TEST(vargptr_increment, ValueSetPass_doubleInc)
 {
-    argparser::vargincrement testvar;
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-    EXPECT_EQ(2, testvar.value);
+    EXPECT_EQ(2, value);
 }
 
-TEST(varg_increment, ValueSetPass_tripleInc)
+TEST(vargptr_increment, ValueSetPass_tripleInc)
 {
-    argparser::vargincrement testvar;
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
-    EXPECT_EQ(3, testvar.value);
+    EXPECT_EQ(3, value);
 }
 
-TEST(varg_increment, ValueSetFail)
+TEST(vargptr_increment, ValueSetFail)
 {
-    argparser::vargincrement testvar;
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("10"));
-    EXPECT_EQ(0, testvar.value);
+    EXPECT_EQ(0, value);
 }
 
-TEST(varg_increment, ValueSetFail_AfterInc)
+TEST(vargptr_increment, ValueSetFail_AfterInc)
 {
-    argparser::vargincrement testvar;
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("10"));
-    EXPECT_EQ(1, testvar.value);
+    EXPECT_EQ(1, value);
 }
 
-TEST(varg_increment, IsListTest)
+TEST(vargptr_increment, IsListTest)
 {
-    argparser::vargincrement testvar;
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
     EXPECT_FALSE(testvar.isList());
 }
 
-TEST(varg_increment, IsEmptyTest)
+TEST(vargptr_increment, GetTypeString)
 {
-    argparser::vargincrement testvar;
-    EXPECT_FALSE(testvar.isEmpty());
-}
-
-TEST(varg_increment, GetAssignmentCount)
-{
-    argparser::vargincrement testvar;
-    EXPECT_EQ(0, testvar.getAssignmentCount());
-}
-
-TEST(varg_increment, GetTypeString)
-{
-    argparser::vargincrement testvar;
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
     EXPECT_STREQ("incrementing flag", testvar.getTypeString());
 }
 

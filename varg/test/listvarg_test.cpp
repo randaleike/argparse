@@ -45,6 +45,57 @@ template <typename T> class ListBaseUnitTest : public testing::Test
         ~ListBaseUnitTest() override = default;
 };
 
+template <typename T> class ProtectedListTest : public argparser::listvarg<T>
+{
+    public:
+        ProtectedListTest() = default;
+        ProtectedListTest(const ProtectedListTest& other) = default;
+        ProtectedListTest(ProtectedListTest&& other) = default;
+        ProtectedListTest& operator=(const ProtectedListTest& other) = default;
+        ProtectedListTest& operator=(ProtectedListTest&& other) = default;
+        ~ProtectedListTest() override = default;
+
+        /* Get the var type */
+        bool isSignedUnitTest();
+        bool isUnsignedUnitTest();
+        bool isFloatUnitTest();
+        bool isBoolUnitTest();
+        bool isCharUnitTest();
+        bool isStringUnitTest();
+
+        /* Call the protected functions */
+        argparser::valueParseStatus_e testSetSignedElementValue(const char* newValue)   {return argparser::listvarg<T>::setSignedElementValue(newValue);}
+        argparser::valueParseStatus_e testSetUnsignedElementValue(const char* newValue) {return argparser::listvarg<T>::setUnsignedElementValue(newValue);}
+        argparser::valueParseStatus_e testSetDoubleElementValue(const char* newValue)   {return argparser::listvarg<T>::setDoubleElementValue(newValue);}
+        argparser::valueParseStatus_e testSetBoolElementValue(const char* newValue)     {return argparser::listvarg<T>::setBoolElementValue(newValue);}
+        argparser::valueParseStatus_e testSetCharElementValue(const char* newValue)     {return argparser::listvarg<T>::setCharElementValue(newValue);}
+        argparser::valueParseStatus_e testSetStringElementValue(const char* newValue)   {return argparser::listvarg<T>::setStringElementValue(newValue);}
+};
+
+template <> bool ProtectedListTest<short int>::isSignedUnitTest()            {return true;}
+template <> bool ProtectedListTest<int>::isSignedUnitTest()                  {return true;}
+template <> bool ProtectedListTest<long int>::isSignedUnitTest()             {return true;}
+template <> bool ProtectedListTest<long long int>::isSignedUnitTest()        {return true;}
+template <typename T> bool ProtectedListTest<T>::isSignedUnitTest()          {return false;}
+
+template <> bool ProtectedListTest<unsigned short>::isUnsignedUnitTest()     {return true;}
+template <> bool ProtectedListTest<unsigned>::isUnsignedUnitTest()           {return true;}
+template <> bool ProtectedListTest<unsigned long>::isUnsignedUnitTest()      {return true;}
+template <> bool ProtectedListTest<unsigned long long>::isUnsignedUnitTest() {return true;}
+template <typename T> bool ProtectedListTest<T>::isUnsignedUnitTest()        {return false;}
+
+template <> bool ProtectedListTest<double>::isFloatUnitTest()                {return true;}
+template <typename T> bool ProtectedListTest<T>::isFloatUnitTest()           {return false;}
+
+template <> bool ProtectedListTest<bool>::isBoolUnitTest()                   {return true;}
+template <typename T> bool ProtectedListTest<T>::isBoolUnitTest()            {return false;}
+
+template <> bool ProtectedListTest<char>::isCharUnitTest()                   {return true;}
+template <typename T> bool ProtectedListTest<T>::isCharUnitTest()            {return false;}
+
+template <> bool ProtectedListTest<std::string>::isStringUnitTest()          {return true;}
+template <typename T> bool ProtectedListTest<T>::isStringUnitTest()          {return false;}
+
 TYPED_TEST_SUITE_P(ListBaseUnitTest);
 TYPED_TEST_P(ListBaseUnitTest, ConstructorTest)
 {
@@ -65,8 +116,94 @@ TYPED_TEST_P(ListBaseUnitTest, IsListTest)
     EXPECT_TRUE(testvar.isList());
 }
 
-REGISTER_TYPED_TEST_SUITE_P(ListBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest);
+TYPED_TEST_P(ListBaseUnitTest, ProtectedSetSignedValueType)
+{
+    ProtectedListTest< TypeParam > testvar;
+    if (testvar.isSignedUnitTest())
+    {
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.testSetSignedElementValue("-2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("-2.3"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("t"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetStringElementValue("test"));
+    }
+}
 
+TYPED_TEST_P(ListBaseUnitTest, ProtectedSetUnsignedValueType)
+{
+    ProtectedListTest< TypeParam > testvar;
+    if (testvar.isUnsignedUnitTest())
+    {
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("-2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.testSetUnsignedElementValue("2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("-2.3"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("t"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetStringElementValue("test"));
+    }
+}
+
+TYPED_TEST_P(ListBaseUnitTest, ProtectedSetFloatValueType)
+{
+    ProtectedListTest< TypeParam > testvar;
+    if (testvar.isFloatUnitTest())
+    {
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("-2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.testSetDoubleElementValue("-2.3"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("t"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetStringElementValue("test"));
+    }
+}
+
+TYPED_TEST_P(ListBaseUnitTest, ProtectedSetBoolValueType)
+{
+    ProtectedListTest< TypeParam > testvar;
+    if (testvar.isBoolUnitTest())
+    {
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("-2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("-2.3"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.testSetBoolElementValue("t"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetStringElementValue("test"));
+    }
+}
+
+TYPED_TEST_P(ListBaseUnitTest, ProtectedSetCharValueType)
+{
+    ProtectedListTest< TypeParam > testvar;
+    if (testvar.isCharUnitTest())
+    {
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("-2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("-2.3"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("t"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.testSetCharElementValue("a"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetStringElementValue("test"));
+    }
+}
+
+TYPED_TEST_P(ListBaseUnitTest, ProtectedSetStringValueType)
+{
+    ProtectedListTest< TypeParam > testvar;
+    if (testvar.isStringUnitTest())
+    {
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("-2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("2"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("-2.3"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("t"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+        EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.testSetStringElementValue("test"));
+    }
+}
+
+REGISTER_TYPED_TEST_SUITE_P(ListBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest,
+                            ProtectedSetSignedValueType, ProtectedSetUnsignedValueType,
+                            ProtectedSetFloatValueType, ProtectedSetBoolValueType,
+                            ProtectedSetCharValueType, ProtectedSetStringValueType);
 // NOLINTBEGIN
 typedef testing::Types<short int, int, long int, long long int,
                        unsigned short, unsigned, unsigned long, unsigned long long,
@@ -139,6 +276,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetPassSignedPos)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(33, testvar.value.front());
 }
 
@@ -149,6 +287,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetPassSignedNeg)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(-55, testvar.value.front());
 }
 
@@ -159,6 +298,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetFail)
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
+    EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
 TYPED_TEST_P(IntegerListUnitTest, ValueSetMaxPass)
@@ -169,6 +309,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetMaxPass)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(this->getMaxValue(), testvar.value.front());
 }
 
@@ -181,6 +322,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetMaxFail)
         EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(maxValue.c_str()));
         EXPECT_TRUE(testvar.value.empty());
         EXPECT_TRUE(testvar.isEmpty());
+        EXPECT_EQ(0, testvar.getAssignmentCount());
     }
 }
 
@@ -192,6 +334,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetMinPass)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(this->getMinValue(), testvar.value.front());
 }
 
@@ -204,6 +347,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetMinFail)
         EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(minValue.c_str()));
         EXPECT_TRUE(testvar.value.empty());
         EXPECT_TRUE(testvar.isEmpty());
+        EXPECT_EQ(0, testvar.getAssignmentCount());
     }
 }
 
@@ -221,6 +365,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetPassDoubleEntry)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(2, testvar.getAssignmentCount());
     EXPECT_EQ(-55, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(33, testvar.value.front());
@@ -235,6 +380,7 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetPassTripleEntry)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(3, testvar.getAssignmentCount());
     EXPECT_EQ(-11, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(28, testvar.value.front());
@@ -308,6 +454,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetPass)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(33, testvar.value.front());
 }
 
@@ -318,6 +465,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetFail)
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
+    EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
 TYPED_TEST_P(UIntegerListUnitTest, ValueSetFailNeg)
@@ -327,6 +475,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetFailNeg)
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
+    EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
 TYPED_TEST_P(UIntegerListUnitTest, ValueSetMaxPass)
@@ -337,6 +486,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetMaxPass)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(this->getMaxValue(), testvar.value.front());
 }
 
@@ -349,7 +499,6 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetMaxFail)
         EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(maxValue.c_str()));
         EXPECT_TRUE(testvar.value.empty());
         EXPECT_TRUE(testvar.isEmpty());
-        EXPECT_EQ(0, testvar.value.size());
     }
 }
 
@@ -367,6 +516,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetPassDoubleEntry)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(2, testvar.getAssignmentCount());
     EXPECT_EQ(55, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(33, testvar.value.front());
@@ -381,13 +531,13 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetPassTripleEntry)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(3, testvar.getAssignmentCount());
     EXPECT_EQ(11, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(28, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(17, testvar.value.front());
 }
-
 
 REGISTER_TYPED_TEST_SUITE_P(UIntegerListUnitTest, ValueSetPass, ValueSetFail, ValueSetFailNeg,
                             GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
@@ -429,6 +579,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetPassSignedPos)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(3.1415, testvar.value.front());
 }
 
@@ -439,6 +590,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetPassSignedNeg)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(-3.1415, testvar.value.front());
 }
 
@@ -449,6 +601,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetPassExponent)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(3.1415e7, testvar.value.front());
 }
 
@@ -459,6 +612,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetPassInteger)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(3.0, testvar.value.front());
 }
 
@@ -469,6 +623,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetFail)
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
+    EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
 TYPED_TEST_P(DoubleListUnitTest, ValueSetMaxPass)
@@ -482,6 +637,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetMaxPass)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(std::numeric_limits<double>::max(), testvar.value.front());
 }
 
@@ -496,6 +652,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetMinPass)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(std::numeric_limits<double>::min(), testvar.value.front());
 }
 
@@ -513,6 +670,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetPassDoubleEntry)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(2, testvar.getAssignmentCount());
     EXPECT_EQ(-2.72355, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(3.1415, testvar.value.front());
@@ -527,6 +685,7 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetPassTripleEntry)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(3, testvar.getAssignmentCount());
     EXPECT_EQ(-11.5, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(28.4, testvar.value.front());
@@ -559,6 +718,7 @@ TEST_P(ListBoolUnitTestWithParams, ValueSet)
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_FALSE(testvar.isEmpty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ(expected, testvar.value.front());
 }
 
@@ -593,6 +753,7 @@ TEST_P(BoolUnitTestWithBadParams, ValueSet)
     EXPECT_TRUE(testvar.value.empty());
     EXPECT_TRUE(testvar.isEmpty());
     EXPECT_EQ(0, testvar.value.size());
+    EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
 INSTANTIATE_TEST_SUITE_P(listvarg_bool, BoolUnitTestWithBadParams, ::testing::Values("goo", "2", "-1"));
@@ -610,6 +771,7 @@ TEST(listvarg_bool, ValueSetPassDoubleEntry)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("f"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(2, testvar.getAssignmentCount());
     EXPECT_EQ(true, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(false, testvar.value.front());
@@ -623,6 +785,7 @@ TEST(listvarg_bool, ValueSetPassTripleEntry)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("0"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(3, testvar.getAssignmentCount());
     EXPECT_EQ(true, testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ(false, testvar.value.front());
@@ -640,6 +803,7 @@ TEST(listvarg_char, ValueSetPass)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("b"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_EQ('b', testvar.value.front());
 }
 
@@ -647,6 +811,7 @@ TEST(listvarg_char, ValueSetFail)
 {
     argparser::listvarg<char> testvar;
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("goo"));
+    EXPECT_EQ(0, testvar.getAssignmentCount());
     EXPECT_TRUE(testvar.value.empty());
 }
 
@@ -663,6 +828,7 @@ TEST(listvarg_char, ValueSetPassDoubleEntry)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("f"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(2, testvar.getAssignmentCount());
     EXPECT_EQ('t', testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ('f', testvar.value.front());
@@ -676,6 +842,7 @@ TEST(listvarg_char, ValueSetPassTripleEntry)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("c"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(3, testvar.getAssignmentCount());
     EXPECT_EQ('a', testvar.value.front());
     testvar.value.pop_front();
     EXPECT_EQ('b', testvar.value.front());
@@ -692,6 +859,7 @@ TEST(listvarg_string, ValueSetPass)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("Test String"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(1, testvar.value.size());
+    EXPECT_EQ(1, testvar.getAssignmentCount());
     EXPECT_STREQ("Test String", testvar.value.front().c_str());
 }
 
@@ -701,6 +869,7 @@ TEST(listvarg_string, GetTypeString)
     EXPECT_STREQ("<string>", testvar.getTypeString());
 }
 
+
 TEST(listvarg_string, ValueSetPassDoubleEntry)
 {
     argparser::listvarg<std::string> testvar;
@@ -708,6 +877,7 @@ TEST(listvarg_string, ValueSetPassDoubleEntry)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("test2 string"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(2, testvar.value.size());
+    EXPECT_EQ(2, testvar.getAssignmentCount());
     EXPECT_STREQ("test1 string", testvar.value.front().c_str());
     testvar.value.pop_front();
     EXPECT_STREQ("test2 string", testvar.value.front().c_str());
@@ -721,6 +891,7 @@ TEST(listvarg_string, ValueSetPassTripleEntry)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("test3 string"));
     EXPECT_FALSE(testvar.value.empty());
     EXPECT_EQ(3, testvar.value.size());
+    EXPECT_EQ(3, testvar.getAssignmentCount());
     EXPECT_STREQ("test1 string", testvar.value.front().c_str());
     testvar.value.pop_front();
     EXPECT_STREQ("test2 string", testvar.value.front().c_str());

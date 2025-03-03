@@ -35,9 +35,28 @@
 #include <sstream>
 #include <climits>
 #include "varg.h"
-#include "vargincrement.h"
-#include "vargenum.h"
 #include <gtest/gtest.h>
+
+/*
+* varg test class to access protected functions
+*/
+template <typename T> class ProtectedVarg : public argparser::varg<T> // NOLINT
+{
+    public:
+        ProtectedVarg() = default;
+        ProtectedVarg(const ProtectedVarg& other) = default;
+        ProtectedVarg(ProtectedVarg&& other) = default;
+        ProtectedVarg& operator=(const ProtectedVarg& other) = default;
+        ProtectedVarg& operator=(ProtectedVarg&& other) = default;
+        ~ProtectedVarg() override = default; // NOLINT
+
+        /* Call the protected functions */
+        argparser::valueParseStatus_e testSetSignedElementValue(const char* newValue)   {return argparser::varg<T>::setSignedValue(newValue);}
+        argparser::valueParseStatus_e testSetUnsignedElementValue(const char* newValue) {return argparser::varg<T>::setUnsignedValue(newValue);}
+        argparser::valueParseStatus_e testSetDoubleElementValue(const char* newValue)   {return argparser::varg<T>::setDoubleValue(newValue);}
+        argparser::valueParseStatus_e testSetBoolElementValue(const char* newValue)     {return argparser::varg<T>::setBoolValue(newValue);}
+        argparser::valueParseStatus_e testSetCharElementValue(const char* newValue)     {return argparser::varg<T>::setCharValue(newValue);}
+};
 
 /*
 * Integer varg test
@@ -215,6 +234,20 @@ TYPED_TEST_P(IntegerUnitTest, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TYPED_TEST_P(IntegerUnitTest, IsEmptyTest)
+{
+    const TypeParam testValue = 37;
+    argparser::varg< TypeParam > testvar(testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(IntegerUnitTest, GetAssignmentCount)
+{
+    const TypeParam testValue = -28;
+    argparser::varg< TypeParam > testvar(testValue);
+    EXPECT_EQ(0, testvar.getAssignmentCount());
+}
+
 TYPED_TEST_P(IntegerUnitTest, GetTypeString)
 {
     const TypeParam testValue = 12;
@@ -251,9 +284,19 @@ TYPED_TEST_P(IntegerUnitTest, SetMinMax)
     EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
 }
 
+TYPED_TEST_P(IntegerUnitTest, SetTestProtectedFail)
+{
+    ProtectedVarg< TypeParam > testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("2"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("5.9"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("T"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+}
+
 REGISTER_TYPED_TEST_SUITE_P(IntegerUnitTest, ConstructorValueSigned, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                              ValueSetPassSigned, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
-                                             ValueSetMinPass, ValueSetMinFail, IsListTest, GetTypeString, SetMinMax);
+                                             ValueSetMinPass, ValueSetMinFail, IsListTest, IsEmptyTest,
+                                             GetAssignmentCount, GetTypeString, SetMinMax, SetTestProtectedFail);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_int, IntegerUnitTest, intTypes);
@@ -407,6 +450,20 @@ TYPED_TEST_P(UIntegerUnitTest, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TYPED_TEST_P(UIntegerUnitTest, IsEmptyTest)
+{
+    const TypeParam testValue = 37;
+    argparser::varg< TypeParam > testvar(testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(UIntegerUnitTest, GetAssignmentCount)
+{
+    const TypeParam testValue = 28;
+    argparser::varg< TypeParam > testvar(testValue);
+    EXPECT_EQ(0, testvar.getAssignmentCount());
+}
+
 TYPED_TEST_P(UIntegerUnitTest, GetTypeString)
 {
     const TypeParam testValue = 32;
@@ -443,9 +500,19 @@ TYPED_TEST_P(UIntegerUnitTest, SetMinMax)
     EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
 }
 
+TYPED_TEST_P(UIntegerUnitTest, SetTestProtectedFail)
+{
+    ProtectedVarg< TypeParam > testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("2"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("5.9"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("T"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+}
+
 REGISTER_TYPED_TEST_SUITE_P(UIntegerUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                               ValueSetPass, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
-                                              IsListTest, GetTypeString, SetMinMax);
+                                              IsListTest, IsEmptyTest, GetAssignmentCount, GetTypeString,
+                                              SetMinMax, SetTestProtectedFail);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_uint, UIntegerUnitTest, uintTypes);
@@ -581,6 +648,20 @@ TYPED_TEST_P(FloatUnitTest, IsListTest)
     }
 }
 
+TYPED_TEST_P(FloatUnitTest, IsEmptyTest)
+{
+    const TypeParam testValue = 37.73;
+    argparser::varg< TypeParam > testvar(testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(FloatUnitTest, GetAssignmentCount)
+{
+    const TypeParam testValue = 28.67;
+    argparser::varg< TypeParam > testvar(testValue);
+    EXPECT_EQ(0, testvar.getAssignmentCount());
+}
+
 TYPED_TEST_P(FloatUnitTest, GetTypeString)
 {
     for (const TypeParam testValue : this->initValues)
@@ -620,9 +701,19 @@ TYPED_TEST_P(FloatUnitTest, SetMinMax)
     EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
 }
 
+TYPED_TEST_P(FloatUnitTest, SetTestProtectedFail)
+{
+    ProtectedVarg< TypeParam > testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("2"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("5"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("T"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+}
+
 REGISTER_TYPED_TEST_SUITE_P(FloatUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                            ValueSetPass, ValueSetFail, ValueSetPass_integer,
-                                           ValueSetMaxPass, ValueSetMinPass, IsListTest, GetTypeString, SetMinMax);
+                                           ValueSetMaxPass, ValueSetMinPass, IsListTest, IsEmptyTest,
+                                           GetAssignmentCount, GetTypeString, SetMinMax, SetTestProtectedFail);
 
 //typedef testing::Types<double> floatTypes;
 using floatTypes = testing::Types<double>;
@@ -640,6 +731,14 @@ TEST(varg_bool, ConstructorValue)
 TEST(varg_bool, ConstructorValueFlag)
 {
     argparser::varg<bool> testvar(false, true);
+    EXPECT_FALSE(testvar.value);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
+    EXPECT_TRUE(testvar.value);
+}
+
+TEST(varg_bool, ConstructorMinMax)
+{
+    argparser::varg<bool> testvar(false, false, true);
     EXPECT_FALSE(testvar.value);
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_TRUE(testvar.value);
@@ -730,10 +829,32 @@ TEST(varg_bool, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TEST(varg_bool, IsEmptyTest)
+{
+    argparser::varg<bool> testvar(true);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TEST(varg_bool, GetAssignmentCount)
+{
+    argparser::varg<bool> testvar(true);
+    EXPECT_EQ(0, testvar.getAssignmentCount());
+}
+
 TEST(varg_bool, GetTypeString)
 {
     argparser::varg<bool> testvar(false);
     EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
+}
+
+TEST(varg_bool, SetTestProtectedFail)
+{
+    ProtectedVarg<bool> testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("2"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("5"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("7.32"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetCharElementValue("a"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.testSetBoolElementValue("f"));
 }
 
 /*
@@ -751,6 +872,14 @@ TEST(varg_char, ConstructorValueFlag)
     EXPECT_EQ('t', testvar.value);
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue());
     EXPECT_EQ('f', testvar.value);
+}
+
+TEST(varg_char, ConstructorMinMax)
+{
+    argparser::varg<char> testvar('t', 'a', 'z');
+    EXPECT_EQ('t', testvar.value);
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("c"));
+    EXPECT_EQ('c', testvar.value);
 }
 
 TEST(varg_char, ValueSetPass)
@@ -772,56 +901,31 @@ TEST(varg_char, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TEST(varg_char, IsEmptyTest)
+{
+    argparser::varg<char> testvar('z');
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TEST(varg_char, GetAssignmentCount)
+{
+    argparser::varg<char> testvar('y');
+    EXPECT_EQ(0, testvar.getAssignmentCount());
+}
+
 TEST(varg_char, GetTypeString)
 {
     argparser::varg<char> testvar('e');
     EXPECT_STREQ("<char>", testvar.getTypeString());
 }
 
-/*
-* String varg test
-*/
-TEST(varg_string, ConstructorValue)
+TEST(varg_char, SetTestProtectedFail)
 {
-    const argparser::vargstring testvar("test string");
-    const std::string testValue("test string");
-    EXPECT_STREQ(testValue.c_str(), testvar.value.c_str());
-}
-
-TEST(varg_string, ValueSetPass)
-{
-    argparser::vargstring testvar("test string");
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("value string"));
-
-    const std::string testValue("value string");
-    EXPECT_STREQ(testValue.c_str(), testvar.value.c_str());
-}
-
-TEST(varg_string, IsListTest)
-{
-    argparser::vargstring testvar("test string");
-    EXPECT_FALSE(testvar.isList());
-}
-
-TEST(varg_string, GetTypeString)
-{
-    argparser::vargstring testvar("test string");
-    EXPECT_STREQ("<string>", testvar.getTypeString());
-}
-
-TEST(varg_string, MinMaxLengthTest)
-{
-    argparser::vargstring testvar("", 5, 10);   // NOLINT
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue(""));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("v"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("va"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("val"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("valu"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("value"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("value test"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("value test1"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("value test12"));
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("value test really over limit"));
+    ProtectedVarg<char> testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetSignedElementValue("2"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetUnsignedElementValue("5"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetDoubleElementValue("7.32"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.testSetBoolElementValue("t"));
 }
 
 /** @} */

@@ -30,7 +30,11 @@
 #include <iostream>
 #include <memory>
 #include "varg_clib.h"
-#include "varg_clib_private.h"
+#include "vargptr_clib_private.h"
+#include "vargarray_clib_private.h"
+#include "vargcstring_clib_private.h"
+#include "varginc_clib_private.h"
+#include "vargenum_clib_private.h"
 #include "varg_clib_shared.h"
 
 //=================================================================================================

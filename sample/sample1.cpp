@@ -30,6 +30,7 @@ Copyright (c) 2023-2025 Randal Eike
 #include <cstring>
 #include <string>
 #include "varg.h"
+#include "vargstring.h"
 #include "vargincrement.h"
 #include "cmd_line_parse.h"
 

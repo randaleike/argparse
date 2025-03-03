@@ -32,7 +32,7 @@
 #include <array>
 #include <string>
 #include <sstream>
-#include "../src/varg_clib_private.h"
+#include "../src/vargptr_clib_private.h"
 
 /*
 * Integer vargptr test

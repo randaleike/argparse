@@ -28,7 +28,7 @@
  */
 
 // Includes
-#include "../src/varg_clib_private.h"
+#include "../src/vargarray_clib_private.h"
 #include <gtest/gtest.h>
 
 /*
@@ -716,24 +716,5 @@ TEST(carrayvarg_char, ValueSetPassTripleEntry)
     EXPECT_EQ('c', testArray[2]);
 }
 
-/*
-* String varg test
-*/
-TEST(ccharstring, ValueSetPass)
-{
-    char testArray[20];                             // NOLINT
-    argparser::vargcstring testvar(testArray, 20);  // NOLINT
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("Test String"));
-    EXPECT_FALSE(testvar.isEmpty());
-    EXPECT_EQ(11, testvar.getAssignmentCount());
-    EXPECT_STREQ("Test String", (&testArray[0]));   // NOLINT
-}
-
-TEST(ccharstring, GetTypeString)
-{
-    char testArray[20];                             // NOLINT
-    argparser::vargcstring testvar(testArray, 20);  // NOLINT
-    EXPECT_STREQ("<string>", testvar.getTypeString());
-}
 
 /** @} */
