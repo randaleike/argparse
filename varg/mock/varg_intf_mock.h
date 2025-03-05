@@ -33,8 +33,8 @@
 #include <climits>
 #include <limits>
 #include <string>
-#include "varg_intf.h"
 #include <gmock/gmock.h>
+#include "varg_intf.h"
 
 namespace argparser
 {
@@ -45,8 +45,12 @@ namespace argparser
 class mock_varg_intf : public varg_intf
 {
     public:
-        mock_varg_intf(): varg_intf() {}
-        ~mock_varg_intf() {}
+        mock_varg_intf() = default;
+        mock_varg_intf(const mock_varg_intf& other) = delete;
+        mock_varg_intf(mock_varg_intf&& other) = delete;
+        mock_varg_intf& operator=(const mock_varg_intf& other) = delete;
+        mock_varg_intf& operator=(mock_varg_intf&& other) = delete;
+        ~mock_varg_intf() override = default;
 
         MOCK_METHOD(const char*, getTypeString, (), (override));
         MOCK_METHOD(bool, isList, (), (const, override));
@@ -61,11 +65,11 @@ class mock_varg_intf : public varg_intf
         MOCK_METHOD(void, setMinMaxDouble, (double min, double max));
         MOCK_METHOD(void, setTypeString, (typeStringFormat_e fmtType));
 
-        MOCK_METHOD(valueParseStatus_e, getBoolValue(const char* newValue, bool& parsedValue));
-        MOCK_METHOD(valueParseStatus_e, getCharValue(const char* newValue, char& parsedValue));
-        MOCK_METHOD(valueParseStatus_e, getSignedValue(const char* newValue, long long int &parsedValue), (const));
-        MOCK_METHOD(valueParseStatus_e, getUnsignedValue(const char* newValue, long long unsigned &parsedValue), (const));
-        MOCK_METHOD(valueParseStatus_e, getDoubleValue(const char* newValue, double& parsedValue), (const));
+        MOCK_METHOD(valueParseStatus_e, getBoolValue, (const char* newValue, bool& parsedValue));
+        MOCK_METHOD(valueParseStatus_e, getCharValue, (const char* newValue, char& parsedValue));
+        MOCK_METHOD(valueParseStatus_e, getSignedValue, (const char* newValue, long long int &parsedValue), (const));
+        MOCK_METHOD(valueParseStatus_e, getUnsignedValue, (const char* newValue, long long unsigned &parsedValue), (const));
+        MOCK_METHOD(valueParseStatus_e, getDoubleValue, (const char* newValue, double& parsedValue), (const));
 };
 
 }; // end of namespace argparser

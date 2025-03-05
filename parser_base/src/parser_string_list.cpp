@@ -33,7 +33,7 @@
 #include <string>
 #include <sstream>
 #include <memory>
-#include "../inc/parser_string_list.h"
+#include "parser_string_list.h"
 #if defined(DYNAMIC_INTERNATIONALIZATION)
   #if defined(__linux__) || defined(__unix__)
     #include <cstdlib>
@@ -47,16 +47,16 @@
 using namespace argparser;
 
 #if defined(ENGLISH_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "english_strings.h"
+    #include "lang/english_strings.h"
 #endif
 #if defined(SPANISH_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "spanish_strings.h"
+    #include "lang/spanish_strings.h"
 #endif
 #if defined(FRENCH_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "french_strings.h"
+    #include "lang/french_strings.h"
 #endif
 #if defined(CHINESE_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "simplified_chinese_strings.h"
+    #include "lang/simplified_chinese_strings.h"
 #endif
 
 //============================================================================================================================
@@ -169,7 +169,7 @@ size_t BaseParserStringList::findBestBreakPos(parserstr workingString, std::list
         {
             // Find the best break location
             size_t workingBreakPos = workingString.rfind(breakCharacter);
-            if (debugMsgLevel > 4)
+            if (debugMsgLevel > debugVerbosityLevel_e::verboseDebug)
             {
                 std::cerr << "Start break: " << workingBreakPos << std::endl;
                 std::cerr << "Current break: " << workingBreakPos << std::endl;
@@ -179,7 +179,7 @@ size_t BaseParserStringList::findBestBreakPos(parserstr workingString, std::list
             {
                 // Search for the next break character
                 workingBreakPos = workingString.rfind(breakCharacter, workingBreakPos-1);
-                if (debugMsgLevel > 4)
+                if (debugMsgLevel > debugVerbosityLevel_e::verboseDebug)
                 {
                     std::cerr << "Current break: " << workingBreakPos << std::endl;
                 }

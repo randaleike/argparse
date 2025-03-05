@@ -28,8 +28,9 @@
  */
 
 // Includes
-#include "parser_string_list.h"
 #include <gtest/gtest.h>
+#include "parser_base.h"
+#include "parser_string_list.h"
 
 //======================================================================================
 // Public Interface testing, English list
@@ -165,6 +166,35 @@ TEST(BaseParserStringList, formatToLength)
     EXPECT_STREQ("This is a test string that will ", strList.front().c_str());
     strList.pop_front();
     EXPECT_STREQ("be broken into two strings      ", strList.front().c_str());
+}
+
+TEST(BaseParserStringList, formatToLengthWithDebug)
+{
+    // Enable debug messages fo completeness
+    constexpr size_t testMaxLength = 32;
+    argparser::BaseParserStringList testvar;
+    testvar.setDebugMsgLevel(debugVerbosityLevel_e::veryVerboseDebug);
+
+    parserstr baseString = "This is a test string that will be broken into two strings";
+
+    testing::internal::CaptureStderr();
+    std::list<parserstr> strList = testvar.formatStringToLength(baseString, {' '}, testMaxLength);
+    parserstr output = testing::internal::GetCapturedStderr();
+
+    EXPECT_EQ(2, strList.size());
+    EXPECT_STREQ("This is a test string that will ", strList.front().c_str());
+    strList.pop_front();
+    EXPECT_STREQ("be broken into two strings      ", strList.front().c_str());
+
+    parserstr expected = "Start string: \"This is a test string that will be broken into two strings\"\n";
+    expected += "Start break: 50\n";
+    expected += "Current break: 50\n";
+    expected += "Current break: 46\n";
+    expected += "Current break: 41\n";
+    expected += "Current break: 34\n";
+    expected += "Current break: 31\n";
+    expected += "Current string: \"be broken into two strings\"\n";
+    EXPECT_STREQ(expected.c_str(), output.c_str());
 }
 
 TEST(BaseParserStringList, formatToLengthPad)

@@ -36,18 +36,12 @@ set (parser_baseTest
     ${CMAKE_CURRENT_LIST_DIR}/test/parser_base_unittest.cpp
     )
 
-set (parser_baseMockIncude
+set (parser_baseMockInc
+    ${parser_baseInclude}
+    ${MASTER_PROJECT_BASE_DIR}/varg/mock
     )
 
-set (parser_baseMockSrc
-    )
-
-set (parser_baseUnitTest
-    ${vargIntfSrc}
-    ${parser_baseSrc}
-    )
-
-set (parser_baseUnitTestMock
+set (parser_baseTestMock
     )
 
 set (parser_baseExternalLib
@@ -56,9 +50,9 @@ set (parser_baseExternalLib
 
 enable_testing()
 
-add_executable(${PROJECT_NAME}_test ${parser_baseUnitTest} ${parser_baseUnitTestMock} ${parser_baseTest})
-target_include_directories(${PROJECT_NAME}_test PUBLIC ${parser_baseInclude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test PRIVATE ${parser_baseExternalLib} GTest::gtest_main)
+add_executable(${PROJECT_NAME}_test ${parser_baseSrc} ${parser_baseTestMock} ${parser_baseTest})
+target_include_directories(${PROJECT_NAME}_test PUBLIC ${parser_baseInclude} ${parser_baseMockInc} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME}_test PRIVATE ${parser_baseExternalLib} GTest::gmock_main GTest::gtest_main)
 if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
     target_compile_options(${PROJECT_NAME}_test PRIVATE --coverage)
     target_link_options(${PROJECT_NAME}_test PRIVATE --coverage)

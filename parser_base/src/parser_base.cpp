@@ -31,7 +31,6 @@
 #include <cstring>
 #include <string>
 #include "varg_intf.h"
-#include "varg.h"
 #include "parser_base.h"
 #include "parser_string_list.h"
 
