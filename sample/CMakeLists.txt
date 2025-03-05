@@ -71,7 +71,7 @@ add_custom_target(samples
 enable_testing()
 
 add_executable(samples-unittest ${CMAKE_CURRENT_SOURCE_DIR}/test/sample_unittest.cpp)
-target_include_directories(samples-unittest SYSTEM PRIVATE ${GTEST_INCLUDE_DIR})
+target_include_directories(samples-unittest SYSTEM PUBLIC ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
 target_link_libraries(samples-unittest PUBLIC GTest::gtest_main ${pthread_lib})
 add_dependencies(samples-unittest ${cxx_sample_files} ${c_sample_files})
 

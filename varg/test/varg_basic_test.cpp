@@ -84,7 +84,7 @@ template <typename T> class IntegerUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -278,7 +278,7 @@ TYPED_TEST_P(IntegerUnitTest, SetMinMax)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue(setString.c_str()));
 
     std::stringstream expectedTypeString;
-    expectedTypeString << "<" << minValue << ":[+|-]" << maxValue << ">";
+    expectedTypeString << "<" << minValue << ":" << maxValue << ">";
 
     std::string expectedString = this->getExpectedTypeString();
     EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());

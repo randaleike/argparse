@@ -67,7 +67,21 @@ TYPED_TEST_P(CarrayBaseUnitTest, IsListTest)
     EXPECT_TRUE(testvar.isList());
 }
 
-REGISTER_TYPED_TEST_SUITE_P(CarrayBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest);
+TYPED_TEST_P(CarrayBaseUnitTest, IsNotEmptyTest)
+{
+    TypeParam carray[3];    // NOLINT
+    argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(CarrayBaseUnitTest, IsEmptyTest)
+{
+    argparser::vargcarray< TypeParam > testvar(nullptr, 0);    // NOLINT
+    EXPECT_TRUE(testvar.isEmpty());
+}
+
+REGISTER_TYPED_TEST_SUITE_P(CarrayBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest,
+                            IsNotEmptyTest, IsEmptyTest);
 
 // NOLINTBEGIN
 typedef testing::Types<short int, int, long int, long long int,
@@ -97,7 +111,7 @@ template <typename T> class IntegerCArrayUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
             return typeString.str();
         }
 

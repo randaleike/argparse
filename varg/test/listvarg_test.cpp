@@ -45,7 +45,7 @@ template <typename T> class ListBaseUnitTest : public testing::Test
         ~ListBaseUnitTest() override = default;
 };
 
-template <typename T> class ProtectedListTest : public argparser::listvarg<T>
+template <typename T> class ProtectedListTest : public argparser::listvarg<T>   // NOLINT
 {
     public:
         ProtectedListTest() = default;
@@ -232,7 +232,7 @@ template <typename T> class IntegerListUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -388,9 +388,15 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetPassTripleEntry)
     EXPECT_EQ(17, testvar.value.front());
 }
 
+TYPED_TEST_P(IntegerListUnitTest, ValueSetNoInput)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
+}
+
 REGISTER_TYPED_TEST_SUITE_P(IntegerListUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetFail,
-                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
-                            ValueSetMaxPass, ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail);
+                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry, ValueSetMaxPass,
+                            ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail, ValueSetNoInput);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_int, IntegerListUnitTest, intTypes);
@@ -539,9 +545,15 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetPassTripleEntry)
     EXPECT_EQ(17, testvar.value.front());
 }
 
+TYPED_TEST_P(UIntegerListUnitTest, ValueSetNoInput)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
+}
+
 REGISTER_TYPED_TEST_SUITE_P(UIntegerListUnitTest, ValueSetPass, ValueSetFail, ValueSetFailNeg,
                             GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
-                            ValueSetMaxPass, ValueSetMaxFail);
+                            ValueSetMaxPass, ValueSetMaxFail, ValueSetNoInput);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;      // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_uint, UIntegerListUnitTest, uintTypes);
@@ -693,9 +705,15 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetPassTripleEntry)
     EXPECT_EQ(17.9, testvar.value.front());
 }
 
+TYPED_TEST_P(DoubleListUnitTest, ValueSetNoInput)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
+}
+
 REGISTER_TYPED_TEST_SUITE_P(DoubleListUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetPassExponent,
                             ValueSetPassInteger, ValueSetFail, GetTypeString, ValueSetPassDoubleEntry,
-                            ValueSetPassTripleEntry, ValueSetMaxPass, ValueSetMinPass);
+                            ValueSetPassTripleEntry, ValueSetMaxPass, ValueSetMinPass, ValueSetNoInput);
 
 typedef testing::Types<double> doubleTypes;     //NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_double, DoubleListUnitTest, doubleTypes);
@@ -793,6 +811,12 @@ TEST(listvarg_bool, ValueSetPassTripleEntry)
     EXPECT_EQ(false, testvar.value.front());
 }
 
+TEST(listvarg_bool, ValueSetNoInput)
+{
+    argparser::listvarg<bool> testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
+}
+
 /*
 * Character listvarg test
 */
@@ -850,6 +874,12 @@ TEST(listvarg_char, ValueSetPassTripleEntry)
     EXPECT_EQ('c', testvar.value.front());
 }
 
+TEST(listvarg_char, ValueSetNoInput)
+{
+    argparser::listvarg<char> testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
+}
+
 /*
 * String varg test
 */
@@ -897,6 +927,12 @@ TEST(listvarg_string, ValueSetPassTripleEntry)
     EXPECT_STREQ("test2 string", testvar.value.front().c_str());
     testvar.value.pop_front();
     EXPECT_STREQ("test3 string", testvar.value.front().c_str());
+}
+
+TEST(listvarg_string, ValueSetNoInput)
+{
+    argparser::listvarg<std::string> testvar;
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
 }
 
 /** @} */

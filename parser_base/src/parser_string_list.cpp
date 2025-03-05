@@ -216,15 +216,17 @@ BaseParserStringList::BaseParserStringList() :
 }
 
 BaseParserStringList::BaseParserStringList(const BaseParserStringList& other) :
-    defaultBreakList(other.defaultBreakList), debugMsgLevel(other.debugMsgLevel), msgGeneration(nullptr)
+    defaultBreakList(std::move(other.defaultBreakList)),
+    debugMsgLevel(other.debugMsgLevel),
+    msgGeneration(std::move(other.msgGeneration))
 {
-    intializeMessageGenerator();
 }
 
 BaseParserStringList::BaseParserStringList(BaseParserStringList&& other) noexcept :
-    defaultBreakList(other.defaultBreakList), debugMsgLevel(other.debugMsgLevel), msgGeneration(nullptr)
+    defaultBreakList(std::move(other.defaultBreakList)),
+    debugMsgLevel(other.debugMsgLevel),
+    msgGeneration(std::move(other.msgGeneration))
 {
-    intializeMessageGenerator();
 }
 
 
@@ -234,8 +236,7 @@ BaseParserStringList& BaseParserStringList::operator=(const BaseParserStringList
     {
         defaultBreakList = other.defaultBreakList;
         debugMsgLevel = other.debugMsgLevel;
-        msgGeneration = nullptr;
-        intializeMessageGenerator();
+        msgGeneration = other.msgGeneration;
     }
     return *this;
 }
@@ -246,8 +247,7 @@ BaseParserStringList& BaseParserStringList::operator=(BaseParserStringList&& oth
     {
         defaultBreakList = other.defaultBreakList;
         debugMsgLevel = other.debugMsgLevel;
-        msgGeneration = nullptr;
-        intializeMessageGenerator();
+        msgGeneration = other.msgGeneration;
     }
     return *this;
 }

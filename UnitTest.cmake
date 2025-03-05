@@ -62,7 +62,7 @@ function(unittest baseName sourceFileList testFileList mockFileList includePaths
 
     # Add unir test executable
     add_executable(${testName} ${sourceFileList} ${testFileList} ${mockFileList})
-    target_include_directories(${testName} PUBLIC ${includePaths} ${GTEST_INCLUDE_DIR})
+    target_include_directories(${testName} PUBLIC ${includePaths} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
     target_link_libraries(${testName} PUBLIC ${externalLibs} GTest::gtest_main)
     if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
         target_compile_options(${testName} PRIVATE --coverage)

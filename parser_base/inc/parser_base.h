@@ -89,7 +89,7 @@ class parser_base
 {
     private:
         // Argument lists
-        ArgEntry                dummyEntry;                      ///< Return entry if argument key list is not found
+        ArgEntry                dummyEntry;                     ///< Return entry if argument key list is not found
         std::list<ArgEntry>     keyArgList;                     ///< List of key based arguments
 
         // Help page text enhancements
@@ -105,7 +105,7 @@ class parser_base
         bool                    errorAbort;                     ///< True = Stop parsing if an error is found, False = accumulate errors until parsing complete
         int                     debugMsgLevel;                  ///< Current debug message level, default = 0 : None
 
-        // Parse tracking data
+        // Parser error data
         bool                    parsingError;                   ///< Set to true if any parsing error was detected.
         BaseParserStringList    parserStringList;               ///< Parser string list
 
@@ -135,6 +135,8 @@ class parser_base
         [[nodiscard]] int    getDebugMsgLevel() const           {return debugMsgLevel;}
         [[nodiscard]] size_t getMaxColumnWidth() const          {return maxColumnWidth;}
         [[nodiscard]] size_t getMaxOptionLength() const         {return maxOptionLength;}
+        void setMaxOptionLength(size_t width)                   {maxOptionLength = width;}
+        void setMaxColumnWidth(size_t width)                    {maxColumnWidth = width;}
 
     public:
         /**
@@ -208,7 +210,7 @@ class parser_base
         std::list<parserstr> formatToLength(parserstr baseString, parserchar breakparsercharacter, size_t maxLength);
 
         //=================================================================================================
-        //======================= Argument add interface methods ==========================================
+        //==========maxColumnWidth============= Argument add interface methods ==========================================
         //=================================================================================================
         /**
          * @brief Break the input argument list into it's parts and add them to

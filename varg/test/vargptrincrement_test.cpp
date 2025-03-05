@@ -93,6 +93,13 @@ TEST(vargptr_increment, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TEST(vargptr_increment, IsEmptyTest)
+{
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
 TEST(vargptr_increment, GetTypeString)
 {
     int value = 0;

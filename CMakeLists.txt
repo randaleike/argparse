@@ -56,8 +56,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif()
 FetchContent_MakeAvailable(googletest)
 set (GTEST_INCLUDE_DIR ${googletest_SOURCE_DIR}/googletest/include)
+set (GMOCK_INCLUDE_DIR ${googletest_SOURCE_DIR}/googlemock/include)
 set (GTEST_DLL_LIBRARY_PATH ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_BUILD_TYPE})
-message ("googletest_LIB: ${GTEST_DLL_LIBRARY_PATH}")
+#message ("googletest_LIB: ${GTEST_DLL_LIBRARY_PATH}")
 LIST (APPEND CMAKE_PROGRAM_PATH ${GTEST_DLL_LIBRARY_PATH})
 
 ####

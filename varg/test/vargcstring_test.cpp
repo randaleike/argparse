@@ -29,6 +29,7 @@
 
 // Includes
 #include "../src/vargcstring_clib_private.h"
+#include "varg_intf.h"
 #include <gtest/gtest.h>
 
 
@@ -50,6 +51,20 @@ TEST(cstringvarg, GetTypeString)
     char testArray[20];                             // NOLINT
     argparser::vargcstring testvar(testArray, 20);  // NOLINT
     EXPECT_STREQ("<string>", testvar.getTypeString());
+}
+
+TEST(cstringvarg, IsListTest)
+{
+    char testArray[20];                             // NOLINT
+    argparser::vargcstring testvar(testArray, 20);  // NOLINT
+    EXPECT_FALSE(testvar.isList());
+}
+
+TEST(cstringvarg, SetFlagValue)
+{
+    char testArray[20];                             // NOLINT
+    argparser::vargcstring testvar(testArray, 20);  // NOLINT
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
 }
 
 /** @} */

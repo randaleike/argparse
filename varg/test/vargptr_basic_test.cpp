@@ -59,7 +59,7 @@ template <typename T> class IntegerPtrUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -223,6 +223,19 @@ TYPED_TEST_P(IntegerPtrUnitTest, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TYPED_TEST_P(IntegerPtrUnitTest, IsNotEmptyTest)
+{
+    TypeParam testValue = 0;
+    argparser::vargptr< TypeParam > testvar(&testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(IntegerPtrUnitTest, IsEmptyTest)
+{
+    argparser::vargptr< TypeParam > testvar(nullptr);
+    EXPECT_TRUE(testvar.isEmpty());
+}
+
 TYPED_TEST_P(IntegerPtrUnitTest, GetTypeString)
 {
     const TypeParam initValue = 12;
@@ -235,7 +248,7 @@ TYPED_TEST_P(IntegerPtrUnitTest, GetTypeString)
 REGISTER_TYPED_TEST_SUITE_P(IntegerPtrUnitTest, ConstructorValueSignedPos, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                              ValueSetPassSignedPos, ValueSetFail,
                                              ValueSetMaxPass, ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail,
-                                             IsListTest, GetTypeString);
+                                             IsListTest, IsNotEmptyTest, IsEmptyTest, GetTypeString);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(vargptr_int, IntegerPtrUnitTest, intTypes);
@@ -397,6 +410,19 @@ TYPED_TEST_P(UIntegerPtrUnitTest, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TYPED_TEST_P(UIntegerPtrUnitTest, IsNotEmptyTest)
+{
+    TypeParam testValue = 0;
+    argparser::vargptr< TypeParam > testvar(&testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(UIntegerPtrUnitTest, IsEmptyTest)
+{
+    argparser::vargptr< TypeParam > testvar(nullptr);
+    EXPECT_TRUE(testvar.isEmpty());
+}
+
 TYPED_TEST_P(UIntegerPtrUnitTest, GetTypeString)
 {
     const TypeParam initValue = 32;
@@ -408,7 +434,7 @@ TYPED_TEST_P(UIntegerPtrUnitTest, GetTypeString)
 
 REGISTER_TYPED_TEST_SUITE_P(UIntegerPtrUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                               ValueSetPass, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
-                                              IsListTest, GetTypeString);
+                                              IsListTest, IsNotEmptyTest, IsEmptyTest, GetTypeString);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;  // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(vargptr_uint, UIntegerPtrUnitTest, uintTypes);
@@ -547,6 +573,19 @@ TYPED_TEST_P(FloatPtrUnitTest, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TYPED_TEST_P(FloatPtrUnitTest, IsNotEmptyTest)
+{
+    TypeParam testValue = 0.0;
+    argparser::vargptr< TypeParam > testvar(&testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(FloatPtrUnitTest, IsEmptyTest)
+{
+    argparser::vargptr< TypeParam > testvar(nullptr);
+    EXPECT_TRUE(testvar.isEmpty());
+}
+
 TYPED_TEST_P(FloatPtrUnitTest, GetTypeString)
 {
     TypeParam testValue = 0.0;
@@ -557,7 +596,8 @@ TYPED_TEST_P(FloatPtrUnitTest, GetTypeString)
 
 REGISTER_TYPED_TEST_SUITE_P(FloatPtrUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                            ValueSetPass, ValueSetFail, ValueSetPass_integer,
-                                           ValueSetMaxPass, ValueSetMinPass, IsListTest, GetTypeString);
+                                           ValueSetMaxPass, ValueSetMinPass, IsListTest, IsNotEmptyTest,
+                                           IsEmptyTest, GetTypeString);
 
 typedef testing::Types<double> floatTypes;                                      // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(vargptr_float, FloatPtrUnitTest, floatTypes);
@@ -679,6 +719,19 @@ TEST(vargptr_bool, IsListTest)
     EXPECT_FALSE(testvar.isList());
 }
 
+TEST(vargptr_bool, IsNotEmptyTest)
+{
+    bool testValue = true;
+    argparser::vargptr<bool> testvar(&testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TEST(vargptr_bool, IsEmptyTest)
+{
+    argparser::vargptr<bool> testvar(nullptr);
+    EXPECT_TRUE(testvar.isEmpty());
+}
+
 TEST(vargptr_bool, GetTypeString)
 {
     bool testValue = false;
@@ -727,6 +780,19 @@ TEST(vargptr_char, IsListTest)
     char testValue = 'd';
     const argparser::vargptr<char> testvar(&testValue);
     EXPECT_FALSE(testvar.isList());
+}
+
+TEST(vargptr_char, IsNotEmptyTest)
+{
+    char testValue = 'd';
+    argparser::vargptr<char> testvar(&testValue);
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TEST(vargptr_char, IsEmptyTest)
+{
+    argparser::vargptr<char> testvar(nullptr);
+    EXPECT_TRUE(testvar.isEmpty());
 }
 
 TEST(vargptr_char, GetTypeString)

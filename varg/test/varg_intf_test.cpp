@@ -262,10 +262,21 @@ TEST_F(vargintfUnitTest, GetSignedValue_min_fail)
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue("-200", testValue));
 }
 
-TEST_F(vargintfUnitTest, GetSignedValue_range_error)
+TEST_F(vargintfUnitTest, Get_stoll_range_error_max)
 {
     long long int testValue = 0;
-    const char* overflowString = "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999";
+    const char* overflowString = "9223372036854775808";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue(overflowString, testValue));
+    overflowString = "9323372036854775807";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue(overflowString, testValue));
+}
+
+TEST_F(vargintfUnitTest, Get_stoll_range_error_min)
+{
+    long long int testValue = 0;
+    const char* overflowString = "-9223372036854775809";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue(overflowString, testValue));
+    overflowString = "-9323372036854775807";
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getSignedValue(overflowString, testValue));
 }
 
@@ -320,6 +331,15 @@ TEST_F(vargintfUnitTest, GetUnsignedValue_min_fail)
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue("0", testValue));
 }
 
+TEST_F(vargintfUnitTest, Get_stoull_range_error)
+{
+    unsigned long long testValue = 0;
+    const char* overflowString = "18446744073709551616";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue(overflowString, testValue));
+    overflowString = "28446744073709551615";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getUnsignedValue(overflowString, testValue));
+}
+
 TEST_F(vargintfUnitTest, GetDoubleValue)
 {
     double testValue = 0;
@@ -370,9 +390,83 @@ TEST_F(vargintfUnitTest, GetDoubleValue_min_fail)
     EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue("9.99999e-8", testValue));
 }
 
+TEST_F(vargintfUnitTest, Get_stod_range_error_max)
+{
+    double testValue = 0.0;
+    const char* overflowString = "5.3e310";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue(overflowString, testValue));
+}
+
+TEST_F(vargintfUnitTest, Get_stod_range_error_min)
+{
+    double testValue = 0.0;
+    const char* overflowString = "5.3e-310";
+    EXPECT_EQ(valueParseStatus_e::PARSE_OUT_OF_RANGE_e, vargintfUnitTest::getDoubleValue(overflowString, testValue));
+}
+
 TEST_F(vargintfUnitTest, getAssignmentCount)
 {
     EXPECT_EQ(0, vargintfUnitTest::getAssignmentCount());
+}
+
+TEST_F(vargintfUnitTest, setTypeString_String)
+{
+    vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_STRING);
+    EXPECT_STREQ("<string>", vargintfUnitTest::getTypeString());
+}
+
+TEST_F(vargintfUnitTest, setTypeString_Char)
+{
+    vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_CHAR);
+    EXPECT_STREQ("<char>", vargintfUnitTest::getTypeString());
+}
+
+TEST_F(vargintfUnitTest, setTypeString_Bool)
+{
+    vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_BOOL);
+    EXPECT_STREQ("<t|T|1|f|F|0>", vargintfUnitTest::getTypeString());
+}
+
+TEST_F(vargintfUnitTest, setTypeString_Double)
+{
+    const double minvalue = 5e6;
+    const double maxvalue = 10e7;
+    std::stringstream typeStr;
+    typeStr << "<" << minvalue << ":" << maxvalue << ">";
+
+    vargintfUnitTest::setMinMaxDouble(minvalue, maxvalue);
+    vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_DOUBLE);
+    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getTypeString());
+}
+
+TEST_F(vargintfUnitTest, setTypeString_Unsigned)
+{
+    const unsigned long long minvalue = 15;
+    const unsigned long long maxvalue = 100;
+    std::stringstream typeStr;
+    typeStr << "<[+]" << minvalue << ":[+]" << maxvalue << ">";
+
+    vargintfUnitTest::setMinMaxUnsigned (minvalue, maxvalue);
+    vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
+    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getTypeString());
+}
+
+TEST_F(vargintfUnitTest, setTypeString_Signed)
+{
+    const long long int minvalue = -15;
+    const long long int maxvalue = 100;
+    std::stringstream typeStr;
+    typeStr << "<" << minvalue << ":" << maxvalue << ">";
+
+    vargintfUnitTest::setMinMaxSigned (minvalue, maxvalue);
+    vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
+    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getTypeString());
+}
+
+TEST_F(vargintfUnitTest, setTypeString_Unknown)
+{
+    vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_MAX);
+    EXPECT_STREQ("<unknown>", vargintfUnitTest::getTypeString());
 }
 
 /** @} */

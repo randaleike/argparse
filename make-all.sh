@@ -23,16 +23,6 @@ case "$2" in
         ;;
 esac
 
-# Clean the old build files
-if [ -d "./build" ]
-then
-    rm -rf ./build
-fi
-if [ -d "./Testing" ]
-then
-    rm -rf ./Testing
-fi
-
 # Make the new one
 cmake -B build -DCMAKE_CXX_COMPILER=$CPPCOMPILER -DCMAKE_C_COMPILER=$CCOMPILER -DCMAKE_BUILD_TYPE=$1 -S .
 
@@ -51,5 +41,5 @@ cmake --build build --config $1 --target samples-unittest
 # Run the library unittests
 (cd build;ctest --build-config $1 --exclude-regex sample)
 
-# Run the library unittests
+# Run the samples unittests
 (cd build;ctest --build-config $1 --tests-regex sample)

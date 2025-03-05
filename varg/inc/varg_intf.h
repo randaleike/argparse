@@ -61,6 +61,7 @@ enum typeStringFormat_e
     TYPE_FMT_CHAR,                      ///< Set the default char type string
     TYPE_FMT_BOOL,                      ///< Set the default boolean type string
     TYPE_FMT_STRING,                    ///< Set the default string type string
+    TYPE_FMT_MAX                        ///< Unused max value used for testing
 };
 
 /**

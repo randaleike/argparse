@@ -46,6 +46,7 @@ set (vargUnitTest
      ${CMAKE_CURRENT_LIST_DIR}/test/vargcarray_test.cpp
      ${CMAKE_CURRENT_LIST_DIR}/test/vargcstring_test.cpp
      ${CMAKE_CURRENT_LIST_DIR}/test/vargptrincrement_test.cpp
+     ${CMAKE_CURRENT_LIST_DIR}/test/vargptrenum_test.cpp
      ${CMAKE_CURRENT_LIST_DIR}/test/varg_clib_api_test.cpp
      ${CMAKE_CURRENT_LIST_DIR}/test/varg_test.cpp
     )
@@ -65,7 +66,7 @@ set (varargExtLibs
 enable_testing()
 
 add_executable(${PROJECT_NAME}_test ${vargSrc} ${vargUnitTest} ${vargMockSrc})
-target_include_directories(${PROJECT_NAME}_test PUBLIC ${vargInclude} ${GTEST_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME}_test PUBLIC ${vargInclude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${varargExtLibs} GTest::gtest_main)
 if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
     target_compile_options(${PROJECT_NAME}_test PRIVATE --coverage)
@@ -73,9 +74,9 @@ if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]eb
 endif()
 
 include(GoogleTest)
-gtest_add_tests(TARGET ${PROJECT_NAME}_test TEST_LIST ${PROJECT_NAME}AllTests)
+gtest_add_tests(TARGET ${PROJECT_NAME}_test TEST_LIST vargAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(${${PROJECT_NAME}AllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${vargAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 
