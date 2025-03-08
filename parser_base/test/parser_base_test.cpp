@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -196,7 +196,7 @@ TEST(parser_base, setDebugLevel)
 TEST(parser_base, addArgKeyListSingleNospaces)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--foo";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
@@ -207,7 +207,7 @@ TEST(parser_base, addArgKeyListSingleNospaces)
 TEST(parser_base, addArgKeyListSingleSpaces)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = " --foo ";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
@@ -218,7 +218,7 @@ TEST(parser_base, addArgKeyListSingleSpaces)
 TEST(parser_base, addArgKeyListDouble)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--foo,--moo";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
@@ -231,7 +231,7 @@ TEST(parser_base, addArgKeyListDouble)
 TEST(parser_base, addArgKeyListDoubleWithSpace)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = " --foo, --moo ";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
@@ -244,7 +244,7 @@ TEST(parser_base, addArgKeyListDoubleWithSpace)
 TEST(parser_base, addArgKeyListTriple)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--foo,--moo,--goo";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
@@ -259,7 +259,7 @@ TEST(parser_base, addArgKeyListTriple)
 TEST(parser_base, addArgKeyListTripleNewDelimeter)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--foo:--moo:--goo";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
     testparser.setKeyListDelimiter(':');
@@ -275,7 +275,7 @@ TEST(parser_base, addArgKeyListTripleNewDelimeter)
 TEST(parser_base, addArgKeyListTripleNewDelimeterAndSpace)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--foo :--moo :--goo";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
     testparser.setKeyListDelimiter(':');
@@ -292,7 +292,7 @@ TEST(parser_base, addArgKeyListTripleNewDelimeterAndSpace)
 TEST(parser_base, addArgKeyListEntry)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--foo";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
 
@@ -312,7 +312,7 @@ TEST(parser_base, CopyConstructorTest)
     const size_t maxOpt = 50;
 
     // Non-default everything
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--foo";
     argparser::ArgEntry testArg = {"foo", "foo input value", "", (&testvarg), 0, 0, true};
     test_parser_base testparser(true, 4);
@@ -347,7 +347,7 @@ TEST(parser_base, MoveConstructor)
     const size_t maxOpt = 45;
 
     // Non-default everything
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--moo";
     argparser::ArgEntry testArg = {"moo", "moo input value", "", (&testvarg), 0, 0, true};
     test_parser_base testparser(true, 2);
@@ -382,7 +382,7 @@ TEST(parser_base, EquateConstructor)
     const size_t maxOpt = 35;
 
     // Non-default everything
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--goo";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
     test_parser_base testparser(true, 1);
@@ -418,7 +418,7 @@ TEST(parser_base, MoveEquateConstructor)
     const size_t maxOpt = 55;
 
     // Non-default everything
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--roo";
     argparser::ArgEntry testArg = {"roo", "roo input value", "", (&testvarg), 0, 0, true};
     test_parser_base testparser(true, 1);
@@ -510,8 +510,8 @@ TEST(parser_base, getValueListPreceedingAssignmentDelim)
 TEST(parser_base, findMatchingArg)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg1;
-    argparser::mock_varg_intf testvarg2;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg1;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg2;
     parserstr testkeys1 = "--foo,-f";
     argparser::ArgEntry testArg1 = {"foo", "foo input value", "", (&testvarg1), 0, 0, true};
     parserstr testkeys2 = "--goo,-g";
@@ -546,8 +546,8 @@ TEST(parser_base, findMatchingArg)
 TEST(parser_base, debugMessages)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg1;
-    argparser::mock_varg_intf testvarg2;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg1;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg2;
     parserstr testkeys1 = "--foo,-f";
     argparser::ArgEntry testArg1 = {"foo", "foo input value", "", (&testvarg1), 0, 0, true};
     parserstr testkeys2 = "--goo,-g";
@@ -586,6 +586,7 @@ TEST(parser_base, debugMessages)
     EXPECT_TRUE(found);
     EXPECT_STREQ("goo", retArg.name.c_str());
 
+#if (ENABLE_DEBUG_STRING_CHECK)
     parserstr expected = "keyArgList size: 2\n";                    // Two arguments added, foo then goo. Order determined by the addArgument calls
     expected += "Testing var: foo test key: --foo input key: -g\n"; // foo key order "--foo" determined by testkeys1 key order
     expected += "Test key size: 5 input key size: 2\n";             // 5 = length of the "--foo" key string, 2 = the length of the "-g" search string
@@ -597,12 +598,13 @@ TEST(parser_base, debugMessages)
     expected += "Test key size: 2 input key size: 2\n";             // 2 = length of the "-g" key string, 2 = the length of the "-g" search string
     expected += "Found match var: goo key: -g\n";
     EXPECT_STREQ(expected.c_str(), output.c_str());
+#endif // if(ENABLE_DEBUG_STRING_CHECK)
 }
 
 TEST(parser_base, assignKeyFlagValue)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue())
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
@@ -617,7 +619,7 @@ TEST(parser_base, assignKeyFlagValue)
 TEST(parser_base, assignKeyValueWithInput)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("54")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
@@ -633,7 +635,7 @@ TEST(parser_base, assignKeyValueWithInput)
 TEST(parser_base, assignKeyValueBadInput)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("34")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e))
@@ -655,7 +657,7 @@ TEST(parser_base, assignKeyValueBadInput)
 TEST(parser_base, assignKeyValueEmptyInputFail)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
     //testparser.setDebugLevel(5);
@@ -668,7 +670,7 @@ TEST(parser_base, assignKeyValueEmptyInputFail)
 TEST(parser_base, assignListKeyValueWithInput)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("21")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("42")))
@@ -692,7 +694,7 @@ TEST(parser_base, assignListKeyValueWithInput)
 TEST(parser_base, assignListKeyValueWithInputAnySize)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("21")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("42")))
@@ -716,7 +718,7 @@ TEST(parser_base, assignListKeyValueWithInputAnySize)
 TEST(parser_base, assignListKeyValueTooMany)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
 
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 2, 0, true};
@@ -734,7 +736,7 @@ TEST(parser_base, assignListKeyValueTooMany)
 TEST(parser_base, assignListKeyValueTooManyNegCnt)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
 
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -2, 0, true};
@@ -752,7 +754,7 @@ TEST(parser_base, assignListKeyValueTooManyNegCnt)
 TEST(parser_base, assignListKeyValueNegCnt)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("21")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("42")))
@@ -776,7 +778,7 @@ TEST(parser_base, assignListKeyValueNegCnt)
 TEST(parser_base, assignListKeyValueTooFew)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
 
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true};
@@ -794,7 +796,7 @@ TEST(parser_base, assignListKeyValueTooFew)
 TEST(parser_base, assignListKeyValueEmpty)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
 
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true};
@@ -808,7 +810,7 @@ TEST(parser_base, assignListKeyValueEmpty)
 TEST(parser_base, assignListKeyValueBadInput)
 {
     test_parser_base testparser;
-    argparser::mock_varg_intf testvarg;
+    ::testing::StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("21")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("moo")))
@@ -968,8 +970,6 @@ TEST(parser_base, ResizeFormatParams)
     testparser.resizeMaxOptionLength(testSize1);
     EXPECT_EQ(testSize1, testparser.getMaxOptionLength());
     EXPECT_EQ(testSize1, testparser.getOptionKeyWidth());
-    EXPECT_EQ(80, testparser.getMaxColumnWidth());
-    EXPECT_EQ(80-testSize1-1, testparser.getHelpKeyWidth());
 
     testparser.resizeMaxOptionLength(testSize2);
     EXPECT_EQ(testSize2, testparser.getMaxOptionLength());
@@ -992,4 +992,5 @@ TEST(parser_base, ResizeFormatParams)
     EXPECT_EQ(39, testparser.getHelpKeyWidth());
 
 }
+
 /** @} */

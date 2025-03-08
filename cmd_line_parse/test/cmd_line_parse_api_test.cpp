@@ -119,7 +119,9 @@ parserstr getPositionalMsg_clib(parserstr name, parserstr help, size_t argWidth 
 //======================================================================================
 TEST(cmd_line_parse_clib, defaultConstructor)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", true, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description",
+                                               '-', true, false,
+                                               0);
 
     testing::internal::CaptureStderr();
     displayHelp(testParser);
@@ -137,7 +139,9 @@ TEST(cmd_line_parse_clib, defaultConstructor)
 
 TEST(cmd_line_parse_clib, test_epilog)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", true, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description",
+                                               '-',true, false,
+                                               0);
     setEpilog(testParser, "This is the epilog");
 
     testing::internal::CaptureStderr();
@@ -157,7 +161,7 @@ TEST(cmd_line_parse_clib, test_epilog)
 TEST(cmd_line_parse_clib, addFlagArgHelp)
 {
     bool testFlag = false;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", true, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
     argHandle           cvarghandle = createParserFlagArg(&testFlag, true);
     addFlagArgument(testParser, cvarghandle, "flag", "-f,--flag", "This is the flag argument", false);
 
@@ -180,7 +184,7 @@ TEST(cmd_line_parse_clib, addFlagArgHelp)
 TEST(cmd_line_parse_clib, addPositionalHelp)
 {
     int testarg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", true, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
     argHandle           cvarghandle = createIntParserArg(&testarg);
 
     addPositionalArgument(testParser, cvarghandle, "postst", "This is a positional argument", true);
@@ -205,7 +209,7 @@ TEST(cmd_line_parse_clib, addPositionalHelp)
 TEST(cmd_line_parse_clib, addKeyArgHelp)
 {
     int testarg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", true, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
     argHandle           cvarghandle = createIntParserArg(&testarg);
 
     addKeyArgument(testParser, cvarghandle, "tstint", "-i,--val", "This is the test key argument", true);
@@ -231,7 +235,7 @@ TEST(cmd_line_parse_clib, addAllArgHelp)
     bool testFlagArg = false;
     int  testKeyInt = 1;
     int  testPositionInt = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", true, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
     argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
     argHandle           cvargKeyIntHandle = createIntParserArg(&testKeyInt);
     argHandle           cvargPosIntHandle = createIntParserArg(&testPositionInt);
@@ -264,7 +268,7 @@ TEST(cmd_line_parse_clib, addAllArgHelp)
 TEST(cmd_line_parse_clib, parseTestFlag)
 {
     bool testFlagArg = false;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
 
     addFlagArgument(testParser, cvargFlagHandle, "flag", "-f,--flag", "This is the flag argument", false);
@@ -287,7 +291,7 @@ TEST(cmd_line_parse_clib, parseTestFlag)
 TEST(cmd_line_parse_clib, parseTestFlagFailure)
 {
     bool testFlagArg = false;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
 
     addFlagArgument(testParser, cvargFlagHandle, "flag", "-f,--flag", "This is the flag argument", false);
@@ -314,7 +318,7 @@ TEST(cmd_line_parse_clib, parseTestFlagFailure)
 TEST(cmd_line_parse_clib, parseTestKeyWithAssign)
 {
     int testArg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargIntHandle = createIntParserArg(&testArg);
 
     addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
@@ -336,7 +340,7 @@ TEST(cmd_line_parse_clib, parseTestKeyWithAssign)
 TEST(cmd_line_parse_clib, parseTestKeyAssignMissing)
 {
     int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargIntHandle = createIntParserArg(&testArg);
 
     addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
@@ -362,7 +366,7 @@ TEST(cmd_line_parse_clib, parseTestKeyAssignMissing)
 TEST(cmd_line_parse_clib, parseTestKeyAssignFail)
 {
     int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargIntHandle = createIntParserArg(&testArg);
 
     addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
@@ -388,7 +392,7 @@ TEST(cmd_line_parse_clib, parseTestKeyAssignFail)
 TEST(cmd_line_parse_clib, parseTestKeyAssignNextArg)
 {
     int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargIntHandle = createIntParserArg(&testArg);
 
     addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
@@ -411,7 +415,7 @@ TEST(cmd_line_parse_clib, parseTestKeyAssignNextArg)
 TEST(cmd_line_parse_clib, parsePositional)
 {
     int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargIntHandle = createIntParserArg(&testArg);
 
     addPositionalArgument(testParser, cvargIntHandle, "postst", "This is a positional argument", true);
@@ -433,7 +437,7 @@ TEST(cmd_line_parse_clib, parsePositional)
 TEST(cmd_line_parse_clib, parsePositionalFailed)
 {
     int testArg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargIntHandle = createIntParserArg(&testArg);
 
     addPositionalArgument(testParser, cvargIntHandle, "postst", "This is a positional argument", true);
@@ -461,7 +465,7 @@ TEST(cmd_line_parse_clib, parseTestMultiple)
     bool testFlagArg = false;
     int testKeyArg = testValue;
     int testPosArg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
     argHandle           cvargKeyHandle = createIntParserArg(&testKeyArg);
     argHandle           cvargPosHandle = createIntParserArg(&testPosArg);
@@ -494,7 +498,7 @@ TEST(cmd_line_parse_clib, parseTestMultiple)
 TEST(cmd_line_parse_clib, parseTestAddListArg)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, true);
@@ -517,7 +521,7 @@ TEST(cmd_line_parse_clib, parseTestAddListArg)
 TEST(cmd_line_parse_clib, parseTestAddListArgMultipleArgv)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, false);
@@ -542,7 +546,7 @@ TEST(cmd_line_parse_clib, parseTestAddListArgMultipleArgv)
 TEST(cmd_line_parse_clib, parseTestAddListArgTooFew)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, false);
@@ -565,7 +569,7 @@ TEST(cmd_line_parse_clib, parseTestAddListArgTooFew)
 TEST(cmd_line_parse_clib, parseTestAddListArgTooMany)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, false);
@@ -588,7 +592,7 @@ TEST(cmd_line_parse_clib, parseTestAddListArgTooMany)
 TEST(cmd_line_parse_clib, parseTestAddDynamicListArg)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
@@ -611,7 +615,7 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArg)
 TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2Vals)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
@@ -633,7 +637,7 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2Vals)
 TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2ValsMultiArgv)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
@@ -656,7 +660,7 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2ValsMultiArgv)
 TEST(cmd_line_parse_clib, parseTestAddDynamicListArgMultiArgvSwitchTermination)
 {
     int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
     addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
@@ -684,7 +688,7 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArgMultiArgvSwitchTermination)
 
 TEST(cmd_line_parse_clib, parseTestDualSingleCharFlag)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     disableHelpDisplayOnError(testParser);
 
     bool      testFlag0    = false;
@@ -708,7 +712,7 @@ TEST(cmd_line_parse_clib, parseTestDualSingleCharFlag)
 
 TEST(cmd_line_parse_clib, parseTestTripleSingleCharFlag)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
 
     bool      testFlag0    = false;
     argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
@@ -736,7 +740,7 @@ TEST(cmd_line_parse_clib, parseTestTripleSingleCharFlag)
 
 TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagVal)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
 
     bool      testFlag0    = false;
     argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
@@ -764,7 +768,7 @@ TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagVal)
 
 TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagValNextargv)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
 
     bool      testFlag0    = false;
     argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
@@ -793,7 +797,7 @@ TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagValNextargv)
 
 TEST(cmd_line_parse_clib, parseTestMissingRequired)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     disableHelpDisplayOnError(testParser);
 
     bool      testFlag0    = false;
@@ -826,7 +830,7 @@ TEST(cmd_line_parse_clib, parseTestMissingRequired)
 
 TEST(cmd_line_parse_clib, parseTestMultiplePositionalArgs)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
 
     char subcommand[30];    // NOLINT
     argHandle testsubarg = createStringArrayParserArg(subcommand, 30);  // NOLINT
@@ -871,7 +875,7 @@ TEST(cmd_line_parse_clib, parseTestMultiplePositionalArgs)
 
 TEST(cmd_line_parse_clib, parseTestTwoPhasedParse)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
 
     char subcommand[30];    // NOLINT
     argHandle testsubarg = createStringArrayParserArg(subcommand, 30);  // NOLINT
@@ -916,7 +920,7 @@ TEST(cmd_line_parse_clib, parseTestTwoPhasedParse)
 
 TEST(cmd_line_parse_clib, parseTestThreePhasedParse)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
 
     char subcommand[30];    // NOLINT
     argHandle testsubarg = createStringArrayParserArg(subcommand, 30);  // NOLINT
@@ -975,7 +979,7 @@ TEST(cmd_line_parse_clib, parseTestThreePhasedParse)
 
 TEST(cmd_line_parse_clib, parseTestTwPhasedTwoParserPositionalStop)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
 
     bool      testFlag0    = false;
     argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
@@ -1018,7 +1022,9 @@ TEST(cmd_line_parse_clib, parseTestTwPhasedTwoParserPositionalStop)
     EXPECT_STREQ("cmd1", subcommand);   // NOLINT
 
     // Phase 2, Parser 2
-    cmdLineParserHandle cmd1Parser = getParser("testprog [global options] cmd1 [subcommand options]", "Description of the subcommand test program", false, false, 0);
+    cmdLineParserHandle cmd1Parser = getParser("testprog [global options] cmd1 [subcommand options]",
+                                               "Description of the subcommand test program", '-',
+                                               false, false, 0);
 
     bool      testCmd1Flag    = false;
     unsigned  testCmd1Value   = 0;
@@ -1040,7 +1046,7 @@ TEST(cmd_line_parse_clib, parseTestTwPhasedTwoParserPositionalStop)
 
 TEST(cmd_line_parse_clib, parseTestMissingRequiredSubcommand)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", false, false, 0);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
     disableHelpDisplayOnError(testParser);
 
     bool      testFlag          = false;

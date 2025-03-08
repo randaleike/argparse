@@ -400,6 +400,11 @@ parserstr BaseParserStringList::getEnvironmentNoFlags(parserstr argKey)
     return msgGeneration->getEnvironmentNoFlags(argKey);
 }
 
+parserstr BaseParserStringList::getRequiredEnvironmentArgMissing(parserstr argKey)
+{
+    return msgGeneration->getRequiredEnvironmentArgMissing(argKey);
+}
+
 // JSON parser specific strings and messages
 parserstr BaseParserStringList::getJsonArgumentsMessage()
 {

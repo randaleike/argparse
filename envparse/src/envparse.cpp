@@ -187,7 +187,7 @@ bool envparser::parse()
             std::string valueString = envValue;
             size_t valueCount = parser_base::getValueList(valueString, assignmentValues);
             auto requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
-            if (debugMsgLevel > debugVerbosityLevel_e::veryVerboseDebug)
+            if (debugMsgLevel >= debugVerbosityLevel_e::veryVerboseDebug)
             {
                 std::cout << "Environment value: " << envValue << std::endl;
                 std::cout << "Environment var name: " << currentArg.name << std::endl;
@@ -243,7 +243,7 @@ bool envparser::parse()
         {
             if ((keyArg.isRequired) && !(keyArg.isFound))
             {
-                std::cerr << parser_base::getParserStringList().getMissingArgumentMessage(keyArg.name) << std::endl;
+                std::cerr << parser_base::getParserStringList().getRequiredEnvironmentArgMissing(keyArg.name) << std::endl;
                 parser_base::setParsingError(true);
             }
         }

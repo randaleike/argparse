@@ -88,7 +88,10 @@ class ParserStringListInterfaceChineseSimplified final : public ParserStringList
         {return "环境值：";}
 
         parserstr getEnvironmentNoFlags(parserstr argKey) final
-        {parser_str_stream parserstr;  parserstr << "环境价值 " << argKey << " narg 必须 > 0"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "环境价值\"" << argKey << "\" narg 必须 > 0"; return parserstr.str();}
+
+        parserstr getRequiredEnvironmentArgMissing(parserstr argKey) final
+        {parser_str_stream parserstr;  parserstr << "必须定义环境值: " << argKey; return parserstr.str();}
 
         // JSON file parser messages
         parserstr getJsonArgumentsMessage() final

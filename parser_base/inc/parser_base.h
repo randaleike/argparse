@@ -21,7 +21,7 @@
 */
 
 /**
- * @file cmd_line_parse.h
+ * @file parser_base.h
  * @ingroup argparser
  * @defgroup Argument parsing utilities
  * @{
@@ -44,6 +44,9 @@
 namespace argparser
 {
 
+/**
+ * @brief Assgnment return status codes
+ */
 enum eAssignmentReturn
 {
     eAssignSuccess = 0,             ///< Variable assignment passed
@@ -53,6 +56,9 @@ enum eAssignmentReturn
     eAssignTooFew,                  ///< Too few input values
 };
 
+/**
+ * @brief Add enum value return status codes
+ */
 enum eAddStatusReturn
 {
     eAddArgSuccess = 0,             ///< Argument add passed
@@ -81,9 +87,9 @@ struct ArgEntry
 };
 
 /**
-* @brief Class definition
+* @brief Base class for all parsers.
 *
-* Detailed class description
+* Base clase for all parsers containing common shared behavior and data.
 */
 class parser_base
 {

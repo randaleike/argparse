@@ -90,6 +90,9 @@ class ParserStringListInterfaceSpanish final : public ParserStringListInterface
         parserstr getEnvironmentNoFlags(parserstr argKey) final
         {parser_str_stream parserstr;  parserstr << "Valores ambiental " << argKey << " narg debe ser > 0"; return parserstr.str();}
 
+        parserstr getRequiredEnvironmentArgMissing(parserstr argKey) final
+        {parser_str_stream parserstr;  parserstr << "Se debe definir el valor del entorno " << argKey; return parserstr.str();}
+
         // JSON file parser messages
         parserstr getJsonArgumentsMessage() final
         {return "Valores de argumentos JSON disponibles:";}

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -107,14 +107,6 @@ TEST(BaseParserStringList, printArgumentCreationError)
     EXPECT_STREQ("Argument add failed: --test,-t", output.c_str());
 }
 
-TEST(BaseParserStringList, printEnvironmentNoFlags)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getEnvironmentNoFlags("testenvvar");
-    EXPECT_STREQ("Environment value testenvvar narg must be > 0", output.c_str());
-}
-
 TEST(BaseParserStringList, getUsageMessage)
 {
     argparser::BaseParserStringList testvar;
@@ -148,6 +140,34 @@ TEST(BaseParserStringList, getEnvArgumentsMessage)
     argparser::BaseParserStringList testvar;
     parserstr testString = testvar.getEnvArgumentsMessage();
     EXPECT_STREQ("Environment values:", testString.c_str());
+}
+
+TEST(BaseParserStringList, printEnvironmentNoFlags)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getEnvironmentNoFlags("testenvvar");
+    EXPECT_STREQ("Environment value testenvvar narg must be > 0", output.c_str());
+}
+
+TEST(BaseParserStringList, getMissingEnvArgumentsMessage)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getRequiredEnvironmentArgMissing("testenvvar");
+    EXPECT_STREQ("Environment value testenvvar must be defined", output.c_str());
+}
+
+TEST(BaseParserStringList, getJsonArgumentsMessage)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getJsonArgumentsMessage();
+    EXPECT_STREQ("Available JSON argument values:", output.c_str());
+}
+
+TEST(BaseParserStringList, getXmlArgumentsMessage)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getXmlArgumentsMessage();
+    EXPECT_STREQ("Available XML argument values:", output.c_str());
 }
 
 /// @todo add non-english tests
@@ -186,6 +206,7 @@ TEST(BaseParserStringList, formatToLengthWithDebug)
     strList.pop_front();
     EXPECT_STREQ("be broken into two strings      ", strList.front().c_str());
 
+#if (ENABLE_DEBUG_STRING_CHECK)
     parserstr expected = "Start string: \"This is a test string that will be broken into two strings\"\n";
     expected += "Start break: 50\n";
     expected += "Current break: 50\n";
@@ -195,6 +216,7 @@ TEST(BaseParserStringList, formatToLengthWithDebug)
     expected += "Current break: 31\n";
     expected += "Current string: \"be broken into two strings\"\n";
     EXPECT_STREQ(expected.c_str(), output.c_str());
+#endif // if(ENABLE_DEBUG_STRING_CHECK)
 }
 
 TEST(BaseParserStringList, formatToLengthPad)

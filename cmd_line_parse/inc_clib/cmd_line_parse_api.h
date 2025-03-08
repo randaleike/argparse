@@ -53,6 +53,7 @@ typedef char const* parsercstr;                     ///< Parser 'C' string abstr
  *
  * @param usage - Usage sting for help display
  * @param description - Description of tool for the help display
+ * @param keyprefix - Key prefix character i.e. '/' or '-'.
  * @param abortOnError - True = abort parsing on the first error, False = continue parsing to the end
  * @param disableDefaultHelp - True = display the help mesage if a parsing error occurs,
  *                             False = do not display the help message until parserDisplayHelp() is called
@@ -60,7 +61,7 @@ typedef char const* parsercstr;                     ///< Parser 'C' string abstr
  *
  * @return cmdLineParserHandle - Handle to the created argument parser
  */
-cmdLineParserHandle getParser(parsercstr usage, parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel);
+cmdLineParserHandle getParser(parsercstr usage, parsercstr description, char keyprefix, bool abortOnError, bool disableDefaultHelp, int debugLevel);
 
 /**
  * @brief Release the parser instance
@@ -88,24 +89,6 @@ void setEpilog(cmdLineParserHandle parser, parsercstr epilog);
  * @param progName - Program name to use in the usage string
  */
 void setProgramName(cmdLineParserHandle parser, parsercstr progName);
-
-/**
- * @brief Set the argument key prefix value.
- *
- * The argument key prefix is the character or string
- * the identifies an input argument key string.  Any input
- * argument that does not begin with this character is
- * assumed to be a positional argument value.
- *
- * @param parser - Handle value returned by getParser()
- * @param prefix - argument prefix value
- */
-void setKeyPrefix(cmdLineParserHandle parser, parsercstr prefix);
-
-/**
- * @brief Disable the default help argument setup
- */
-void disableDefaultHelpArgument(cmdLineParserHandle parser);
 
 /**
  * @brief Disable the help display on parsing error

@@ -94,8 +94,11 @@ parser_base& parser_base::operator=(const parser_base& other) noexcept
         errorAbort              = other.errorAbort;
         debugMsgLevel           = other.debugMsgLevel;
         parsingError            = false;
+
+        keyArgList.clear();
         keyArgList              = other.keyArgList;
-        dummyEntry               = {};
+
+        dummyEntry              = {};
         parserStringList        = other.parserStringList;
     }
     return *this;
@@ -113,9 +116,13 @@ parser_base& parser_base::operator=(parser_base&& other) noexcept
         errorAbort              = other.errorAbort;
         debugMsgLevel           = other.debugMsgLevel;
         parsingError            = false;
+
+        keyArgList.clear();
         keyArgList              = std::move(other.keyArgList);
+
         dummyEntry              = {};
         parserStringList        = std::move(other.parserStringList);
+
         other.keyArgList.clear();
     }
     return *this;

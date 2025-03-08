@@ -121,6 +121,7 @@ class ParserStringListInterface
         // Environment parser messages
         [[nodiscard]] virtual parserstr getEnvArgumentsMessage()  = 0;
         [[nodiscard]] virtual parserstr getEnvironmentNoFlags(parserstr argKey)  = 0;
+        [[nodiscard]] virtual parserstr getRequiredEnvironmentArgMissing(parserstr argKey) = 0;
 
         // JSON file parser messages
         [[nodiscard]] virtual parserstr getJsonArgumentsMessage()  = 0;
@@ -215,6 +216,7 @@ class BaseParserStringList
         // Environment parser specific strings and messages
         parserstr getEnvArgumentsMessage();
         parserstr getEnvironmentNoFlags(parserstr argKey);
+        parserstr getRequiredEnvironmentArgMissing(parserstr argKey);
 
         // JSON parser specific strings and messages
         parserstr getJsonArgumentsMessage();

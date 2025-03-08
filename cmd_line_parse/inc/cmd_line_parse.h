@@ -50,8 +50,8 @@ class cmd_line_parse : public parser_base
 {
     private:
         // Argument lists
-        std::list<ArgEntry>     positionalArgList;              ///< List of positional arguments
-        varg_intf*              helpFlag;                       ///< Default help flag
+        std::list<ArgEntry>         positionalArgList;              ///< List of positional arguments
+        std::shared_ptr<varg_intf>  helpFlag;                       ///< Default help flag
 
         // Help page text enhancements
         parserstr               programName;                    ///< Program name to display in the usage %(prog) field of the help message, default = argv[0]
@@ -149,7 +149,6 @@ class cmd_line_parse : public parser_base
         void parseSingleKeyArg(const char* searchString, parserstr valueString);
 
     protected:
-
         /**
          * @brief Parse the input key argument type and update the parsing state data
          */
@@ -193,6 +192,36 @@ class cmd_line_parse : public parser_base
          */
         cmd_line_parse(const char* usage, const char* description, bool abortOnError = false, bool disableDefaultHelp = false,
                        int debugLevel = debugVerbosityLevel_e::noDebugMsg);
+
+        /**
+         * @brief Constructor with input
+         *
+         * @param usage - Usage string for the help display
+         * @param description - Description string for the help display
+         * @param keyPrefix - Argument prefix value
+         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
+         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
+         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
+         *                                                       4 - Error and informational messages
+         *                                                       5+ - Error, informational and flow tracking messages
+         */
+         cmd_line_parse(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError = false,
+                       bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg);
+
+        /**
+         * @brief Constructor with input
+         *
+         * @param usage - Usage string for the help display
+         * @param description - Description string for the help display
+         * @param keyPrefix - Argument prefix value
+         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
+         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
+         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
+         *                                                       4 - Error and informational messages
+         *                                                       5+ - Error, informational and flow tracking messages
+         */
+         cmd_line_parse(const char* usage, const char* description, const char* keyPrefix, bool abortOnError = false,
+            bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg);
 
         /**
          * @brief Copy Constructor
@@ -241,44 +270,21 @@ class cmd_line_parse : public parser_base
          * @brief Set the Program Name for the usage string using a string as input
          *
          * @param progName - Program name to use in the usage string
+         *
+         * @return true - if %(prog) was replaced
+         * @return false - if program name already set
          */
-        void setProgramName(parserstr progName)                         {programName = progName;}
+        bool setProgramName(parserstr progName);
 
         /**
-         * @brief Set the Program Name for the usage string using char* as input
+         * @brief Set the Program Name for the usage string using a string as input
          *
          * @param progName - Program name to use in the usage string
-         */
-        void setProgramName(char* progName)                             {programName = progName;}
-
-        /**
-         * @brief Set the argument key prefix value using string input.
          *
-         * The argument key prefix is the character or string
-         * the identifies an input argument key string.  Any input
-         * argument that does not begin with this character is
-         * assumed to be a positional argument value.
-         *
-         * @param prefix - argument prefix value
+         * @return true - if %(prog) was replaced
+         * @return false - if program name already set
          */
-        void setKeyPrefix(parserstr prefix)                             {keyPrefix = prefix;}
-
-        /**
-         * @brief Set the argument key prefix value using char* input.
-         *
-         * The argument key prefix is the character or string
-         * the identifies an input argument key string.  Any input
-         * argument that does not begin with this character is
-         * assumed to be a positional argument value.
-         *
-         * @param prefix - argument prefix value
-         */
-        void setKeyPrefix(char* prefix)                                 {keyPrefix = prefix;}
-
-        /**
-         * @brief Disable the default help argument setup
-         */
-        void disableDefaultHelpArgument()                               {enableDefaultHelp = false;}
+         bool setProgramName(const char* progName);
 
         /**
          * @brief Disable the help display on parsing error
