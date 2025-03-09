@@ -98,16 +98,6 @@ class cmd_line_parse : public parser_base
         void addDefaultHelpArgument();
 
         /**
-         * @brief Find the argument object that matches the input string
-         *
-         * @param keystring   - Input string to match
-         * @param found       - Set to true if match was found, else false
-         *
-         * @return ArgEntry - Reference to the ArgEntry from the ArgEntry if match was found. Or nullptr if not.
-         */
-        ArgEntry& findMatchingArg(const parserstr& keystring, bool& found);
-
-        /**
          * @brief Get the Initial Value List object
          *
          * @param valueInput - delimited list of value data
@@ -290,11 +280,6 @@ class cmd_line_parse : public parser_base
          * @brief Disable the help display on parsing error
          */
         void disableHelpDisplayOnError()                                {displayHelpOnError = false;}
-
-        /**
-         * @brief Disable the single character list input argument parsing
-         */
-        void disableSingleCharListArgument()                            {singleCharArgListAllowed = false;}
 
         /**
          * @brief Enable flag to ignore unknown arguments, default

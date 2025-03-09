@@ -47,7 +47,7 @@ class ParserStringListInterfaceEnglish final : public ParserStringListInterface
         {parser_str_stream parserstr;  parserstr << "Only list type arguments can have an argument count of " << nargs; return parserstr.str();}
 
         parserstr getUnknownArgumentMessage(parserstr keyString) final
-        {parser_str_stream parserstr;  parserstr << "Unkown argument " << keyString; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "Unknown argument " << keyString; return parserstr.str();}
 
         parserstr getInvalidAssignmentMessage(parserstr keyString) final
         {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" invalid assignment"; return parserstr.str();}

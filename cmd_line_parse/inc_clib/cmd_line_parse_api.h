@@ -97,12 +97,6 @@ void setProgramName(cmdLineParserHandle parser, parsercstr progName);
  */
 void disableHelpDisplayOnError(cmdLineParserHandle parser);
 
-/**
- * @brief Disable the single character list input argument parsing
- *
- * @param parser - Handle value returned by getParser()
- */
-void disableSingleCharListArgument(cmdLineParserHandle parser);
 
 /**
  * @brief Enable flag to ignore unknown arguments, default

@@ -43,348 +43,8 @@ using ::testing::StrictMock;
 using ::testing::Return;
 
 //======================================================================================
-// String Helper functions
-//======================================================================================
-parserstr getDefaultUsage(parserstr inputuseage = "%(prog) [options]")
-{
-    argparser::BaseParserStringList parserStr;
-    return parserStr.getUsageMessage() + "\n" + inputuseage;
-}
-
-parserstr getOptionArgMsg()
-{
-    argparser::BaseParserStringList parserStr;
-    return "\n"+parserStr.getSwitchArgumentsMessage()+"\n";
-}
-
-parserstr getOptionMsg(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
-{
-    parserstr argMsg = " " + keys;
-    while (argMsg.size() < argWidth)
-    {
-        argMsg += ' ';
-    }
-
-    parserstr helpmsg = keyhelp;
-    while (helpmsg.size() < (consoleWidth - argWidth))
-    {
-        helpmsg += ' ';
-    }
-
-    return argMsg + helpmsg + "\n";
-}
-
-parserstr getDefaultHelpMsg(size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
-{
-    return getOptionMsg("-h,--help,-?", "show this help message and exit", argWidth, consoleWidth);
-}
-
-parserstr getDefaultSlashHelpMsg(size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
-{
-    return getOptionMsg("/h,/help,/?", "show this help message and exit", argWidth, consoleWidth);
-}
-
-parserstr getEpilogStr(parserstr epilog)
-{
-    return (epilog.empty() ? "\n" : "\n\n" + epilog + "\n");
-}
-
-parserstr getDescriptionStr(parserstr descstr)
-{
-    return (descstr.empty() ? "" : "\n\n" + descstr + "\n");
-}
-
-
-parserstr getPositionalArgMsg()
-{
-    argparser::BaseParserStringList parserStr;
-    return "\n"+parserStr.getPositionalArgumentsMessage()+"\n";
-}
-
-parserstr getPositionalMsg(parserstr name, parserstr help, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
-{
-    parserstr argMsg = " " + name;
-    while (argMsg.size() < argWidth)
-    {
-        argMsg += ' ';
-    }
-
-    parserstr helpmsg = help;
-    while (helpmsg.size() < (consoleWidth - argWidth))
-    {
-        helpmsg += ' ';
-    }
-
-    return argMsg + helpmsg + "\n";
-}
-
-/**
- * @brief Helper class to get access to protected data and methods
- */
- class clParseTestHelper : public argparser::cmd_line_parse
- {
-
- };
-
-//======================================================================================
 // Public Interface testing, English
 //======================================================================================
-TEST(cmd_line_parse, defaultConstructor)
-{
-    argparser::cmd_line_parse testvar;
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage() + getOptionArgMsg() + getDefaultHelpMsg() + getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, test_epilog)
-{
-    argparser::cmd_line_parse testvar;
-    testvar.setEpilog("This is the epilog");
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage() + getOptionArgMsg() + getDefaultHelpMsg() + getEpilogStr("This is the epilog");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, normalConstructor)
-{
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") +
-                            getDescriptionStr("Description of the test program") + getOptionArgMsg() +
-                            getDefaultHelpMsg() + getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, normalConstructorwithStrings)
-{
-    parserstr usage = "testprog [options]";
-    parserstr description = "Description of the test program";
-    argparser::cmd_line_parse testvar(usage, description);
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage(usage) +
-                            getDescriptionStr(description) + getOptionArgMsg() +
-                            getDefaultHelpMsg() + getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, normalConstructorwithKeyprefix)
-{
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program", "-");
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") +
-                            getDescriptionStr("Description of the test program") + getOptionArgMsg() +
-                            getDefaultHelpMsg() + getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, normalConstructorwithKeyprefixStrings)
-{
-    parserstr usage = "testprog [options]";
-    parserstr description = "Description of the test program";
-    parserstr keyprefix = "-";
-    argparser::cmd_line_parse testvar(usage, description, keyprefix);
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage(usage) +
-                            getDescriptionStr(description) + getOptionArgMsg() +
-                            getDefaultHelpMsg() + getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, addFlagArgHelp)
-{
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testvarg;
-
-    testvar.addFlagArgument(&testvarg, "flag", "-f,--flag", "This is the flag argument");
-
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") + getOptionArgMsg() +
-                            getDefaultHelpMsg() + getOptionMsg("-f,--flag", "This is the flag argument") + getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, addPositionalHelp)
-{
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testvarg;
-
-    testvar.addPositionalArgument(&testvarg, "postst", "This is a positional argument", 1);
-
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") + getOptionArgMsg() +
-                            getDefaultHelpMsg() + getPositionalArgMsg() + getPositionalMsg("postst", "This is a positional argument") + getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, copyConstructor)
-{
-    argparser::cmd_line_parse baseParser("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testvarg;
-
-    baseParser.addFlagArgument(&testvarg, "flag", "-f,--flag", "This is the flag argument");
-    baseParser.addPositionalArgument(&testvarg, "postst", "This is a positional argument", 1);
-
-    parserstr expectedStr = getDefaultUsage("testprog [options]") +
-                            getDescriptionStr("Description of the test program") +
-                            getOptionArgMsg() + getDefaultHelpMsg() +
-                            getOptionMsg("-f,--flag", "This is the flag argument") +
-                            getPositionalArgMsg() + getPositionalMsg("postst", "This is a positional argument") +
-                            getEpilogStr("");
-
-    testing::internal::CaptureStdout();
-    baseParser.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    argparser::cmd_line_parse copiedParser(baseParser);
-
-    testing::internal::CaptureStdout();
-    copiedParser.displayHelp(std::cout);
-    output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, equateConstructor)
-{
-    argparser::cmd_line_parse baseParser("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testvarg;
-
-    baseParser.addFlagArgument(&testvarg, "flag", "-f,--flag", "This is the flag argument");
-    baseParser.addPositionalArgument(&testvarg, "postst", "This is a positional argument", 1);
-
-    parserstr expectedStr = getDefaultUsage("testprog [options]") +
-                            getDescriptionStr("Description of the test program") +
-                            getOptionArgMsg() + getDefaultHelpMsg() +
-                            getOptionMsg("-f,--flag", "This is the flag argument") +
-                            getPositionalArgMsg() + getPositionalMsg("postst", "This is a positional argument") +
-                            getEpilogStr("");
-
-    testing::internal::CaptureStdout();
-    baseParser.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    argparser::cmd_line_parse copiedParser;
-    copiedParser = baseParser;
-
-    testing::internal::CaptureStdout();
-    copiedParser.displayHelp(std::cout);
-    output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, moveConstructor)
-{
-    argparser::cmd_line_parse baseParser("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testvarg;
-
-    baseParser.addFlagArgument(&testvarg, "flag", "-f,--flag", "This is the flag argument");
-    baseParser.addPositionalArgument(&testvarg, "postst", "This is a positional argument", 1);
-
-    parserstr expectedStr = getDefaultUsage("testprog [options]") +
-                            getDescriptionStr("Description of the test program") +
-                            getOptionArgMsg() + getDefaultHelpMsg() +
-                            getOptionMsg("-f,--flag", "This is the flag argument") +
-                            getPositionalArgMsg() + getPositionalMsg("postst", "This is a positional argument") +
-                            getEpilogStr("");
-
-    testing::internal::CaptureStdout();
-    baseParser.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    argparser::cmd_line_parse copiedParser(std::move(baseParser));
-
-    testing::internal::CaptureStdout();
-    copiedParser.displayHelp(std::cout);
-    output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, equateMoveConstructor)
-{
-    argparser::cmd_line_parse baseParser("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testvarg;
-
-    baseParser.addFlagArgument(&testvarg, "flag", "-f,--flag", "This is the flag argument");
-    baseParser.addPositionalArgument(&testvarg, "postst", "This is a positional argument", 1);
-
-    parserstr expectedStr = getDefaultUsage("testprog [options]") +
-                            getDescriptionStr("Description of the test program") +
-                            getOptionArgMsg() + getDefaultHelpMsg() +
-                            getOptionMsg("-f,--flag", "This is the flag argument") +
-                            getPositionalArgMsg() + getPositionalMsg("postst", "This is a positional argument") +
-                            getEpilogStr("");
-
-    testing::internal::CaptureStdout();
-    baseParser.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    argparser::cmd_line_parse copiedParser;
-    copiedParser = std::move(baseParser);
-
-    testing::internal::CaptureStdout();
-    copiedParser.displayHelp(std::cout);
-    output = testing::internal::GetCapturedStdout();
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, addKeyArgHelp)
-{
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testvarg;
-
-    testvar.addKeyArgument(&testvarg, "tstint", "-i,--val", "This is the test key argument", 1);
-
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") +
-                            getOptionArgMsg() + getDefaultHelpMsg(testArgWidth) +
-                            getOptionMsg("-i,--val=tstint", "This is the test key argument", testArgWidth) +
-                            getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
-
-TEST(cmd_line_parse, addAllArgHelp)
-{
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    StrictMock<argparser::mock_varg_intf> testflgvarg;
-    StrictMock<argparser::mock_varg_intf> testkeyvarg;
-    StrictMock<argparser::mock_varg_intf> testposvarg;
-
-    testvar.addPositionalArgument(&testposvarg, "postst", "This is a positional argument", 1);
-    testvar.addFlagArgument(&testflgvarg, "flag", "-f,--flag", "This is the flag argument");
-    testvar.addFlagArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument");
-
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("testprog [options]") + getDescriptionStr("Description of the test program") + getOptionArgMsg() +
-                            getDefaultHelpMsg() + getOptionMsg("-f,--flag", "This is the flag argument") +
-                            getOptionMsg("-i,--val", "This is the test key argument") +
-                            getPositionalArgMsg() + getPositionalMsg("postst", "This is a positional argument") +
-                            getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-}
 
 TEST(cmd_line_parse, parseTestFlag)
 {
@@ -1470,7 +1130,49 @@ TEST(cmd_line_parse, parseTestMissingRequiredSubcommand)
     EXPECT_STREQ("\"subcommand\" required argument missing\n", output.c_str());
 }
 
-TEST(cmd_line_parse, WithKeySlash)
+TEST(cmd_line_parse, ArgumentsWithKeyDash)
+{
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+
+    StrictMock<argparser::mock_varg_intf> flagArg;
+    EXPECT_CALL(flagArg, setValue())
+        .Times(2)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    StrictMock<argparser::mock_varg_intf> keyArg;
+    EXPECT_CALL(keyArg, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(keyArg, setValue(::testing::StrEq("47")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    StrictMock<argparser::mock_varg_intf> posArg;
+    EXPECT_CALL(posArg, setValue(::testing::StrEq("13")))
+        .Times(1)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    testvar.addFlagArgument(&flagArg, "flag", "-f,--flag", "This is the flag argument");
+    testvar.addKeyArgument(&keyArg, "mykey", "-k,--key", "Mykey value help text");
+    testvar.addPositionalArgument(&keyArg, "myPosArg", "Position value help text");
+
+    // NOLINTBEGIN
+    parserchar progname[] = "testprog";
+    parserchar opt[] = "-f";
+    parserchar opt1[] = "-k=42";
+    parserchar opt3[] = "13";
+    parserchar* argv[] = {progname, opt, opt1, opt3};
+    int argc = sizeof(argv) / sizeof(argv[0]);
+    EXPECT_EQ(argc, testvar.parse(argc, argv));
+
+    parserchar opt11[] = "--flag";
+    parserchar opt12[] = "--key=47";
+    parserchar opt13[] = "32";
+    parserchar* argv2[] = {progname, opt11, opt12, opt13};
+    argc = sizeof(argv2) / sizeof(argv2[0]);
+    EXPECT_EQ(argc, testvar.parse(argc, argv2));
+    // NOLINTEND
+}
+
+TEST(cmd_line_parse, ArgumentsWithKeySlash)
 {
     parserstr usage = "winutil [options]";
     parserstr description = "test slash keymarker";
@@ -1482,57 +1184,110 @@ TEST(cmd_line_parse, WithKeySlash)
         .Times(2)
         .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
+    StrictMock<argparser::mock_varg_intf> keyArg;
+    EXPECT_CALL(keyArg, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(keyArg, setValue(::testing::StrEq("47")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    StrictMock<argparser::mock_varg_intf> posArg;
+    EXPECT_CALL(posArg, setValue(::testing::StrEq("13")))
+        .Times(1)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
     testvar.addFlagArgument(&flagArg, "flag", "/f,/flag", "This is the flag argument");
+    testvar.addKeyArgument(&keyArg, "mykey", "/k,/key", "Mykey value help text");
+    testvar.addPositionalArgument(&keyArg, "myPosArg", "Position value help text");
 
     // NOLINTBEGIN
     parserchar progname[] = "winutil";
     parserchar opt[] = "/f";
-    parserchar* argv[] = {progname, opt};
+    parserchar opt1[] = "/k=42";
+    parserchar opt3[] = "13";
+    parserchar* argv[] = {progname, opt, opt1, opt3};
     int argc = sizeof(argv) / sizeof(argv[0]);
-    EXPECT_EQ(2, testvar.parse(argc, argv));
+    EXPECT_EQ(argc, testvar.parse(argc, argv));
 
-    parserchar opt2[] = "/flag";
-    parserchar* argv2[] = {progname, opt2};
-    EXPECT_EQ(2, testvar.parse(argc, argv2));
+    parserchar opt11[] = "/flag";
+    parserchar opt12[] = "/key=47";
+    parserchar opt13[] = "32";
+    parserchar* argv2[] = {progname, opt11, opt12, opt13};
+    argc = sizeof(argv2) / sizeof(argv2[0]);
+    EXPECT_EQ(argc, testvar.parse(argc, argv2));
+    // NOLINTEND
+}
+
+TEST(cmd_line_parse, AssignPositionalListValue)
+{
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+
+    StrictMock<argparser::mock_varg_intf> posarg;
+    EXPECT_CALL(posarg, isList())
+        .WillOnce(Return(true));
+    EXPECT_CALL(posarg, setValue(::testing::StrEq("1")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(posarg, setValue(::testing::StrEq("2")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(posarg, setValue(::testing::StrEq("3")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(posarg, setValue(::testing::StrEq("4")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    testvar.addPositionalArgument(&posarg, "myposition", "List positional argument", 4);
+
+    // NOLINTBEGIN
+    parserchar progname[] = "testprog";
+    parserchar posValArg[] = "1,2,3,4";
+    parserchar* argv[] = {progname, posValArg};
     // NOLINTEND
 
-    testing::internal::CaptureStdout();
-    testvar.displayHelp(std::cout);
-    parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expectedStr = getDefaultUsage("winutil [options]") +
-                            getDescriptionStr("test slash keymarker") + getOptionArgMsg() +
-                            getDefaultSlashHelpMsg(defaultArgWidth - 1) +
-                            getOptionMsg("/f,/flag", "This is the flag argument", defaultArgWidth-1) +
-                            getEpilogStr("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+    int argc = sizeof(argv) / sizeof(argv[0]);
+    testvar.disableHelpDisplayOnError();
+
+    EXPECT_EQ(2, testvar.parse(argc, argv));    // NOLINT
 }
 
-TEST(cmd_line_parse, SetPrognameTestStr)
-{
-    argparser::cmd_line_parse testvar;
-    parserstr progname = "clprogname";
-    EXPECT_TRUE(testvar.setProgramName(progname));
-}
-
-TEST(cmd_line_parse, SetPrognameTestCharPtr)
-{
-    argparser::cmd_line_parse testvar;
-    char* progname = "clprogchar";      // NOLINT
-    EXPECT_TRUE(testvar.setProgramName(progname));
-}
-
-TEST(cmd_line_parse, SetPrognameFailTestStr)
+TEST(cmd_line_parse, AssignPositionalListValueNeg)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    parserstr progname = "clprogname";
-    EXPECT_FALSE(testvar.setProgramName(progname));
+
+    StrictMock<argparser::mock_varg_intf> posarg;
+    EXPECT_CALL(posarg, isList())
+        .WillOnce(Return(true));
+    EXPECT_CALL(posarg, setValue(::testing::StrEq("1")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(posarg, setValue(::testing::StrEq("2")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(posarg, setValue(::testing::StrEq("3")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    testvar.addPositionalArgument(&posarg, "myposition", "List positional argument", -4);
+
+    // NOLINTBEGIN
+    parserchar progname[] = "testprog";
+    parserchar posValArg[] = "1,2,3";
+    parserchar* argv[] = {progname, posValArg};
+    // NOLINTEND
+
+    int argc = sizeof(argv) / sizeof(argv[0]);
+    testvar.disableHelpDisplayOnError();
+
+    EXPECT_EQ(2, testvar.parse(argc, argv));    // NOLINT
 }
 
-TEST(cmd_line_parse, SetPrognameFailTestCharPtr)
+TEST(cmd_line_parse, AssignPositionalNotListNargsNot1)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    char* progname = "clprogchar";      // NOLINT
-    EXPECT_FALSE(testvar.setProgramName(progname));
+
+    StrictMock<argparser::mock_varg_intf> posarg;
+    EXPECT_CALL(posarg, isList())
+        .WillOnce(Return(false));
+
+    testing::internal::CaptureStderr();
+    testvar.addPositionalArgument(&posarg, "myposition", "List positional argument", -4);
+    parserstr output = testing::internal::GetCapturedStderr();
+
+    EXPECT_STREQ("Only list type arguments can have an argument count of -4\n", output.c_str());
 }
 
 /** @} */

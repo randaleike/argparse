@@ -153,27 +153,6 @@ size_t cmd_line_parse::getInitialValueList(parserstr& valueString, std::list<par
 }
 
 /**
- * @brief Find the argument object that matches the input string
- *
- * @param keystring   - Input string to match
- * @param found       - Set to true if match was found, else false
- *
- * @return ArgEntry - Reference to the ArgEntry from the ArgEntry if match was found. Or nullptr if not.
- */
-ArgEntry& cmd_line_parse::findMatchingArg(const parserstr& keystring, bool& found)
-{
-    ArgEntry& returnArg = parser_base::findMatchingArg(keystring, found);
-
-    // Unknown argument key
-    if ((!found) && ((!ignoreUnknownKey) || (debugMsgLevel > noDebugMsg)))
-    {
-        std::cerr << parser_base::getParserStringList().getUnknownArgumentMessage(keystring) << std::endl;
-        parser_base::setParsingError(!ignoreUnknownKey);
-    }
-    return returnArg;
-}
-
-/**
  * @brief Assign the flag value to the key argument
  *
  * @param currentArg - Pointer to the argument to set
@@ -203,7 +182,6 @@ bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyStr
     return status;
 }
 
-
 /**
  * @brief Assign multiple values to a list argument storage.
  *
@@ -215,14 +193,14 @@ bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyStr
  */
 bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString, parserstr& valueString)
 {
-    if (debugMsgLevel > veryVerboseDebug)
+    if (debugMsgLevel >= veryVerboseDebug)
     {
         std::cout << "Initial value string: " << valueString << std::endl;
     }
     std::list<parserstr> assignmentValues;
     size_t valueCount = getInitialValueList(valueString, assignmentValues);
     auto requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
-    if (debugMsgLevel > veryVerboseDebug)
+    if (debugMsgLevel >= veryVerboseDebug)
     {
         std::cout << "Value string post get: " << valueString << std::endl;
         std::cout << "Initial value count: " << valueCount << " Required Count(abs): " << requiredValueCount << " Narg: " << currentArg.nargs << std::endl;
@@ -238,7 +216,7 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
         // Get the next argument
         parserstr currentValueString = argvArray[currentArgumentIndex++];
         size_t    addCount = parser_base::getValueList(currentValueString, assignmentValues);
-        if (debugMsgLevel > veryVerboseDebug)
+        if (debugMsgLevel >= veryVerboseDebug)
         {
             std::cout << "Next value string: " << currentValueString << std::endl;
             std::cout << "Next addCount: " << addCount << std::endl;
@@ -255,7 +233,7 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
     }
 
     // Check we got the correct number of arguments
-    if (debugMsgLevel > veryVerboseDebug)
+    if (debugMsgLevel >= veryVerboseDebug)
     {
         std::cout << "Assignment string count: " << assignmentValues.size() << std::endl;
     }
@@ -308,7 +286,8 @@ void cmd_line_parse::parseSingleKeyArg(const char* searchString, parserstr value
             std::cout << "Value string: " << valueString << std::endl;
         }
     }
-    ArgEntry currentArg = findMatchingArg(searchString, found);
+
+    ArgEntry currentArg = parser_base::findMatchingArg(searchString, found);
     if (found)
     {
         if (debugMsgLevel >= debugVerbosityLevel_e::veryVerboseDebug)
@@ -407,7 +386,7 @@ void cmd_line_parse::parsePositionalArg()
         {
             if ((currentArg.position == parseingPositionNumber) || (currentArg.position == 0))
             {
-                if (debugMsgLevel > veryVerboseDebug)
+                if (debugMsgLevel >= veryVerboseDebug)
                 {
                     std::cout << "Positional Argument Name: " << currentArg.name << ", position: " << currentArg.position << std::endl;
                     std::cout << "Current Parsing Position: " << parseingPositionNumber << std::endl;
