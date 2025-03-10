@@ -48,7 +48,7 @@ TEST(BaseParserStringList, printUnknownArgumentMessage)
 {
     argparser::BaseParserStringList testvar;
     parserstr output = testvar.getUnknownArgumentMessage(parserstr("--foo"));
-    EXPECT_STREQ("Unkown argument --foo", output.c_str());
+    EXPECT_STREQ("Unknown argument --foo", output.c_str());
 }
 
 TEST(BaseParserStringList, printInvalidAssignmentMessage)

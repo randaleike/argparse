@@ -408,6 +408,7 @@ TEST(cmd_line_parse, WithKeySlash)
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
 
+
 TEST(cmd_line_parse, MixedListValueHelpTest)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
@@ -444,6 +445,40 @@ TEST(cmd_line_parse, MixedListValueHelpTest)
                             getPositionalArgMsg() +
                             getPositionalMsg("myposition,myposition,...", "List positional argument", optionWidth) +
                             getEpilogStr("");
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+}
+
+TEST(cmd_line_parse, HelpDiplayOnErrorTest)
+{
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+
+    StrictMock<argparser::mock_varg_intf> keyarg;
+
+    testvar.addKeyArgument(&keyarg, "mykey", "-x,--extra", "Key argument help text", 1, true);
+
+    // Set the option column width
+    parserstr maxVargStr = "-x,--extra=mykey";
+    size_t optionWidth = std::max(maxVargStr.size()+2, defaultArgWidth);
+
+    // NOLINTBEGIN
+    parserchar progname[] = "testprog";
+    parserchar opt[] = "-x";
+    parserchar* argv[] = {progname, opt};
+    int argc = sizeof(argv) / sizeof(argv[0]);
+    // NOLINTEND
+
+    // Test the help output
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(-1, testvar.parse(argc, argv));   // NOLINT
+    parserstr output = testing::internal::GetCapturedStderr();
+
+    parserstr expectedStr = "\"-x\" missing assignment value\n";
+    expectedStr += getDefaultUsage("testprog [options]");
+    expectedStr += getDescriptionStr("Description of the test program");
+    expectedStr += getOptionArgMsg();
+    expectedStr += getDefaultHelpMsg(optionWidth);
+    expectedStr += getOptionMsg("-x,--extra=mykey", "Key argument help text", optionWidth);
+    expectedStr += getEpilogStr("");
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
 

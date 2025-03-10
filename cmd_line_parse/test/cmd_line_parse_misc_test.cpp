@@ -30,6 +30,7 @@
 #include <cstddef>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <parser_base.h>
 #include "varg_intf_mock.h"
 #include "parser_string_list.h"
 #include "cmd_line_parse.h"
@@ -41,8 +42,6 @@ const int    testValue       = 10;
 
 using ::testing::StrictMock;
 using ::testing::Return;
-
-
 
 TEST(cmd_line_parse, SetPrognameTestStr)
 {
@@ -130,9 +129,12 @@ TEST(cmd_line_parse, AssignKeyFlagValue_testDebugStr)
     testvar.disableHelpDisplayOnError();
 
     testing::internal::CaptureStdout();
+    testing::internal::CaptureStderr();
     EXPECT_EQ(-1, testvar.parse(argc, argv));    // NOLINT
     parserstr output = testing::internal::GetCapturedStdout();
+    parserstr erroutput = testing::internal::GetCapturedStderr();
 
+    EXPECT_STREQ("\"-f \" assignment failed\n", erroutput.c_str());
 #if (ENABLE_DEBUG_STRING_CHECK)
     parserstr expected = "Parsing key arg: -f\n";
     expected += "match found, name = flag\n";
@@ -270,6 +272,5 @@ TEST(cmd_line_parse, AssignPositionalValue_testDebugStr)
     EXPECT_STREQ(expected.c_str(), output.c_str());
 #endif //(ENABLE_DEBUG_STRING_CHECK)
 }
-
 
 /** @} */

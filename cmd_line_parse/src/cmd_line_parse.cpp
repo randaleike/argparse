@@ -440,16 +440,8 @@ cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, bool ab
     positionalArgList.clear();
     argvArray.clear();
 
-    if (!usage.empty())
-    {
-        usageText = usage;
-    }
-
-    if (!description.empty())
-    {
-        descriptionText = description;
-    }
-
+    usageText = ((!usage.empty()) ? usage : "%(prog) [options]");
+    descriptionText = ((!description.empty()) ? description : "");
     if (!disableDefaultHelp)
     {
         addDefaultHelpArgument();
@@ -457,7 +449,8 @@ cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, bool ab
 }
 
 cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    parser_base(abortOnError, debugLevel), keyPrefix("-"),
+    parser_base(abortOnError, debugLevel), usageText(((nullptr != usage) ? usage : "%(prog) [options]")),
+    descriptionText((nullptr != description) ? description : ""), keyPrefix("-"),
     displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
     ignoreUnknownKey(false), singleCharArgListAllowed(true),
     positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
@@ -465,16 +458,6 @@ cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool 
 {
     positionalArgList.clear();
     argvArray.clear();
-
-    if (nullptr != usage)
-    {
-        usageText = usage;
-    }
-
-    if (nullptr != description)
-    {
-        descriptionText = description;
-    }
 
     if (!disableDefaultHelp)
     {
@@ -492,15 +475,8 @@ cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, parsers
     positionalArgList.clear();
     argvArray.clear();
 
-    if (!usage.empty())
-    {
-        usageText = usage;
-    }
-
-    if (!description.empty())
-    {
-        descriptionText = description;
-    }
+    usageText = ((!usage.empty()) ? usage : "%(prog) [options]");
+    descriptionText = ((!description.empty()) ? description : "");
 
     if (keyPrefix == "/")
     {
@@ -514,7 +490,8 @@ cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, parsers
 }
 
 cmd_line_parse::cmd_line_parse(const char* usage, const char* description, const char* keyPrefix, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    parser_base(abortOnError, debugLevel), keyPrefix(keyPrefix),
+    parser_base(abortOnError, debugLevel), usageText(((nullptr != usage) ? usage : "%(prog) [options]")),
+    descriptionText((nullptr != description) ? description : ""), keyPrefix(keyPrefix),
     displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
     ignoreUnknownKey(false), singleCharArgListAllowed(true),
     positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),

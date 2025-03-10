@@ -1147,12 +1147,11 @@ TEST(cmd_line_parse, ArgumentsWithKeyDash)
 
     StrictMock<argparser::mock_varg_intf> posArg;
     EXPECT_CALL(posArg, setValue(::testing::StrEq("13")))
-        .Times(1)
-        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
     testvar.addFlagArgument(&flagArg, "flag", "-f,--flag", "This is the flag argument");
     testvar.addKeyArgument(&keyArg, "mykey", "-k,--key", "Mykey value help text");
-    testvar.addPositionalArgument(&keyArg, "myPosArg", "Position value help text");
+    testvar.addPositionalArgument(&posArg, "myPosArg", "Position value help text");
 
     // NOLINTBEGIN
     parserchar progname[] = "testprog";
@@ -1197,7 +1196,7 @@ TEST(cmd_line_parse, ArgumentsWithKeySlash)
 
     testvar.addFlagArgument(&flagArg, "flag", "/f,/flag", "This is the flag argument");
     testvar.addKeyArgument(&keyArg, "mykey", "/k,/key", "Mykey value help text");
-    testvar.addPositionalArgument(&keyArg, "myPosArg", "Position value help text");
+    testvar.addPositionalArgument(&posArg, "myPosArg", "Position value help text");
 
     // NOLINTBEGIN
     parserchar progname[] = "winutil";
@@ -1290,4 +1289,23 @@ TEST(cmd_line_parse, AssignPositionalNotListNargsNot1)
     EXPECT_STREQ("Only list type arguments can have an argument count of -4\n", output.c_str());
 }
 
+TEST(cmd_line_parse, parsePositionArgWithEmptyList)
+{
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+
+    // NOLINTBEGIN
+    parserchar progname[] = "testprog";
+    parserchar posValArg[] = "posValue";
+    parserchar* argv[] = {progname, posValArg};
+    // NOLINTEND
+
+    int argc = sizeof(argv) / sizeof(argv[0]);
+    testvar.disableHelpDisplayOnError();
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(-1, testvar.parse(argc, argv));    // NOLINT
+    parserstr output = testing::internal::GetCapturedStderr();
+    parserstr expected = "Unknown argument posValue\n";
+    EXPECT_STREQ(expected.c_str(), output.c_str());
+}
 /** @} */

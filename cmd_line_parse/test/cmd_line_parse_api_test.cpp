@@ -28,12 +28,13 @@
 
 // Includes
 #include <cmath>
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "parser_string_list.h"
 #include "varg_clib.h"
 #include "cmd_line_parse_api.h"
 #include "../src/cmd_line_parse_api_lib_private.h"
 #include "parser_base.h"
-#include <gtest/gtest.h>
 
 //==================================================================
 // Helper functions
@@ -1071,6 +1072,66 @@ TEST(cmd_line_parse_clib, parseTestMissingRequiredSubcommand)
     EXPECT_STREQ("none", subcommandStr);                    // NOLINT
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"subcommand\" required argument missing\n", output.c_str());
+}
+
+TEST(cmd_line_parse_clib, TestSetProgramName)
+{
+    cmdLineParserHandle testParser = getParser(nullptr, "test description", '-', false, false, 0);
+    disableHelpDisplayOnError(testParser);
+    setProgramName(testParser, "progName");
+
+    testing::internal::CaptureStderr();
+    displayHelp(testParser);
+    parserstr output = testing::internal::GetCapturedStderr();
+
+    parserstr expectedStr = getDefaultUsage_clib("progName [options]");
+    expectedStr += getDescriptionStr_clib("test description");
+    expectedStr += getOptionArgMsg_clib();
+    expectedStr += getDefaultHelpMsg_clib();
+    expectedStr += getEpilogStr_clib("");
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+
+    releaseParser(testParser);
+}
+
+TEST(cmd_line_parse_clib, enableUnknownArgIgnore)
+{
+/*
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+
+     flagArg;
+    EXPECT_CALL(flagArg, setValue())
+        .Times(2)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    StrictMock<argparser::mock_varg_intf> keyarg;
+    EXPECT_CALL(keyarg, setValue(::testing::StrEq("15")))
+        .Times(2)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    testvar.addFlagArgument(&flagArg, "flag", "-f,--flag", "Example of a simple true/false flag argument");
+    testvar.addKeyArgument(&keyarg, "key", "-v,--value", "Example of a key argument", 1, true);
+
+    // NOLINTBEGIN
+    parserchar progname[] = "runprog";
+    parserchar vargflg[] = "-f";
+    parserchar posArg[] = "-v=15";
+    parserchar unknownArg[] = "--test";
+    parserchar* argv[] = {progname, unknownArg, vargflg, posArg};
+    // NOLINTEND
+
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    testvar.disableHelpDisplayOnError();
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(-1, testvar.parse(argc, argv));    // NOLINT
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Unknown argument --test\n", output.c_str());
+
+    testvar.enableUnknowArgumentIgnore();
+    EXPECT_EQ(4, testvar.parse(argc, argv));    // NOLINT
+    */
 }
 
 /** @} */

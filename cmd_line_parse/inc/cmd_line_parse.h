@@ -78,6 +78,7 @@ class cmd_line_parse : public parser_base
         parserstr               positionalStop;                 ///< Name of the positional argument to stop parsing on
         bool                    positionalStopArgumentFound;    ///< Flag to abort processing
 
+    protected:
         /**
          * @brief Test if the current command line argument is a key switch
          *
@@ -138,7 +139,6 @@ class cmd_line_parse : public parser_base
          */
         void parseSingleKeyArg(const char* searchString, parserstr valueString);
 
-    protected:
         /**
          * @brief Parse the input key argument type and update the parsing state data
          */
