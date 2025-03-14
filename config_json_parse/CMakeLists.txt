@@ -40,6 +40,8 @@ set (config_json_parseUnitTestSrc
     )
 
 set (config_json_parseMockIncude
+    ${config_json_includes}
+    ${MASTER_PROJECT_BASE_DIR}/varg/mock
     )
 
 set (config_json_parseMockSrc
@@ -52,11 +54,13 @@ set (config_json_parseExternalLib
     varg
     )
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/test/test-config.json DESTINATION ${CMAKE_BINARY_DIR})
+
 enable_testing()
 
 add_executable(${PROJECT_NAME}_test  ${config_json_parseUnitTestSrc} ${config_json_parseUnitTestMock} )
-target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_json_includes} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_json_parseExternalLib} GTest::gtest_main)
+target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_json_parseMockIncude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_json_parseExternalLib} GTest::gmock_main GTest::gtest_main)
 if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
     target_compile_options(${PROJECT_NAME}_test PRIVATE --coverage)
     target_link_options(${PROJECT_NAME}_test PRIVATE --coverage)

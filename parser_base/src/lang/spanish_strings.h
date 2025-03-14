@@ -42,6 +42,8 @@ class ParserStringListInterfaceSpanish final : public ParserStringListInterface
         ParserStringListInterfaceSpanish& operator=(ParserStringListInterfaceSpanish&& other) = default;
          ~ParserStringListInterfaceSpanish() final = default;
 
+        parserstr getLangIsoCode() final {return("es");}
+
         // General argument parsing messages
         parserstr getNotListTypeMessage(int nargs) final
         {parser_str_stream parserstr;  parserstr << "Solo los argumentos de tipo lista pueden tener un recuento de argumentos de " << nargs; return parserstr.str();}

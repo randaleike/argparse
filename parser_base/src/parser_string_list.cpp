@@ -266,6 +266,13 @@ BaseParserStringList::~BaseParserStringList()
 //============================================================================================================================
 //============================================================================================================================
 /**
+ * @brief Get the ISO language identifier
+ *
+ * @return parserstr - ISO-639 code
+ */
+parserstr BaseParserStringList::getLangIsoCode() {return msgGeneration->getLangIsoCode();}
+
+/**
  * @brief Format the input string to the required width.  Break the string
  *        if longer than maxWidth at the nearest break charater.  Pad any
  *        output strings to the minwidth with spaces.

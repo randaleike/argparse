@@ -42,6 +42,8 @@ class ParserStringListInterfaceChineseSimplified final : public ParserStringList
         ParserStringListInterfaceChineseSimplified& operator=(ParserStringListInterfaceChineseSimplified&& other) = default;
          ~ParserStringListInterfaceChineseSimplified() final = default;
 
+        parserstr getLangIsoCode() final {return("zh");}
+
         // General argument parsing messages
         parserstr getNotListTypeMessage(int nargs) final
         {parser_str_stream parserstr;  parserstr << "只有列表类型的参数可以有一个参数计数 " << nargs; return parserstr.str();}

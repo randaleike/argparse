@@ -170,7 +170,7 @@ void addKeyArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr 
 
     if (valueAddr->vararg->isList())
     {
-        std::cerr << "Use addKeyArrayArgument() to add array arguments to the parser" << std::endl;
+        std::cerr << "Use addKeyArrayArgument() to add array key arguments to the parser" << std::endl;
         return;
     }
 
@@ -211,7 +211,7 @@ void addKeyArrayArgument(cmdLineParserHandle parser, argHandle valueAddr, parser
 
     if (!valueAddr->vararg->isList())
     {
-        std::cerr << "Use addKeyArgument() to add single value arguments to the parser" << std::endl;
+        std::cerr << "Use addKeyArgument() to add single value key arguments to the parser" << std::endl;
         return;
     }
 
@@ -245,7 +245,7 @@ void addFlagArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr
 
     if (valueAddr->vararg->isList())
     {
-        std::cerr << "Use addKeyArrayArgument() or addPositionalArrayArgument to add array arguments to the parser" << std::endl;
+        std::cerr << "Flag arguments cannot be lists" << std::endl;
         return;
     }
 
@@ -274,6 +274,12 @@ void addIncrementingArgument(cmdLineParserHandle parser, argHandle valueAddr, pa
     if (valueAddr == nullptr)
     {
         std::cerr << "Invalid valueAddr input, nullptr" << std::endl;
+        return;
+    }
+
+    if (valueAddr->vararg->isList())
+    {
+        std::cerr << "Incrementing flag arguments cannot be lists" << std::endl;
         return;
     }
 
@@ -306,7 +312,7 @@ void addPositionalArgument(cmdLineParserHandle parser, argHandle valueAddr, pars
 
     if (valueAddr->vararg->isList())
     {
-        std::cerr << "Use addPositionalArrayArgument() to add array arguments to the parser" << std::endl;
+        std::cerr << "Use addPositionalArrayArgument() to add positional array arguments to the parser" << std::endl;
         return;
     }
 
@@ -347,7 +353,7 @@ void addPositionalArrayArgument(cmdLineParserHandle parser, argHandle valueAddr,
 
     if (!valueAddr->vararg->isList())
     {
-        std::cerr << "Use addPositionalArgument() to add single value arguments to the parser" << std::endl;
+        std::cerr << "Use addPositionalArgument() to add single value positional arguments to the parser" << std::endl;
         return;
     }
 
@@ -390,6 +396,7 @@ int parse(cmdLineParserHandle parser, int argc, char* argv[], int startingArgInd
         startingArgIndex = ((startingArgIndex < 1) ? 1 : startingArgIndex);
         parserStatus = parser->object->parse(argc, argv, startingArgIndex, endingArgIndex);
     }
+
     return parserStatus;
 }
 

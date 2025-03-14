@@ -22,7 +22,6 @@ set (config_xml_parseSrc
     ${CMAKE_CURRENT_LIST_DIR}/src/config_xml_parse.cpp
     )
 
-
 ####
 # config_xml_parse library
 ####
@@ -40,6 +39,8 @@ set (config_xml_parseUnitTestSrc
     )
 
 set (config_xml_parseMockIncude
+    ${config_xml_includes}
+    ${MASTER_PROJECT_BASE_DIR}/varg/mock
     )
 
 set (config_xml_parseMockSrc
@@ -52,11 +53,13 @@ set (config_xml_parseExternalLib
     varg
     )
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/test/test-config.xml DESTINATION ${CMAKE_BINARY_DIR})
+
 enable_testing()
 
 add_executable(${PROJECT_NAME}_test  ${config_xml_parseUnitTestSrc} ${config_xml_parseUnitTestMock} )
-target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_xml_includes} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_xml_parseExternalLib} GTest::gtest_main)
+target_include_directories(${PROJECT_NAME}_test PUBLIC ${config_xml_parseMockIncude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME}_test PUBLIC ${config_xml_parseExternalLib} GTest::gmock_main GTest::gtest_main)
 if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
     target_compile_options(${PROJECT_NAME}_test PRIVATE --coverage)
     target_link_options(${PROJECT_NAME}_test PRIVATE --coverage)

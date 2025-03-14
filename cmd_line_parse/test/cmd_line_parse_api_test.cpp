@@ -30,86 +30,170 @@
 #include <cmath>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include "varg_intf_mock.h"
+#include "varg_clib_shared.h"
 #include "parser_string_list.h"
-#include "varg_clib.h"
+#include "parser_base.h"
 #include "cmd_line_parse_api.h"
 #include "../src/cmd_line_parse_api_lib_private.h"
-#include "parser_base.h"
 
 //==================================================================
-// Helper functions
+// mock definitions
 //==================================================================
-const size_t defaultArgWidth = 14;
-const size_t defaultColWidth = 80;
-const size_t testArgWidth    = 17;
-const int    testValue       = 10;
+using ::testing::StrictMock;
+using ::testing::Return;
 
-parserstr getDefaultUsage_clib(parserstr inputuseage)
+//==================================================================
+// Helper Class
+//==================================================================
+/**
+ * @brief Help message generation helper functions
+ */
+class helpMsg
 {
-    argparser::BaseParserStringList parserStr;
-    return parserStr.getUsageMessage() + "\n" + inputuseage;
-}
+    private:
+        size_t defaultArgWidth{};
+        size_t defaultColWidth{};
+        size_t testArgWidth{};
+        argparser::BaseParserStringList parserBaseStrings;
+        parserstr defaultUsage;
+        parserstr defaultDesc;
 
-parserstr getOptionArgMsg_clib()
+        parserstr getKeyMsg(parserstr keys, size_t argWidth = 0)
+        {
+            size_t workingArgWidth = ((argWidth == 0) ? defaultArgWidth : argWidth);
+
+            parserstr argMsg = " " + keys;
+            while (argMsg.size() < workingArgWidth)
+            {
+                argMsg += ' ';
+            }
+            return argMsg;
+        }
+
+        parserstr getHelpMsg(parserstr helpText, size_t argWidth = 0, size_t consoleWidth = 0)
+        {
+            size_t workingArgWidth = ((argWidth == 0) ? defaultArgWidth : argWidth);
+            size_t workingConsoleWidth = ((consoleWidth == 0) ? defaultColWidth : consoleWidth);
+
+            parserstr helpmsg = helpText;
+            while (helpmsg.size() < (workingConsoleWidth - workingArgWidth))
+            {
+                helpmsg += ' ';
+            }
+
+            return helpmsg + "\n";
+        }
+
+    public:
+        helpMsg(parserstr usage = "", parserstr desc = "") :
+            defaultArgWidth(14), defaultColWidth(80), testArgWidth(17),     // NOLINT
+            defaultUsage(std::move(usage)), defaultDesc(std::move(desc))
+        {}
+
+        helpMsg(const helpMsg& other) = default;
+        helpMsg(helpMsg&& other) noexcept = default;
+        helpMsg& operator=(const helpMsg& other) = default;
+        helpMsg& operator=(helpMsg&& other) noexcept = default;
+        ~helpMsg() = default;
+
+        void setDefaultUsage(parserstr usage)       {defaultUsage = std::move(usage);}
+        void setDefaultDesc(parserstr desc)         {defaultDesc = std::move(desc);}
+
+        parserstr getUsage(parserstr inputuseage = "")
+        {
+            return parserBaseStrings.getUsageMessage() + "\n" + (inputuseage.empty() ? defaultUsage : inputuseage);
+        }
+
+        static parserstr getDescriptionStr(parserstr descstr = "")
+        {
+            return (descstr.empty() ? "" : "\n\n" + descstr + "\n");
+        }
+
+        parserstr getOptionArgMsg()
+        {
+            return "\n"+parserBaseStrings.getSwitchArgumentsMessage()+"\n";
+        }
+
+        parserstr getOptionMsg(parserstr keys, parserstr keyhelp, size_t argWidth = 0, size_t consoleWidth = 0)
+        {
+            return getKeyMsg(keys, argWidth) + getHelpMsg(keyhelp, argWidth, consoleWidth);
+        }
+
+        parserstr getDefaultHelpMsg(size_t argWidth = 0 , size_t consoleWidth = 0)
+        {
+            return getOptionMsg("-h,--help,-?", "show this help message and exit",
+                                argWidth, consoleWidth);
+        }
+
+        static parserstr getEpilogStr(parserstr epilog = "")
+        {
+            return (epilog.empty() ? "\n" : "\n\n" + epilog + "\n");
+        }
+
+        parserstr getPositionalArgMsg()
+        {
+            return "\n"+parserBaseStrings.getPositionalArgumentsMessage()+"\n";
+        }
+
+        parserstr getPositionalMsg(parserstr name, parserstr help, size_t argWidth = 0 , size_t consoleWidth = 0)
+        {
+            return getKeyMsg(name, argWidth) + getHelpMsg(help, argWidth, consoleWidth);
+        }
+
+        parserstr expectedBaseHelp(parserstr epilog = "")
+        {
+            parserstr expectedStr = getUsage(defaultUsage);
+            expectedStr += getDescriptionStr(defaultDesc);
+            expectedStr += getOptionArgMsg();
+            expectedStr += getDefaultHelpMsg();
+            expectedStr += getEpilogStr(epilog);
+            return expectedStr;
+        }
+
+        parserstr expectedBaseStart()
+        {
+            parserstr expectedStr = getUsage(defaultUsage);
+            expectedStr += getDescriptionStr(defaultDesc);
+            expectedStr += getOptionArgMsg();
+            return expectedStr;
+        }
+
+};
+
+class cmd_line_parse_clib_test : public ::testing::Test
 {
-    argparser::BaseParserStringList parserStr;
-    return "\n"+parserStr.getSwitchArgumentsMessage()+"\n";
-}
+    protected:
+        // NOLINTBEGIN
+        cmdLineParserHandle testParser;
+        helpMsg             helpMsgGen;
+        // NOLINTEND
 
-parserstr getOptionMsg_clib(parserstr keys, parserstr keyhelp, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
-{
-    parserstr argMsg = " " + keys;
-    while (argMsg.size() < argWidth)
-    {
-        argMsg += ' ';
-    }
+        void SetUp() override
+        {
+            testParser = getParser("myprog [options]", "test description",
+                                   '-', true,
+                                   false, 0);
 
-    parserstr helpmsg = keyhelp;
-    while (helpmsg.size() < (consoleWidth - argWidth))
-    {
-        helpmsg += ' ';
-    }
+            helpMsgGen.setDefaultUsage("myprog [options]");
+            helpMsgGen.setDefaultDesc("test description");
+        }
 
-    return argMsg + helpmsg + "\n";
-}
+        void TearDown() override
+        {
+            releaseParser(testParser);
+        }
 
-parserstr getDefaultHelpMsg_clib(size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
-{
-    return getOptionMsg_clib("-h,--help,-?", "show this help message and exit", argWidth, consoleWidth);
-}
 
-parserstr getEpilogStr_clib(parserstr epilog)
-{
-    return (epilog.empty() ? "\n" : "\n\n" + epilog + "\n");
-}
+    public:
+        cmd_line_parse_clib_test() : testParser() {};
+        cmd_line_parse_clib_test(const cmd_line_parse_clib_test& other) = delete;
+        cmd_line_parse_clib_test(cmd_line_parse_clib_test&& other) noexcept = delete;
+        cmd_line_parse_clib_test& operator=(const cmd_line_parse_clib_test& other) = delete;
+        cmd_line_parse_clib_test& operator=(cmd_line_parse_clib_test&& other) noexcept = delete;
+        ~cmd_line_parse_clib_test() override = default;
 
-parserstr getDescriptionStr_clib(parserstr descstr)
-{
-    return (descstr.empty() ? "" : "\n\n" + descstr + "\n");
-}
-
-parserstr getPositionalArgMsg_clib()
-{
-    argparser::BaseParserStringList parserStr;
-    return "\n"+parserStr.getPositionalArgumentsMessage()+"\n";
-}
-
-parserstr getPositionalMsg_clib(parserstr name, parserstr help, size_t argWidth = defaultArgWidth , size_t consoleWidth = defaultColWidth)
-{
-    parserstr argMsg = " " + name;
-    while (argMsg.size() < argWidth)
-    {
-        argMsg += ' ';
-    }
-
-    parserstr helpmsg = help;
-    while (helpmsg.size() < (consoleWidth - argWidth))
-    {
-        helpmsg += ' ';
-    }
-
-    return argMsg + helpmsg + "\n";
-}
+};
 
 //==================================================================
 // Basic test
@@ -118,161 +202,143 @@ parserstr getPositionalMsg_clib(parserstr name, parserstr help, size_t argWidth 
 //======================================================================================
 // Public Interface testing, English
 //======================================================================================
-TEST(cmd_line_parse_clib, defaultConstructor)
+TEST_F(cmd_line_parse_clib_test, defaultConstructor)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description",
-                                               '-', true, false,
-                                               0);
-
     testing::internal::CaptureStderr();
     displayHelp(testParser);
     parserstr output = testing::internal::GetCapturedStderr();
 
-    parserstr expectedStr = getDefaultUsage_clib("myprog [options]");
-    expectedStr += getDescriptionStr_clib("test description");
-    expectedStr += getOptionArgMsg_clib();
-    expectedStr += getDefaultHelpMsg_clib();
-    expectedStr += getEpilogStr_clib("");
+    parserstr expectedStr = helpMsgGen.expectedBaseHelp();
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    releaseParser(testParser);
 }
 
-TEST(cmd_line_parse_clib, test_epilog)
+TEST_F(cmd_line_parse_clib_test, test_epilog)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description",
-                                               '-',true, false,
-                                               0);
     setEpilog(testParser, "This is the epilog");
 
     testing::internal::CaptureStderr();
     displayHelp(testParser);
     parserstr output = testing::internal::GetCapturedStderr();
 
-    parserstr expectedStr = getDefaultUsage_clib("myprog [options]");
-    expectedStr += getDescriptionStr_clib("test description");
-    expectedStr += getOptionArgMsg_clib();
-    expectedStr += getDefaultHelpMsg_clib();
-    expectedStr += getEpilogStr_clib("This is the epilog");
+    parserstr expectedStr = helpMsgGen.expectedBaseHelp("This is the epilog");
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    releaseParser(testParser);
 }
 
-TEST(cmd_line_parse_clib, addFlagArgHelp)
+TEST_F(cmd_line_parse_clib_test, addFlagArgHelp)
 {
-    bool testFlag = false;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
-    argHandle           cvarghandle = createParserFlagArg(&testFlag, true);
-    addFlagArgument(testParser, cvarghandle, "flag", "-f,--flag", "This is the flag argument", false);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addFlagArgument(testParser, &cvarghandle,
+                    "flag", "-f,--flag", "This is the flag argument", false);
 
     testing::internal::CaptureStderr();
     displayHelp(testParser);
     parserstr output = testing::internal::GetCapturedStderr();
 
-    parserstr expectedStr = getDefaultUsage_clib("myprog [options]");
-    expectedStr += getDescriptionStr_clib("test description");
-    expectedStr += getOptionArgMsg_clib();
-    expectedStr += getDefaultHelpMsg_clib();
-    expectedStr += getOptionMsg_clib("-f,--flag", "This is the flag argument");
-    expectedStr += getEpilogStr_clib("");
+    parserstr expectedStr = helpMsgGen.expectedBaseStart();
+    expectedStr += helpMsgGen.getDefaultHelpMsg();
+    expectedStr += helpMsgGen.getOptionMsg("-f,--flag", "This is the flag argument");
+    expectedStr += helpMsg::getEpilogStr();
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    releaseParser(testParser);
-    releaseParserArg(cvarghandle);
 }
 
-TEST(cmd_line_parse_clib, addPositionalHelp)
+TEST_F(cmd_line_parse_clib_test, addPositionalHelp)
 {
-    int testarg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
-    argHandle           cvarghandle = createIntParserArg(&testarg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addPositionalArgument(testParser, cvarghandle, "postst", "This is a positional argument", true);
+    addPositionalArgument(testParser, &cvarghandle, "postst", "This is a positional argument", true);
 
     testing::internal::CaptureStderr();
     displayHelp(testParser);
     parserstr output = testing::internal::GetCapturedStderr();
 
-    parserstr expectedStr = getDefaultUsage_clib("myprog [options]");
-    expectedStr += getDescriptionStr_clib("test description");
-    expectedStr += getOptionArgMsg_clib();
-    expectedStr += getDefaultHelpMsg_clib();
-    expectedStr += getPositionalArgMsg_clib();
-    expectedStr += getPositionalMsg_clib("postst", "This is a positional argument");
-    expectedStr += getEpilogStr_clib("");
+    parserstr expectedStr = helpMsgGen.expectedBaseStart();
+    expectedStr += helpMsgGen.getDefaultHelpMsg();
+    expectedStr += helpMsgGen.getPositionalArgMsg();
+    expectedStr += helpMsgGen.getPositionalMsg("postst", "This is a positional argument");
+    expectedStr += helpMsg::getEpilogStr();
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    releaseParser(testParser);
-    releaseParserArg(cvarghandle);
 }
 
-TEST(cmd_line_parse_clib, addKeyArgHelp)
+TEST_F(cmd_line_parse_clib_test, addKeyArgHelp)
 {
-    int testarg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
-    argHandle           cvarghandle = createIntParserArg(&testarg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArgument(testParser, cvarghandle, "tstint", "-i,--val", "This is the test key argument", true);
+    addKeyArgument(testParser, &cvarghandle, "tstint", "-i,--val", "This is the test key argument", true);
 
     testing::internal::CaptureStderr();
     displayHelp(testParser);
     parserstr output = testing::internal::GetCapturedStderr();
 
-    parserstr expectedStr = getDefaultUsage_clib("myprog [options]");
-    expectedStr += getDescriptionStr_clib("test description");
-    expectedStr += getOptionArgMsg_clib();
-    expectedStr += getDefaultHelpMsg_clib(testArgWidth);
-    expectedStr += getOptionMsg_clib("-i,--val=tstint", "This is the test key argument", testArgWidth);
-    expectedStr += getEpilogStr_clib("");
-    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+    parserstr keyVargStr = "-i,--val=tstint";
+    size_t optionWidth = keyVargStr.size() + 2;
+    parserstr expectedStr = helpMsgGen.expectedBaseStart();
+    expectedStr += helpMsgGen.getDefaultHelpMsg(optionWidth);
+    expectedStr += helpMsgGen.getOptionMsg(keyVargStr, "This is the test key argument", optionWidth);
+    expectedStr += helpMsg::getEpilogStr();
 
-    releaseParser(testParser);
-    releaseParserArg(cvarghandle);
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
 
-TEST(cmd_line_parse_clib, addAllArgHelp)
+TEST_F(cmd_line_parse_clib_test, addAllArgHelp)
 {
-    bool testFlagArg = false;
-    int  testKeyInt = 1;
-    int  testPositionInt = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', true, false, 0);
-    argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
-    argHandle           cvargKeyIntHandle = createIntParserArg(&testKeyInt);
-    argHandle           cvargPosIntHandle = createIntParserArg(&testPositionInt);
+    struct cvarptr cvarghandle[3];  // NOLINT
 
-    addPositionalArgument(testParser, cvargPosIntHandle, "postst", "This is a positional argument", true);
-    addFlagArgument(testParser, cvargFlagHandle, "flag", "-f,--flag", "This is the flag argument", false);
-    addFlagArgument(testParser, cvargKeyIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
+    StrictMock<argparser::mock_varg_intf> posvarg;
+    EXPECT_CALL(posvarg, isList()).WillOnce(Return(false));
+    StrictMock<argparser::mock_varg_intf> flagvarg;
+    EXPECT_CALL(flagvarg, isList()).WillOnce(Return(false));
+    StrictMock<argparser::mock_varg_intf> keyvarg;
+    EXPECT_CALL(keyvarg, isList()).WillOnce(Return(false));
+    cvarghandle[0].vararg = &posvarg;
+    cvarghandle[1].vararg = &flagvarg;
+    cvarghandle[2].vararg = &keyvarg;
+
+    addPositionalArgument(testParser, &(cvarghandle[0]),
+                          "postst", "This is a positional argument", true);
+    addFlagArgument(testParser, &(cvarghandle[1]),
+                    "flag", "-f,--flag", "This is the flag argument", false);
+    addKeyArgument(testParser, &(cvarghandle[2]),
+                   "tstint", "-i,--val", "This is the test key argument", true);
+
+    parserstr keyargstr = "-i,--val=tstint";
+    size_t optionWidth = keyargstr.size() + 2;
 
     testing::internal::CaptureStderr();
     displayHelp(testParser);
     parserstr output = testing::internal::GetCapturedStderr();
 
-    parserstr expectedStr = getDefaultUsage_clib("myprog [options]");
-    expectedStr += getDescriptionStr_clib("test description");
-    expectedStr += getOptionArgMsg_clib();
-    expectedStr += getDefaultHelpMsg_clib();
-    expectedStr += getOptionMsg_clib("-f,--flag", "This is the flag argument");
-    expectedStr += getOptionMsg_clib("-i,--val", "This is the test key argument");
-    expectedStr += getPositionalArgMsg_clib();
-    expectedStr += getPositionalMsg_clib("postst", "This is a positional argument");
-    expectedStr += getEpilogStr_clib("");
+    parserstr expectedStr = helpMsgGen.expectedBaseStart();
+    expectedStr += helpMsgGen.getDefaultHelpMsg(optionWidth);
+    expectedStr += helpMsgGen.getOptionMsg("-f,--flag", "This is the flag argument", optionWidth);
+    expectedStr += helpMsgGen.getOptionMsg(keyargstr, "This is the test key argument", optionWidth);
+    expectedStr += helpMsgGen.getPositionalArgMsg();
+    expectedStr += helpMsgGen.getPositionalMsg("postst", "This is a positional argument", optionWidth);
+    expectedStr += helpMsg::getEpilogStr();
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
-
-    releaseParser(testParser);
-    releaseParserArg(cvargFlagHandle);
-    releaseParserArg(cvargKeyIntHandle);
-    releaseParserArg(cvargPosIntHandle);
 }
 
-TEST(cmd_line_parse_clib, parseTestFlag)
+TEST_F(cmd_line_parse_clib_test, parseTestFlag)
 {
-    bool testFlagArg = false;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    addFlagArgument(testParser, cvargFlagHandle, "flag", "-f,--flag", "This is the flag argument", false);
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addFlagArgument(testParser, &cvarghandle,
+                    "flag", "-f,--flag", "This is the flag argument", false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -281,21 +347,18 @@ TEST(cmd_line_parse_clib, parseTestFlag)
     parserchar* argv[] = {progname, opt1};
     // NOLINTEND
 
-    EXPECT_FALSE(testFlagArg);
     EXPECT_EQ(2, parse(testParser, 2, argv, 0, -1));   // NOLINT
-    EXPECT_TRUE(testFlagArg);
-
-    releaseParser(testParser);
-    releaseParserArg(cvargFlagHandle);
 }
 
-TEST(cmd_line_parse_clib, parseTestFlagFailure)
+TEST_F(cmd_line_parse_clib_test, parseTestFlagFailure)
 {
-    bool testFlagArg = false;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addFlagArgument(testParser, cvargFlagHandle, "flag", "-f,--flag", "This is the flag argument", false);
+    addFlagArgument(testParser, &cvarghandle,
+                    "flag", "-f,--flag", "This is the flag argument", false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -306,23 +369,22 @@ TEST(cmd_line_parse_clib, parseTestFlagFailure)
 
     testing::internal::CaptureStderr();
     EXPECT_EQ(-1, parse(testParser, 2, argv, 0, -1));   // NOLINT
-
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_FALSE(testFlagArg);
     EXPECT_STREQ("\"-f\" invalid assignment\n", output.c_str());
-
-    releaseParser(testParser);
-    releaseParserArg(cvargFlagHandle);
-
 }
 
-TEST(cmd_line_parse_clib, parseTestKeyWithAssign)
+TEST_F(cmd_line_parse_clib_test, parseTestKeyWithAssign)
 {
-    int testArg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargIntHandle = createIntParserArg(&testArg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("5")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addKeyArgument(testParser, &cvarghandle,
+                   "tstint", "-i,--val", "This is the test key argument", true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -332,19 +394,17 @@ TEST(cmd_line_parse_clib, parseTestKeyWithAssign)
     // NOLINTEND
 
     EXPECT_EQ(2, parse(testParser, 2, argv, 0, -1));   // NOLINT
-    EXPECT_EQ(5, testArg);
-
-    releaseParser(testParser);
-    releaseParserArg(cvargIntHandle);
 }
 
-TEST(cmd_line_parse_clib, parseTestKeyAssignMissing)
+TEST_F(cmd_line_parse_clib_test, parseTestKeyAssignMissing)
 {
-    int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargIntHandle = createIntParserArg(&testArg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
+    addKeyArgument(testParser, &cvarghandle,
+                   "tstint", "-i,--val", "This is the test key argument", true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -355,22 +415,22 @@ TEST(cmd_line_parse_clib, parseTestKeyAssignMissing)
 
     testing::internal::CaptureStderr();
     EXPECT_EQ(-1, parse(testParser, 2, argv, 0, -1));  // NOLINT
-
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_EQ(10, testArg);
     EXPECT_STREQ("\"-i\" missing assignment value\n", output.c_str());
-
-    releaseParser(testParser);
-    releaseParserArg(cvargIntHandle);
 }
 
-TEST(cmd_line_parse_clib, parseTestKeyAssignFail)
+TEST_F(cmd_line_parse_clib_test, parseTestKeyAssignFail)
 {
-    int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargIntHandle = createIntParserArg(&testArg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("foo")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
 
-    addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addKeyArgument(testParser, &cvarghandle,
+                   "tstint", "-i,--val", "This is the test key argument", true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -381,22 +441,22 @@ TEST(cmd_line_parse_clib, parseTestKeyAssignFail)
 
     testing::internal::CaptureStderr();
     EXPECT_EQ(-1, parse(testParser, 2, argv, 0, -1));  // NOLINT
-
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_EQ(10, testArg);
     EXPECT_STREQ("\"-i foo\" assignment failed\n", output.c_str());
-
-    releaseParser(testParser);
-    releaseParserArg(cvargIntHandle);
 }
 
-TEST(cmd_line_parse_clib, parseTestKeyAssignNextArg)
+TEST_F(cmd_line_parse_clib_test, parseTestKeyAssignNextArg)
 {
-    int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargIntHandle = createIntParserArg(&testArg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("18")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    addKeyArgument(testParser, cvargIntHandle, "tstint", "-i,--val", "This is the test key argument", true);
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addKeyArgument(testParser, &cvarghandle,
+                   "tstint", "-i,--val", "This is the test key argument", true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -407,19 +467,73 @@ TEST(cmd_line_parse_clib, parseTestKeyAssignNextArg)
     // NOLINTEND
 
     EXPECT_EQ(3, parse(testParser, 3, argv, 1, -1));      // NOLINT
-    EXPECT_EQ(18, testArg);
-
-    releaseParser(testParser);
-    releaseParserArg(cvargIntHandle);
 }
 
-TEST(cmd_line_parse_clib, parsePositional)
+TEST_F(cmd_line_parse_clib_test, parseIncrementing)
 {
-    int testArg = 10;   // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargIntHandle = createIntParserArg(&testArg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue())
+        .Times(2)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    addPositionalArgument(testParser, cvargIntHandle, "postst", "This is a positional argument", true);
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addIncrementingArgument(testParser, &cvarghandle,
+                    "flag", "-f,--flag", "This is the flag argument", false);
+    disableHelpDisplayOnError(testParser);
+
+    // NOLINTBEGIN
+    parserchar progname[] = "runprog";
+    parserchar opt1[] = "-ff";
+    parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
+
+    EXPECT_EQ(2, parse(testParser, 2, argv, 0, -1));   // NOLINT
+}
+
+TEST_F(cmd_line_parse_clib_test, parseIncrementingFail)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue())
+        .Times(2)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addIncrementingArgument(testParser, &cvarghandle,
+                    "flag", "-f,--flag", "This is the flag argument", false);
+    disableHelpDisplayOnError(testParser);
+
+    // NOLINTBEGIN
+    parserchar progname[] = "runprog";
+    parserchar opt1[] = "-ff";
+    parserchar* argv[] = {progname, opt1};
+    // NOLINTEND
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(-1, parse(testParser, 2, argv, 0, -1));   // NOLINT
+    parserstr output = testing::internal::GetCapturedStderr();
+    parserstr expected = "\"-f \" assignment failed\n";
+    expected += "\"-f \" assignment failed\n";
+    EXPECT_STREQ(expected.c_str(), output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, parsePositional)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addPositionalArgument(testParser, &cvarghandle,
+                          "postst", "This is a positional argument", true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -429,19 +543,20 @@ TEST(cmd_line_parse_clib, parsePositional)
     // NOLINTEND
 
     EXPECT_EQ(2, parse(testParser, 2, argv, 1, -1));      // NOLINT
-    EXPECT_EQ(42, testArg);
-
-    releaseParser(testParser);
-    releaseParserArg(cvargIntHandle);
 }
 
-TEST(cmd_line_parse_clib, parsePositionalFailed)
+TEST_F(cmd_line_parse_clib_test, parsePositionalFailed)
 {
-    int testArg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargIntHandle = createIntParserArg(&testArg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("goo")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
 
-    addPositionalArgument(testParser, cvargIntHandle, "postst", "This is a positional argument", true);
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addPositionalArgument(testParser, &cvarghandle,
+                          "postst", "This is a positional argument", true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -452,28 +567,39 @@ TEST(cmd_line_parse_clib, parsePositionalFailed)
 
     testing::internal::CaptureStderr();
     EXPECT_EQ(-1, parse(testParser, 2, argv, 1, -1));     // NOLINT
-
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_EQ(0, testArg);
     EXPECT_STREQ("\"postst goo\" assignment failed\n", output.c_str());
-
-    releaseParser(testParser);
-    releaseParserArg(cvargIntHandle);
 }
 
-TEST(cmd_line_parse_clib, parseTestMultiple)
+TEST_F(cmd_line_parse_clib_test, parseTestMultiple)
 {
-    bool testFlagArg = false;
-    int testKeyArg = testValue;
-    int testPosArg = 0;
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           cvargFlagHandle = createParserFlagArg(&testFlagArg, true);
-    argHandle           cvargKeyHandle = createIntParserArg(&testKeyArg);
-    argHandle           cvargPosHandle = createIntParserArg(&testPosArg);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addPositionalArgument(testParser, cvargPosHandle, "postst", "This is a positional argument", true);
-    addFlagArgument(testParser, cvargFlagHandle, "flag", "-f,--flag", "This is the flag argument", false);
-    addKeyArgument(testParser, cvargKeyHandle, "tstint", "-i,--val", "This is the test key argument", true);
+    StrictMock<argparser::mock_varg_intf> testvarg1;
+    EXPECT_CALL(testvarg1, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg1, setValue(::testing::StrEq("5")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle1;
+    cvarghandle1.vararg = &testvarg1;
+
+    StrictMock<argparser::mock_varg_intf> testvarg2;
+    EXPECT_CALL(testvarg2, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testvarg2, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle2;
+    cvarghandle2.vararg = &testvarg2;
+
+    addPositionalArgument(testParser, &cvarghandle2,
+                          "postst", "This is a positional argument", true);
+    addFlagArgument(testParser, &cvarghandle,
+                    "flag", "-f,--flag", "This is the flag argument", false);
+    addKeyArgument(testParser, &cvarghandle1,
+                   "tstint", "-i,--val", "This is the test key argument", true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -486,23 +612,26 @@ TEST(cmd_line_parse_clib, parseTestMultiple)
     // NOLINTEND
 
     EXPECT_EQ(5, parse(testParser, 5, argv, 1, -1));      // NOLINT
-    EXPECT_TRUE(testFlagArg);
-    EXPECT_EQ(42, testPosArg);
-    EXPECT_EQ(5, testKeyArg);
-
-    releaseParser(testParser);
-    releaseParserArg(cvargPosHandle);
-    releaseParserArg(cvargKeyHandle);
-    releaseParserArg(cvargFlagHandle);
 }
 
-TEST(cmd_line_parse_clib, parseTestAddListArg)
-{
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, true);
+TEST_F(cmd_line_parse_clib_test, parseTestAddListArg)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("18")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("22")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("43")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", 3, true);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -513,19 +642,54 @@ TEST(cmd_line_parse_clib, parseTestAddListArg)
     // NOLINTEND
 
     EXPECT_EQ(3, parse(testParser, 3, argv, 1, -1));          // NOLINT
-    EXPECT_EQ(3, getAssignmentCount(testlistvarg));
-    EXPECT_EQ(18, testArg[0]);
-    EXPECT_EQ(22, testArg[1]);
-    EXPECT_EQ(43, testArg[2]);
 }
 
-TEST(cmd_line_parse_clib, parseTestAddListArgMultipleArgv)
+TEST_F(cmd_line_parse_clib_test, TestAddPositionalArray)
 {
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("18")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("22")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("43")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, false);
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addPositionalArrayArgument(testParser, &cvarghandle,
+        "tstint", "This is the test key argument", 3, true);
+    disableHelpDisplayOnError(testParser);
+
+    // NOLINTBEGIN
+    parserchar progname[] = "runprog";
+    parserchar val1[] = "18,22,43";
+    parserchar* argv[] = {progname, val1};
+    // NOLINTEND
+
+    EXPECT_EQ(2, parse(testParser, 2, argv, 1, -1));          // NOLINT
+}
+
+TEST_F(cmd_line_parse_clib_test, parseTestAddListArgMultipleArgv)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("19")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("21")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
+
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", 3, false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -538,19 +702,19 @@ TEST(cmd_line_parse_clib, parseTestAddListArgMultipleArgv)
     // NOLINTEND
 
     EXPECT_EQ(5, parse(testParser, 5, argv, 1, -1));      // NOLINT
-    EXPECT_EQ(3, getAssignmentCount(testlistvarg));
-    EXPECT_EQ(19, testArg[0]);
-    EXPECT_EQ(21, testArg[1]);
-    EXPECT_EQ(42, testArg[2]);
 }
 
-TEST(cmd_line_parse_clib, parseTestAddListArgTooFew)
+TEST_F(cmd_line_parse_clib_test, parseTestAddListArgTooFew)
 {
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, false);
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", 3, false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -562,18 +726,22 @@ TEST(cmd_line_parse_clib, parseTestAddListArgTooFew)
 
     testing::internal::CaptureStderr();
     EXPECT_EQ(-1, parse(testParser, 3, argv, 1, -1));     // NOLINT
-    EXPECT_EQ(0, getAssignmentCount(testlistvarg));
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"-i\" missing assignment. Expected: 3 found: 2 arguments\n", output.c_str());
+
 }
 
-TEST(cmd_line_parse_clib, parseTestAddListArgTooMany)
+TEST_F(cmd_line_parse_clib_test, parseTestAddListArgTooMany)
 {
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", 3, false);
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", 3, false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -585,18 +753,27 @@ TEST(cmd_line_parse_clib, parseTestAddListArgTooMany)
 
     testing::internal::CaptureStderr();
     EXPECT_EQ(-1, parse(testParser, 3, argv, 1, -1));     // NOLINT
-    EXPECT_EQ(0, getAssignmentCount(testlistvarg));
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"-i\" too many assignment values. Expected: 3 found: 4 arguments\n", output.c_str());
 }
 
-TEST(cmd_line_parse_clib, parseTestAddDynamicListArg)
+TEST_F(cmd_line_parse_clib_test, parseTestAddDynamicListArg)
 {
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("18")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("22")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("43")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", -3, false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -607,19 +784,23 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArg)
     // NOLINTEND
 
     EXPECT_EQ(3, parse(testParser, 3, argv, 1, -1));      // NOLINT
-    EXPECT_EQ(3, getAssignmentCount(testlistvarg));
-    EXPECT_EQ(18, testArg[0]);
-    EXPECT_EQ(22, testArg[1]);
-    EXPECT_EQ(43, testArg[2]);
 }
 
-TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2Vals)
+TEST_F(cmd_line_parse_clib_test, parseTestAddDynamicListArg2Vals)
 {
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("18")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("22")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", -3, false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -630,18 +811,23 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2Vals)
     // NOLINTEND
 
     EXPECT_EQ(3, parse(testParser, 3, argv, 1, -1));      // NOLINT
-    EXPECT_EQ(2, getAssignmentCount(testlistvarg));
-    EXPECT_EQ(18, testArg[0]);
-    EXPECT_EQ(22, testArg[1]);
 }
 
-TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2ValsMultiArgv)
+TEST_F(cmd_line_parse_clib_test, parseTestAddDynamicListArg2ValsMultiArgv)
 {
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("81")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("13")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", -3, false);
     disableHelpDisplayOnError(testParser);
 
     // NOLINTBEGIN
@@ -653,22 +839,33 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArg2ValsMultiArgv)
     // NOLINTEND
 
     EXPECT_EQ(4, parse(testParser, 4, argv, 1, -1));      // NOLINT
-    EXPECT_EQ(2, getAssignmentCount(testlistvarg));
-    EXPECT_EQ(81, testArg[0]);
-    EXPECT_EQ(13, testArg[1]);
 }
 
-TEST(cmd_line_parse_clib, parseTestAddDynamicListArgMultiArgvSwitchTermination)
+TEST_F(cmd_line_parse_clib_test, parseTestAddDynamicListArgMultiArgvSwitchTermination)
 {
-    int testArg[3] = {0,0,0}; // NOLINT
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
-    argHandle           testlistvarg = createIntArrayParserArg(&(testArg[0]), 3);
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, isList())
+        .Times(2)
+        .WillRepeatedly(Return(true));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("81")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("13")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvarghandle;
+    cvarghandle.vararg = &testvarg;
 
-    addKeyArrayArgument(testParser, testlistvarg, "tstint", "-i,--val", "This is the test key argument", -3, false);
+    addKeyArrayArgument(testParser, &cvarghandle,
+                        "tstint", "-i,--val", "This is the test key argument", -3, false);
 
-    bool      testFlag    = false;
-    argHandle testflgvarg = createParserFlagArg(&testFlag, true);
-    addFlagArgument(testParser, testflgvarg, "tstflg", "-f,--flag", "This is the test flag argument",false);
+    StrictMock<argparser::mock_varg_intf> testflgvarg;
+    EXPECT_CALL(testflgvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflgvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflghandle;
+    cvargflghandle.vararg = &testflgvarg;
+
+    addFlagArgument(testParser, &cvargflghandle,
+                    "tstflg", "-f,--flag", "This is the test flag argument",false);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -680,25 +877,31 @@ TEST(cmd_line_parse_clib, parseTestAddDynamicListArgMultiArgvSwitchTermination)
     // NOLINTEND
 
     EXPECT_EQ(5, parse(testParser, 5, argv, 1, -1));      // NOLINT
-    EXPECT_EQ(2, getAssignmentCount(testlistvarg));
-    EXPECT_EQ(81, testArg[0]);
-    EXPECT_EQ(13, testArg[1]);
-    EXPECT_TRUE(testFlag);
 }
 
 
-TEST(cmd_line_parse_clib, parseTestDualSingleCharFlag)
+TEST_F(cmd_line_parse_clib_test, parseTestDualSingleCharFlag)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> testflgvarg;
+    EXPECT_CALL(testflgvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflgvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflghandle;
+    cvargflghandle.vararg = &testflgvarg;
+
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg1varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
+
     disableHelpDisplayOnError(testParser);
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser, testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
-
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addFlagArgument(testParser, &cvargflghandle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -707,25 +910,37 @@ TEST(cmd_line_parse_clib, parseTestDualSingleCharFlag)
     // NOLINTEND
 
     EXPECT_EQ(2, parse(testParser, 2, argv, 1, -1));    // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
 }
 
-TEST(cmd_line_parse_clib, parseTestTripleSingleCharFlag)
+TEST_F(cmd_line_parse_clib_test, parseTestTripleSingleCharFlag)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> testflgvarg;
+    EXPECT_CALL(testflgvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflgvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflghandle;
+    cvargflghandle.vararg = &testflgvarg;
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg1varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
 
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg2varg;
+    EXPECT_CALL(testflg2varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg2varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg2handle;
+    cvargflg2handle.vararg = &testflg2varg;
 
-    bool      testFlag2    = true;
-    argHandle testflgvarg2 = createParserFlagArg(&testFlag2, false);
-    addFlagArgument(testParser,testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+    addFlagArgument(testParser, &cvargflghandle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addFlagArgument(testParser, &cvargflg2handle,
+                    "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -734,26 +949,37 @@ TEST(cmd_line_parse_clib, parseTestTripleSingleCharFlag)
     // NOLINTEND
 
     EXPECT_EQ(2, parse(testParser, 2, argv, 1, -1));      // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_FALSE(testFlag2);
 }
 
-TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagVal)
+TEST_F(cmd_line_parse_clib_test, parseTestDualSingleCharFlagVal)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> testflgvarg;
+    EXPECT_CALL(testflgvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflgvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflghandle;
+    cvargflghandle.vararg = &testflgvarg;
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg1varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
 
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    StrictMock<argparser::mock_varg_intf> testkeyvarg;
+    EXPECT_CALL(testkeyvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testkeyvarg, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargkeyhandle;
+    cvargkeyhandle.vararg = &testkeyvarg;
 
-    int       testval2 = 0;
-    argHandle testvalvarg2 = createIntParserArg(&testval2);
-    addKeyArgument(testParser, testvalvarg2, "tstval", "-g,--goo", "This is the test value argument", true);
+    addFlagArgument(testParser, &cvargflghandle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addKeyArgument(testParser, &cvargkeyhandle,
+                   "tstval", "-g,--goo", "This is the test value argument", true);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -762,26 +988,37 @@ TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagVal)
     // NOLINTEND
 
     EXPECT_EQ(2, parse(testParser, 2, argv, 1, -1));      // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_EQ(42, testval2);
 }
 
-TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagValNextargv)
+TEST_F(cmd_line_parse_clib_test, parseTestDualSingleCharFlagValNextargv)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> testflgvarg;
+    EXPECT_CALL(testflgvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflgvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflghandle;
+    cvargflghandle.vararg = &testflgvarg;
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg1varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
 
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    StrictMock<argparser::mock_varg_intf> testkeyvarg;
+    EXPECT_CALL(testkeyvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testkeyvarg, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargkeyhandle;
+    cvargkeyhandle.vararg = &testkeyvarg;
 
-    int       testval2 = 0;
-    argHandle testvalvarg2 = createIntParserArg(&testval2);
-    addKeyArgument(testParser, testvalvarg2, "tstval", "-g,--goo", "This is the test value argument", true);
+    addFlagArgument(testParser, &cvargflghandle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addKeyArgument(testParser, &cvargkeyhandle,
+                   "tstval", "-g,--goo", "This is the test value argument", true);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -791,27 +1028,37 @@ TEST(cmd_line_parse_clib, parseTestDualSingleCharFlagValNextargv)
     // NOLINTEND
 
     EXPECT_EQ(3, parse(testParser, 3, argv, 1, -1));      // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_EQ(42, testval2);
 }
 
-TEST(cmd_line_parse_clib, parseTestMissingRequired)
+TEST_F(cmd_line_parse_clib_test, parseTestMissingRequired)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> testflgvarg;
+    EXPECT_CALL(testflgvarg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflghandle;
+    cvargflghandle.vararg = &testflgvarg;
+
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg1varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
+
+    StrictMock<argparser::mock_varg_intf> testkeyvarg;
+    EXPECT_CALL(testkeyvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testkeyvarg, setValue(::testing::StrEq("42")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargkeyhandle;
+    cvargkeyhandle.vararg = &testkeyvarg;
+
     disableHelpDisplayOnError(testParser);
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", true);
-
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
-
-    int       testval2 = 0;
-    argHandle testvalvarg2 = createIntParserArg(&testval2);
-    addKeyArgument(testParser, testvalvarg2, "tstval", "-g,--goo", "This is the test value argument", true);
+    addFlagArgument(testParser, &cvargflghandle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", true);
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addKeyArgument(testParser, &cvargkeyhandle,
+                   "tstval", "-g,--goo", "This is the test value argument", true);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -822,36 +1069,57 @@ TEST(cmd_line_parse_clib, parseTestMissingRequired)
 
     testing::internal::CaptureStderr();
     EXPECT_EQ(-1, parse(testParser, 3, argv, 1, -1));     // NOLINT
-    EXPECT_FALSE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_EQ(42, testval2);
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"-i|--val\" required argument missing\n", output.c_str());
 }
 
-TEST(cmd_line_parse_clib, parseTestMultiplePositionalArgs)
+TEST_F(cmd_line_parse_clib_test, parseTestMultiplePositionalArgs)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg1varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
 
-    char subcommand[30];    // NOLINT
-    argHandle testsubarg = createStringArrayParserArg(subcommand, 30);  // NOLINT
-    addPositionalArgument(testParser, testsubarg, "subcmd", "This is the test subcmd argument", true);
+    StrictMock<argparser::mock_varg_intf> testflg2varg;
+    EXPECT_CALL(testflg2varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg2varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg2handle;
+    cvargflg2handle.vararg = &testflg2varg;
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg3varg;
+    EXPECT_CALL(testflg3varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(testflg3varg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr cvargflg3handle;
+    cvargflg3handle.vararg = &testflg3varg;
 
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    StrictMock<argparser::mock_varg_intf> teststr1varg;
+    EXPECT_CALL(teststr1varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(teststr1varg, setValue(::testing::StrEq("foo")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr testsubarg;
+    testsubarg.vararg = &teststr1varg;
 
-    bool      testFlag2    = true;
-    argHandle testflgvarg2 = createParserFlagArg(&testFlag2, false);
-    addFlagArgument(testParser,testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+    StrictMock<argparser::mock_varg_intf> teststr2varg;
+    EXPECT_CALL(teststr2varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(teststr2varg, setValue(::testing::StrEq("george")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    struct cvarptr testoutname;
+    testoutname.vararg = &teststr2varg;
 
-    char outname[100];  // NOLINT
-    argHandle testoutname = createStringArrayParserArg(outname, 100);    // NOLINT
-    addPositionalArgument(testParser, testoutname, "outputname", "This is the test output name argument", false);
+    addPositionalArgument(testParser, &testsubarg,
+                          "subcmd", "This is the test subcmd argument", true);
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg2handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addFlagArgument(testParser, &cvargflg3handle,
+                    "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+    addPositionalArgument(testParser, &testoutname,
+                          "outputname", "This is the test output name argument", false);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -867,32 +1135,51 @@ TEST(cmd_line_parse_clib, parseTestMultiplePositionalArgs)
 
     // Parse
     EXPECT_EQ(argc, parse(testParser, argc, argv, 1, -1));  // NOLINT
-    EXPECT_STREQ("foo", subcommand);                        // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_FALSE(testFlag2);
-    EXPECT_STREQ("george", outname);                        // NOLINT
 }
 
-TEST(cmd_line_parse_clib, parseTestTwoPhasedParse)
+TEST_F(cmd_line_parse_clib_test, parseTestTwoPhasedParse)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> teststr1varg;
+    EXPECT_CALL(teststr1varg, isList()).WillOnce(Return(false));
+    struct cvarptr testsubarg;
+    testsubarg.vararg = &teststr1varg;
+    ::testing::ExpectationSet subcmd = EXPECT_CALL(teststr1varg, setValue(::testing::StrEq("foo")))
+                                        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    char subcommand[30];    // NOLINT
-    argHandle testsubarg = createStringArrayParserArg(subcommand, 30);  // NOLINT
-    addPositionalArgument(testParser, testsubarg, "subcmd", "This is the test subcmd argument", true);
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg2varg;
+    EXPECT_CALL(testflg2varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg2handle;
+    cvargflg2handle.vararg = &testflg2varg;
 
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg3varg;
+    EXPECT_CALL(testflg3varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg3handle;
+    cvargflg3handle.vararg = &testflg3varg;
 
-    bool      testFlag2    = true;
-    argHandle testflgvarg2 = createParserFlagArg(&testFlag2, false);
-    addFlagArgument(testParser,testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+    EXPECT_CALL(testflg1varg, setValue())
+        .After(subcmd)
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testflg2varg, setValue())
+        .After(subcmd)
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    EXPECT_CALL(testflg3varg, setValue())
+        .After(subcmd)
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    addPositionalArgument(testParser, &testsubarg,
+                          "subcmd", "This is the test subcmd argument", true);
+
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg2handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addFlagArgument(testParser, &cvargflg3handle,
+                    "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -907,41 +1194,69 @@ TEST(cmd_line_parse_clib, parseTestTwoPhasedParse)
 
     // Phase 1
     EXPECT_EQ(2, parse(testParser, argc, argv, 1, 2));  // NOLINT
-    EXPECT_STREQ("foo", subcommand);                    // NOLINT
-    EXPECT_FALSE(testFlag0);
-    EXPECT_FALSE(testFlag1);
-    EXPECT_TRUE(testFlag2);
 
     // Phase 2
     EXPECT_EQ(argc, parse(testParser, argc, argv, 2, -1));  // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_FALSE(testFlag2);
 }
 
-TEST(cmd_line_parse_clib, parseTestThreePhasedParse)
+TEST_F(cmd_line_parse_clib_test, parseTestThreePhasedParse)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> teststr1varg;
+    EXPECT_CALL(teststr1varg, isList()).WillOnce(Return(false));
+    struct cvarptr testsubarg;
+    testsubarg.vararg = &teststr1varg;
+    ::testing::ExpectationSet subcmd = EXPECT_CALL(teststr1varg, setValue(::testing::StrEq("foo")))
+                                        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    char subcommand[30];    // NOLINT
-    argHandle testsubarg = createStringArrayParserArg(subcommand, 30);  // NOLINT
-    addPositionalArgument(testParser, testsubarg, "subcmd", "This is the test subcmd argument", true);
+    addPositionalArgument(testParser, &testsubarg,
+                          "subcmd", "This is the test subcmd argument", true);
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
 
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg2varg;
+    EXPECT_CALL(testflg2varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg2handle;
+    cvargflg2handle.vararg = &testflg2varg;
 
-    bool      testFlag2    = true;
-    argHandle testflgvarg2 = createParserFlagArg(&testFlag2, false);
-    addFlagArgument(testParser,testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg3varg;
+    EXPECT_CALL(testflg3varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg3handle;
+    cvargflg3handle.vararg = &testflg3varg;
 
-    char outname[100] = {'\0'}; // NOLINT
-    argHandle testoutname = createStringArrayParserArg(outname, 100);    // NOLINT
-    addPositionalArgument(testParser, testoutname, "outputname", "This is the test output name argument", false);
+    ::testing::ExpectationSet flags;
+    flags += EXPECT_CALL(testflg1varg, setValue())
+            .After(subcmd)
+            .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    flags += EXPECT_CALL(testflg2varg, setValue())
+            .After(subcmd)
+            .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    flags += EXPECT_CALL(testflg3varg, setValue())
+            .After(subcmd)
+            .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg2handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addFlagArgument(testParser, &cvargflg3handle,
+                    "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+
+
+    StrictMock<argparser::mock_varg_intf> teststr2varg;
+    struct cvarptr testoutname;
+    testoutname.vararg = &teststr2varg;
+    EXPECT_CALL(teststr2varg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(teststr2varg, setValue(::testing::StrEq("george")))
+        .After(subcmd, flags)
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    addPositionalArgument(testParser, &testoutname,
+                          "outputname", "This is the test output name argument", false);
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -957,46 +1272,58 @@ TEST(cmd_line_parse_clib, parseTestThreePhasedParse)
 
     // Phase 1
     EXPECT_EQ(2, parse(testParser, argc, argv, 1, 2));  // NOLINT
-    EXPECT_STREQ("foo", subcommand);                    // NOLINT
-    EXPECT_FALSE(testFlag0);
-    EXPECT_FALSE(testFlag1);
-    EXPECT_TRUE(testFlag2);
-    EXPECT_STREQ("", outname);                          // NOLINT
 
     // Phase 2
     EXPECT_EQ(argc-1, parse(testParser, argc, argv, 2, argc-1));    // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_FALSE(testFlag2);
-    EXPECT_STREQ("", outname);                                      // NOLINT
 
     // Phase 3
     EXPECT_EQ(argc, parse(testParser, argc, argv, argc-1, -1));     // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_FALSE(testFlag2);
-    EXPECT_STREQ("george", outname);                                // NOLINT
 }
 
-TEST(cmd_line_parse_clib, parseTestTwPhasedTwoParserPositionalStop)
+TEST(cmd_line_parse_clib, parseTestTwoPhasedTwoParserPositionalStop)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> testflg1varg;
+    EXPECT_CALL(testflg1varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg1handle;
+    cvargflg1handle.vararg = &testflg1varg;
 
-    bool      testFlag0    = false;
-    argHandle testflgvarg0 = createParserFlagArg(&testFlag0, true);
-    addFlagArgument(testParser,testflgvarg0, "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg2varg;
+    EXPECT_CALL(testflg2varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg2handle;
+    cvargflg2handle.vararg = &testflg2varg;
 
-    bool      testFlag1    = false;
-    argHandle testflgvarg1 = createParserFlagArg(&testFlag1, true);
-    addFlagArgument(testParser,testflgvarg1, "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    StrictMock<argparser::mock_varg_intf> testflg3varg;
+    EXPECT_CALL(testflg3varg, isList()).WillOnce(Return(false));
+    struct cvarptr cvargflg3handle;
+    cvargflg3handle.vararg = &testflg3varg;
 
-    bool      testFlag2    = true;
-    argHandle testflgvarg2 = createParserFlagArg(&testFlag2, false);
-    addFlagArgument(testParser,testflgvarg2, "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+    cmdLineParserHandle testParser = getParser("myprog [options]", "test description",
+                                               '-', true,
+                                               false, 0);
 
-    char subcommand[30];    // NOLINT
-    argHandle testsubarg = createStringArrayParserArg(subcommand, 30);  // NOLINT
-    addPositionalArgument(testParser, testsubarg, "subcmd", "This is the test subcmd argument", true);
+    addFlagArgument(testParser, &cvargflg1handle,
+                    "tstflg", "-i,--val", "This is the test flag0 argument", false);
+    addFlagArgument(testParser, &cvargflg2handle,
+                    "tstflg1", "-f,--flag", "This is the test flag1 argument", false);
+    addFlagArgument(testParser, &cvargflg3handle,
+                    "tstflg2", "-g,--goo", "This is the test flag2 argument", false);
+
+    StrictMock<argparser::mock_varg_intf> teststrvarg;
+    EXPECT_CALL(teststrvarg, isList()).WillOnce(Return(false));
+    struct cvarptr testsubarg;
+    testsubarg.vararg = &teststrvarg;
+    addPositionalArgument(testParser, &testsubarg,
+                          "subcmd", "This is the test subcmd argument", true);
+
+    ::testing::ExpectationSet phase1;
+    phase1 += EXPECT_CALL(testflg1varg, setValue())
+                .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    phase1 += EXPECT_CALL(testflg2varg, setValue())
+                .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    phase1 += EXPECT_CALL(testflg3varg, setValue())
+                .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+    phase1 += EXPECT_CALL(teststrvarg, setValue(::testing::StrEq("cmd1")))
+                .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -1017,46 +1344,62 @@ TEST(cmd_line_parse_clib, parseTestTwPhasedTwoParserPositionalStop)
     // Phase 1
     setPositionalNameStop(testParser, "subcmd");
     EXPECT_EQ(5, parse(testParser, argc, argv, 1, -1));       // NOLINT
-    EXPECT_TRUE(testFlag0);
-    EXPECT_TRUE(testFlag1);
-    EXPECT_FALSE(testFlag2);
-    EXPECT_STREQ("cmd1", subcommand);   // NOLINT
 
     // Phase 2, Parser 2
     cmdLineParserHandle cmd1Parser = getParser("testprog [global options] cmd1 [subcommand options]",
                                                "Description of the subcommand test program", '-',
                                                false, false, 0);
 
-    bool      testCmd1Flag    = false;
-    unsigned  testCmd1Value   = 0;
-    char      testCmd1OutStr[30] = {'\0'};  // NOLINT
 
-    argHandle testCmd1flgvarg = createParserFlagArg(&testCmd1Flag, true);
-    argHandle testCmd1Valuevarg = createUIntParserArg(&testCmd1Value);
-    argHandle testCmd1OutArg = createStringArrayParserArg(testCmd1OutStr, 30);  // NOLINT
+    StrictMock<argparser::mock_varg_intf> phase2flgvarg;
+    struct cvarptr testCmd1flgvarg;
+    testCmd1flgvarg.vararg = &phase2flgvarg;
+    EXPECT_CALL(phase2flgvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(phase2flgvarg, setValue())
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
-    addFlagArgument(cmd1Parser, testCmd1flgvarg, "testCmd1flg", "-x", "This is the cmd1 test flag argument", false);
-    addKeyArgument(cmd1Parser, testCmd1Valuevarg, "testCmd1Value", "-y", "This is the cmd1 test value argument", false);
-    addKeyArgument(cmd1Parser, testCmd1OutArg, "testCmd1OutArg", "-o, --output", "This is the cmd1 test output argument", false);
+    StrictMock<argparser::mock_varg_intf> phase2intvarg;
+    struct cvarptr testCmd1Valuevarg;
+    testCmd1Valuevarg.vararg = &phase2intvarg;
+    EXPECT_CALL(phase2intvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(phase2intvarg, setValue(::testing::StrEq("13")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    StrictMock<argparser::mock_varg_intf> cmdOutvarg;
+    struct cvarptr testCmd1OutArg;
+    testCmd1OutArg.vararg = &cmdOutvarg;
+    EXPECT_CALL(cmdOutvarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(cmdOutvarg, setValue(::testing::StrEq("myfile")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    addFlagArgument(cmd1Parser, &testCmd1flgvarg,
+                    "testCmd1flg", "-x", "This is the cmd1 test flag argument", false);
+    addKeyArgument(cmd1Parser, &testCmd1Valuevarg,
+                   "testCmd1Value", "-y", "This is the cmd1 test value argument", false);
+    addKeyArgument(cmd1Parser, &testCmd1OutArg,
+                   "testCmd1OutArg", "-o, --output", "This is the cmd1 test output argument", false);
+
 
     EXPECT_EQ(argc, parse(cmd1Parser, argc, argv, 5, -1));      // NOLINT
-    EXPECT_TRUE(testCmd1Flag);
-    EXPECT_EQ(13, testCmd1Value);
-    EXPECT_STREQ("myfile", testCmd1OutStr);                     // NOLINT
 }
 
-TEST(cmd_line_parse_clib, parseTestMissingRequiredSubcommand)
+TEST_F(cmd_line_parse_clib_test, parseTestMissingRequiredSubcommand)
 {
-    cmdLineParserHandle testParser = getParser("myprog [options]", "test description", '-', false, false, 0);
+    StrictMock<argparser::mock_varg_intf> flgvarg;
+    struct cvarptr testflgvarg;
+    testflgvarg.vararg = &flgvarg;
+    EXPECT_CALL(flgvarg, isList()).WillOnce(Return(false));
+
+    StrictMock<argparser::mock_varg_intf> stringvarg;
+    struct cvarptr subcommand;
+    subcommand.vararg = &stringvarg;
+    EXPECT_CALL(stringvarg, isList()).WillOnce(Return(false));
+
     disableHelpDisplayOnError(testParser);
-
-    bool      testFlag          = false;
-    char      subcommandStr[30] = {'n', 'o', 'n', 'e', '\0'};  // NOLINT
-
-    argHandle testflgvarg = createParserFlagArg(&testFlag, true);
-    argHandle subcommand = createStringArrayParserArg(subcommandStr, 30);   // NOLINT
-    addFlagArgument(testParser, testflgvarg, "version", "-V,--version", "Example of a simple true/false flag argument", false);
-    addPositionalArgument(testParser, subcommand, "subcommand", "Example of a positional argument as subcommand", true); // sub command argument
+    addFlagArgument(testParser, &testflgvarg,
+                    "version", "-V,--version", "Example of a simple true/false flag argument", false);
+    addPositionalArgument(testParser, &subcommand,
+                          "subcommand", "Example of a positional argument as subcommand", true); // sub command argument
 
     // NOLINTBEGIN
     parserchar progname[] = "runprog";
@@ -1068,15 +1411,200 @@ TEST(cmd_line_parse_clib, parseTestMissingRequiredSubcommand)
     testing::internal::CaptureStderr();
 
     EXPECT_EQ(-1, parse(testParser, argc, argv, 1, 2));     // NOLINT
-    EXPECT_FALSE(testFlag);
-    EXPECT_STREQ("none", subcommandStr);                    // NOLINT
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("\"subcommand\" required argument missing\n", output.c_str());
 }
 
+TEST_F(cmd_line_parse_clib_test, enableUnknownArgIgnore)
+{
+
+    StrictMock<argparser::mock_varg_intf> flagArg;
+    struct cvarptr testflgvarg;
+    testflgvarg.vararg = &flagArg;
+    EXPECT_CALL(flagArg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(flagArg, setValue())
+        .Times(2)
+        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    StrictMock<argparser::mock_varg_intf> keyarg;
+    struct cvarptr testkeyvarg;
+    testkeyvarg.vararg = &keyarg;
+    EXPECT_CALL(keyarg, isList()).WillOnce(Return(false));
+    EXPECT_CALL(keyarg, setValue(::testing::StrEq("15")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    addFlagArgument(testParser, &testflgvarg, "flag", "-f,--flag",
+                    "Example of a simple true/false flag argument", false);
+    addKeyArgument(testParser, &testkeyvarg,
+                   "key", "-v,--value", "Example of a key argument", true);
+    // NOLINTBEGIN
+    parserchar progname[] = "runprog";
+    parserchar vargflg[] = "-f";
+    parserchar posArg[] = "-v=15";
+    parserchar unknownArg[] = "--test";
+    parserchar* argv[] = {progname, vargflg, unknownArg, posArg};
+    // NOLINTEND
+
+    int argc = sizeof(argv) / sizeof(argv[0]);
+
+    disableHelpDisplayOnError(testParser);
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(-1, parse(testParser, argc, argv, 1, -1));    // NOLINT
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Unknown argument --test\n", output.c_str());
+
+    enableUnknowArgumentIgnore(testParser);
+    EXPECT_EQ(4, parse(testParser, argc, argv, 1, -1));    // NOLINT
+}
+
+TEST_F(cmd_line_parse_clib_test, TestInvalidKeyVargCheck)
+{
+    testing::internal::CaptureStderr();
+    addKeyArgument(testParser, nullptr,
+                   "testvarg", "-t,--test", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Invalid valueAddr input, nullptr\n", output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, TestInvalidKeyArrayVargCheck)
+{
+    testing::internal::CaptureStderr();
+    addKeyArrayArgument(testParser, nullptr,
+                        "testvarg", "-t,--test", "Simple help text", 3, false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Invalid valueAddr input, nullptr\n", output.c_str());
+
+}
+
+TEST_F(cmd_line_parse_clib_test, TestInvalidFlagVargCheck)
+{
+    testing::internal::CaptureStderr();
+    addFlagArgument(testParser, nullptr,
+                        "testvarg", "-t,--test", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Invalid valueAddr input, nullptr\n", output.c_str());
+
+}
+
+TEST_F(cmd_line_parse_clib_test, TestInvalidIncVargCheck)
+{
+    testing::internal::CaptureStderr();
+    addIncrementingArgument(testParser, nullptr,
+                        "testvarg", "-t,--test", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Invalid valueAddr input, nullptr\n", output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, TestInvalidPositionalVargCheck)
+{
+    testing::internal::CaptureStderr();
+    addPositionalArgument(testParser, nullptr,
+                        "testvarg", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Invalid valueAddr input, nullptr\n", output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, TestInvalidPosArrayVargCheck)
+{
+    testing::internal::CaptureStderr();
+    addPositionalArrayArgument(testParser, nullptr,
+                        "testvarg", "Simple help text", 4, false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Invalid valueAddr input, nullptr\n", output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, TestWrongKeyVargTypeCheck)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    struct cvarptr testclibvarg;
+    testclibvarg.vararg = &testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(true));
+
+    testing::internal::CaptureStderr();
+    addKeyArgument(testParser, &testclibvarg,
+                   "testvarg", "-t,--test", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Use addKeyArrayArgument() to add array key arguments to the parser\n", output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, TestWrongFlagVargTypeCheck)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    struct cvarptr testclibvarg;
+    testclibvarg.vararg = &testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(true));
+
+    testing::internal::CaptureStderr();
+    addFlagArgument(testParser, &testclibvarg,
+                    "testvarg", "-t,--test", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Flag arguments cannot be lists\n", output.c_str());
+
+}
+
+TEST_F(cmd_line_parse_clib_test, TestWrongIncVargTypeCheck)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    struct cvarptr testclibvarg;
+    testclibvarg.vararg = &testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(true));
+
+    testing::internal::CaptureStderr();
+    addIncrementingArgument(testParser, &testclibvarg,
+                            "testvarg", "-t,--test", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Incrementing flag arguments cannot be lists\n", output.c_str());
+
+}
+
+TEST_F(cmd_line_parse_clib_test, TestWrongPositionalVargTypeCheck)
+{
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    struct cvarptr testclibvarg;
+    testclibvarg.vararg = &testvarg;
+    EXPECT_CALL(testvarg, isList()).WillOnce(Return(true));
+
+    testing::internal::CaptureStderr();
+    addPositionalArgument(testParser, &testclibvarg,
+                          "testvarg", "Simple help text", false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Use addPositionalArrayArgument() to add positional array arguments to the parser\n", output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, TestWrongKeyArrayVargTypeCheck)
+{
+    StrictMock<argparser::mock_varg_intf> testlistvarg;
+    struct cvarptr testlistclibvarg;
+    testlistclibvarg.vararg = &testlistvarg;
+    EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(false));
+
+    testing::internal::CaptureStderr();
+    addKeyArrayArgument(testParser, &testlistclibvarg,
+                        "testvarg", "-t,--test", "Simple help text", 3, false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Use addKeyArgument() to add single value key arguments to the parser\n", output.c_str());
+}
+
+TEST_F(cmd_line_parse_clib_test, TestWrongPosArrayVargTypeCheck)
+{
+    StrictMock<argparser::mock_varg_intf> testlistvarg;
+    struct cvarptr testlistclibvarg;
+    testlistclibvarg.vararg = &testlistvarg;
+    EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(false));
+
+    testing::internal::CaptureStderr();
+    addPositionalArrayArgument(testParser, &testlistclibvarg,
+                        "testvarg", "Simple help text", 4, false);
+    parserstr output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("Use addPositionalArgument() to add single value positional arguments to the parser\n", output.c_str());
+}
+
 TEST(cmd_line_parse_clib, TestSetProgramName)
 {
-    cmdLineParserHandle testParser = getParser(nullptr, "test description", '-', false, false, 0);
+    cmdLineParserHandle testParser = getParser(nullptr, "test description",
+                                               '-', false,
+                                               false, 0);
     disableHelpDisplayOnError(testParser);
     setProgramName(testParser, "progName");
 
@@ -1084,54 +1612,55 @@ TEST(cmd_line_parse_clib, TestSetProgramName)
     displayHelp(testParser);
     parserstr output = testing::internal::GetCapturedStderr();
 
-    parserstr expectedStr = getDefaultUsage_clib("progName [options]");
-    expectedStr += getDescriptionStr_clib("test description");
-    expectedStr += getOptionArgMsg_clib();
-    expectedStr += getDefaultHelpMsg_clib();
-    expectedStr += getEpilogStr_clib("");
+    helpMsg helpGen("progName [options]", "test description");
+    parserstr expectedStr = helpGen.expectedBaseHelp();
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 
     releaseParser(testParser);
 }
 
-TEST(cmd_line_parse_clib, enableUnknownArgIgnore)
+TEST(cmd_line_parse_clib, TestInvalidParserCheck)
 {
-/*
-    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-
-     flagArg;
-    EXPECT_CALL(flagArg, setValue())
-        .Times(2)
-        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
-
-    StrictMock<argparser::mock_varg_intf> keyarg;
-    EXPECT_CALL(keyarg, setValue(::testing::StrEq("15")))
-        .Times(2)
-        .WillRepeatedly(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
-
-    testvar.addFlagArgument(&flagArg, "flag", "-f,--flag", "Example of a simple true/false flag argument");
-    testvar.addKeyArgument(&keyarg, "key", "-v,--value", "Example of a key argument", 1, true);
-
-    // NOLINTBEGIN
-    parserchar progname[] = "runprog";
-    parserchar vargflg[] = "-f";
-    parserchar posArg[] = "-v=15";
-    parserchar unknownArg[] = "--test";
-    parserchar* argv[] = {progname, unknownArg, vargflg, posArg};
-    // NOLINTEND
-
-    int argc = sizeof(argv) / sizeof(argv[0]);
-
-    testvar.disableHelpDisplayOnError();
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    struct cvarptr testclibvarg;
+    testclibvarg.vararg = &testvarg;
+    parserstr expectedStr = "Invalid parser input, nullptr\n";
 
     testing::internal::CaptureStderr();
-    EXPECT_EQ(-1, testvar.parse(argc, argv));    // NOLINT
+    addKeyArgument(nullptr, &testclibvarg,
+                   "testvarg", "-t,--test", "Simple help text", false);
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_STREQ("Unknown argument --test\n", output.c_str());
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 
-    testvar.enableUnknowArgumentIgnore();
-    EXPECT_EQ(4, testvar.parse(argc, argv));    // NOLINT
-    */
+    testing::internal::CaptureStderr();
+    addKeyArrayArgument(nullptr, &testclibvarg,
+                        "testvarg", "-t,--test", "Simple help text", 3, false);
+    output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+
+    testing::internal::CaptureStderr();
+    addFlagArgument(nullptr, &testclibvarg,
+                        "testvarg", "-t,--test", "Simple help text", false);
+    output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+
+    testing::internal::CaptureStderr();
+    addIncrementingArgument(nullptr, &testclibvarg,
+                        "testvarg", "-t,--test", "Simple help text", false);
+    output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+
+    testing::internal::CaptureStderr();
+    addPositionalArgument(nullptr, &testclibvarg,
+                        "testvarg", "Simple help text", false);
+    output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
+
+    testing::internal::CaptureStderr();
+    addPositionalArrayArgument(nullptr, &testclibvarg,
+                        "testvarg", "Simple help text", 4, false);
+    output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
 
 /** @} */

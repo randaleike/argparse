@@ -58,7 +58,7 @@ class config_json_parse : public parser_base
          * @param abortOnError - True = abort parsing if an error occurs, False = ignore error and continue parsing, default = false.
          * @param debugLevel - Debug message verbosity, 0 = none, 1 = minimal, 2 = verbose, 3 = very verbose. Default = 0, none.
          */
-        config_json_parse(const char* jsonFileName, bool abortOnError = false, int debugLevel = 0);
+        config_json_parse(const char* jsonFileName = "", bool abortOnError = false, int debugLevel = 0);
 
         /**
          * @brief Copy Constructor
@@ -83,7 +83,7 @@ class config_json_parse : public parser_base
 
         /**
          * @brief Reference Copy Assignment Constructor
-         *
+         *getFileName
          * @param other - Source object for the copy
          */
         config_json_parse& operator=(config_json_parse&& other) noexcept;
@@ -107,7 +107,7 @@ class config_json_parse : public parser_base
          *                       are found it is flagged as an error
          * @param required - True if argument is required, false if arguemnt is optional
          */
-        void addArgument(varg_intf* arg, char* argKey, int nargs = 1, bool required = false);
+        void addArgument(varg_intf* arg, const char* argKey, int nargs = 1, bool required = false);
 
         /**
          * @brief Parse the configuration file
@@ -123,6 +123,14 @@ class config_json_parse : public parser_base
          * @param outStream - Output streem to use for text output.  Default is the standard error stream
          */
         void displayHelp(std::ostream &outStream = std::cerr);
+
+        /**
+         * @brief Get the File Name object
+         *
+         * @return std::string Filename from the constructor
+         */
+        std::string getFileName()   {return fileName;}
+
 };
 
 }; // end of namespace argparser

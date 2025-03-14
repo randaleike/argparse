@@ -42,7 +42,9 @@ class ParserStringListInterfaceFrench final : public ParserStringListInterface
         ParserStringListInterfaceFrench& operator=(ParserStringListInterfaceFrench&& other) = default;
          ~ParserStringListInterfaceFrench() final = default;
 
-        // General argument parsing messages
+        parserstr getLangIsoCode() final {return("fr-FR");}
+
+         // General argument parsing messages
         parserstr getNotListTypeMessage(int nargs) final
         {parser_str_stream parserstr;  parserstr << "Seuls les arguments de type liste peuvent avoir un nombre d'arguments de " << nargs; return parserstr.str();}
 

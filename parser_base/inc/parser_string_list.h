@@ -101,6 +101,8 @@ class ParserStringListInterface
          */
         virtual ~ParserStringListInterface() = default;
 
+        [[nodiscard]] virtual parserstr getLangIsoCode() = 0;
+
         // General argument parsing messages
         [[nodiscard]] virtual parserstr getNotListTypeMessage(int nargs) = 0;
         [[nodiscard]] virtual parserstr getUnknownArgumentMessage(parserstr keyString)  = 0;
@@ -134,7 +136,8 @@ class ParserStringListInterface
  * @brief Internationalized string class for the parser
  */
 class BaseParserStringList
-{
+{    parserstr baseString = "This is a test string that; will be broken into two strings";
+
     private:
         int                     debugMsgLevel;      ///< Debug message level
         std::list<parserchar>   defaultBreakList;   ///< Default list of break characters based on language.
@@ -167,6 +170,8 @@ class BaseParserStringList
         ~BaseParserStringList();
 
         // Generic utility
+        parserstr getLangIsoCode();
+
         /**
          * @brief Set the Debug Msg Level
          *

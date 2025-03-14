@@ -42,6 +42,8 @@ class ParserStringListInterfaceEnglish final : public ParserStringListInterface
         ParserStringListInterfaceEnglish& operator=(ParserStringListInterfaceEnglish&& other) = default;
         ~ParserStringListInterfaceEnglish() final = default;
 
+        parserstr getLangIsoCode() final {return("en");}
+
         // General argument parsing messages
         parserstr getNotListTypeMessage(int nargs) final
         {parser_str_stream parserstr;  parserstr << "Only list type arguments can have an argument count of " << nargs; return parserstr.str();}

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2024 Randal Eike
+ Copyright (c) 2024-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -79,7 +79,6 @@ config_xml_parse& config_xml_parse::operator=(config_xml_parse&& other) noexcept
 *
 * @param arg      - Pointer to the defined var argument to fill
 * @param argKey   - JSON key value
-* @param helpText - Help text to be printed in the help message
 * @param nargs    - Number of argument values that follow
 *                   0 : Argument is a flag with no following values
 *                   1 : Simple argument with a single value
@@ -89,9 +88,50 @@ config_xml_parse& config_xml_parse::operator=(config_xml_parse&& other) noexcept
 *                       are found it is flagged as an error
 * @param required - True if argument is required, false if arguemnt is optional
 */
-void config_xml_parse::addArgument(varg_intf* arg, char* argKey, int nargs, bool required)
+void config_xml_parse::addArgument(varg_intf* arg, const char* argKey, int nargs, bool required)
 {
-    /** @todo implement code */
+    // Only list type varg_intf are allowed more than 1 value
+    if ((nargs != 1) && !arg->isList())
+    {
+        std::cerr << parser_base::getParserStringList().getNotListTypeMessage(nargs) << std::endl;
+    }
+    else
+    {
+        // Add the keys to the argument
+        ArgEntry newKeyArg = {};
+        std::string keyString = argKey;
+        newKeyArg.keyList.push_back(keyString);
+
+        // Setup the key argument parameters
+        newKeyArg.name = keyString;
+        newKeyArg.help = "";
+        newKeyArg.argData = arg;
+
+        newKeyArg.nargs = nargs;
+        newKeyArg.position = 0;
+        newKeyArg.isRequired = required;
+        newKeyArg.isFound = false;
+
+        // Construct the key option help string
+        std::string optionString = "<";
+        optionString += newKeyArg.name;
+        optionString += ">";
+        optionString += arg->getTypeString();
+        if (nargs > 1)
+        {
+            optionString += parser_base::getAssignmentListDelimeter();
+            optionString += "...";
+        }
+        optionString += "</";
+        optionString += newKeyArg.name;
+        optionString += ">";
+        newKeyArg.optionString = optionString;
+
+        parser_base::resizeMaxOptionLength(optionString.size());
+
+        // Add the new argument to the list
+        parser_base::addKeyArgListEntry(newKeyArg);
+    }
 }
 
 /**
