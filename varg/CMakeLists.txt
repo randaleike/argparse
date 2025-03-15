@@ -67,7 +67,7 @@ enable_testing()
 
 add_executable(${PROJECT_NAME}_test ${vargSrc} ${vargUnitTest} ${vargMockSrc})
 target_include_directories(${PROJECT_NAME}_test PUBLIC ${vargInclude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME}_test PUBLIC ${varargExtLibs} GTest::gtest_main)
+target_link_libraries(${PROJECT_NAME}_test PUBLIC ${varargExtLibs} ${GTEST_LIBRARIES})
 if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
     target_compile_options(${PROJECT_NAME}_test PRIVATE --coverage)
     target_link_options(${PROJECT_NAME}_test PRIVATE --coverage)

@@ -342,6 +342,7 @@ TEST(envparse, parseTestDebugCompleteness)
 #endif // if(ENABLE_DEBUG_STRING_CHECK)
 }
 
+#if defined(__linux__)
 TEST(envparse, NoValueTest)
 {
     argparser::envparser testvar;
@@ -359,6 +360,7 @@ TEST(envparse, NoValueTest)
 
     UNSETENV("MYENVTEST");
 }
+#endif
 
 TEST(envparse, AssignmentFailedTest)
 {

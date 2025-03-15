@@ -27,7 +27,6 @@
  */
 
 // Includes
-#include <cstddef>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "varg_intf_mock.h"
@@ -37,32 +36,39 @@
 using ::testing::StrictMock;
 using ::testing::Return;
 
+#if ((_WIN32) || (_WIN64))
+    const char* testFileName = ".\\test-config.xml";
+#elif defined(__linux__) || defined(__unix__)
+    const char* testFileName = testFileName;
+#else
+    #error "Define setenv/unsetenv for this OS!"
+#endif
 //======================================================================================
 // Public Interface testing, English
 //======================================================================================
 TEST(config_xml_parse, defaultConstructor)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
-    EXPECT_STREQ("./test-config.xml", testvar.getFileName().c_str());
+    argparser::config_xml_parse testvar(testFileName);
+    EXPECT_STREQ(testFileName, testvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, copyConstructor)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     argparser::config_xml_parse copiedvar(testvar);
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, moveConstructor)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     argparser::config_xml_parse copiedvar(std::move(testvar));
-    EXPECT_STREQ("./test-config.xml", copiedvar.getFileName().c_str());
+    EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, equateConstructor)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     argparser::config_xml_parse copiedvar;
     copiedvar = testvar;
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
@@ -70,15 +76,15 @@ TEST(config_xml_parse, equateConstructor)
 
 TEST(config_xml_parse, equateMoveConstructor)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     argparser::config_xml_parse copiedvar;
     copiedvar = std::move(testvar);
-    EXPECT_STREQ("./test-config.xml", copiedvar.getFileName().c_str());
+    EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, defaultHelp)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
@@ -87,7 +93,7 @@ TEST(config_xml_parse, defaultHelp)
 
 TEST(config_xml_parse, parseTest)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     EXPECT_TRUE(testvar.parse());
 }
 
@@ -103,7 +109,7 @@ TEST(config_xml_parse, parseTestFail)
 
 TEST(config_xml_parse, addArgument)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
 
@@ -112,7 +118,7 @@ TEST(config_xml_parse, addArgument)
 
 TEST(config_xml_parse, addListArgument)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
@@ -122,7 +128,7 @@ TEST(config_xml_parse, addListArgument)
 
 TEST(config_xml_parse, addListArgumentFail)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(false));
 
@@ -134,7 +140,7 @@ TEST(config_xml_parse, addListArgumentFail)
 
 TEST(config_xml_parse, helpWithArgument)
 {
-    argparser::config_xml_parse testvar("./test-config.xml");
+    argparser::config_xml_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
