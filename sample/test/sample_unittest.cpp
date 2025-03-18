@@ -337,14 +337,11 @@ TEST(sample3, example6)
     expectedStr += "sample3 [subcommand] [subcommand options]\n\n";
     expectedStr += "Description of the utility to be included in the help display\n\n";
     expectedStr += "Optional Arguments:\n";
-    expectedStr += " -h,--help,-?           show this help message and exit      \n";
-    expectedStr += " -V,--version           Example of a simple true/false flag  \n";
-    expectedStr += "                        argument                             \n";
-    expectedStr += " -h,--help,-?           show this help message and exit      \n";
-    expectedStr += " -o, --output=argString Example of a switched string argument\n\n";
+    expectedStr += " -h,--help,-?           show this help message and exit                         \n";
+    expectedStr += " -V,--version           Example of a simple true/false flag argument            \n";
+    expectedStr += " -o, --output=argString Example of a switched string argument                   \n\n";
     expectedStr += "Positional Arguments:\n";
-    expectedStr += " subcommand             Example of a positional argument as  \n";
-    expectedStr += "                        subcommand                           \n\n";
+    expectedStr += " subcommand             Example of a positional argument as subcommand          \n\n";
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 
     std::string expectedTerminalStr = "Number of arguments passed in: 2 Number of arguments parsed: 2\n";

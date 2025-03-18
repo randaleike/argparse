@@ -33,6 +33,7 @@
 #include "varg_intf_mock.h"
 #include "parser_string_list.h"
 #include "config_json_parse.h"
+#include "test_config_json.h"
 
 using ::testing::StrictMock;
 using ::testing::Return;
@@ -42,27 +43,27 @@ using ::testing::Return;
 //======================================================================================
 TEST(config_json_parse, defaultConstructor)
 {
-    argparser::config_json_parse testvar("./test-config.json");
-    EXPECT_STREQ("./test-config.json", testvar.getFileName().c_str());
+    argparser::config_json_parse testvar(testFileName);
+    EXPECT_STREQ(testFileName, testvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, copyConstructor)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     argparser::config_json_parse copiedvar(testvar);
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, moveConstructor)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     argparser::config_json_parse copiedvar(std::move(testvar));
-    EXPECT_STREQ("./test-config.json", copiedvar.getFileName().c_str());
+    EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, equateConstructor)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     argparser::config_json_parse copiedvar;
     copiedvar = testvar;
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
@@ -70,15 +71,15 @@ TEST(config_json_parse, equateConstructor)
 
 TEST(config_json_parse, equateMoveConstructor)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     argparser::config_json_parse copiedvar;
     copiedvar = std::move(testvar);
-    EXPECT_STREQ("./test-config.json", copiedvar.getFileName().c_str());
+    EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, defaultHelp)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
@@ -87,7 +88,7 @@ TEST(config_json_parse, defaultHelp)
 
 TEST(config_json_parse, parseTest)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     EXPECT_TRUE(testvar.parse());
 }
 
@@ -102,7 +103,7 @@ TEST(config_json_parse, parseTestFail)
 
 TEST(config_json_parse, addArgument)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
     testvar.addArgument(&testarg, "testarg1");
@@ -110,7 +111,7 @@ TEST(config_json_parse, addArgument)
 
 TEST(config_json_parse, addListArgument)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
@@ -119,7 +120,7 @@ TEST(config_json_parse, addListArgument)
 
 TEST(config_json_parse, addListArgumentFail)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(false));
 
@@ -131,7 +132,7 @@ TEST(config_json_parse, addListArgumentFail)
 
 TEST(config_json_parse, helpWithArgument)
 {
-    argparser::config_json_parse testvar("./test-config.json");
+    argparser::config_json_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));

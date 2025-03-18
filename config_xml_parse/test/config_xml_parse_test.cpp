@@ -32,17 +32,11 @@
 #include "varg_intf_mock.h"
 #include "parser_string_list.h"
 #include "config_xml_parse.h"
+#include "test_config_xml.h"
 
 using ::testing::StrictMock;
 using ::testing::Return;
 
-#if ((_WIN32) || (_WIN64))
-    const char* testFileName = ".\\test-config.xml";
-#elif defined(__linux__) || defined(__unix__)
-    const char* testFileName = testFileName;
-#else
-    #error "Define setenv/unsetenv for this OS!"
-#endif
 //======================================================================================
 // Public Interface testing, English
 //======================================================================================

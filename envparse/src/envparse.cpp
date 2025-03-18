@@ -81,6 +81,7 @@ bool envparser::getEnvironmentVar(parserstr searchName, parserstr& envValue)
         #else
             envValue = envRetBuffer;
         #endif
+    }
   #else
     buffRetSize = GetEnvironmentVariable(searchName.c_str(), envRetBuffer, bufferSize);
     if (0 != buffRetSize)

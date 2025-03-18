@@ -4,6 +4,15 @@ project(config_xml_parse VERSION 0.2.0.0 LANGUAGES C CXX
         DESCRIPTION "JSON Config File Parser Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 ####
+# config_xml_parse_test setup files
+####
+configure_file(${CMAKE_CURRENT_LIST_DIR}/test/test_config_xml.h.in
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_config_xml.h
+                @ONLY)
+
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/test/test-config.xml DESTINATION ${CMAKE_BINARY_DIR})
+
+####
 # config_xml_parse directory cmake include Files
 ####
 set (config_xml_includes
@@ -53,7 +62,6 @@ set (config_xml_parseExternalLib
     varg
     )
 
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/test/test-config.xml DESTINATION ${CMAKE_BINARY_DIR})
 
 enable_testing()
 

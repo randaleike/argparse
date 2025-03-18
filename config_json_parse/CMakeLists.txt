@@ -3,6 +3,16 @@ cmake_minimum_required(VERSION 3.14)
 project(config_json_parse VERSION 0.2.0.0 LANGUAGES C CXX
         DESCRIPTION "JSON Config File Parser Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
+
+####
+# config_json_parse_test setup files
+####
+configure_file(${CMAKE_CURRENT_LIST_DIR}/test/test_config_json.h.in
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_config_json.h
+                @ONLY)
+
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/test/test-config.json DESTINATION ${CMAKE_BINARY_DIR})
+
 ####
 # config_json_parse directory cmake include Files
 ####
@@ -21,7 +31,6 @@ set (config_json_parseSrc
     ${MASTER_PROJECT_BASE_DIR}/parser_base/src/parser_string_list.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/config_json_parse.cpp
     )
-
 
 ####
 # config_json_parse library
@@ -53,8 +62,6 @@ set (config_json_parseUnitTestMock
 set (config_json_parseExternalLib
     varg
     )
-
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/test/test-config.json DESTINATION ${CMAKE_BINARY_DIR})
 
 enable_testing()
 
