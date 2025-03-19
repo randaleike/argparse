@@ -21,18 +21,29 @@ echo "Invalid input!"
 echo "Usage: make-clean.bat <Debug|Release>"
 goto end
 
+:checkBuild
+if NOT [%2] == [] SET BUILD_DIR=build
+else SET BUILD_DIR=%2
+
 :startBuild
 REM Make the make files
-cmake -B build -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=%1 -S .
+cmake -B %BUILD_DIR% -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=%1 -S .
 
 REM Make libraries
-cmake --build build --config %1
+cmake --build %BUILD_DIR% --config %1
 
 REM Make library unittests
-cmake --build build --config %1 --target build-unittest
+cmake --build %BUILD_DIR% --config %1 --target build-unittest
 
 REM Make the samples
-cmake --build build --config %1 --target samples
+cmake --build %BUILD_DIR% --config %1 --target samples
+
+set /p runctest=Run ctest? [y/n]:
+if [%runctest%] == [n] goto end
+if [%runctest%] == [N] goto end
+if [%runctest%] == [no] goto end
+if [%runctest%] == [No] goto end
+if [%runctest%] == [NO] goto end
 
 REM Run the library unittests
 do (

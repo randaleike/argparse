@@ -23,10 +23,19 @@ case "$2" in
         ;;
 esac
 
-# Clean the old build files
-if [ -d "./build" ]
+if [ "$3" == "" ]
 then
-    rm -rf ./build
+    BUILD_DIR="build"
+fi
+
+# Clean the old build files
+if [ -d "./$BUILD_DIR" ]
+then
+    rm -rf ./$BUILD_DIR
+fi
+if [ -d "./.cache" ]
+then
+    rm -rf ./.cache
 fi
 if [ -d "./Testing" ]
 then
@@ -34,22 +43,29 @@ then
 fi
 
 # Make the new one
-cmake -B build -DCMAKE_CXX_COMPILER=$CPPCOMPILER -DCMAKE_C_COMPILER=$CCOMPILER -DCMAKE_BUILD_TYPE=$1 -S .
+cmake -B $BUILD_DIR -DCMAKE_CXX_COMPILER=$CPPCOMPILER -DCMAKE_C_COMPILER=$CCOMPILER -DCMAKE_BUILD_TYPE=$1 -S .
 
 # Make libraries
-cmake --build build --config $1
+cmake --build $BUILD_DIR --config $1
 
 # Make library unittests
-cmake --build build --config $1 --target build-unittest
+cmake --build $BUILD_DIR --config $1 --target build-unittest
 
 # Make the samples
-cmake --build build --config $1 --target samples
+cmake --build $BUILD_DIR --config $1 --target samples
 
 # Make the samples unittest
-cmake --build build --config $1 --target samples-unittest
+cmake --build $BUILD_DIR --config $1 --target samples-unittest
 
-# Run the library unittests
-(cd build;ctest --build-config $1 --exclude-regex sample)
+# Ask if we should run ctest unit test
+read -r -p "Run ctest? [y/n]: " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        # Run the library unittests
+        (cd $BUILD_DIR;ctest --build-config $1 --exclude-regex sample)
 
-# Run the library unittests
-(cd build;ctest --build-config $1 --tests-regex sample)
+        # Run the library unittests
+        (cd $BUILD_DIR;ctest --build-config $1 --tests-regex sample)
+        ;;
+    *) ;;
+esac

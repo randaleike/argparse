@@ -56,14 +56,49 @@ template <> valueParseStatus_e listvarg<char>::setSignedElementValue(const char*
 template <> valueParseStatus_e listvarg<bool>::setSignedElementValue(const char* newValue)                  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 template <> valueParseStatus_e listvarg<std::string>::setSignedElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
-template <typename T> valueParseStatus_e listvarg<T>::setSignedElementValue(const char* newValue)
+template <> valueParseStatus_e listvarg<short int>::setSignedElementValue(const char* newValue)
 {
     long long int tempValue = 0LL;
     valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
     if (status == valueParseStatus_e::PARSE_SUCCESS_e)
     {
-        T element = static_cast<T>(tempValue);
+        auto element = static_cast<short int>(tempValue);
         value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<int>::setSignedElementValue(const char* newValue)
+{
+    long long int tempValue = 0LL;
+    valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<int>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long int>::setSignedElementValue(const char* newValue)
+{
+    long long int tempValue = 0LL;
+    valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<long int>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long long int>::setSignedElementValue(const char* newValue)
+{
+    long long int tempValue = 0LL;
+    valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        value.push_back(tempValue);
     }
     return status;
 }
@@ -86,14 +121,49 @@ template <> valueParseStatus_e listvarg<char>::setUnsignedElementValue(const cha
 template <> valueParseStatus_e listvarg<bool>::setUnsignedElementValue(const char* newValue)                {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 template <> valueParseStatus_e listvarg<std::string>::setUnsignedElementValue(const char* newValue)         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
-template <typename T> valueParseStatus_e listvarg<T>::setUnsignedElementValue(const char* newValue)
+template <> valueParseStatus_e listvarg<short unsigned>::setUnsignedElementValue(const char* newValue)
 {
     long long unsigned tempValue = 0ULL;
     valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
     if (status == valueParseStatus_e::PARSE_SUCCESS_e)
     {
-        T element = static_cast<T>(tempValue);
+        auto element = static_cast<short unsigned>(tempValue);
         value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<unsigned>::setUnsignedElementValue(const char* newValue)
+{
+    long long unsigned tempValue = 0ULL;
+    valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<unsigned>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long unsigned>::setUnsignedElementValue(const char* newValue)
+{
+    long long unsigned tempValue = 0ULL;
+    valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<long unsigned>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long long unsigned>::setUnsignedElementValue(const char* newValue)
+{
+    long long unsigned tempValue = 0ULL;
+    valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        value.push_back(tempValue);
     }
     return status;
 }
