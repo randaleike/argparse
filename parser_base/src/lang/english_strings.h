@@ -30,71 +30,76 @@ using namespace argparser;
 using parser_str_stream = std::stringstream;
 
 /**
- * @brief Spanish string list
+ * @brief Englist string list
  */
-class ParserStringListInterfaceSpanish final : public ParserStringListInterface
+class ParserStringListInterfaceEnglish final : public ParserStringListInterface
 {
     public:
-        ParserStringListInterfaceSpanish() = default;
-        ParserStringListInterfaceSpanish(const ParserStringListInterfaceSpanish& other) = default;
-        ParserStringListInterfaceSpanish(ParserStringListInterfaceSpanish&& other) = default;
-        ParserStringListInterfaceSpanish& operator=(const ParserStringListInterfaceSpanish& other) = default;
-        ParserStringListInterfaceSpanish& operator=(ParserStringListInterfaceSpanish&& other) = default;
-         ~ParserStringListInterfaceSpanish() final = default;
+        ParserStringListInterfaceEnglish() = default;
+        ParserStringListInterfaceEnglish(const ParserStringListInterfaceEnglish& other) = default;
+        ParserStringListInterfaceEnglish(ParserStringListInterfaceEnglish&& other) = default;
+        ParserStringListInterfaceEnglish& operator=(const ParserStringListInterfaceEnglish& other) = default;
+        ParserStringListInterfaceEnglish& operator=(ParserStringListInterfaceEnglish&& other) = default;
+        ~ParserStringListInterfaceEnglish() final = default;
+
+        parserstr getLangIsoCode() final {return("en");}
 
         // General argument parsing messages
         parserstr getNotListTypeMessage(int nargs) final
-        {parser_str_stream parserstr;  parserstr << "Solo los argumentos de tipo lista pueden tener un recuento de argumentos de " << nargs; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "Only list type arguments can have an argument count of " << nargs; return parserstr.str();}
 
         parserstr getUnknownArgumentMessage(parserstr keyString) final
-        {parser_str_stream parserstr;  parserstr << "Argumento desconocidoreturn " << keyString; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "Unknown argument " << keyString; return parserstr.str();}
 
         parserstr getInvalidAssignmentMessage(parserstr keyString) final
-        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" asignación inválida"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" invalid assignment"; return parserstr.str();}
 
         parserstr getAssignmentFailedMessage(parserstr keyString, parserstr valueString) final
-        {parser_str_stream parserstr;  parserstr << "\"" << keyString << " " << valueString << "\" asignación fallida"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << " " << valueString << "\" assignment failed"; return parserstr.str();}
 
         parserstr getMissingAssignmentMessage(parserstr keyString) final
-        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" valor de asignación faltante"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" missing assignment value"; return parserstr.str();}
 
         parserstr getMissingListAssignmentMessage(parserstr keyString, size_t expected, size_t found) final
-        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" tarea faltante. Esperado: " << expected << " encontrado: " << found << " argumentos"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" missing assignment. Expected: " << expected << " found: " << found << " arguments"; return parserstr.str();}
 
         parserstr getTooManyAssignmentMessage(parserstr keyString, size_t expected, size_t found) final
-        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" demasiados valores de asignación. Esperado: " << expected << " encontrado: " << found << " argumentos"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" too many assignment values. Expected: " << expected << " found: " << found << " arguments"; return parserstr.str();}
 
         parserstr getMissingArgumentMessage(parserstr keyString) final
-        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" falta el argumento requerido"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "\"" << keyString << "\" required argument missing"; return parserstr.str();}
 
         parserstr getArgumentCreationError(parserstr keyString) final
-        {parser_str_stream parserstr;  parserstr << "No se pudo agregar el argumento: " << keyString; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "Argument add failed: " << keyString; return parserstr.str();}
 
         [[nodiscard]] parserstr getUsageMessage() const final
-        {return "Uso:";}
+        {return "Usage:";}
 
         // Command Line parser messages
         [[nodiscard]] parserstr getPositionalArgumentsMessage() const final
-        {return "Argumentos posicionales:";}
+        {return "Positional Arguments:";}
 
         [[nodiscard]] parserstr getSwitchArgumentsMessage() const final
-        {return "Argumentos opcionales:";}
+        {return "Optional Arguments:";}
 
         [[nodiscard]] parserstr getHelpString() const final
-        {return "mostrar este mensaje de ayuda y salir";}
+        {return "show this help message and exit";}
 
         // Environment parser messages
         parserstr getEnvArgumentsMessage() final
-        {return "Valores ambientales:";}
+        {return "Environment values:";}
 
         parserstr getEnvironmentNoFlags(parserstr argKey) final
-        {parser_str_stream parserstr;  parserstr << "Valores ambiental " << argKey << " narg debe ser > 0"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "Environment value " << argKey << " narg must be > 0"; return parserstr.str();}
+
+        parserstr getRequiredEnvironmentArgMissing(parserstr argKey) final
+        {parser_str_stream parserstr;  parserstr << "Environment value " << argKey << " must be defined"; return parserstr.str();}
 
         // JSON file parser messages
         parserstr getJsonArgumentsMessage() final
-        {return "Valores de argumentos JSON disponibles:";}
+        {return "Available JSON argument values:";}
 
         // XML file parser messages
         parserstr getXmlArgumentsMessage() final
-        {return "Valores de argumentos XML disponibles:";}
+        {return "Available XML argument values:";}
 };

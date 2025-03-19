@@ -42,7 +42,9 @@ class ParserStringListInterfaceFrench final : public ParserStringListInterface
         ParserStringListInterfaceFrench& operator=(ParserStringListInterfaceFrench&& other) = default;
          ~ParserStringListInterfaceFrench() final = default;
 
-        // General argument parsing messages
+        parserstr getLangIsoCode() final {return("fr-FR");}
+
+         // General argument parsing messages
         parserstr getNotListTypeMessage(int nargs) final
         {parser_str_stream parserstr;  parserstr << "Seuls les arguments de type liste peuvent avoir un nombre d'arguments de " << nargs; return parserstr.str();}
 
@@ -89,6 +91,9 @@ class ParserStringListInterfaceFrench final : public ParserStringListInterface
 
         parserstr getEnvironmentNoFlags(parserstr argKey) final
         {parser_str_stream parserstr;  parserstr << "Valeurs environnementale " << argKey << " narg doit être > 0"; return parserstr.str();}
+
+        parserstr getRequiredEnvironmentArgMissing(parserstr argKey) final
+        {parser_str_stream parserstr;  parserstr << "La valeur d'environnement " << argKey << " doit être définie"; return parserstr.str();}
 
         // JSON file parser messages
         parserstr getJsonArgumentsMessage() final

@@ -52,7 +52,16 @@ using namespace argparser;
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
 template <> valueParseStatus_e varg<bool>::setBoolValue(const char* newValue)           {return (varg_intf::getBoolValue(newValue, value));}
-template <typename T> valueParseStatus_e varg<T>::setBoolValue(const char* newValue)    {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<short int>::setBoolValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<int>::setBoolValue(const char* newValue)            {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<long int>::setBoolValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<long long int>::setBoolValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned short>::setBoolValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned>::setBoolValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned long>::setBoolValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned long long>::setBoolValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<double>::setBoolValue(const char* newValue)         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<char>::setBoolValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 /**
  * @brief Set the New character object value
@@ -64,7 +73,16 @@ template <typename T> valueParseStatus_e varg<T>::setBoolValue(const char* newVa
  * @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
  */
 template <> valueParseStatus_e varg<char>::setCharValue(const char* newValue)           {return varg_intf::getCharValue(newValue, value);}
-template <typename T> valueParseStatus_e varg<T>::setCharValue(const char* newValue)    {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<short int>::setCharValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<int>::setCharValue(const char* newValue)            {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<long int>::setCharValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<long long int>::setCharValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned short>::setCharValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned>::setCharValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned long>::setCharValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned long long>::setCharValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<double>::setCharValue(const char* newValue)         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<bool>::setCharValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 /**
  * @brief Set the Double Value object
@@ -132,7 +150,16 @@ template <typename T> valueParseStatus_e varg<T>::setUnsignedValue(const char* n
  * @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
  */
 template <> valueParseStatus_e varg<double>::setDoubleValue(const char* newValue)               {return varg_intf::getDoubleValue(newValue, value);}
-template <typename T> valueParseStatus_e varg<T>::setDoubleValue(const char* newValue)          {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<short int>::setDoubleValue(const char* newValue)            {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<int>::setDoubleValue(const char* newValue)                  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<long int>::setDoubleValue(const char* newValue)             {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<long long int>::setDoubleValue(const char* newValue)        {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned short>::setDoubleValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned>::setDoubleValue(const char* newValue)             {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned long>::setDoubleValue(const char* newValue)        {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<unsigned long long>::setDoubleValue(const char* newValue)   {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<bool>::setDoubleValue(const char* newValue)                 {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e varg<char>::setDoubleValue(const char* newValue)                 {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 //============================================================================================================================
 //============================================================================================================================
@@ -498,27 +525,5 @@ template <> valueParseStatus_e varg<double>::setValue(const char* newValue)     
 
 template <> valueParseStatus_e varg<char>::setValue(const char* newValue)               {return setCharValue(newValue);}
 template <> valueParseStatus_e varg<bool>::setValue(const char* newValue)               {return varg_intf::getBoolValue(newValue, value);}
-
-/**
-* @brief Virtual interface method implementation for the template variable implementation setValue with input function
-*
-* @param newValue - Input character string
-*
-* @return valueParseStatus_e::PARSE_SUCCESS_e       - if value was successsfully set
-* @return valueParseStatus_e::PARSE_INVALID_INPUT_e - if input string could not be translated
-* @return valueParseStatus_e::PARSE_OUT_OF_RANGE_e  - if value exceeds upper or lower value limit
-*/
-valueParseStatus_e vargstring::setValue(const char* newValue)
-{
-    valueParseStatus_e status = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
-    size_t inputStrLen = strlen(newValue);
-
-    if ((inputStrLen >= minStringLength) && (inputStrLen <= maxStringLength))
-    {
-        value = newValue;
-        status = valueParseStatus_e::PARSE_SUCCESS_e;
-    }
-    return status;
-}
 
 /** @} */

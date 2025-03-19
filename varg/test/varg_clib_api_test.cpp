@@ -30,7 +30,6 @@
 #include <cmath>
 #include "varg_clib.h"
 #include "varg_clib_shared.h"
-#include "../src/varg_clib_private.h"
 #include <gtest/gtest.h>
 
 const double test_pi = 3.14159265358979323846;
@@ -51,19 +50,20 @@ template <typename T> class CreateVargApi : public testing::Test
         CreateVargApi& operator=(const CreateVargApi& other) = default;
         CreateVargApi& operator=(CreateVargApi&& other) = default;
 
-        ~CreateVargApi() override {releaseParserArg(cvarghandle);}
-        T getVargValue() {return(cvarg);}
+        ~CreateVargApi() override       {releaseParserArg(cvarghandle);}
+        T getVargValue()                {return(cvarg);}
+        size_t testAssignmentCount()     {return getAssignmentCount(cvarghandle);}
 };
 
 template <> CreateVargApi<short int>::CreateVargApi() : cvarg(-1), cvarghandle(createShortIntParserArg(&cvarg)) {}
 template <> CreateVargApi<int>::CreateVargApi() : cvarg(-1), cvarghandle(createIntParserArg(&cvarg))            {}
 template <> CreateVargApi<long int>::CreateVargApi() : cvarg(-1), cvarghandle(createLongIntParserArg(&cvarg))   {}
-//template <> CreateVargApi<long long int>::CreateVargApi() : cvarg(-1), cvarghandle(createLLongIntParserArg(&cvarg)) {}
+template <> CreateVargApi<long long int>::CreateVargApi() : cvarg(-1), cvarghandle(createLLongIntParserArg(&cvarg)) {}
 
 template <> CreateVargApi<short unsigned>::CreateVargApi() : cvarg(1), cvarghandle(createShortUIntParserArg(&cvarg)) {}
 template <> CreateVargApi<unsigned>::CreateVargApi() : cvarg(1), cvarghandle(createUIntParserArg(&cvarg))            {}
 template <> CreateVargApi<long unsigned>::CreateVargApi() : cvarg(1), cvarghandle(createLongUIntParserArg(&cvarg))   {}
-//template <> CreateVargApi<long long unsigned>::CreateVargApi() : cvarg(1), cvarghandle(createLLongUIntParserArg(&cvarg)) {}
+template <> CreateVargApi<long long unsigned>::CreateVargApi() : cvarg(1), cvarghandle(createLLongUIntParserArg(&cvarg)) {}
 
 template <> CreateVargApi<double>::CreateVargApi() : cvarg(test_pi), cvarghandle(createFloatParserArg(&cvarg))     {}
 template <> CreateVargApi<char>::CreateVargApi() : cvarg('a'), cvarghandle(createCharParserArg(&cvarg))         {}
@@ -76,11 +76,16 @@ TYPED_TEST_P(CreateVargApi, Createvar)
     EXPECT_NE(nullptr, this->cvarghandle) << "Argument handle error";
     EXPECT_NE(nullptr, this->cvarghandle->vararg) << "Varg pointer error";
     EXPECT_EQ(this->cvarg, this->getVargValue()) << "Value initialization error";
+    EXPECT_EQ(0, this->testAssignmentCount());
 }
 
 REGISTER_TYPED_TEST_SUITE_P(CreateVargApi, Createvar);
 
-typedef testing::Types<short int, int, long int, short unsigned, unsigned, long unsigned, char, double> intTypes;   //NOLINT
+// NOLINTBEGIN
+typedef testing::Types<short int, int, long int, long long int,
+                       short unsigned, unsigned, long unsigned, long long unsigned,
+                       char, bool, double> intTypes;
+// NOLINTEND
 INSTANTIATE_TYPED_TEST_SUITE_P(CreateIntArgVar, CreateVargApi, intTypes);
 
 
@@ -102,9 +107,10 @@ template <typename T> class CreateListVargApi : public testing::Test
         CreateListVargApi& operator=(const CreateListVargApi& other) = default;
         CreateListVargApi& operator=(CreateListVargApi&& other) = default;
 
-        ~CreateListVargApi() override {releaseParserArg(cvarghandle);}
+        ~CreateListVargApi() override   {releaseParserArg(cvarghandle);}
 
-        T getVargValue(size_t index)  {return cvarg[index];}    // NOLINT
+        T getVargValue(size_t index)    {return cvarg[index];}    // NOLINT
+        size_t testAssignmentCount()    {return getAssignmentCount(cvarghandle);}
 };
 
 template <> CreateListVargApi<short int>::CreateListVargApi() : cvarghandle(createShortIntArrayParserArg(&(cvarg[0]), TEST_ARRAY_COUNT)) {}
@@ -114,7 +120,7 @@ template <> CreateListVargApi<long long int>::CreateListVargApi() : cvarghandle(
 template <> CreateListVargApi<short unsigned>::CreateListVargApi() : cvarghandle(createShortUIntArrayParserArg(&(cvarg[0]), TEST_ARRAY_COUNT)) {}
 template <> CreateListVargApi<unsigned>::CreateListVargApi() : cvarghandle(createUIntArrayParserArg(&(cvarg[0]), TEST_ARRAY_COUNT)) {}
 template <> CreateListVargApi<long unsigned>::CreateListVargApi() : cvarghandle(createLongUIntArrayParserArg(&(cvarg[0]), TEST_ARRAY_COUNT)) {}
-//template <> CreateListVargApi<long long unsigned>::CreateListVargApi() : cvarghandle(createLLongUIntArrayParserArg(&(cvarg[0]), TEST_ARRAY_COUNT)) {}
+template <> CreateListVargApi<long long unsigned>::CreateListVargApi() : cvarghandle(createLLongUIntArrayParserArg(&(cvarg[0]), TEST_ARRAY_COUNT)) {}
 template <> CreateListVargApi<double>::CreateListVargApi() : cvarghandle(createDoubleArrayParserArg(&(cvarg[0]), TEST_ARRAY_COUNT)) {}
 
 
@@ -124,11 +130,55 @@ TYPED_TEST_P(CreateListVargApi, Createvar)
 {
     EXPECT_NE(nullptr, this->cvarghandle) << "Argument handle error";
     EXPECT_NE(nullptr, this->cvarghandle->vararg) << "Varg pointer error";
+    EXPECT_EQ(0, this->testAssignmentCount());
 }
 
 REGISTER_TYPED_TEST_SUITE_P(CreateListVargApi, Createvar);
 
-typedef testing::Types<short int, int, long int, long long int, short unsigned, unsigned, long unsigned, double> listIntTypes;  //NOLINT
+// NOLINTBEGIN
+typedef testing::Types<short int, int, long int, long long int,
+                       short unsigned, unsigned, long unsigned, long long unsigned,
+                       double> listIntTypes;
+//NOLINTEND
 INSTANTIATE_TYPED_TEST_SUITE_P(CreateArrayArgVar, CreateListVargApi, listIntTypes);
+
+/*
+* Special arg types
+*/
+TEST(CreateCharArrayString, Createvar)
+{
+    char testArray[TEST_ARRAY_COUNT] = {'a','b','c','d','e'}; // NOLINT
+    argHandle cvarghandle = createStringArrayParserArg(&(testArray[0]), TEST_ARRAY_COUNT);
+    EXPECT_NE(nullptr, cvarghandle) << "Argument handle error";
+    EXPECT_NE(nullptr, cvarghandle->vararg) << "Varg pointer error";
+    EXPECT_EQ(0, getAssignmentCount(cvarghandle));
+}
+
+TEST(CreateEnumArg, Createvar)
+{
+    // NOLINTBEGIN
+    int enmValue = 0;
+    enumValueSpec enumData[] = {{"first", 1},
+                                {"second", 2},
+                                {"third", 3},
+                                {"fourth", 4}
+                               };
+    argHandle cvarghandle = createEnumArg(&enmValue, "test_enum",
+                                          sizeof(enumData)/sizeof(enumValueSpec), enumData);
+    // NOLINTEND
+
+    EXPECT_NE(nullptr, cvarghandle) << "Argument handle error";
+    EXPECT_NE(nullptr, cvarghandle->vararg) << "Varg pointer error";
+    EXPECT_EQ(0, getAssignmentCount(cvarghandle));
+}
+
+TEST(CreateIncrementFlag, Createvar)
+{
+    int incValue = 0; // NOLINT
+    argHandle cvarghandle = createIncrementingArg(&incValue);
+    EXPECT_NE(nullptr, cvarghandle) << "Argument handle error";
+    EXPECT_NE(nullptr, cvarghandle->vararg) << "Varg pointer error";
+    EXPECT_EQ(0, getAssignmentCount(cvarghandle));
+}
 
 /** @} */

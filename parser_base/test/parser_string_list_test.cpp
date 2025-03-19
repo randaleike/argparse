@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022-2024 Randal Eike
+ Copyright (c) 2022-2025 Randal Eike
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),
@@ -28,8 +28,47 @@
  */
 
 // Includes
-#include "parser_string_list.h"
 #include <gtest/gtest.h>
+#include "parser_base.h"
+#include "parser_string_list.h"
+
+#if ((_WIN32) || (_WIN64))
+    #include <Windows.h>
+    #define SETENV(name, value, overwrite)  SetEnvironmentVariable(name, value)
+    #define UNSETENV(name)                  SetEnvironmentVariable(name, "")
+#elif defined(__linux__) || defined(__unix__)
+    int SETENV(const char* name, const char* value, int overwrite) {return setenv(name, value, overwrite);}
+    int UNSETENV(const char* name)                                 {return unsetenv(name);}
+#else
+    #error "Define setenv/unsetenv for this OS!"
+#endif
+
+class langsetup
+{
+    private:
+        parserstr envValue;         //!< Linux environment LANG value
+        parserstr isoCode;          //!< ISO-639 language code
+
+    public:
+        langsetup(parserstr setupVal, parserstr code): envValue(std::move(setupVal)), isoCode(std::move(code)) {}
+        langsetup(const langsetup& other) = default;
+        langsetup(langsetup&& other) noexcept = default;
+        langsetup& operator=(const langsetup& other) = default;
+        langsetup& operator=(langsetup&& other) noexcept = default;
+        ~langsetup() = default;
+
+        [[nodiscard]] parserstr getLangEnv() const          {return envValue;}
+        [[nodiscard]] const char* getIsoCode() const        {return isoCode.c_str();}
+        #if defined(__linux__) || defined(__unix__)
+        [[nodiscard]] int setLang(int override) const       {return setenv("LANG", envValue.c_str(), override);}
+        static int restoreOriginalLang(parserstr original)  {return setenv("LANG", original.c_str(), 1);}
+        static parserstr getOriginalLang()
+            {
+                const char* current = getenv("LANG");
+                return ((current != nullptr) ? current : "en_US.UTF-8");
+            }
+        #endif
+};
 
 //======================================================================================
 // Public Interface testing, English list
@@ -47,7 +86,7 @@ TEST(BaseParserStringList, printUnknownArgumentMessage)
 {
     argparser::BaseParserStringList testvar;
     parserstr output = testvar.getUnknownArgumentMessage(parserstr("--foo"));
-    EXPECT_STREQ("Unkown argument --foo", output.c_str());
+    EXPECT_STREQ("Unknown argument --foo", output.c_str());
 }
 
 TEST(BaseParserStringList, printInvalidAssignmentMessage)
@@ -106,14 +145,6 @@ TEST(BaseParserStringList, printArgumentCreationError)
     EXPECT_STREQ("Argument add failed: --test,-t", output.c_str());
 }
 
-TEST(BaseParserStringList, printEnvironmentNoFlags)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getEnvironmentNoFlags("testenvvar");
-    EXPECT_STREQ("Environment value testenvvar narg must be > 0", output.c_str());
-}
-
 TEST(BaseParserStringList, getUsageMessage)
 {
     argparser::BaseParserStringList testvar;
@@ -149,6 +180,34 @@ TEST(BaseParserStringList, getEnvArgumentsMessage)
     EXPECT_STREQ("Environment values:", testString.c_str());
 }
 
+TEST(BaseParserStringList, printEnvironmentNoFlags)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getEnvironmentNoFlags("testenvvar");
+    EXPECT_STREQ("Environment value testenvvar narg must be > 0", output.c_str());
+}
+
+TEST(BaseParserStringList, getMissingEnvArgumentsMessage)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getRequiredEnvironmentArgMissing("testenvvar");
+    EXPECT_STREQ("Environment value testenvvar must be defined", output.c_str());
+}
+
+TEST(BaseParserStringList, getJsonArgumentsMessage)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getJsonArgumentsMessage();
+    EXPECT_STREQ("Available JSON argument values:", output.c_str());
+}
+
+TEST(BaseParserStringList, getXmlArgumentsMessage)
+{
+    argparser::BaseParserStringList testvar;
+    parserstr output = testvar.getXmlArgumentsMessage();
+    EXPECT_STREQ("Available XML argument values:", output.c_str());
+}
+
 /// @todo add non-english tests
 
 //======================================================================================
@@ -165,6 +224,37 @@ TEST(BaseParserStringList, formatToLength)
     EXPECT_STREQ("This is a test string that will ", strList.front().c_str());
     strList.pop_front();
     EXPECT_STREQ("be broken into two strings      ", strList.front().c_str());
+}
+
+TEST(BaseParserStringList, formatToLengthWithDebug)
+{
+    // Enable debug messages fo completeness
+    constexpr size_t testMaxLength = 32;
+    argparser::BaseParserStringList testvar;
+    testvar.setDebugMsgLevel(debugVerbosityLevel_e::veryVerboseDebug);
+
+    parserstr baseString = "This is a test string that will be broken into two strings";
+
+    testing::internal::CaptureStderr();
+    std::list<parserstr> strList = testvar.formatStringToLength(baseString, {' '}, testMaxLength);
+    parserstr output = testing::internal::GetCapturedStderr();
+
+    EXPECT_EQ(2, strList.size());
+    EXPECT_STREQ("This is a test string that will ", strList.front().c_str());
+    strList.pop_front();
+    EXPECT_STREQ("be broken into two strings      ", strList.front().c_str());
+
+#if (ENABLE_DEBUG_STRING_CHECK)
+    parserstr expected = "Start string: \"This is a test string that will be broken into two strings\"\n";
+    expected += "Start break: 50\n";
+    expected += "Current break: 50\n";
+    expected += "Current break: 46\n";
+    expected += "Current break: 41\n";
+    expected += "Current break: 34\n";
+    expected += "Current break: 31\n";
+    expected += "Current string: \"be broken into two strings\"\n";
+    EXPECT_STREQ(expected.c_str(), output.c_str());
+#endif // if(ENABLE_DEBUG_STRING_CHECK)
 }
 
 TEST(BaseParserStringList, formatToLengthPad)
@@ -212,4 +302,33 @@ TEST(BaseParserStringList, formatToLengthDoubleBreak)
     EXPECT_STREQ("will be broken into two strings", strList.front().c_str());
 }
 
+TEST(BaseParserStringList, testLanguages)
+{
+    #if defined(__linux__) || defined(__unix__)
+    const size_t langCount = 6;
+    std::array<langsetup, langCount> langlist{langsetup("en_US.utf-8", "en"),
+                                              langsetup("en_UK.UTF-8", "en"),
+                                              langsetup("es_ES.UTF-8", "es"),
+                                              langsetup("fr_FR.UTF-8", "fr-FR"),
+                                              langsetup("zh_cn_utf8.UTF-8", "zh"),
+                                              langsetup("zh_tw_utf8.UTF-8", "zh")
+                                            };
+
+    // Save the original language for later
+    parserstr originalLang = langsetup::getOriginalLang();
+
+    for(const auto& lang : langlist)
+    {
+        // Set new language
+        EXPECT_EQ(0, lang.setLang(1));
+
+        // Test the other language
+        argparser::BaseParserStringList testvar;
+        EXPECT_STREQ(lang.getIsoCode(), testvar.getLangIsoCode().c_str());
+    }
+
+    // Restore the original language
+    langsetup::restoreOriginalLang(originalLang);
+  #endif
+}
 /** @} */

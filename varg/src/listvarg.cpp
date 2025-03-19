@@ -56,14 +56,49 @@ template <> valueParseStatus_e listvarg<char>::setSignedElementValue(const char*
 template <> valueParseStatus_e listvarg<bool>::setSignedElementValue(const char* newValue)                  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 template <> valueParseStatus_e listvarg<std::string>::setSignedElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
-template <typename T> valueParseStatus_e listvarg<T>::setSignedElementValue(const char* newValue)
+template <> valueParseStatus_e listvarg<short int>::setSignedElementValue(const char* newValue)
 {
     long long int tempValue = 0LL;
     valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
     if (status == valueParseStatus_e::PARSE_SUCCESS_e)
     {
-        T element = static_cast<T>(tempValue);
+        auto element = static_cast<short int>(tempValue);
         value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<int>::setSignedElementValue(const char* newValue)
+{
+    long long int tempValue = 0LL;
+    valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<int>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long int>::setSignedElementValue(const char* newValue)
+{
+    long long int tempValue = 0LL;
+    valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<long int>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long long int>::setSignedElementValue(const char* newValue)
+{
+    long long int tempValue = 0LL;
+    valueParseStatus_e status = varg_intf::getSignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        value.push_back(tempValue);
     }
     return status;
 }
@@ -86,14 +121,49 @@ template <> valueParseStatus_e listvarg<char>::setUnsignedElementValue(const cha
 template <> valueParseStatus_e listvarg<bool>::setUnsignedElementValue(const char* newValue)                {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 template <> valueParseStatus_e listvarg<std::string>::setUnsignedElementValue(const char* newValue)         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
-template <typename T> valueParseStatus_e listvarg<T>::setUnsignedElementValue(const char* newValue)
+template <> valueParseStatus_e listvarg<short unsigned>::setUnsignedElementValue(const char* newValue)
 {
     long long unsigned tempValue = 0ULL;
     valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
     if (status == valueParseStatus_e::PARSE_SUCCESS_e)
     {
-        T element = static_cast<T>(tempValue);
+        auto element = static_cast<short unsigned>(tempValue);
         value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<unsigned>::setUnsignedElementValue(const char* newValue)
+{
+    long long unsigned tempValue = 0ULL;
+    valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<unsigned>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long unsigned>::setUnsignedElementValue(const char* newValue)
+{
+    long long unsigned tempValue = 0ULL;
+    valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        auto element = static_cast<long unsigned>(tempValue);
+        value.push_back(element);
+    }
+    return status;
+}
+
+template <> valueParseStatus_e listvarg<long long unsigned>::setUnsignedElementValue(const char* newValue)
+{
+    long long unsigned tempValue = 0ULL;
+    valueParseStatus_e status = varg_intf::getUnsignedValue(newValue, tempValue);
+    if (status == valueParseStatus_e::PARSE_SUCCESS_e)
+    {
+        value.push_back(tempValue);
     }
     return status;
 }
@@ -118,7 +188,17 @@ template <> valueParseStatus_e listvarg<double>::setDoubleElementValue(const cha
     return status;
 }
 
-template <typename T> valueParseStatus_e listvarg<T>::setDoubleElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<short int>::setDoubleElementValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<int>::setDoubleElementValue(const char* newValue)            {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long int>::setDoubleElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long long int>::setDoubleElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned short>::setDoubleElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned>::setDoubleElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long>::setDoubleElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long long>::setDoubleElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<bool>::setDoubleElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<char>::setDoubleElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<std::string>::setDoubleElementValue(const char* newValue)    {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 /**
  * @brief Set the Element Value object
@@ -139,6 +219,18 @@ template <> valueParseStatus_e listvarg<char>::setCharElementValue(const char* n
     return status;
 }
 
+template <> valueParseStatus_e listvarg<short int>::setCharElementValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<int>::setCharElementValue(const char* newValue)            {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long int>::setCharElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long long int>::setCharElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned short>::setCharElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned>::setCharElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long>::setCharElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long long>::setCharElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<double>::setCharElementValue(const char* newValue)         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<bool>::setCharElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<std::string>::setCharElementValue(const char* newValue)    {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+
 /**
  * @brief Set the Bool Value object
  *
@@ -157,7 +249,18 @@ template <> valueParseStatus_e listvarg<bool>::setBoolElementValue(const char* n
     }
     return status;
 }
-template <typename T> valueParseStatus_e listvarg<T>::setBoolElementValue(const char* newValue)     {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+
+template <> valueParseStatus_e listvarg<short int>::setBoolElementValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<int>::setBoolElementValue(const char* newValue)            {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long int>::setBoolElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long long int>::setBoolElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned short>::setBoolElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned>::setBoolElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long>::setBoolElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long long>::setBoolElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<double>::setBoolElementValue(const char* newValue)         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<char>::setBoolElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<std::string>::setBoolElementValue(const char* newValue)    {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 /**
  * @brief Set the string Value object
@@ -174,7 +277,17 @@ template <> valueParseStatus_e listvarg<std::string>::setStringElementValue(cons
     return valueParseStatus_e::PARSE_SUCCESS_e;
 }
 
-template <typename T> valueParseStatus_e listvarg<T>::setStringElementValue(const char* newValue)   {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<short int>::setStringElementValue(const char* newValue)      {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<int>::setStringElementValue(const char* newValue)            {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long int>::setStringElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<long long int>::setStringElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned short>::setStringElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned>::setStringElementValue(const char* newValue)       {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long>::setStringElementValue(const char* newValue)  {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<unsigned long long>::setStringElementValue(const char* newValue) {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<double>::setStringElementValue(const char* newValue)         {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<char>::setStringElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
+template <> valueParseStatus_e listvarg<bool>::setStringElementValue(const char* newValue)           {return valueParseStatus_e::PARSE_INVALID_INPUT_e;}
 
 //============================================================================================================================
 //============================================================================================================================

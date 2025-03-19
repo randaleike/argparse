@@ -61,6 +61,7 @@ enum typeStringFormat_e
     TYPE_FMT_CHAR,                      ///< Set the default char type string
     TYPE_FMT_BOOL,                      ///< Set the default boolean type string
     TYPE_FMT_STRING,                    ///< Set the default string type string
+    TYPE_FMT_MAX                        ///< Unused max value used for testing
 };
 
 /**
@@ -109,11 +110,8 @@ class varg_intf
         void setTypeString(typeStringFormat_e fmtType);
 
         /**
-         * @brief Set the Min Max Signed object
-         *
-         * @param min - Minimum floating point value allowed to be assigned
-         * @param max - Minimum floating point value allowed to be assignedvoid varg_intf::ltrim(std::string &s)
-
+         * @brief Convert input string into boolean value and return the parsing
+         *        pass/fail code.
          *
          * @param newValue - input argument string
          * @param parsedValue - parsed boolean value if parsing succeeded

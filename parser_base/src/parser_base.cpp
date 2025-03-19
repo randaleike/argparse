@@ -31,7 +31,6 @@
 #include <cstring>
 #include <string>
 #include "varg_intf.h"
-#include "varg.h"
 #include "parser_base.h"
 #include "parser_string_list.h"
 
@@ -62,18 +61,23 @@ parser_base::parser_base(bool abortOnError, int debugLevel) :
 }
 
 parser_base::parser_base(const parser_base& other) noexcept :
-    maxColumnWidth(other.assignmentDelimeter), maxOptionLength(other.maxOptionLength),
-    keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter), assignmentListDelimeter(other.assignmentListDelimeter),
+    maxColumnWidth(other.maxColumnWidth), maxOptionLength(other.maxOptionLength),
+    keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter),
+    assignmentListDelimeter(other.assignmentListDelimeter),
     errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
-    keyArgList(other.keyArgList), dummyEntry(other.dummyEntry), parserStringList(other.parserStringList)
+    keyArgList(other.keyArgList), dummyEntry(other.dummyEntry),
+    parserStringList(other.parserStringList)
 {
 }
 
+
 parser_base::parser_base(parser_base&& other) noexcept :
-    maxColumnWidth(other.assignmentDelimeter), maxOptionLength(other.maxOptionLength),
-    keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter), assignmentListDelimeter(other.assignmentListDelimeter),
+    maxColumnWidth(other.maxColumnWidth), maxOptionLength(other.maxOptionLength),
+    keyListDelimeter(other.keyListDelimeter), assignmentDelimeter(other.assignmentDelimeter),
+    assignmentListDelimeter(other.assignmentListDelimeter),
     errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
-    keyArgList(other.keyArgList), dummyEntry(other.dummyEntry), parserStringList(other.parserStringList)
+    keyArgList(std::move(other.keyArgList)), dummyEntry(other.dummyEntry),
+    parserStringList(std::move(other.parserStringList))
 {
     other.keyArgList.clear();
 }
@@ -82,7 +86,7 @@ parser_base& parser_base::operator=(const parser_base& other) noexcept
 {
     if (this != &other)
     {
-        maxColumnWidth          = other.assignmentDelimeter;
+        maxColumnWidth          = other.maxColumnWidth;
         maxOptionLength         = other.maxOptionLength;
         keyListDelimeter        = other.keyListDelimeter;
         assignmentDelimeter     = other.assignmentDelimeter;
@@ -90,8 +94,11 @@ parser_base& parser_base::operator=(const parser_base& other) noexcept
         errorAbort              = other.errorAbort;
         debugMsgLevel           = other.debugMsgLevel;
         parsingError            = false;
+
+        keyArgList.clear();
         keyArgList              = other.keyArgList;
-        dummyEntry               = {};
+
+        dummyEntry              = {};
         parserStringList        = other.parserStringList;
     }
     return *this;
@@ -101,7 +108,7 @@ parser_base& parser_base::operator=(parser_base&& other) noexcept
 {
     if (this != &other)
     {
-        maxColumnWidth          = other.assignmentDelimeter;
+        maxColumnWidth          = other.maxColumnWidth;
         maxOptionLength         = other.maxOptionLength;
         keyListDelimeter        = other.keyListDelimeter;
         assignmentDelimeter     = other.assignmentDelimeter;
@@ -109,9 +116,12 @@ parser_base& parser_base::operator=(parser_base&& other) noexcept
         errorAbort              = other.errorAbort;
         debugMsgLevel           = other.debugMsgLevel;
         parsingError            = false;
-        keyArgList              = other.keyArgList;
-        dummyEntry               = {};
-        parserStringList        = other.parserStringList;
+
+        keyArgList.clear();
+        keyArgList              = std::move(other.keyArgList);
+
+        dummyEntry              = {};
+        parserStringList        = std::move(other.parserStringList);
 
         other.keyArgList.clear();
     }

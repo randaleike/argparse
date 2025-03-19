@@ -50,8 +50,8 @@ typedef struct cvarptr* argHandle;                         ///< Argument pointer
  */
 struct enumValueSpec
 {
-    const char* enumValueName;
-    int         enumValue;
+    const char* enumValueName;      ///< Name used on the command line to identify the enumValue
+    int         enumValue;          ///< Value to set the enum to when the enumValueName is seen
 };
 
 //=================================================================================================
@@ -274,7 +274,7 @@ argHandle createStringArrayParserArg(char* valueArray, size_t arraySize);
  * @param enumAddr - Pointer to the incrementing integer storage
  * @param enumName - Name of the enum displayed in the help message
  * @param enumCount - Number of enum value specification structures
- * @param enumSpecs - Array of enum specification structures
+ * @param enumValueList - Array of enum specification structures
  *
  * @return argHandle - Handle to use when adding the argument to the parser argument list
  */

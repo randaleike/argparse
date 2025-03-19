@@ -42,6 +42,8 @@ class ParserStringListInterfaceChineseSimplified final : public ParserStringList
         ParserStringListInterfaceChineseSimplified& operator=(ParserStringListInterfaceChineseSimplified&& other) = default;
          ~ParserStringListInterfaceChineseSimplified() final = default;
 
+        parserstr getLangIsoCode() final {return("zh");}
+
         // General argument parsing messages
         parserstr getNotListTypeMessage(int nargs) final
         {parser_str_stream parserstr;  parserstr << "只有列表类型的参数可以有一个参数计数 " << nargs; return parserstr.str();}
@@ -88,7 +90,10 @@ class ParserStringListInterfaceChineseSimplified final : public ParserStringList
         {return "环境值：";}
 
         parserstr getEnvironmentNoFlags(parserstr argKey) final
-        {parser_str_stream parserstr;  parserstr << "环境价值 " << argKey << " narg 必须 > 0"; return parserstr.str();}
+        {parser_str_stream parserstr;  parserstr << "环境价值\"" << argKey << "\" narg 必须 > 0"; return parserstr.str();}
+
+        parserstr getRequiredEnvironmentArgMissing(parserstr argKey) final
+        {parser_str_stream parserstr;  parserstr << "必须定义环境值: " << argKey; return parserstr.str();}
 
         // JSON file parser messages
         parserstr getJsonArgumentsMessage() final

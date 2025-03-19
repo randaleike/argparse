@@ -43,6 +43,7 @@
  *
  * @param usage - Usage sting for help display
  * @param description - Description of tool for the help display
+ * @param keyPrefix - Key prefix character, i.e. '/' or '-'
  * @param abortOnError - True = abort parsing on the first error, False = continue parsing to the end
  * @param disableDefaultHelp - True = display the help mesage if a parsing error occurs,
  *                             False = do not display the help message until parserDisplayHelp() is called
@@ -50,12 +51,19 @@
  *
  * @return cmdLineParserHandle - Handle to the created argument parser
  */
-cmdLineParserHandle getParser(parsercstr usage, parsercstr description, bool abortOnError, bool disableDefaultHelp, int debugLevel)
+cmdLineParserHandle getParser(parsercstr usage, parsercstr description, char keyPrefix,
+                              bool abortOnError, bool disableDefaultHelp, int debugLevel)
 {
     parserstr newParserUsage = ((nullptr != usage) ? usage : "");
     parserstr newParserDesc = ((nullptr != description) ? description : "");
-    struct cmdLineParser* wrapper = new (struct cmdLineParser);     // NOLINT
-    wrapper->object = new argparser::cmd_line_parse(newParserUsage, newParserDesc, abortOnError, disableDefaultHelp, debugLevel);   // NOLINT
+    parserstr newKeyPrefix;
+    newKeyPrefix.push_back(keyPrefix);
+
+    // NOLINTBEGIN
+    struct cmdLineParser* wrapper = new (struct cmdLineParser);
+    wrapper->object = new argparser::cmd_line_parse(newParserUsage, newParserDesc, newKeyPrefix,
+                                                    abortOnError, disableDefaultHelp, debugLevel);
+    // NOLINTEND
     return wrapper;
 }
 
@@ -104,37 +112,6 @@ void setProgramName(cmdLineParserHandle parser, parsercstr progName)
 }
 
 /**
- * @brief Set the argument key prefix value.
- *
- * The argument key prefix is the character or string
- * the identifies an input argument key string.  Any input
- * argument that does not begin with this character is
- * assumed to be a positional argument value.
- *
- * @param parser - Handle value returned by getParser()
- * @param prefix - argument prefix value
- */
-void setKeyPrefix(cmdLineParserHandle parser, parsercstr prefix)
-{
-    if (parser != nullptr)
-    {
-        parser->object->setKeyPrefix(prefix);
-    }
-}
-
-/**
- * @brief Disable the default help argument setup
- */
-void disableDefaultHelpArgument(cmdLineParserHandle parser)
-{
-    if (parser != nullptr)
-    {
-        parser->object->disableDefaultHelpArgument();
-    }
-}
-
-
-/**
  * @brief Disable the help display on parsing error
  *
  * @param parser - Handle value returned by getParser()
@@ -144,20 +121,6 @@ void disableHelpDisplayOnError(cmdLineParserHandle parser)
     if (parser != nullptr)
     {
         parser->object->disableHelpDisplayOnError();
-    }
-}
-
-
-/**
- * @brief Disable the single character list input argument parsing
- *
- * @param parser - Handle value returned by getParser()
- */
-void disableSingleCharListArgument(cmdLineParserHandle parser)
-{
-    if (parser != nullptr)
-    {
-        parser->object->disableSingleCharListArgument();
     }
 }
 
@@ -207,7 +170,7 @@ void addKeyArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr 
 
     if (valueAddr->vararg->isList())
     {
-        std::cerr << "Use addKeyArrayArgument() to add array arguments to the parser" << std::endl;
+        std::cerr << "Use addKeyArrayArgument() to add array key arguments to the parser" << std::endl;
         return;
     }
 
@@ -248,7 +211,7 @@ void addKeyArrayArgument(cmdLineParserHandle parser, argHandle valueAddr, parser
 
     if (!valueAddr->vararg->isList())
     {
-        std::cerr << "Use addKeyArgument() to add single value arguments to the parser" << std::endl;
+        std::cerr << "Use addKeyArgument() to add single value key arguments to the parser" << std::endl;
         return;
     }
 
@@ -282,7 +245,7 @@ void addFlagArgument(cmdLineParserHandle parser, argHandle valueAddr, parsercstr
 
     if (valueAddr->vararg->isList())
     {
-        std::cerr << "Use addKeyArrayArgument() or addPositionalArrayArgument to add array arguments to the parser" << std::endl;
+        std::cerr << "Flag arguments cannot be lists" << std::endl;
         return;
     }
 
@@ -311,6 +274,12 @@ void addIncrementingArgument(cmdLineParserHandle parser, argHandle valueAddr, pa
     if (valueAddr == nullptr)
     {
         std::cerr << "Invalid valueAddr input, nullptr" << std::endl;
+        return;
+    }
+
+    if (valueAddr->vararg->isList())
+    {
+        std::cerr << "Incrementing flag arguments cannot be lists" << std::endl;
         return;
     }
 
@@ -343,7 +312,7 @@ void addPositionalArgument(cmdLineParserHandle parser, argHandle valueAddr, pars
 
     if (valueAddr->vararg->isList())
     {
-        std::cerr << "Use addPositionalArrayArgument() to add array arguments to the parser" << std::endl;
+        std::cerr << "Use addPositionalArrayArgument() to add positional array arguments to the parser" << std::endl;
         return;
     }
 
@@ -384,7 +353,7 @@ void addPositionalArrayArgument(cmdLineParserHandle parser, argHandle valueAddr,
 
     if (!valueAddr->vararg->isList())
     {
-        std::cerr << "Use addPositionalArgument() to add single value arguments to the parser" << std::endl;
+        std::cerr << "Use addPositionalArgument() to add single value positional arguments to the parser" << std::endl;
         return;
     }
 
@@ -427,6 +396,7 @@ int parse(cmdLineParserHandle parser, int argc, char* argv[], int startingArgInd
         startingArgIndex = ((startingArgIndex < 1) ? 1 : startingArgIndex);
         parserStatus = parser->object->parse(argc, argv, startingArgIndex, endingArgIndex);
     }
+
     return parserStatus;
 }
 

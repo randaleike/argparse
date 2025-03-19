@@ -50,15 +50,20 @@ include(FetchContent)
 FetchContent_Declare(googletest
     GIT_REPOSITORY ${GTEST_GITHUB_REPO}
     GIT_TAG v1.15.2)
-
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set(gtest_force_shared_crt ON CACHE BOOL "Windows use msvcrt.dll" FORCE)
+    #set(gtest_force_shared_crt ON CACHE BOOL "Windows use msvcrt.dll" FORCE)
 endif()
 FetchContent_MakeAvailable(googletest)
 set (GTEST_INCLUDE_DIR ${googletest_SOURCE_DIR}/googletest/include)
-set (GTEST_DLL_LIBRARY_PATH ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_BUILD_TYPE})
-message ("googletest_LIB: ${GTEST_DLL_LIBRARY_PATH}")
-LIST (APPEND CMAKE_PROGRAM_PATH ${GTEST_DLL_LIBRARY_PATH})
+set (GMOCK_INCLUDE_DIR ${googletest_SOURCE_DIR}/googlemock/include)
+set (GTEST_DLL_LIBRARY_PATH ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${CMAKE_BUILD_TYPE})
+set (GTEST_LIB_LIBRARY_PATH ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_BUILD_TYPE})
+set (GTEST_LIBRARIES GTest::gmock_main GTest::gtest_main)
+#message ("googletest_DLL: ${GTEST_DLL_LIBRARY_PATH}")
+#message ("googletest_LIB: ${GTEST_LIB_LIBRARY_PATH}")
+#message ("googletest BINdir: ${googletest_BINARY_DIR}")
+#message ("googletest SRCdir: ${googletest_SOURCE_DIR}")
+#LIST (APPEND CMAKE_PROGRAM_PATH ${GTEST_LIB_LIBRARY_PATH})
 
 ####
 # varg Files
@@ -119,6 +124,15 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set (UNITTEST_EXE_CMD ".\\")
 endif()
 
+set(libUnittestList
+    varg_test
+    parser_base_test
+    cmd_line_parse_test
+    envparse_test
+    config_json_parse_test
+    config_xml_parse_test
+    )
+
 add_custom_target(build-unittest
     COMMENT "Build library unittest"
     WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
@@ -140,7 +154,14 @@ add_custom_target(run-unittest
     COMMAND ${UNITTEST_EXE_CMD}config_xml_parse_test${UNITTEST_FILE_EXT}
     WORKING_DIRECTORY ${UNITTEST_WORKING_DIR}
     DEPENDS build-unittest
-)
+    )
+
+add_custom_target(build-coverage-reports
+    COMMENT "Build library unittest coverage report"
+    COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/coverage
+    COMMAND gcovr --html-details ${CMAKE_BINARY_DIR}/coverage/unittest-coverage.html
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
 
 ####
 # Install package

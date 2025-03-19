@@ -292,7 +292,7 @@ void varg_intf::setTypeString(typeStringFormat_e fmtType)
     switch(fmtType)
     {
         case typeStringFormat_e::TYPE_FMT_SIGNED:
-            myTypeStr << "<" << minSignedValue << ":[+|-]" << maxSignedValue << ">";
+            myTypeStr << "<" << minSignedValue << ":" << maxSignedValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_UNSIGNED:
             myTypeStr << "<[+]" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";

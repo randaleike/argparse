@@ -28,7 +28,7 @@
  */
 
 // Includes
-#include "../src/varg_clib_private.h"
+#include "../src/vargarray_clib_private.h"
 #include <gtest/gtest.h>
 
 /*
@@ -67,7 +67,21 @@ TYPED_TEST_P(CarrayBaseUnitTest, IsListTest)
     EXPECT_TRUE(testvar.isList());
 }
 
-REGISTER_TYPED_TEST_SUITE_P(CarrayBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest);
+TYPED_TEST_P(CarrayBaseUnitTest, IsNotEmptyTest)
+{
+    TypeParam carray[3];    // NOLINT
+    argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
+    EXPECT_FALSE(testvar.isEmpty());
+}
+
+TYPED_TEST_P(CarrayBaseUnitTest, IsEmptyTest)
+{
+    argparser::vargcarray< TypeParam > testvar(nullptr, 0);    // NOLINT
+    EXPECT_TRUE(testvar.isEmpty());
+}
+
+REGISTER_TYPED_TEST_SUITE_P(CarrayBaseUnitTest, ConstructorTest, ValueSetNullFail, IsListTest,
+                            IsNotEmptyTest, IsEmptyTest);
 
 // NOLINTBEGIN
 typedef testing::Types<short int, int, long int, long long int,
@@ -97,7 +111,7 @@ template <typename T> class IntegerCArrayUnitTest : public testing::Test
         std::string getExpectedTypeString()
         {
             std::stringstream typeString;
-            typeString << "<" << getMinValue() << ":[+|-]" << getMaxValue() << ">";
+            typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
             return typeString.str();
         }
 
@@ -716,24 +730,5 @@ TEST(carrayvarg_char, ValueSetPassTripleEntry)
     EXPECT_EQ('c', testArray[2]);
 }
 
-/*
-* String varg test
-*/
-TEST(ccharstring, ValueSetPass)
-{
-    char testArray[20];                             // NOLINT
-    argparser::vargcstring testvar(testArray, 20);  // NOLINT
-    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("Test String"));
-    EXPECT_FALSE(testvar.isEmpty());
-    EXPECT_EQ(11, testvar.getAssignmentCount());
-    EXPECT_STREQ("Test String", (&testArray[0]));   // NOLINT
-}
-
-TEST(ccharstring, GetTypeString)
-{
-    char testArray[20];                             // NOLINT
-    argparser::vargcstring testvar(testArray, 20);  // NOLINT
-    EXPECT_STREQ("<string>", testvar.getTypeString());
-}
 
 /** @} */

@@ -30,9 +30,12 @@
 
 #include "varg_intf.h"
 
+/**
+ * @brief C Wrapper structure for the C++ class pointer
+ */
 struct cvarptr
 {
-    argparser::varg_intf* vararg{nullptr};
+    argparser::varg_intf* vararg{nullptr};      ///< Pointer to the varg object.
 };
 
 /** @} */

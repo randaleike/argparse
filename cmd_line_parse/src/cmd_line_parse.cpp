@@ -28,6 +28,7 @@
 
 // Includes
 #include <cstring>
+#include <memory>
 #include <string>
 #include <algorithm>
 #include "parser_string_list.h"
@@ -131,8 +132,10 @@ void cmd_line_parse::addDefaultHelpArgument()
     }
 
     // Add the argument to the key argument list
-    helpFlag = new varg<bool>(false, true); // NOLINT
-    addKeyArgument(helpFlag, "help", keyList, parser_base::getParserStringList().getHelpString(), 0, false);
+    helpFlag = std::make_shared< varg<bool> >(false, true);
+    addKeyArgument(helpFlag.get(), "help", keyList,
+                   parser_base::getParserStringList().getHelpString(),
+                   0, false);
 }
 
 /**
@@ -147,27 +150,6 @@ size_t cmd_line_parse::getInitialValueList(parserstr& valueString, std::list<par
 {
     parserstr currentValue = ((valueString.empty() && (currentArgumentIndex < argcount)) ? argvArray[currentArgumentIndex++] : valueString);
     return parser_base::getValueList(currentValue, valueList);
-}
-
-/**
- * @brief Find the argument object that matches the input string
- *
- * @param keystring   - Input string to match
- * @param found       - Set to true if match was found, else false
- *
- * @return ArgEntry - Reference to the ArgEntry from the ArgEntry if match was found. Or nullptr if not.
- */
-ArgEntry& cmd_line_parse::findMatchingArg(const parserstr& keystring, bool& found)
-{
-    ArgEntry& returnArg = parser_base::findMatchingArg(keystring, found);
-
-    // Unknown argument key
-    if ((!found) && ((!ignoreUnknownKey) || (debugMsgLevel > noDebugMsg)))
-    {
-        std::cerr << parser_base::getParserStringList().getUnknownArgumentMessage(keystring) << std::endl;
-        parser_base::setParsingError(!ignoreUnknownKey);
-    }
-    return returnArg;
 }
 
 /**
@@ -200,7 +182,6 @@ bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyStr
     return status;
 }
 
-
 /**
  * @brief Assign multiple values to a list argument storage.
  *
@@ -212,14 +193,14 @@ bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyStr
  */
 bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString, parserstr& valueString)
 {
-    if (debugMsgLevel > veryVerboseDebug)
+    if (debugMsgLevel >= veryVerboseDebug)
     {
         std::cout << "Initial value string: " << valueString << std::endl;
     }
     std::list<parserstr> assignmentValues;
     size_t valueCount = getInitialValueList(valueString, assignmentValues);
     auto requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
-    if (debugMsgLevel > veryVerboseDebug)
+    if (debugMsgLevel >= veryVerboseDebug)
     {
         std::cout << "Value string post get: " << valueString << std::endl;
         std::cout << "Initial value count: " << valueCount << " Required Count(abs): " << requiredValueCount << " Narg: " << currentArg.nargs << std::endl;
@@ -235,7 +216,7 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
         // Get the next argument
         parserstr currentValueString = argvArray[currentArgumentIndex++];
         size_t    addCount = parser_base::getValueList(currentValueString, assignmentValues);
-        if (debugMsgLevel > veryVerboseDebug)
+        if (debugMsgLevel >= veryVerboseDebug)
         {
             std::cout << "Next value string: " << currentValueString << std::endl;
             std::cout << "Next addCount: " << addCount << std::endl;
@@ -252,7 +233,7 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
     }
 
     // Check we got the correct number of arguments
-    if (debugMsgLevel > veryVerboseDebug)
+    if (debugMsgLevel >= veryVerboseDebug)
     {
         std::cout << "Assignment string count: " << assignmentValues.size() << std::endl;
     }
@@ -305,7 +286,8 @@ void cmd_line_parse::parseSingleKeyArg(const char* searchString, parserstr value
             std::cout << "Value string: " << valueString << std::endl;
         }
     }
-    ArgEntry currentArg = findMatchingArg(searchString, found);
+
+    ArgEntry currentArg = parser_base::findMatchingArg(searchString, found);
     if (found)
     {
         if (debugMsgLevel >= debugVerbosityLevel_e::veryVerboseDebug)
@@ -404,7 +386,7 @@ void cmd_line_parse::parsePositionalArg()
         {
             if ((currentArg.position == parseingPositionNumber) || (currentArg.position == 0))
             {
-                if (debugMsgLevel > veryVerboseDebug)
+                if (debugMsgLevel >= veryVerboseDebug)
                 {
                     std::cout << "Positional Argument Name: " << currentArg.name << ", position: " << currentArg.position << std::endl;
                     std::cout << "Current Parsing Position: " << parseingPositionNumber << std::endl;
@@ -458,14 +440,47 @@ cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, bool ab
     positionalArgList.clear();
     argvArray.clear();
 
-    if (!usage.empty())
+    usageText = ((!usage.empty()) ? usage : "%(prog) [options]");
+    descriptionText = ((!description.empty()) ? description : "");
+    if (!disableDefaultHelp)
     {
-        usageText = usage;
+        addDefaultHelpArgument();
     }
+}
 
-    if (!description.empty())
+cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
+    parser_base(abortOnError, debugLevel), usageText(((nullptr != usage) ? usage : "%(prog) [options]")),
+    descriptionText((nullptr != description) ? description : ""), keyPrefix("-"),
+    displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
+    ignoreUnknownKey(false), singleCharArgListAllowed(true),
+    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
+    debugMsgLevel(debugLevel), positionalStopArgumentFound(false), helpFlag(nullptr)
+{
+    positionalArgList.clear();
+    argvArray.clear();
+
+    if (!disableDefaultHelp)
     {
-        descriptionText = description;
+        addDefaultHelpArgument();
+    }
+}
+
+cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
+    parser_base(abortOnError, debugLevel), keyPrefix(keyPrefix),
+    displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
+    ignoreUnknownKey(false), singleCharArgListAllowed(true),
+    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
+    debugMsgLevel(debugLevel), positionalStopArgumentFound(false), helpFlag(nullptr)
+{
+    positionalArgList.clear();
+    argvArray.clear();
+
+    usageText = ((!usage.empty()) ? usage : "%(prog) [options]");
+    descriptionText = ((!description.empty()) ? description : "");
+
+    if (keyPrefix == "/")
+    {
+        singleCharArgListAllowed = false;
     }
 
     if (!disableDefaultHelp)
@@ -474,8 +489,9 @@ cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, bool ab
     }
 }
 
-cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    parser_base(abortOnError, debugLevel), keyPrefix("-"),
+cmd_line_parse::cmd_line_parse(const char* usage, const char* description, const char* keyPrefix, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
+    parser_base(abortOnError, debugLevel), usageText(((nullptr != usage) ? usage : "%(prog) [options]")),
+    descriptionText((nullptr != description) ? description : ""), keyPrefix(keyPrefix),
     displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
     ignoreUnknownKey(false), singleCharArgListAllowed(true),
     positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
@@ -494,6 +510,11 @@ cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool 
         descriptionText = description;
     }
 
+    if (nullptr != keyPrefix)
+    {
+        singleCharArgListAllowed = ((keyPrefix[0] == '/') ? false : true);  // NOLINT
+    }
+
     if (!disableDefaultHelp)
     {
         addDefaultHelpArgument();
@@ -507,35 +528,29 @@ cmd_line_parse::cmd_line_parse(const cmd_line_parse& other) :
     ignoreUnknownKey(other.ignoreUnknownKey), singleCharArgListAllowed(other.singleCharArgListAllowed),
     positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
     debugMsgLevel(other.debugMsgLevel), positionalStopArgumentFound(false),
-    positionalArgList(other.positionalArgList), helpFlag(nullptr)
+    positionalArgList(other.positionalArgList), helpFlag(other.helpFlag)
 {
     argvArray.clear();
-    if (nullptr != other.helpFlag)
-    {
-        addDefaultHelpArgument();
-    }
 }
 
 cmd_line_parse::cmd_line_parse(cmd_line_parse&& other) noexcept :
-    parser_base(other), programName(other.programName),
-    usageText(other.usageText), descriptionText(other.descriptionText), keyPrefix(other.keyPrefix),
-    displayHelpOnError(other.displayHelpOnError), enableDefaultHelp(other.enableDefaultHelp),
-    ignoreUnknownKey(other.ignoreUnknownKey), singleCharArgListAllowed(other.singleCharArgListAllowed),
-    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
+    parser_base(other), programName(std::move(other.programName)),
+    usageText(std::move(other.usageText)), descriptionText(std::move(other.descriptionText)),
+    keyPrefix(std::move(other.keyPrefix)), displayHelpOnError(other.displayHelpOnError),
+    enableDefaultHelp(other.enableDefaultHelp), ignoreUnknownKey(other.ignoreUnknownKey),
+    singleCharArgListAllowed(other.singleCharArgListAllowed), positionNumber(1),
+    parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
     debugMsgLevel(other.debugMsgLevel), positionalStopArgumentFound(false),
-    positionalArgList(other.positionalArgList), helpFlag(nullptr)
+    positionalArgList(std::move(other.positionalArgList)), helpFlag(std::move(other.helpFlag))
 {
     argvArray.clear();
-    if (nullptr != other.helpFlag)
-    {
-        addDefaultHelpArgument();
-    }
 }
 
 cmd_line_parse& cmd_line_parse::operator=(const cmd_line_parse& other)
 {
     if (this != &other)
     {
+        parser_base::operator=(other);
         programName                 = other.programName;
         usageText                   = other.usageText;
         descriptionText             = other.descriptionText;
@@ -551,15 +566,11 @@ cmd_line_parse& cmd_line_parse::operator=(const cmd_line_parse& other)
         currentArgumentIndex        = 0;
         argcount                    = 0;
         positionalStopArgumentFound = false;
-        helpFlag                    = nullptr;
+        helpFlag                    = other.helpFlag;
 
         argvArray.clear();
         positionalArgList.clear();
         positionalArgList           = other.positionalArgList;
-        if (enableDefaultHelp)
-        {
-            addDefaultHelpArgument();
-        }
     }
     return *this;
 }
@@ -568,15 +579,19 @@ cmd_line_parse& cmd_line_parse::operator=(cmd_line_parse&& other) noexcept
 {
     if (this != &other)
     {
-        programName                 = other.programName;
-        usageText                   = other.usageText;
-        descriptionText             = other.descriptionText;
-        keyPrefix                   = other.keyPrefix;
+        parser_base::operator=(other);
+        programName                 = std::move(other.programName);
+        usageText                   = std::move(other.usageText);
+        descriptionText             = std::move(other.descriptionText);
+        keyPrefix                   = std::move(other.keyPrefix);
         displayHelpOnError          = other.displayHelpOnError;
         enableDefaultHelp           = other.enableDefaultHelp;
         ignoreUnknownKey            = other.ignoreUnknownKey;
         singleCharArgListAllowed    = other.singleCharArgListAllowed;
         debugMsgLevel               = other.debugMsgLevel;
+        helpFlag                    = std::move(other.helpFlag);
+        positionalArgList.clear();
+        positionalArgList           = std::move(other.positionalArgList);
 
         positionNumber              = 1;
         parseingPositionNumber      = 1;
@@ -584,10 +599,8 @@ cmd_line_parse& cmd_line_parse::operator=(cmd_line_parse&& other) noexcept
         argcount                    = 0;
         positionalStopArgumentFound = false;
 
-        positionalArgList.clear();
-        argvArray.clear();
-        positionalArgList           = other.positionalArgList;
         other.positionalArgList.clear();
+        argvArray.clear();
     }
     return *this;
 }
@@ -791,6 +804,7 @@ int cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endi
     {
         // Set program name from argument 0
         programName = argvArray[0];
+        setProgramName(programName);
     }
 
     // Parse the rest of the arguments
@@ -823,7 +837,7 @@ int cmd_line_parse::parse(int argc, char* argv[], int startingArgIndex, int endi
     // Display help on error
     if (parser_base::isParsingError())
     {
-        if (displayHelpOnError || (enableDefaultHelp && dynamic_cast< varg<bool>* >(helpFlag)->value))
+        if (displayHelpOnError || (enableDefaultHelp && dynamic_cast< varg<bool>* >(helpFlag.get())->value))
         {
             displayHelp(std::cerr);
         }
@@ -908,4 +922,37 @@ void cmd_line_parse::displayHelp(std::ostream &outStream)
     }
 }
 
+/**
+* @brief Set the Program Name for the usage string using a string as input
+*
+* @param progName - Program name to use in the usage string
+*
+* @return bool - True if %(prog) was replaced, else false
+*/
+bool cmd_line_parse::setProgramName(parserstr progName)
+{
+    bool retStatus = false;
+    parserstr defaultProgname("%(prog)");
+    size_t start = usageText.find(defaultProgname);
+
+    if (std::string::npos != start)
+    {
+        usageText.replace(start, defaultProgname.size(), progName);
+        retStatus = true;
+    }
+    return retStatus;
+}
+
+/**
+* @brief Set the Program Name for the usage string using a string as input
+*
+* @param progName - Program name to use in the usage string
+*
+* @return bool - True if %(prog) was replaced, else false
+*/
+bool cmd_line_parse::setProgramName(const char* progName)
+{
+    parserstr newName = progName;
+    return setProgramName(newName);
+}
 /** @} */

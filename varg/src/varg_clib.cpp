@@ -30,7 +30,11 @@
 #include <iostream>
 #include <memory>
 #include "varg_clib.h"
-#include "varg_clib_private.h"
+#include "vargptr_clib_private.h"
+#include "vargarray_clib_private.h"
+#include "vargcstring_clib_private.h"
+#include "varginc_clib_private.h"
+#include "vargenum_clib_private.h"
 #include "varg_clib_shared.h"
 
 //=================================================================================================
@@ -87,7 +91,7 @@ argHandle createLongIntParserArg(long int* valueAddr)
  *
  * @return argHandle - Handle to use when adding the argument to the parser argument list
  */
-argHandle createLongLongIntParserArg(long long int* valueAddr)
+argHandle createLLongIntParserArg(long long int* valueAddr)
 {
     argHandle argument = new cvarptr;    // NOLINT
     argument->vararg = new argparser::vargptr<long long int>(valueAddr);    // Create the argument NOLINT
@@ -143,7 +147,7 @@ argHandle createLongUIntParserArg(long unsigned* valueAddr)
  *
  * @return argHandle - Handle to use when adding the argument to the parser argument list
  */
-argHandle createLongLongUIntParserArg(long long unsigned* valueAddr)
+argHandle createLLongUIntParserArg(long long unsigned* valueAddr)
 {
     argHandle argument = new cvarptr;    // NOLINT
     argument->vararg = new argparser::vargptr<long long unsigned>(valueAddr);    // Create the argument NOLINT
@@ -319,7 +323,7 @@ argHandle createLongUIntArrayParserArg(long unsigned* valueArray, size_t arraySi
  *
  * @return argHandle - Handle to use when adding the argument to the parser argument list
  */
-argHandle createLLUIntArrayParserArg(long long unsigned* valueArray, size_t arraySize)
+argHandle createLLongUIntArrayParserArg(long long unsigned* valueArray, size_t arraySize)
 {
     argHandle argument = new cvarptr;    // NOLINT
     argument->vararg = new argparser::vargcarray<long long unsigned>(valueArray, arraySize); // NOLINT

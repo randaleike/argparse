@@ -84,7 +84,8 @@ int main(int argc, char * argv[])
 
     cmdLineParserHandle cmdLineParser = getParser("sample6 [switched options ] [positional arg]",
                                                   "Description of the utility to be included in the help display",
-                                                  true, false, 0);
+                                                  '-', true, false,
+                                                  0);
 
     // Add the arguments to the command line parser and parse the input
     addFlagArgument(cmdLineParser, flagArgHandle, "version", "-f,--flag", "Example of a simple true/false flag argument", false);
