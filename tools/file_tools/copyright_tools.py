@@ -652,6 +652,7 @@ class CopyrightParseOrder2(CopyrightParse):
 
         return newCopyRightMsg
 
+
 class CopyrightParseEnglish(CopyrightParseOrder1):
     """!
     @brief English copyright parsing and new message class
@@ -861,6 +862,19 @@ class CopyrightGenerator(object):
             return True, newCopyRightMsg
         else:
             return False, None
+
+    def createNewCopyright(self, owner, createYear, lastModYear = None):
+        """!
+        @brief Create a new copyright message from scratch
+
+        @param owner (string): Owner for the new message
+        @param createYear (integer): File creation date
+        @param lastModYear (integer): Last modification date of the file
+
+        @return string : New owner copyright message
+        """
+        return self.parser.createCopyrightMsg(owner, createYear, lastModYear)
+
 
 class CopyrightFinder(object):
     """!

@@ -4,7 +4,7 @@ Scan source files to find comment block(s). Utility to generate new comment bloc
 """
 
 #==========================================================================
-# Copyright (c) 2024 Randal Eike
+# Copyright (c) 2024-2025 Randal Eike
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of self software and associated documentation files (the "Software"),

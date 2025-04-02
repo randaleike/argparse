@@ -25,10 +25,20 @@ File tools
 #==========================================================================
 
 __version__ = '0.9.0'
-__all__ = ["copyright_tools", "comment_block", "eula", "text_format", "file_gen_tools"]
+__all__ = ["copyright_tools", "comment_block", "eula",
+           "text_format", "compile_switch_gen", "file_gen_tools",
+           "doxygen_gen_tools", "os_lang_select_tools",
+           "linux_lang_select", "windows_lang_select",
+           "static_lang_select", "master_lang_select"]
 
 from . import copyright_tools
 from . import comment_block
 from . import eula
 from . import text_format
 from . import file_gen_tools
+from . import doxygen_gen_tools
+from . import os_lang_select_tools
+from . import linux_lang_select
+from . import windows_lang_select
+from . import static_lang_select
+from . import master_lang_select

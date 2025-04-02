@@ -27,7 +27,7 @@ Utilities to create formatted End User License Agreement Text blocks
 import sys
 import os
 import re
-from text_format import MultiLineFormat
+from .text_format import MultiLineFormat
 
 eula = {
        'MIT_open': {'text': ["Permission is hereby granted, free of charge, to any person obtaining a " \
