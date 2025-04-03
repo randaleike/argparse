@@ -25,8 +25,9 @@ for the argparse libraries
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #==========================================================================
 
-from .file_gen_tools import GenCFunctionHelper
-from .file_gen_tools import StringClassNameGen
+from .common.param_return_tools import ParamRetDict
+from .common.file_gen_tools import GenCFunctionHelper
+from .string_name_generator import StringClassNameGen
 
 class OsLangSelectFunctionHelper(GenCFunctionHelper):
     """!
@@ -41,7 +42,8 @@ class OsLangSelectFunctionHelper(GenCFunctionHelper):
         """
         self.stdPtrType = "std::shared_ptr"
         self.returnType = self.stdPtrType+"<"+StringClassNameGen.getBaseClassName()+">"
-        self.retPtrDict = {'type':self.returnType, 'desc':"Pointer to "+StringClassNameGen.getBaseClassName()+"<lang> based on OS local language"}
+        self.retPtrDict = ParamRetDict.buildReturnDict(self.returnType,
+                                                        "Pointer to "+StringClassNameGen.getBaseClassName()+"<lang> based on OS local language")
 
     def _genFunctionDeclare(self, name, briefDesc, paramDictList):
         """!
@@ -49,7 +51,7 @@ class OsLangSelectFunctionHelper(GenCFunctionHelper):
 
         @param name {string} Function name
         @param briefDesc {string} Brief description for DOXYGEN commant
-        @param paramDictList [{'name': string, 'type':string, 'desc':string}] Parameter description dicionary list
+        @param paramDictList {list} Parameter description dicionary list
 
         @return string list - Function comment block and declaration start
         """
@@ -61,32 +63,18 @@ class OsLangSelectFunctionHelper(GenCFunctionHelper):
 
         @param name {string} Function name
         @param briefDesc {string} Brief description for DOXYGEN commant
-        @param paramDictList [{'name': string, 'type':string, 'desc':string}] Parameter description dicionary list
+        @param paramDictList {list} Parameter description dicionary list
 
         @return string list - Function comment block and declaration start
         """
         return self.defineFunctionWithDecorations(name, briefDesc, paramDictList, self.retPtrDict)
-
-    def _genFunctionEnd(self, name):
-        """!
-        @brief Get the function declaration string for the given name
-
-        @param name {string} Function name
-
-        @return string - Function close with comment
-        """
-        return self.endFunction(name)
 
     def genMakePtrReturnStatement(self, classMod):
         """!
         @brief Generate a language select return statement
         @param classMod {string} Language name of the final parser string object
         """
-        retLine = "return "
-        retLine += "std::make_shared<"
-        retLine += StringClassNameGen.getLangClassName(classMod)
-        retLine += ">();"
-        return retLine
+        return super().genMakePtrReturnStatement(StringClassNameGen.getLangClassName(classMod))
 
     def genPtrParameterStatement(self, paramName):
         """!
@@ -99,3 +87,9 @@ class OsLangSelectFunctionHelper(GenCFunctionHelper):
         paramLine += paramName
         paramLine += ";"
         return paramLine
+
+    def getStringType(self):
+        return StringClassNameGen.getParserStringType()
+
+    def getStringListType(self):
+        return "std::list<"+StringClassNameGen.getParserStringType()+">"

@@ -25,7 +25,7 @@ for the argparse libraries
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #==========================================================================
 
-from .file_gen_tools import StringClassNameGen
+from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
 
 class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
@@ -64,7 +64,7 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         @brief Get the function declaration string for the given name
         @return string - Function close with comment
         """
-        return self._genFunctionEnd(self.selectFunctionName)
+        return self.endFunction(self.selectFunctionName)
 
     def genFunction(self, langJsonData, outfile):
         """!
@@ -119,11 +119,69 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         doCall = indentText+"return "+self.selectFunctionName+"();"
         return [doCall]
 
-    def genUnittest(self, langJsonData, outfile):
+    def genUnitTest(self, langJsonData, getIsoMethod, outfile):
         """!
-        @brief Generate the unit tests for the function
+        @brief Generate all unit tests for the selection function
 
         @param langJsonData {dictionary} JSON file language dictionary data
+        @param getIsoMethod {string} Name of the ParserStringListInterface return ISO code method
         @param outfile {file} File to output the function to
         """
-        pass
+        # Generate block start code
+        blockStart = []
+        blockStart.append("#if "+self.defStaticString)
+        externDef = "extern "
+        externDef += self.returnType
+        externDef += " "
+        externDef += self.selectFunctionName
+        externDef += "();"
+        blockStart.append(externDef)
+        outfile.writelines(blockStart)
+
+        # Generate the test
+        testBlockName = "StaticSelectFunction"
+        bodyIndent = "".rjust(4, " ")
+        breifDesc = "Test "+self.selectFunctionName+" selection case"
+        testBody = self.genDoxyMethodComment(breifDesc, [])
+
+        testVar = "testVar"
+        testVarDecl = self.returnType+" "+testVar
+        testVarTest = testVar+"."+getIsoMethod+"().c_str()"
+        testBody.append("TEST("+testBlockName+", CompileSwitchedValue)")
+        testBody.append("{")
+        testBody.append(bodyIndent+"// Generate the test language string object")
+        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"();")
+        testBody.append("") # whitespace for readability
+
+        firstLoop = True
+        for langName, langData in langJsonData['languages'].items():
+            if firstLoop:
+                testBody.append("  #if defined("+langData['compileSwitch']+")")
+                firstLoop = False
+            else:
+                testBody.append("  #elif defined("+langData['compileSwitch']+")")
+
+            testBody.append(bodyIndent+"EXPECT_STREQ(\""+langData['isoCode']+"\", "+testVarTest+";")
+
+        # Add the final #else case
+        testBody.append("  #else //undefined language compile switch, use default")
+        testBody.append(bodyIndent+"EXPECT_STREQ(\""+langJsonData['default']['isoCode']+"\", "+testVarTest+";")
+        testBody.append("  #endif //end of language #if/#elifcompile switch chain")
+
+        # Complete the function
+        testBody.append("}")
+        outfile.writelines(testBody)
+
+        # Generate block end code
+        outfile.writelines(["#endif // "+self.defStaticString])
+
+    def genUnitTestFunctionCall(self, checkVarName, indent = 4):
+        """!
+        @brief Generate the call code for the linux dynamic lang selection unit test
+        @param checkVarName {string} Unit test expected variable name
+        @param indent {number} Code indentation spaces
+        @return list of strings Formatted code lines
+        """
+        indentText = "".rjust(indent, " ")
+        doCall = indentText+self.returnType+" "+checkVarName+" = "+self.selectFunctionName+"();"
+        return [doCall]

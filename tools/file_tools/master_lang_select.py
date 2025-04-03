@@ -25,14 +25,14 @@ for the argparse libraries
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #==========================================================================
 
-from .file_gen_tools import StringClassNameGen
+from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
 
 class MasterSelectFunctionGenerator(OsLangSelectFunctionHelper):
     """!
     Methods for master language select function generation
     """
-    def __init__(self, functionName = "getLocalParserStringListInterface", namespaceName = "SystemLanguageDetection"):
+    def __init__(self, functionName = "getLocalParserStringListInterface", namespaceName = "ParserStringListInterface"):
         """!
         @brief MasterSelectFunctionGenerator constructor
         @param functionName {string} Function name to be used for generation
@@ -72,7 +72,7 @@ class MasterSelectFunctionGenerator(OsLangSelectFunctionHelper):
         @brief Get the function declaration string for the given name
         @return string - Function close with comment
         """
-        return self._genFunctionEnd(self.selectFunctionName)
+        return self.endFunction(self.selectFunctionName)
 
     def genFunction(self, outfile, osLangSelectors, staticSelector):
         """!
@@ -117,9 +117,65 @@ class MasterSelectFunctionGenerator(OsLangSelectFunctionHelper):
         doCall = "return "+self.selectFunctionName+"();"
         return [doCall.rjust(indent, " ")]
 
-    def genUnittest(self, outfile):
+    def genUnitTest(self, getIsoMethod, outfile, osLangSelectors, staticSelector):
         """!
-        @brief Generate the function body text
+        @brief Generate all unit tests for the selection function
+
+        @param langJsonData {dictionary} JSON file language dictionary data
+        @param getIsoMethod {string} Name of the ParserStringListInterface return ISO code method
         @param outfile {file} File to output the function to
+        @param osLangSelectors {list} List of OS language selector function generation objects
+        @param staticSelector {StaticLangSelectFunctionGenerator} Static generation object
         """
-        pass
+        # Generate block start code
+        blockStart = []
+        blockStart.append("using namespace "+StringClassNameGen.getNamespaceName()+";")
+
+        externDef = "extern "
+        externDef += self.returnType
+        externDef += " "
+        externDef += self.selectFunctionName
+        externDef += "();"
+        blockStart.append(externDef)
+        outfile.writelines(blockStart)
+
+        # Generate the test
+        testBlockName = "SelectFunction"
+        bodyIndent = "".rjust(4, " ")
+        breifDesc = "Test "+self.selectFunctionName+" selection case"
+        testBody = self.genDoxyMethodComment(breifDesc, [])
+
+        testVar = "testVar"
+        testVarDecl = self.returnType+" "+testVar
+        testVarTest = testVar+"."+getIsoMethod+"().c_str()"
+        testBody.append("TEST("+testBlockName+", TestLocalSelectMethod)")
+        testBody.append("{")
+        testBody.append(bodyIndent+"// Generate the test language string object")
+        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"();")
+        testBody.append("") # whitespace for readability
+
+        # Generate OS calls
+        firstOs = True
+        expected = "localStringParser"
+        for osSelector in osLangSelectors:
+            if firstOs:
+                testBody.append("#if "+osSelector.getOsDynamicDefine())
+            else:
+                testBody.append("#elif "+osSelector.getOsDynamicDefine())
+            testBody.extend(bodyIndent+"// Get the expected value")
+            testBody.extend(osSelector.genUnitTestFunctionCall(expected, bodyIndent))
+
+        # Add the dynamic but unknown OS #elif case
+        testBody.append("#elif defined("+StringClassNameGen.getDynamicCompileswitch()+")")
+        testBody.append("#error No dynamic language generation defined for this OS".rjust(bodyIndent, ' '))
+
+        # Add the #else case
+        testBody.append("#else // not defined("+StringClassNameGen.getDynamicCompileswitch()+")")
+        testBody.extend(staticSelector.genUnitTestFunctionCall(expected, bodyIndent))
+
+        # Complete the function
+        testBody.append("#endif // defined os and defined("+StringClassNameGen.getDynamicCompileswitch()+")")
+        getExpectedVal = expected+"."+getIsoMethod+"().c_str()"
+        testBody.append(bodyIndent+"EXPECT_STREQ("+getExpectedVal+", "+testVarTest+";")
+        testBody.append(self.genFunctionEnd())
+        outfile.writelines(testBody)

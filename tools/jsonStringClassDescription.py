@@ -28,7 +28,10 @@ for the argparse libraries
 import re
 import json
 
-from file_tools.file_gen_tools import StringClassNameGen
+from file_tools.common.param_return_tools import ParamRetDict
+from file_tools.common.file_gen_tools import GenCFunctionHelper
+
+from file_tools.string_name_generator import StringClassNameGen
 from jsonLanguageDescriptionList import LanguageDescriptionList
 
 class StringClassDescription(object):
@@ -36,7 +39,7 @@ class StringClassDescription(object):
     String object class definitions
     """
 
-    def __init__(self, stringDefFileName = "argparse-string-def.json"):
+    def __init__(self, stringDefFileName = "argparse-string-def.json", codeGenerator = None):
         """!
         @brief StringClassDescription constructor
 
@@ -44,19 +47,25 @@ class StringClassDescription(object):
                                            the language description data
         """
         self.filename = stringDefFileName
+        if codeGenerator is None:
+            self.codeGen = GenCFunctionHelper
+        else:
+            self.codeGen = codeGenerator
+
         try:
             langJsonFile = open(stringDefFileName, 'r', encoding='utf-8')
         except FileNotFoundError:
-            self.stringJasonData = {'propertyFunctions':{}, 'translateFunctions':{}}
+            self.stringJasonData = {'propertyMethods':{}, 'translateMethods':{}}
         else:
             self.stringJasonData = json.load(langJsonFile)
             langJsonFile.close()
 
-    def _definePropertyFunctionEntry(self, briefDesc, retType, retDesc):
+    def _definePropertyFunctionEntry(self, propertyName = "", briefDesc = "", retType = "", retDesc = ""):
         """!
         @brief Define a property string return function dictionary and
                return the entry to the caller
 
+        @param propertyName {string} Name of the property
         @param briefDesc {string} Brief description of the function used in
                                   doxygen comment block generation
         @param retType {string} Return type string
@@ -65,15 +74,53 @@ class StringClassDescription(object):
         @param isConst {boolean} True = add const decoration to function, False = no const decoration
 
         @return {'name':<string>, 'briefDesc':<string>, 'params':[],
-                 'return':{'type':"parserstr", 'desc':<translateFunctionsstring>},
+                 'return':ParamRetDict.buildReturnDict("parserstr", <retDesc>),
                  'inline':<string>} property function dictionary
         """
-        functionDict = {'briefDesc': briefDesc,
-                        'params':[],
-                        'return':{'type':retType, 'desc':retDesc}}
+        functionDict = {'name': propertyName,
+                        'briefDesc': briefDesc,
+                        'params': [],
+                        'return': ParamRetDict.buildReturnDict(retType, retDesc)
+                        }
         return functionDict
 
-    def _defineTranslateFunctionEntry(self, briefDesc, paramsList, retDesc, translateDesc):
+    def getPropertyMethodList(self):
+        """!
+        @brief Return a list of property method name strings
+        @return list of strings - Names of the property methods
+        """
+        return list(self.stringJasonData['propertyMethods'].keys())
+
+    def getPropertyMethodData(self, methodName):
+        """!
+        @brief Return the input methodName data
+        @return (tuple) - {string} Language descption property name,
+                          {string} Brief description of the property method for Doxygen comment,
+                          {list of dictionaries} Parameter list (probably empty list),
+                          {dictionary} Return data dictionary
+        """
+        entry = self.stringJasonData['propertyMethods'][methodName]
+        return entry['name'], entry['briefDesc'], entry['params'], entry['return']
+
+    def _defineTranslationDict(self, translateBaseLang = "en", translateText = ""):
+        """!
+        @brief Create a translation dictionary
+        @param translateBaseLang {string} Google translation language code for the input translateText string
+        @param translateText {string} Text of the message
+        @return dictionary - {'base':<translateBaseLang>, 'text':<translateText>} Translate method translation string dictionary
+        """
+        return {'base':translateBaseLang, 'text':translateText}
+
+    def _getTranslationDictData(self, translateDict):
+        """!
+        @brief Create a translation dictionary
+        @param translateDict {dictionary} Translate method translation string dictionary
+        @return tuple - {string} Google translation language code for the input translateText string,
+                        {string} Text of the message
+        """
+        return translateDict['base'], translateDict['text']
+
+    def _defineTranslateFunctionEntry(self, briefDesc = "", paramsList = [], retDesc = "", translateBaseLang = "en", translateText = ""):
         """!
         @brief Define a property string return function dictionary and
                return the entry to the caller
@@ -82,18 +129,44 @@ class StringClassDescription(object):
                                   doxygen comment block generation
         @param paramsList {list of dictionaries} List of the function parameter dictionary entrys
         @param retDesc {string} Description of the return parserstr value
-        @param translateDesc {dictionary} String translation description dictionary
-        @param isConst {boolean} True = add const decoration to function, False = no const decoration
+        @param translateBaseLang {string} Google translation language code for the input translateText string
+        @param translateText {string} Text of the message
 
         @return {'name':<string>, 'briefDesc':<string>, 'params':[],
-                 'return':{'type':"parserstr", 'desc':<string>},
+                 'return':ParamRetDict.buildReturnDict(StringClassNameGen.getParserStringType(), <retDesc>),
                  'translateDesc': {'base':<string> 'text':<string>}} Translate function dictionary
         """
         functionDict = {'briefDesc': briefDesc,
-                        'params':paramsList,
-                        'return':{'type':StringClassNameGen.getParserStringType(), 'desc':retDesc},
-                        'translateDesc': translateDesc}
+                        'params': paramsList,
+                        'return': ParamRetDict.buildReturnDict(StringClassNameGen.getParserStringType(), retDesc),
+                        'translateDesc': self._defineTranslationDict(translateBaseLang, translateText)}
         return functionDict
+
+    def getTranlateMethodList(self):
+        """!
+        @brief Return a list of property method name strings
+        @return list of strings - Names of the property methods
+        """
+        return list(self.stringJasonData['translateMethods'].keys())
+
+    def getTranlateMethodFunctionData(self, methodName):
+        """!
+        @brief Return the input methodName data
+        @return (tuple) - {string} Brief description of the property method for Doxygen comment,
+                          {list of dictionaries} Parameter list (probably empty list),
+                          {dictionary} Return data dictionary
+        """
+        entry = self.stringJasonData['translateMethods'][methodName]
+        return entry['briefDesc'], entry['params'], entry['return']
+
+    def getTranlateMethodTextData(self, methodName):
+        """!
+        @brief Return the input methodName data
+        @return (tuple) - {string} Google language code,
+                          {string} Base text
+        """
+        entry = self.stringJasonData['translateMethods'][methodName]
+        return self._getTranslationDictData(entry['translateDesc'])
 
     def _inputGoogleTranslateCode(self):
         """!
@@ -165,15 +238,21 @@ class StringClassDescription(object):
         return varType
 
     def _inputParameterData(self):
+        """!
+        @brief Get input parameter data from user input
+        @return dictionary - Param dictionary from  ParamRetDict.buildParamDict()
+        """
         paramName = self._inputCName()
         paramType = self._inputCType()
         paramDesc = input("Enter brief parameter description for doxygen comment: ")
-        return {'name':paramName, 'type':paramType, 'desc':paramDesc}
+        return ParamRetDict.buildParamDict(paramName, paramType, paramDesc)
 
     def _inputReturnData(self):
-        retType = self._inputCType()
+        """!
+        @brief Get the return data description from the user
+        """
         retDesc = input("Enter brief description of the return value for doxygen comment: ")
-        return {'type':retType, 'desc':retDesc}
+        return retDesc
 
     def update(self):
         """!
@@ -244,13 +323,11 @@ class StringClassDescription(object):
                 paramList.append(self._inputParameterData())
                 paramCount -= 1
 
-            returnData = self._inputReturnData()
+            returnDesc = self._inputReturnData()
 
             languageBase = self._inputGoogleTranslateCode()
             translateString = self._getTranslateString(paramList)
-            translateDesc = {'googleLang': languageBase, "text": translateString}
-
-            newEntry = self._defineTranslateFunctionEntry(functionDesc, paramList, returnData, translateDesc)
+            newEntry = self._defineTranslateFunctionEntry(functionDesc, paramList, returnDesc, languageBase, translateString)
 
             # Print entry for user to inspect
             print("New Entry:")
@@ -261,17 +338,17 @@ class StringClassDescription(object):
 
         # Test existing for match
         commitFlag = False
-        if functionName in self.stringJasonData['translateFunctions'].keys():
+        if functionName in self.stringJasonData['translateMethods'].keys():
             # Determine if we should overwrite existing
             commit = input("Overwrite existing "+functionName+" entry? [Y/N]").upper()
             if ((commit == 'Y') or (commit == "YES")):
                 commitFlag = True
-                self.stringJasonData['translateFunctions'][functionName] = newEntry
+                self.stringJasonData['translateMethods'][functionName] = newEntry
         else:
             commit = input("Add new entry? [Y/N]").upper()
             if ((commit == 'Y') or (commit == "YES")):
                 commitFlag = True
-                self.stringJasonData['translateFunctions'][functionName] = newEntry
+                self.stringJasonData['translateMethods'][functionName] = newEntry
 
         return commitFlag
 
@@ -286,24 +363,23 @@ class StringClassDescription(object):
         @param googleLangCode {string} Google translate language ID code of the input translateString
         @param translateString {string} String to generate translations for
         """
-        returnData = {'type': StringClassNameGen.getParserStringType(), 'desc': returnDescription}
-        translateDesc = {'googleLang': googleLangCode, "text": translateString}
+        newEntry = self._defineTranslateFunctionEntry(functionDesc, paramList, returnDescription, googleLangCode, translateString)
 
-        newEntry = self._defineTranslateFunctionEntry(functionDesc, paramList, returnData, translateDesc)
-
-        if functionName in self.stringJasonData['translateFunctions'].keys():
+        if functionName in self.stringJasonData['translateMethods'].keys():
             # Determine if we should overwrite existing
             commit = input("Overwrite existing "+functionName+" entry? [Y/N]").upper()
             if ((commit == 'Y') or (commit == "YES")):
-                self.stringJasonData['translateFunctions'][functionName] = newEntry
+                self.stringJasonData['translateMethods'][functionName] = newEntry
         else:
-            self.stringJasonData['translateFunctions'][functionName] = newEntry
+            self.stringJasonData['translateMethods'][functionName] = newEntry
 
     def _getPropertyReturnData(self):
         """!
         @brief Get the property function return data and property name
-        @retval string - Property dictionary entry name
-        @retval {'type':<string>, 'desc':<string>} - Function retyrn description dictionary
+        @return string, string, string, string - Language description property name,
+                                                 Method name,
+                                                 Method return type,
+                                                 Return type description for Doxygen comment
         """
         propertyOptions = LanguageDescriptionList.getLanguagePropertyList()
 
@@ -311,27 +387,26 @@ class StringClassDescription(object):
         optionText = ""
         optionPrefix = "    "
         maxIndex = 0
-        for index, propertyTuple in enumerate(propertyOptions):
+        for index, propertyId in enumerate(propertyOptions):
             optionText +=  optionPrefix
             optionText += str(index)+": "
-            optionText += propertyTuple[LanguageDescriptionList.getLanguagePropertyListNameIndex()]
+            optionText += propertyId
             optionPrefix = ", "
             maxIndex += 1
         print (optionText)
 
-        validIndex = -1
-        while validIndex == -1:
+        propertyId = None
+        while propertyId is None:
             propertyIndex = int(input("Enter property [0 - "+str(maxIndex-1)+"]: "))
             if (propertyIndex >= 0) and (propertyIndex < maxIndex):
-                validIndex = propertyIndex
+                propertyId = propertyOptions[propertyIndex]
             else:
                 print ("Valid input values are 0 to "+str(maxIndex-1)+", try again")
 
-        returnType = propertyOptions[validIndex][LanguageDescriptionList.getLanguagePropertyListTypeIndex()]
-        returnDesc = propertyOptions[validIndex][LanguageDescriptionList.getLanguagePropertyListDescIndex()]
-        propertyName = propertyOptions[validIndex][LanguageDescriptionList.getLanguagePropertyListNameIndex()]
-        methodName = propertyOptions[validIndex][LanguageDescriptionList.getLanguagePropertyListMethodNameIndex()]
-        return propertyName, methodName, returnType, returnDesc
+        returnType = LanguageDescriptionList.getLanguagePropertyReturnType(propertyId, self.codeGen)
+        returnDesc = LanguageDescriptionList.getLanguagePropertyReturnDesc(propertyId)
+        methodName = LanguageDescriptionList.getLanguagePropertyMethodName(propertyId)
+        return propertyId, methodName, returnType, returnDesc
 
     def newPropertyMethodEntry(self):
         """!
@@ -345,7 +420,7 @@ class StringClassDescription(object):
             propertyName, methodName, returnType, returnDesc = self._getPropertyReturnData()
             functionDesc = "Get the "+returnDesc+" for this object"
 
-            newEntry = self._definePropertyFunctionEntry(functionDesc, returnType, returnDesc)
+            newEntry = self._definePropertyFunctionEntry(propertyName, functionDesc, returnType, returnDesc)
 
             # Print entry for user to inspect
             print(methodName+":")
@@ -356,17 +431,17 @@ class StringClassDescription(object):
 
         # Check for existing for match
         commitFlag = False
-        if methodName in self.stringJasonData['propertyFunctions'].keys():
+        if methodName in self.stringJasonData['propertyMethods'].keys():
             # Determine if we should overwrite existing
             commit = input("Overwrite existing "+methodName+" entry? [Y/N]").upper()
             if ((commit == 'Y') or (commit == "YES")):
-                self.stringJasonData['propertyFunctions'][methodName] = newEntry
+                self.stringJasonData['propertyMethods'][methodName] = newEntry
                 commitFlag = True
         else:
             # Determine if we should add the new entry
             commit = input("Add new entry? [Y/N]").upper()
             if ((commit == 'Y') or (commit == "YES")):
-                self.stringJasonData['propertyFunctions'][methodName] = newEntry
+                self.stringJasonData['propertyMethods'][methodName] = newEntry
                 commitFlag = True
 
         return commitFlag
@@ -379,30 +454,24 @@ class StringClassDescription(object):
         """
         # Make sure property exists in the language data
         propertyList = LanguageDescriptionList.getLanguagePropertyList()
-        found = -1
-        for index, propertyEntry in enumerate(propertyList):
-            if propertyEntry[LanguageDescriptionList.getLanguagePropertyListNameIndex()] == propertyName:
-                found = index
-                break
 
         # Property exists, generate the new entry
-        if found != -1:
-            propertyTuple = propertyList[found]
-            returnType = propertyTuple[LanguageDescriptionList.getLanguagePropertyListTypeIndex()]
-            returnDesc = propertyTuple[LanguageDescriptionList.getLanguagePropertyListDescIndex()]
+        if propertyName in propertyList:
+            returnType = LanguageDescriptionList.getLanguagePropertyReturnType(propertyName, self.codeGen)
+            returnDesc = LanguageDescriptionList.getLanguagePropertyReturnDesc(propertyName)
             functionDesc = "Get the "+returnDesc+" for this object"
-            functionName = propertyTuple[LanguageDescriptionList.getLanguagePropertyListMethodNameIndex()]
+            functionName = LanguageDescriptionList.getLanguagePropertyMethodName(propertyName)
 
-            newEntry = self._definePropertyFunctionEntry(functionDesc, returnType, returnDesc)
+            newEntry = self._definePropertyFunctionEntry(propertyName, functionDesc, returnType, returnDesc)
 
-            if functionName in self.stringJasonData['propertyFunctions'].keys():
+            if functionName in self.stringJasonData['propertyMethods'].keys():
                 # Verify the overwrite
                 commit = input("Overwrite existing "+functionName+" entry? [Y/N]").upper()
                 if ((commit == 'Y') or (commit == "YES")):
-                    self.stringJasonData['propertyFunctions'][functionName] = newEntry
+                    self.stringJasonData['propertyMethods'][functionName] = newEntry
             else:
                 # Add the entry
-                self.stringJasonData['propertyFunctions'][functionName] = newEntry
+                self.stringJasonData['propertyMethods'][functionName] = newEntry
 
 
 def CreateDefaultStringFile():
@@ -414,60 +483,60 @@ def CreateDefaultStringFile():
 
     # General argument parsing messages
     classStrings.addTranslateMethodEntry("getNotListTypeMessage", "Return non-list varg error message",
-                                           [{'name':'nargs','type':"int",'desc':"input nargs value"}],
+                                           [ParamRetDict.buildParamDict("nargs", "int", "input nargs value")],
                                            "Non-list varg error message",
                                            "en",
                                            "Only list type arguments can have an argument count of @nargs@")
 
     classStrings.addTranslateMethodEntry("getUnknownArgumentMessage", "Return unknown parser key error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Unknown key"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Unknown key")],
                                            "Unknown parser key error message",
                                            "en",
                                            "Unknown argument @keyString@")
 
     classStrings.addTranslateMethodEntry("getInvalidAssignmentMessage", "Return varg invalid assignment error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Error key"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
                                            "Varg key invalid assignment error message",
                                            "en",
                                            "\"@keyString@\" invalid assignment")
 
     classStrings.addTranslateMethodEntry("getAssignmentFailedMessage", "Return varg assignment failed error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Error key"},
-                                            {'name':'valueString','type':StringClassNameGen.getParserStringType(),'desc':"Assignment value"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key"),
+                                            ParamRetDict.buildParamDict("valueString", StringClassNameGen.getParserStringType(), "Assignment value")],
                                            "Varg key assignment failed error message",
                                            "en",
                                            "\"@keyString@\", \"@valueString@\" assignment failed")
 
     classStrings.addTranslateMethodEntry("getMissingAssignmentMessage", "Return varg missing assignment error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Error key"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
                                            "Varg key missing value assignment error message",
                                            "en",
                                            "\"@keyString@\" missing assignment value")
 
     classStrings.addTranslateMethodEntry("getMissingListAssignmentMessage", "Return varg missing list value assignment error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Error key"},
-                                            {'name':'expected', 'type':"size_t", 'desc': "Expected assignment list length"},
-                                            {'name':'found', 'type':"size_t", 'desc': "Input assignment list length"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key"),
+                                            ParamRetDict.buildParamDict("expected", "size_t", "Expected assignment list length"),
+                                            ParamRetDict.buildParamDict("found", "size_t", "Input assignment list length")],
                                            "Varg key input value list too short error message",
                                            "en",
                                            "\"@keyString@\" missing assignment value(s). Expected: @expected@ found: @found@ arguments")
 
     classStrings.addTranslateMethodEntry("getTooManyAssignmentMessage", "Return varg missing list value assignment error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Error key"},
-                                            {'name':'expected', 'type':"size_t", 'desc': "Expected assignment list length"},
-                                            {'name':'found', 'type':"size_t", 'desc': "Input assignment list length"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key"),
+                                            ParamRetDict.buildParamDict("expected", "size_t", "Expected assignment list length"),
+                                            ParamRetDict.buildParamDict("found", "size_t", "Input assignment list length")],
                                            "Varg key input value list too long error message",
                                            "en",
                                            "\"@keyString@\" too many assignment values. Expected: @expected@ found: @found@ arguments")
 
     classStrings.addTranslateMethodEntry("getMissingArgumentMessage", "Return required varg missing error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Error key"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
                                            "Required varg key missing error message",
                                            "en",
                                            "\"@keyString@\" required argument missing")
 
     classStrings.addTranslateMethodEntry("getArgumentCreationError", "Return parser add varg failure error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Error key"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
                                            "Parser varg add failure message",
                                            "en",
                                            "Argument add failed: @keyString@")
@@ -505,13 +574,13 @@ def CreateDefaultStringFile():
                                            "Defined Environment values:")
 
     classStrings.addTranslateMethodEntry("getEnvironmentNoFlags", "Return environment parser add flag varg failure error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Flag key"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Flag key")],
                                            "Environment parser add flag varg failure message",
                                            "en",
                                            "Environment value @keyString@ narg must be > 0")
 
     classStrings.addTranslateMethodEntry("getRequiredEnvironmentArgMissing", "Return environment parser required varg missing error message",
-                                           [{'name':'keyString','type':StringClassNameGen.getParserStringType(),'desc':"Flag key"}],
+                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Flag key")],
                                            "Environment parser required varg missing error message",
                                            "en",
                                            "Environment value @keyString@ must be defined")

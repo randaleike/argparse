@@ -28,7 +28,7 @@ for the argparse libraries
 import re
 import json
 
-from file_tools.file_gen_tools import StringClassNameGen
+from file_tools.string_name_generator import StringClassNameGen
 
 class LanguageDescriptionList(object):
     """!
@@ -45,7 +45,7 @@ class LanguageDescriptionList(object):
         try:
             langJsonFile = open(langListFileName, 'r', encoding='utf-8')
         except FileNotFoundError:
-            self.langJsonData = {'default':{'name':"english", 'isoCode':"en"}, "languages":{}}
+            self.langJsonData = {'default':{'name':"english", 'isoCode':"en"}, 'languages':{}}
         else:
             self.langJsonData = json.load(langJsonFile)
             langJsonFile.close()
@@ -75,9 +75,18 @@ class LanguageDescriptionList(object):
             for langName in list(self.langJsonData['languages']):
                 print("  "+langName)
 
+    def getDefaultData(self):
+        """!
+        @brief Get the default language data
+        @return tuple (string, string) - Default lauguage (entry name, ISO 639 set 3 language code)
+        """
+        defaultLang = self.langJsonData['default']['name']
+        defaultIsoCode = self.langJsonData['default']['isoCode']
+        return defaultLang, defaultIsoCode
 
-    def _createLanguageEntry(self, googleLangCode, linuxEnvCode, linuxRegionList,
-                             windowsLangId, windowsRegionList, iso639Code, compileSwitch):
+    @staticmethod
+    def _createLanguageEntry(googleLangCode = "", linuxEnvCode = "", linuxRegionList = [],
+                             windowsLangId = [], windowsRegionList = [] , iso639Code = "", compileSwitch = ""):
         """!
         @brief Create a language dictionart entry
 
@@ -101,74 +110,171 @@ class LanguageDescriptionList(object):
         langEntry = dict(langData)
         return langEntry
 
+    def getLanguageList(self):
+        """!
+        @brief Get a list of the current defined languages
+        @return list of strings - Current ['languages'] keys
+        """
+        return list(self.langJsonData['languages'].keys())
+
+    def getLanguageGoogleCodeData(self, entryName):
+        """!
+        @brief Get the googleCode data for the given entryName language
+        @param entryName {string} Entry key from getLanguageList entry
+        @return string - Current ['languages'][entryName]['googleCode'] data
+        """
+        return self.langJsonData['languages'][entryName]['googleCode']
+
+    def getLanguageLANGData(self, entryName):
+        """!
+        @brief Get the LANG and LANG_regions data for the given entryName language
+        @param entryName {string} Entry key from getLanguageList entry
+        @return tuple (string, list of strings) - Current ['languages'][entryName]['LANG'] data,
+                                                  and ['languages'][entryName]['LANGID_regions'] data
+        """
+        langCode = self.langJsonData['languages'][entryName]['LANG']
+        regionList = self.langJsonData['languages'][entryName]['LANG_regions']
+        return langCode, regionList
+
+    def getLanguageLANGIDData(self, entryName):
+        """!
+        @brief Get the LANGID and LANGID_regions data for the given entryName language
+        @param entryName {string} Entry key from getLanguageList entry
+        @return tuple (list of numbers, list of numbers) -
+                Current ['languages'][entryName]['LANGID'] data,
+                and ['languages'][entryName]['LANGID_regions'] data
+        """
+        langCode = self.langJsonData['languages'][entryName]['LANGID']
+        regionList = self.langJsonData['languages'][entryName]['LANGID_regions']
+        return langCode, regionList
+
+    def getLanguageIsoCodeData(self, entryName):
+        """!
+        @brief Get the isoCode data for the given entryName language
+        @param entryName {string} Entry key from getLanguageList entry
+        @return string - Current ['languages'][entryName][isoCode] data
+        """
+        return self.langJsonData['languages'][entryName]['isoCode']
+
+    def getLanguageCompileSwitchData(self, entryName):
+        """!
+        @brief Get the compileSwitch data for the given entryName language
+        @param entryName {string} Entry key from getLanguageList entry
+        @return string - Current ['languages'][entryName][compileSwitch] data
+        """
+        return self.langJsonData['languages'][entryName]['compileSwitch']
+
     @staticmethod
     def getLanguagePropertyList():
         """!
         @brief Return a tuple list of the usable language dictionary entries
-        @return list of (dictionary element name, param type to use)
+        @return list of language entry property names
         """
-        properties = [('googleCode', StringClassNameGen.getParserStringType(), "Google translate language code", "getGoogleTranslateCode"),
-                      ('LANG', StringClassNameGen.getParserStringType(), "Linux environment language code", "getLANGLanguage"),
-                      ('LANG_regions', "std::list<"+StringClassNameGen.getParserStringType()+">", "Linux environment region codes for this language code", "getLANGRegionList"),
-                      ('LANGID', "std::list<LANGID>", "Windows LANGID & 0xFF language code(s)", "getLANGIDLangList"),
-                      ('LANGID_regions', "std::list<LANGID>", "Windows full LANGID language code(s)", "getLANGIDList"),
-                      ('isoCode', StringClassNameGen.getParserStringType(), "ISO 639 set 3 language code", "getLangIsoCode")
-                      ]
-
-        return properties
+        entryTemplate = LanguageDescriptionList._createLanguageEntry()
+        return list(entryTemplate.keys())
 
     @staticmethod
-    def getLanguagePropertyListNameIndex():
-        return 0
+    def getLanguagePropertyReturnType(propertyName, codeGen):
+        """!
+        @brief Get the property method return type for code generation
+        @param propertyName (string) Name of the property from getLanguagePropertyList()
+        @param codeGen (object) Code generator object
+        @return string Code return type or None if the propertyName is unknown
+        """
+        if propertyName == 'googleCode':
+            return codeGen.getStringType(codeGen)
+        elif propertyName == 'LANG':
+            return codeGen.getStringType(codeGen)
+        elif propertyName == 'LANG_regions':
+            return codeGen.getStringListType(codeGen)
+        elif propertyName == 'LANGID':
+            return codeGen.getLANGIDListType(codeGen)
+        elif propertyName == 'LANGID_regions':
+            return codeGen.getLANGIDListType(codeGen)
+        elif propertyName == 'isoCode':
+            return codeGen.getStringType(codeGen)
+        else:
+            return None
 
     @staticmethod
-    def getLanguagePropertyListTypeIndex():
-        return 1
+    def getLanguagePropertyReturnDesc(propertyName):
+        """!
+        @brief Get the property description
+        @param propertyName (string) Name of the property from getLanguagePropertyList()
+        @return string CPP description or None if the propertyName is unknown
+        """
+        if propertyName == 'googleCode':
+            return "Google translate language code"
+        elif propertyName == 'LANG':
+            return "Linux environment language code"
+        elif propertyName == 'LANG_regions':
+            return "Linux environment region codes for this language code"
+        elif propertyName == 'LANGID':
+            return "Windows LANGID & 0xFF language code(s)"
+        elif propertyName == 'LANGID_regions':
+            return "Windows full LANGID language code(s)"
+        elif propertyName == 'isoCode':
+            return "ISO 639 set 3 language code"
+        else:
+            return None
 
     @staticmethod
-    def getLanguagePropertyListDescIndex():
-        return 2
+    def getLanguagePropertyMethodName(propertyName):
+        """!
+        @brief Get the property method name
+        @param propertyName (string) Name of the property from getLanguagePropertyList()
+        @return string CPP description or None if the propertyName is unknown
+        """
+        if propertyName == 'googleCode':
+            return "getGoogleTranslateCode"
+        elif propertyName == 'LANG':
+            return "getLANGLanguage"
+        elif propertyName == 'LANG_regions':
+            return "getLANGRegionList"
+        elif propertyName == 'LANGID':
+            return "getLANGIDCode"
+        elif propertyName == 'LANGID_regions':
+            return "getLANGIDList"
+        elif propertyName == 'isoCode':
+            return "getLangIsoCode"
+        else:
+            return None
 
-    @staticmethod
-    def getLanguagePropertyListMethodNameIndex():
-        return 3
-
-    def generateInlinePropertyCode(self, language, propertyTuple):
+    def generateInlinePropertyCode(self, languageName, propertyName, codeGen):
         """!
         @brief Return a tuple list of the usable language dictionary entries
-        @param language {string} Language to pull the property from
-        @param propertyTuple {tuple} Tuple element from the list returned from getLanguagePropertyList()
-        @return list of strings - Unindented C code
+        @param languageName (string) Language dictionary entry name from the JSON file
+        @param propertyName (string) Name of the property from getLanguagePropertyList()
+        @param codeGen (object) Code generator object
+        @return list of strings - Unindented codeGen language code
         """
-        propertyName = propertyTuple[LanguageDescriptionList.getLanguagePropertyListNameIndex()]
-        propertyType = propertyTuple[LanguageDescriptionList.getLanguagePropertyListTypeIndex()]
+        propertyType = LanguageDescriptionList.getLanguagePropertyReturnType(propertyName, codeGen)
+        languageEntry = self.langJsonData['languages'][languageName]
 
         codeText = []
-        if propertyName == 'name':
-            codeText.append("return ("+self.langJsonData[language]['name']+");")
-        elif propertyName == 'googleCode':
-            codeText.append("return ("+self.langJsonData[language]['googleCode']+");")
+        if propertyName == 'googleCode':
+            codeText.append(codeGen.getStringReturnStatment(codeGen, languageEntry['googleCode']))
         elif propertyName == 'LANG':
-            codeText.append("return ("+self.langJsonData[language]['LANG']+");")
+            codeText.append(codeGen.getStringReturnStatment(codeGen, languageEntry['LANG']))
         elif propertyName == 'isoCode':
-            codeText.append("return ("+self.langJsonData[language]['isoCode']+");")
+            codeText.append(codeGen.getStringReturnStatment(codeGen, languageEntry['isoCode']))
         elif propertyName == 'compileSwitch':
-            codeText.append("return ("+self.langJsonData[language]['compileSwitch']+");")
+            codeText.append(codeGen.getStringReturnStatment(codeGen, languageEntry['compileSwitch']))
         elif propertyName == 'LANG_regions':
-            codeText.append(propertyType+" returnData;")
-            for region in self.langJsonData[language]['LANG_regions']:
-                codeText.append("returnData.emplace_back("+region+");")
-            codeText.append("return returnData;")
+            codeText.append(codeGen.getVardeclStatment(codeGen, propertyType, "returnData"))
+            for region in languageEntry['LANG_regions']:
+                codeText.append(codeGen.getAddStringListStatment(codeGen, region))
+            codeText.append(codeGen.getValueReturnStatment(codeGen, "returnData"))
         elif propertyName == 'LANGID':
-            codeText.append(propertyType+" returnData;")
-            for id in self.langJsonData[language]['LANGID']:
-                codeText.append("returnData.emplace_back("+id+");")
-            codeText.append("return returnData;")
+            codeText.append(codeGen.getVardeclStatment(codeGen, propertyType, "returnData"))
+            for id in languageEntry['LANGID']:
+                codeText.append(codeGen.getAddValueListStatment(codeGen, id))
+            codeText.append(codeGen.getValueReturnStatment(codeGen, "returnData"))
         elif propertyName == 'LANGID_regions':
-            codeText.append(propertyType+" returnData;")
-            for id in self.langJsonData[language]['LANGID_regions']:
-                codeText.append("returnData.emplace_back("+id+");")
-            codeText.append("return returnData;")
+            codeText.append(codeGen.getVardeclStatment(codeGen, propertyType, "returnData"))
+            for id in languageEntry['LANGID_regions']:
+                codeText.append(codeGen.getAddValueListStatment(codeGen, id))
+            codeText.append(codeGen.getValueReturnStatment(codeGen, "returnData"))
 
         return codeText
 

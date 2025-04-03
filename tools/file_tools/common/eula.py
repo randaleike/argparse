@@ -25,7 +25,6 @@ Utilities to create formatted End User License Agreement Text blocks
 #==========================================================================
 
 import sys
-import os
 import re
 from .text_format import MultiLineFormat
 

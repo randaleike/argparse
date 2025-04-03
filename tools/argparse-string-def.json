@@ -1,15 +1,16 @@
 {
-  "propertyFunctions": {
+  "propertyMethods": {
     "getLangIsoCode": {
+      "name": "isoCode",
       "briefDesc": "Get the ISO 639 set 3 language code for this object",
       "params": [],
       "return": {
-        "type": "parserstr",
+        "type": "std::string",
         "desc": "ISO 639 set 3 language code"
       }
     }
   },
-  "translateFunctions": {
+  "translateMethods": {
     "getNotListTypeMessage": {
       "briefDesc": "Return non-list varg error message",
       "params": [
@@ -21,13 +22,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Non-list varg error message"
-        }
+        "desc": "Non-list varg error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Only list type arguments can have an argument count of @nargs@"
       }
     },
@@ -42,13 +40,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Unknown parser key error message"
-        }
+        "desc": "Unknown parser key error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Unknown argument @keyString@"
       }
     },
@@ -63,13 +58,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Varg key invalid assignment error message"
-        }
+        "desc": "Varg key invalid assignment error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "\"@keyString@\" invalid assignment"
       }
     },
@@ -89,13 +81,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Varg key assignment failed error message"
-        }
+        "desc": "Varg key assignment failed error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "\"@keyString@\", \"@valueString@\" assignment failed"
       }
     },
@@ -110,13 +99,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Varg key missing value assignment error message"
-        }
+        "desc": "Varg key missing value assignment error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "\"@keyString@\" missing assignment value"
       }
     },
@@ -141,13 +127,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Varg key input value list too short error message"
-        }
+        "desc": "Varg key input value list too short error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "\"@keyString@\" missing assignment value(s). Expected: @expected@ found: @found@ arguments"
       }
     },
@@ -172,13 +155,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Varg key input value list too long error message"
-        }
+        "desc": "Varg key input value list too long error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "\"@keyString@\" too many assignment values. Expected: @expected@ found: @found@ arguments"
       }
     },
@@ -193,13 +173,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Required varg key missing error message"
-        }
+        "desc": "Required varg key missing error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "\"@keyString@\" required argument missing"
       }
     },
@@ -214,13 +191,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Parser varg add failure message"
-        }
+        "desc": "Parser varg add failure message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Argument add failed: @keyString@"
       }
     },
@@ -229,13 +203,10 @@
       "params": [],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Usage help message"
-        }
+        "desc": "Usage help message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Usage:"
       }
     },
@@ -244,13 +215,10 @@
       "params": [],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Positional argument help message"
-        }
+        "desc": "Positional argument help message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Positional Arguments:"
       }
     },
@@ -259,13 +227,10 @@
       "params": [],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Optional argument help message"
-        }
+        "desc": "Optional argument help message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Optional Arguments:"
       }
     },
@@ -274,13 +239,10 @@
       "params": [],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Default help argument help message"
-        }
+        "desc": "Default help argument help message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "show this help message and exit"
       }
     },
@@ -289,13 +251,10 @@
       "params": [],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Environment parser argument help header message"
-        }
+        "desc": "Environment parser argument help header message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Defined Environment values:"
       }
     },
@@ -310,13 +269,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Environment parser add flag varg failure message"
-        }
+        "desc": "Environment parser add flag varg failure message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Environment value @keyString@ narg must be > 0"
       }
     },
@@ -331,13 +287,10 @@
       ],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "Environment parser required varg missing error message"
-        }
+        "desc": "Environment parser required varg missing error message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Environment value @keyString@ must be defined"
       }
     },
@@ -346,13 +299,10 @@
       "params": [],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "JSON parser argument help header message"
-        }
+        "desc": "JSON parser argument help header message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Available JSON argument values:"
       }
     },
@@ -361,13 +311,10 @@
       "params": [],
       "return": {
         "type": "parserstr",
-        "desc": {
-          "type": "parserstr",
-          "desc": "XML parser argument help header message"
-        }
+        "desc": "XML parser argument help header message"
       },
       "translateDesc": {
-        "googleLang": "en",
+        "base": "en",
         "text": "Available XML argument values:"
       }
     }

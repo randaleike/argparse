@@ -27,9 +27,15 @@ for the argparse libraries
 
 import os
 import re
+import asyncio
 
-from file_tools.file_gen_tools import GenerateCppFileHelper
-from file_tools.file_gen_tools import StringClassNameGen
+from googletrans import Translator
+
+from jsonLanguageDescriptionList import LanguageDescriptionList
+from jsonStringClassDescription import StringClassDescription
+
+from file_tools.common.file_gen_tools import GenerateCppFileHelper
+from file_tools.string_name_generator import StringClassNameGen
 
 from file_tools.linux_lang_select import LinuxLangSelectFunctionGenerator
 from file_tools.windows_lang_select import WindowsLangSelectFunctionGenerator
@@ -65,7 +71,7 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         self.masterFunctionName = "getLocalParserStringListInterface"
         self.nameSpaceName = "argparser"
         self.masterFunction = MasterSelectFunctionGenerator(self.masterFunctionName,
-                                                            self.nameSpaceName)
+                                                            StringClassNameGen.getBaseClassName())
         self.declareIndent = 8
 
     def _generateFileHeader(self, outfile):
@@ -101,7 +107,7 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
 
         # Add doxygen group start
         cppFile.writelines([""]) # whitespace for readability
-        self._genDoxyDefgroup(self.groupName, cppFile, ".cpp")
+        cppFile.writelines(self.genDoxyDefgroup(self.groupName, self.groupDesc, self.fileName+".cpp"))
 
         # Add the language dependent selection functions
         for langSelectFunction in self.osLangSelectList:
@@ -117,19 +123,111 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         self.masterFunction(jsonLangData, cppFile)
 
         # Complete the doxygen group
-        self._genDoxyGroupEnd(cppFile)
+        cppFile.writelines(self.genDoxyGroupEnd())
 
-    def _writeBaseHFile(self, jsonStringsDef, hFile):
+    def _writePropertyMethods(self, jsonStringsDef, jsonLangData, hFile, langName = None):
+        """!
+        @brief Write the property method definitions
+
+        @param jsonStringsDef {dictionary} JSON function definitions
+        @param jsonLangData {dictionary} JSON file language dictionary data
+        @param hFile {File} File to write the data to
+        @param langName {string} Language name or None this is for the base file
+        """
+        # Add the property fetch methods
+        if langName is None:
+            postfixFinal = "= 0"
+            prefix = '[[nodiscard]] virtual'
+            noDoxyGeneration = False
+        else:
+            postfixFinal = "final"
+            prefix = None
+            noDoxyGeneration = True
+
+        for propertyMethod, propertyData in jsonStringsDef["propertyFunctions"].items():
+            if len(propertyData['params']) == 0:
+                postfix = "const " + postfixFinal
+            else:
+                postfix = postfixFinal
+
+            # Get the language data replacements
+            if langName is not None:
+                inlineText = jsonLangData.generateInlinePropertyCode(langName, propertyData['name'], self)
+            else:
+                inlineText = None
+
+            # Output final declaration
+            hFile.writelines(self.declareFunctionWithDecorations(propertyMethod,
+                                                                 propertyData['briefDesc'],
+                                                                 propertyData['params'],
+                                                                 propertyData['return'],
+                                                                 self.declareIndent,
+                                                                 noDoxyGeneration,
+                                                                 prefix,
+                                                                 postfix,
+                                                                 inlineText))
+
+            if not noDoxyGeneration:
+                hFile.writelines([""]) # whitespace for readability
+
+    def _writeTranslateMethods(self, jsonStringsDef, hFile, langName = None, googleTransCode = None):
+        """!
+        @brief Write the property method definitions
+
+        @param jsonStringsDef {dictionary} JSON function definitions
+        @param hFile {File} File to write the data to
+        @param langName {string} Language name or None this is for the base file
+        @param googleTransCode {string} Google translate generation
+        """
+        # Add the property fetch methods
+        if langName is None:
+            postfixFinal = "= 0"
+            prefix = '[[nodiscard]] virtual'
+            noDoxyGeneration = False
+        else:
+            postfixFinal = "final"
+            prefix = None
+            noDoxyGeneration = True
+
+        for stringMethod, methodData in jsonStringsDef["translateFunctions"].items():
+            if len(methodData['params']) == 0:
+                postfix = "const "+postfixFinal
+            else:
+                postfix = postfixFinal
+
+            # Get the language generation string
+            if langName is not None:
+                baseText = methodData['translateDesc']['text']
+                baseLanguage = methodData['translateDesc']['']
+                inlineText = jsonLangData.generateInlinePropertyCode(langName, propertyData['name'])
+            else:
+                inlineText = None
+
+            # Determine if we need
+            hFile.writelines(self.declareFunctionWithDecorations(stringMethod,
+                                                                 methodData['briefDesc'],
+                                                                 methodData['params'],
+                                                                 methodData['return'],
+                                                                 self.declareIndent,
+                                                                 noDoxyGeneration,
+                                                                 prefix,
+                                                                 postfix,
+                                                                 inlineText))
+            if not noDoxyGeneration:
+                hFile.writelines([""]) # whitespace for readability
+
+    def _writeBaseHFile(self, jsonStringsDef, jsonLangData, hFile):
         """!
         @brief Write the OS language selection CPP file
 
         @param jsonStringsDef {dictionary} JSON function definitions
+        @param jsonLangData {dictionary} JSON file language dictionary data
         @param hFile {File} File to write the data to
         """
         # Write the common header datajsonStringsDef
         hFile.writelines(self._generateFileHeader(hFile))
         hFile.writelines([""]) # whitespace for readability
-        self._genDoxyDefgroup(self.groupName, self.groupDesc, hFile, ".h")
+        hFile.writelines(self._genDoxyDefgroup(self.groupName, self.groupDesc, self.fileName+".h"))
 
         hFile.writelines(["", "#pragma once"])
         hFile.writelines(["", "// Includes"])
@@ -143,7 +241,7 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
                         "using "+StringClassNameGen.getParserStringType()+" = std::string;          ///< Standard parser string definition",
                         "using "+StringClassNameGen.getParserCharType()+" = char;                ///< Standard parser character definition",
                         "",
-                        "namespace argparser",
+                        "namespace "+self.nameSpaceName,
                         "{",
                         ""])
 
@@ -160,20 +258,7 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
                                                                    False))
 
         # Add the string generation functions
-        for baseFunction in jsonStringsDef["propertyFunctions"]:
-            if baseFunction['isConst']:
-                postfix = "const = 0"
-            else:
-                postfix = "= 0"
-
-            hFile.writelines(self.declareFunctionWithDecorations(baseFunction['name'],
-                                                                 baseFunction['briefDesc'],
-                                                                 baseFunction['params'],
-                                                                 baseFunction['return'],
-                                                                 self.declareIndent,
-                                                                 False,
-                                                                 "[[nodiscard]] virtual",
-                                                                 postfix))
+        self._writePropertyMethods(jsonStringsDef, jsonLangData, hFile, None)
 
         for stringFunction in jsonStringsDef["translateFunctions"]:
             if stringFunction['isConst']:
@@ -193,93 +278,74 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         hFile.writelines(self.masterFunction.declareFunction())
 
         # Complete the doxygen group
-        self._genDoxyGroupEnd(hFile)
+        hFile.writelines(self.genDoxyGroupEnd())
 
-    def _writeLangHFile(self, jsonStringsDef, jsonLangEntry, hFile, langName):
+    def _writeLangHFile(self, jsonStringsDef, jsonLangData, hFile, langName):
         """!
         @brief Write the OS language selection CPP file
 
         @param jsonStringsDef {dictionary} JSON function definitions
-        @param jsonLangEntry {dictionary} JSON file language dictionary data
+        @param jsonLangData {dictionary} JSON file language dictionary data
         @param hFile {File} File to write the data to
         @param langName {string} - Language name
         """
         # Write the common header datajsonStringsDef
         hFile.writelines(self._generateFileHeader(hFile))
         hFile.writelines([""]) # whitespace for readability
-        self._genDoxyDefgroup(self.groupName, self.groupDesc, hFile, ".h")
+        hFile.writelines(self._genDoxyDefgroup(self.groupName, self.groupDesc, self.fileName+".h"))
 
         hFile.writelines(["", "#pragma once"])
         hFile.writelines(["", "// Includes"])
 
-        # Assume base class
+        # Set the class name
         className = StringClassNameGen.getLangClassName(langName)
-        classNameInherit = " final : public "+StringClassNameGen.getBaseClassName()
-
         self._genInclude("<cstdio>", hFile)
         self._genInclude("<cstring>", hFile)
         self._genInclude("<sstream>", hFile)
         self._genInclude(StringClassNameGen.getBaseClassName()+".h", hFile)
         hFile.writelines(["",
-                        "using namespace argparser;",
+                        "using namespace "+self.nameSpaceName+";",
                         "using "+StringClassNameGen.getParserStrStreamType()+" = std::stringstream;",
                         ""])
 
         # Start class definition
         hFile.writelines(self.genClassStart(className,
-                                            "Parser error/help string generation interface",
+                                            "Language specific parser error/help string generation interface",
                                             "public "+StringClassNameGen.getBaseClassName(),
                                             "final"))
         hFile.writelines(["    public:"])
 
         # Add default Constructor/destructor definitions
-        hFile.writelines(self.genClassDefaultConstructorDestructor(className, self.declareIndent, True, True))
+        hFile.writelines(self.genClassDefaultConstructorDestructor(className, self.declareIndent, False, True))
 
-        # Add the string generation functions
-        for baseFunction in jsonStringsDef["propertyFunctions"]:
-            if baseFunction['isConst']:
+        # Add the property fetch methods
+        self._writePropertyMethods(jsonStringsDef, jsonLangData, hFile, langName)
+        hFile.writelines([""]) # whitespace for readability
+
+        # Add the string generation methods
+        self._writePropertyMethods(jsonStringsDef, hFile, langName)
+        for stringMethod, methodData in jsonStringsDef["translateFunctions"].items():
+            if len(methodData['params']) == 0:
                 postfix = "const final"
             else:
                 postfix = "final"
 
             # Get the language data replacements
-            inlineText = baseFunction['inline']
-            regexMatch = r'@([a-zA-Z0-9\-_]*)@'
-            langReplace = re.finditer(regexMatch, inlineText)
-            for property in langReplace:
-                propertyName = property[1]
-                inlineText = inlineText.replace('@'+propertyName+'@', jsonLangEntry[propertyName])
+            inlineText = []
 
-            # Output final declaration
-            hFile.writelines(self.declareFunctionWithDecorations(baseFunction['name'],
-                                                                 baseFunction['briefDesc'],
-                                                                 baseFunction['params'],
-                                                                 baseFunction['return'],
+            # Determine if we need
+            hFile.writelines(self.declareFunctionWithDecorations(stringMethod,
+                                                                 methodData['briefDesc'],
+                                                                 methodData['params'],
+                                                                 methodData['return'],
                                                                  self.declareIndent,
-                                                                 False,
+                                                                 True,
                                                                  None,
                                                                  postfix,
                                                                  inlineText))
 
-        for stringFunction in jsonStringsDef["translateFunctions"]:
-            if stringFunction['isConst']:
-                postfix = "const final"
-            else:
-                postfix = "final"
-
-            # Determine if we need
-            hFile.writelines(self.declareFunctionWithDecorations(stringFunction['name'],
-                                                                 stringFunction['briefDesc'],
-                                                                 stringFunction['params'],
-                                                                 stringFunction['return'],
-                                                                 self.declareIndent,
-                                                                 False,
-                                                                 None,
-                                                                 postfix,
-                                                                 None))
-
         # Complete the doxygen group
-        self._genDoxyGroupEnd(hFile)
+        hFile.writelines(self.genDoxyGroupEnd())
 
 
     def generateCppFile(self, jsonLangData):

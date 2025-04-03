@@ -25,7 +25,8 @@ for the argparse libraries
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #==========================================================================
 
-from .file_gen_tools import StringClassNameGen
+from .common.file_gen_tools import ParamRetDict
+from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
 
 class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
@@ -38,7 +39,7 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         @param functionName {string} Function name to be used for generation
         """
         super().__init__()
-        self.paramDictList = [{'name': "langId", 'type':"LANGID", 'desc': "Return value from GetUserDefaultUILanguage() call"}]
+        self.paramDictList = [ParamRetDict.buildParamDict("langId", "LANGID", "Return value from GetUserDefaultUILanguage() call")]
         self.selectFunctionName = functionName
         self.defOsString = "(defined(_WIN64) || defined(_WIN32))"
         self.defDynamicOsString = "("+self.defOsString+" && defined("+StringClassNameGen.getDynamicCompileswitch()+"))"
@@ -69,7 +70,7 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         @brief Get the function declaration string for the given name
         @return string - Function close with comment
         """
-        return self._genFunctionEnd(self.selectFunctionName)
+        return self.endFunction(self.selectFunctionName)
 
     def genFunction(self, langJsonData, outfile):
         """!
@@ -122,8 +123,21 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         @return list of strings Formatted code lines
         """
         indentText = "".rjust(indent, " ")
-        getParam = indentText+self.paramDictList[0]['type']+" langId = GetUserDefaultUILanguage();"
-        doCall = indentText+"return "+self.selectFunctionName+"(langId);"
+        localVarName = "langId"
+
+        getParam = indentText
+        getParam += ParamRetDict.getParamType(self.paramDictList[0])
+        getParam += " "
+        getParam += localVarName
+        getParam += "= GetUserDefaultUILanguage();"
+
+        doCall = indentText
+        doCall += "return "
+        doCall += self.selectFunctionName
+        doCall += "("
+        doCall += localVarName
+        doCall += ");"
+
         return [getParam, doCall]
 
     def _genUnitTestTest(self, testName, langid, expectedIso, getIsoMethod):
@@ -140,19 +154,22 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         testBlockName = "WindowsSelectFunction"
         bodyIndent = "".rjust(4, " ")
         breifDesc = "Test "+self.selectFunctionName+" "+str(langid)+" selection case"
-
         testBody = self.genDoxyMethodComment(breifDesc, [])
+
+        testVar = "testVar"
+        testVarDecl = self.returnType+" "+testVar
+        testVarTest = testVar+"."+getIsoMethod+"().c_str()"
         testBody.append("TEST("+testBlockName+", "+testName+")")
         testBody.append("{")
         testBody.append(bodyIndent+"// Generate the test language string object")
 
         testBody.append("") # whitespace for readability
-        testBody.append(bodyIndent+self.returnType+" testVar = "+self.selectFunctionName+"("+str(langid)+");")
-        testBody.append(bodyIndent+"EXPECT_STREQ(\""+expectedIso+"\", testVar."+getIsoMethod+"().c_str();")
+        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"("+str(langid)+");")
+        testBody.append(bodyIndent+"EXPECT_STREQ(\""+expectedIso+"\", "+testVarTest+";")
         testBody.append("}")
         return testBody
 
-    def _genUnitTest(self, langJsonData, getIsoMethod, outfile):
+    def genUnitTest(self, langJsonData, getIsoMethod, outfile):
         """!
         @brief Generate all unit tests for the selection function
 
@@ -163,15 +180,15 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         # Generate block start code
         blockStart = []
         blockStart.append("#if "+self.defDynamicOsString)
-        blockStart.append("using namespace "+StringClassNameGen.getNamespaceName()+";")
-
         externDef = "extern "
         externDef += self.returnType
         externDef += " "
         externDef += self.selectFunctionName
         externDef += "("
-        externDef += self.paramDictList[0]['type']
-        externDef += " langid);"
+        externDef += ParamRetDict.getParamType(self.paramDictList[0])
+        externDef += " "
+        externDef += ParamRetDict.getParamName(self.paramDictList[0])
+        externDef += ");"
         blockStart.append(externDef)
         outfile.writelines(blockStart)
 
@@ -207,3 +224,31 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
 
         # Generate block end code
         outfile.writelines(["#endif // "+self.defDynamicOsString])
+
+    def genUnitTestFunctionCall(self, checkVarName, indent = 4):
+        """!
+        @brief Generate the call code for the linux dynamic lang selection unit test
+        @param checkVarName {string} Unit test expected variable name
+        @param indent {number} Code indentation spaces
+        @return list of strings Formatted code lines
+        """
+        indentText = "".rjust(indent, " ")
+        localVarName = "langId"
+
+        getParam = indentText
+        getParam += ParamRetDict.getParamType(self.paramDictList[0])
+        getParam += " "
+        getParam += localVarName
+        getParam += "= GetUserDefaultUILanguage();"
+
+        doCall = indentText
+        doCall += self.returnType
+        doCall += " "
+        doCall += checkVarName
+        doCall += " = "
+        doCall += self.selectFunctionName
+        doCall += "("
+        doCall += localVarName
+        doCall += ");"
+
+        return [getParam, doCall]

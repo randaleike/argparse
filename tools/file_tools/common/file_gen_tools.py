@@ -29,9 +29,11 @@ from datetime import datetime
 
 from .comment_block import CommentParams
 from .comment_block import CommentGenerator
-from .doxygen_gen_tools import CDoxyCommentGenerator
 from .copyright_tools import CopyrightGenerator
 from .eula import EulaText
+
+from .doxygen_gen_tools import CDoxyCommentGenerator
+from .param_return_tools import ParamRetDict
 
 #============================================================================
 #============================================================================
@@ -46,12 +48,13 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
         """!
         @brief GenFunctionHelper constructor
         @param commentMarkers {CommentBlockDelim dictionary} Comment deliminter markers for the input file type.
-        @param addParamType {boolean} True add the param['type'] to the doxygen param comment text
-                                      False do not add param['type'] to the doxygen param comment text
+        @param addParamType {boolean} True add the parameter type to the doxygen param comment text
+                                      False do not add parameter type to the doxygen param comment text
         """
         super().__init__()
 
-    def declareFunctionWithDecorations(self, name, briefdesc, paramDictList, retDict, indent = 0, noDoxygen = False,
+    def declareFunctionWithDecorations(self, name, briefdesc, paramDictList, retDict = None,
+                                       indent = 0, noDoxygen = False,
                                        prefixDecaration = None, postfixDecaration = None, inlinecode = None,
                                        longDesc = None):
         """!
@@ -59,8 +62,8 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
 
         @param name {string} Function name
         @param desc {string} Function description
-        @param paramDictList {list of {'name':string, 'type':<type string>, 'desc':<description string}} - Return parameter data
-        @param retDict {{'type':<type string>, 'desc':<description string} or None} - Return parameter data or None
+        @param paramDictList {list of dictionaries} - Return parameter data
+        @param retDict {dictionary or None} - Return parameter data or None
         @param indent {integer} Comment and function declaration indentation
         @param noDoxygen {boolean} True skip doxygen comment generation, False generate doxygen comment block
         @param prefixDecaration {string} Valid C/C++ declaration prefix decoration, i.e "virtual"
@@ -86,16 +89,16 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
 
         # Construct main function declaration
         if retDict is not None:
-            funcLine += retDict['type']+" "+name+"("
+            funcLine += ParamRetDict.getReturnType(retDict)+" "+name+"("
         else:
             funcLine += name+"("
 
         paramPrefix = ""
         for paramDict in paramDictList:
              funcLine += paramPrefix
-             funcLine += paramDict['type']
+             funcLine += ParamRetDict.getParamType(paramDict)
              funcLine += " "
-             funcLine += paramDict['name']
+             funcLine += ParamRetDict.getParamName(paramDict)
              paramPrefix = ", "
         funcLine += ")"
 
@@ -112,7 +115,7 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
             funcDeclareText.append(funcLine)
             inlineStart = "{".rjust(indent, ' ')
             if len(inlinecode) == 1:
-                funcDeclareText.append(inlineStart+inlinecode+"}")
+                funcDeclareText.append(inlineStart+inlinecode[0]+"}")
             else:
                 funcDeclareText.append(inlineStart)
                 for codeLine in inlinecode:
@@ -130,8 +133,8 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
 
         @param name {string} Function name
         @param desc {string} Function description
-        @param paramDictList {list of {'name':string, 'type':<type string>, 'desc':<description string}} - Return parameter data
-        @param retDict {'type':<type string>, 'desc':<description string} - Return parameter data
+        @param paramDictList {list of dictionaries} - Return parameter data
+        @param retDict {dictionary} - Return parameter data
         @param noDoxygen {boolean} True skip doxygen comment generation, False generate doxygen comment block
         @param prefixDecaration {string} Valid C/C++ declaration prefix decoration, i.e "virtual"
         @param postfixDecaration {string} Valid C/C++ declaration postfix decoration, i.e "const" | "override" ...
@@ -151,13 +154,13 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
             funcLine += " "
 
         # Create function definition line
-        funcLine = retDict['type']+" "+name+"("
+        funcLine = ParamRetDict.getParamType(retDict)+" "+name+"("
         paramPrefix = ""
         for paramDict in paramDictList:
              funcLine += paramPrefix
-             funcLine += paramDict['type']
+             funcLine += ParamRetDict.getParamType(paramDict)
              funcLine += " "
-             funcLine += paramDict['name']
+             funcLine += ParamRetDict.getParamName(paramDict)
              paramPrefix = ", "
         funcLine += ")"
 
@@ -179,14 +182,36 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
         """
         return ("} // end of "+name+"()")
 
-    @staticmethod
-    def genMakePtrReturnStatement(classMod):
-
+    def genMakePtrReturnStatement(self, typeName):
         retLine = "return "
         retLine += "std::make_shared<"
-        retLine += StringClassNameGen.getLangClassName(classMod)
+        retLine += typeName
         retLine += ">();"
         return retLine
+
+    def getStringType(self):
+        return "std::string"
+
+    def getStringListType(self):
+        return "std::list<std::string>"
+
+    def getLANGIDListType(self):
+        return "std::list<LANGID>"
+
+    def getVardeclStatment(self, varType, varName):
+        return varType+" "+varName+";"
+
+    def getAddStringListStatment(self, listName, valueName):
+        return listName+".emplace_back(\""+valueName+"\");"
+
+    def getStringReturnStatment(self, string):
+        return "return (\""+string+"\");"
+
+    def getValueReturnStatment(self, valueName):
+        return "return "+valueName+";"
+
+    def getAddValueListStatment(self, listName, valueName):
+        return listName+".emplace_back("+valueName+");"
 
 #============================================================================
 #============================================================================
@@ -200,11 +225,12 @@ class GenerateCppFileHelper(GenCFunctionHelper):
     This class implements boiler plate data and helper functions used by
     the parent file specific generation class to generate the file
     """
-    def __init__(self, fileName, eulaName = "MIT_open"):
+    def __init__(self, fileName, nameSpace = None, eulaName = "MIT_open"):
         """!
         @brief GenerateFileHelper constructor
 
         @param fileName {string} Name to use for the .h and .cpp generated files
+        @param nameSpace {string} Name space wrapper
         @param eulaName {string} Name of the EULA from EulaText class to use.
         """
         self.fileName = fileName
@@ -264,36 +290,6 @@ class GenerateCppFileHelper(GenCFunctionHelper):
         else:
             return ["#include "+includeName]
 
-    def _genDoxyDefgroup(self, group, groupdef, ext = None):
-        """!
-        @brief Doxygen defgroup comment block
-        @param group {string} Name of the group to define
-        @param groupdef {string} Description of the new group
-        @param ext {string} File extention or None if filename is complete
-        @return list of strings - Code to output
-        """
-        doxyHeader = []
-        doxyHeader.append(self.autoGenCommentParam['doxyBlockStart'])
-
-        if ext is not None:
-            doxyHeader.append(self.autoGenCommentParam['doxyLineStart']+"@file "+self.fileName+"."+ext)
-        else:
-            doxyHeader.append(self.autoGenCommentParam['doxyLineStart']+"@file "+self.fileName)
-
-        doxyHeader.append(self.autoGenCommentParam['doxyLineStart']+"@defgroup "+group+" "+groupdef)
-        doxyHeader.append(self.autoGenCommentParam['doxyLineStart']+"@ingroup "+group)
-        doxyHeader.append(self.autoGenCommentParam['doxyLineStart']+"@{")
-        doxyHeader.append(self.autoGenCommentParam['blockEnd'])
-        return doxyHeader
-
-    def _genDoxyGroupEnd(self):
-        """!
-        @brief Doxygen group comment block end marker
-        @return list of strings - Code to output
-        """
-        doxyEnd = self.autoGenCommentParam['doxyBlockStart']+"@}"+self.autoGenCommentParam['blockEnd']
-        return [doxyEnd]
-
     def genClassStart(self, className, classDesc, inheritence = None, classDecoration = None, noDoxyCommentConstructor = False):
         """!
         @brief Generate default constructor(s)/destructor declarations for a class
@@ -336,9 +332,9 @@ class GenerateCppFileHelper(GenCFunctionHelper):
         @return list of strings - Code to output
         """
         # Setup params for the different constructors
-        otherReference = [{'name': "other", 'type': "const "+className+"&", 'desc': "Reference to object to copy"}]
-        otherMove = [{'name': "other", 'type': className+"&&", 'desc': "Reference to object to move"}]
-        equateReturn = {'type':className+"&", 'desc':"*this"}
+        otherReference = [ParamRetDict.buildParamDict("other", "const "+className+"&", "Reference to object to copy")]
+        otherMove = [ParamRetDict.buildParamDict("other", className+"&&", "Reference to object to move")]
+        equateReturn = ParamRetDict.buildReturnDict(className+"&", "*this")
         destructorPrefix = None
         if virtualDestructor:
             destructorPrefix = "virtual"
@@ -418,69 +414,3 @@ class GenerateCppFileHelper(GenCFunctionHelper):
                                                             "= default"))
         codeText.append("")      #whitespace for readability
         return codeText
-
-
-#============================================================================
-#============================================================================
-# Misc helper classes
-#============================================================================
-#============================================================================
-class StringClassNameGen(object):
-    """!
-    @brief Helper static class for generating consistent ParserStringInterface names across multiple files
-    """
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def getNamespaceName():
-        """!
-        @brief Return the base class name
-        @return string Base sting class name
-        """
-        return "argparser"
-
-    @staticmethod
-    def getBaseClassName():
-        """!
-        @brief Return the base class name
-        @return string Base sting class name
-        """
-        return "ParserStringListInterface"
-
-    @staticmethod
-    def getBaseClassNameWithNamespace():
-        """!
-        @brief Return the base class name
-        @return string Base sting class name
-        """
-        return StringClassNameGen.getNamespaceName()+"::"+StringClassNameGen.getBaseClassName()
-
-    @staticmethod
-    def getLangClassName(lang):
-        """!
-        @brief Build the language specific file name based on the input lang value
-        @param lang {string} Language name
-        @return string Language specific class name
-        """
-        return StringClassNameGen.getBaseClassName()+lang.capitalize()
-
-    @staticmethod
-    def getParserStringType():
-        return "parserstr"
-
-    @staticmethod
-    def getParserCharType():
-        return "parserchar"
-
-    @staticmethod
-    def getParserStrStreamType():
-        return "parser_str_stream"
-
-    @staticmethod
-    def getDynamicCompileswitch():
-        """!
-        @brief Return the base class name
-        @return string Base sting class name
-        """
-        return "DYNAMIC_INTERNATIONALIZATION"
