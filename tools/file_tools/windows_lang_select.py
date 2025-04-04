@@ -28,14 +28,16 @@ for the argparse libraries
 from .common.file_gen_tools import ParamRetDict
 from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
+from .jsonLanguageDescriptionList import LanguageDescriptionList
 
 class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
     """!
     Methods for Windows language select function generation
     """
-    def __init__(self, functionName = "getParserStringListInterface_Windows"):
+    def __init__(self, langData, functionName = "getParserStringListInterface_Windows"):
         """!
         @brief WindowsLangSelectFunctionGenerator constructor
+        @param langData {string} JSON language description list file name
         @param functionName {string} Function name to be used for generation
         """
         super().__init__()
@@ -43,6 +45,7 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         self.selectFunctionName = functionName
         self.defOsString = "(defined(_WIN64) || defined(_WIN32))"
         self.defDynamicOsString = "("+self.defOsString+" && defined("+StringClassNameGen.getDynamicCompileswitch()+"))"
+        self.langData = LanguageDescriptionList(langData)
 
     def getFunctionName(self):
         return self.selectFunctionName
@@ -72,7 +75,7 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         """
         return self.endFunction(self.selectFunctionName)
 
-    def genFunction(self, langJsonData, outfile):
+    def genFunction(self, outfile):
         """!
         @brief Generate the function body text
 
@@ -96,8 +99,10 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         # Generate case if chain for each language in the dictionary
         caseIndent = bodyIndent+"    "
         caseBodyIndent = caseIndent+"    "
-        for langName, langData in langJsonData['languages'].items():
-            for id in langData["LANGID"]:
+        langList = self.langData.getLanguageList()
+        for langName in langList:
+            langCodes, langRegionList = self.langData.getLanguageLANGIDData(langName)
+            for id in langCodes:
                 caseline =  caseIndent+"case"
                 caseline += hex(id)
                 caseline += ":"

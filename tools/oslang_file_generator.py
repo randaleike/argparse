@@ -31,10 +31,11 @@ import asyncio
 
 from googletrans import Translator
 
-from jsonLanguageDescriptionList import LanguageDescriptionList
-from jsonStringClassDescription import StringClassDescription
+from file_tools.jsonLanguageDescriptionList import LanguageDescriptionList
+from file_tools.jsonStringClassDescription import StringClassDescription
 
 from file_tools.common.file_gen_tools import GenerateCppFileHelper
+from file_tools.common.param_return_tools import ParamRetDict
 from file_tools.string_name_generator import StringClassNameGen
 
 from file_tools.linux_lang_select import LinuxLangSelectFunctionGenerator
@@ -62,23 +63,33 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         self.groupName = "OsLanguageSelection"
         self.groupDesc = "OS laguage detection and selection utility"
 
-        self.osLangSelectList = [LinuxLangSelectFunctionGenerator(),
-                                 WindowsLangSelectFunctionGenerator()
+        self.jsonLangData = LanguageDescriptionList("argparser-lang-list.json")
+        self.jsonStringsData = StringClassDescription("argparser-string-def.json")
+
+        self.osLangSelectList = [LinuxLangSelectFunctionGenerator("argparser-lang-list.json"),
+                                 WindowsLangSelectFunctionGenerator("argparser-lang-list.json")
                                  # Add additional OS lang select classes here
                                  ]
-        self.staticSelect = StaticLangSelectFunctionGenerator()
+        self.staticSelect = StaticLangSelectFunctionGenerator("argparser-lang-list.json")
 
         self.masterFunctionName = "getLocalParserStringListInterface"
         self.nameSpaceName = "argparser"
         self.masterFunction = MasterSelectFunctionGenerator(self.masterFunctionName,
                                                             StringClassNameGen.getBaseClassName())
         self.declareIndent = 8
+        self.ifDynamicDefined = "defined("+StringClassNameGen.getDynamicCompileswitch()+")"
 
-    def _generateFileHeader(self, outfile):
+    def _generateFileHeader(self):
         """!
         @brief Generate the boiler plate file header with copyright and eula
         """
         return super()._generateFileHeader(self.autoToolName, 2025, self.owner)
+
+    def _generateHFileName(self, langName = None):
+        if langName is not None:
+            return StringClassNameGen.getBaseClassName()+langName.capitalize()+".h"
+        else:
+            return StringClassNameGen.getBaseClassName()+".h"
 
     def _writeCppFile(self, jsonLangData, cppFile):
         """!
@@ -95,14 +106,15 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         self._genInclude("<memory>", cppFile)
         self._genInclude("<cstring>", cppFile)
         self._genInclude("<string>", cppFile)
-        self._genInclude(StringClassNameGen.getBaseClassName()+".h", cppFile)
+        self._genInclude(self._generateHFileName(), cppFile)
 
         # Add the parser string files
-        for langData in jsonLangData['languages']:
-            filename = StringClassNameGen.getBaseClassName()+langData['name']+".h"
-            ifdef = "("+langData['compileSwitch']+" || defined("+StringClassNameGen.getDynamicCompileswitch()+"))"
+        languageList = self.jsonLangData.getLanguageList()
+        for langName in languageList:
+            langCompileSwitch = self.jsonLangData.getLanguageCompileSwitchData(langName)
+            ifdef = "#if (defined("+langCompileSwitch+") || "+self.ifDynamicDefined+")"
             cppFile.writelines(["#if "+ifdef])
-            self._genInclude(filename, cppFile)
+            self._genInclude(self._generateHFileName(langName), cppFile)
             cppFile.writelines(["#endif // "+ifdef])
 
         # Add doxygen group start
@@ -125,6 +137,48 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         # Complete the doxygen group
         cppFile.writelines(self.genDoxyGroupEnd())
 
+    def _genPropertyInlineCode(self, langName, propertyName, propertyReturn):
+        """!
+        @brief Generate property function inline code
+        @param langName {string} Language name
+        @param propertyName {string} Language property name
+        @param propertyReturn {dictionary} Property method return dictionary
+        @return list of strings - Inline code
+        """
+        returnType = ParamRetDict.getReturnType(propertyReturn)
+        codeTxt = []
+        if ParamRetDict.isReturnList(propertyReturn):
+            # List case
+            dataList = self.jsonLangData.getLanguagePropertyData(langName, propertyName)
+            codeTxt.append("{")
+
+            # Determine data type
+            if returnType == "text":
+                codeTxt.append("std::list<"+StringClassNameGen.getParserStringType()+"> returnData;")
+                for dataItem in dataList:
+                    codeTxt.append("returnData.emplace_back(\""+dataItem+"\");")
+            elif returnType == "number":
+                codeTxt.append("std::list<LANGID> returnData;")
+                for dataItem in dataList:
+                    codeTxt.append("returnData.emplace_back("+dataItem+");")
+            else:
+                codeTxt.append("std::list<"+returnType+"> returnData;")
+                for dataItem in dataList:
+                    codeTxt.append("returnData.emplace_back("+dataItem+");")
+
+            codeTxt.append("return returnData;")
+            codeTxt.append("}")
+        else:
+            # Single item case
+            dataItem = self.jsonLangData.getLanguagePropertyData(langName, propertyName)
+            # Determine data type
+            if returnType == "text":
+                codeTxt.append("{return (\""+dataItem+"\");}")
+            else:
+                codeTxt.append("{return ("+dataItem+");}")
+
+        return codeTxt
+
     def _writePropertyMethods(self, jsonStringsDef, jsonLangData, hFile, langName = None):
         """!
         @brief Write the property method definitions
@@ -144,23 +198,25 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             prefix = None
             noDoxyGeneration = True
 
-        for propertyMethod, propertyData in jsonStringsDef["propertyFunctions"].items():
-            if len(propertyData['params']) == 0:
+        propertyMethodList = self.jsonStringsData.getPropertyMethodList()
+        for propertyMethod in propertyMethodList:
+            propertyName, propertyDesc, propertyParams, propertyReturn = self.jsonStringsData.getPropertyMethodData(propertyMethod)
+            if len(propertyParams) == 0:
                 postfix = "const " + postfixFinal
             else:
                 postfix = postfixFinal
 
             # Get the language data replacements
             if langName is not None:
-                inlineText = jsonLangData.generateInlinePropertyCode(langName, propertyData['name'], self)
+                inlineText = self._genPropertyInlineCode(langName, propertyName, propertyReturn)
             else:
                 inlineText = None
 
             # Output final declaration
             hFile.writelines(self.declareFunctionWithDecorations(propertyMethod,
-                                                                 propertyData['briefDesc'],
-                                                                 propertyData['params'],
-                                                                 propertyData['return'],
+                                                                 propertyDesc,
+                                                                 propertyParams,
+                                                                 propertyReturn,
                                                                  self.declareIndent,
                                                                  noDoxyGeneration,
                                                                  prefix,
@@ -170,11 +226,65 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             if not noDoxyGeneration:
                 hFile.writelines([""]) # whitespace for readability
 
-    def _writeTranslateMethods(self, jsonStringsDef, hFile, langName = None, googleTransCode = None):
+    def _translateString(self, baseLanguage, baseText, targetLang):
+        """!
+        @brief Translate the baseText string into the target language from the base language
+        @param baseLanguage {string} Google translate language code of the baseText string
+        @param baseText {string} String to translate and output
+        @param targetLang {string} Google translate language code for the translated baseText string
+        @return string - Translated string
+        """
+        if baseLanguage == targetLang:
+            return baseText
+        else:
+            # @todo add google translate call
+            return baseText
+
+    def _parseTranlateString(baseString):
+        """!
+        @brief Convert the input string to an output string stream
+        @param baseString {string} String to convert
+        """
+        matchList = re.finditer(r'@[a-zA-Z_][a-zA-Z0-9_]*@', baseString)
+        streamString = "{"+StringClassNameGen.getParserStrStreamType+" parserstr;  parserstr"
+        previousEnd = 0
+
+        for matchData in matchList:
+            # Add text data prior to first match if any
+            if matchData.start() > previousEnd:
+                streamString += " << \""
+                streamString += r'{}'.format(baseString[previousEnd:matchData.start()])
+                streamString += "\""
+
+            # Add the matched parameter
+            streamString += " << "
+            streamString += matchData.group()[1:-1]
+            previousEnd = matchData.end()
+
+        # Add the trailing string
+        if previousEnd < len(baseString):
+            streamString += " << \""
+            streamString += baseString[previousEnd:]
+            streamString += "\""
+
+        streamString += "; return parserstr.str();}"
+        return streamString
+
+    def _generateTranslateInlineCode(self, baseLanguage, baseText, targetLang):
+        """!
+        @brief Generate the inline string output code
+        @param baseLanguage {string} Google translate language code of the baseText string
+        @param baseText {string} String to translate and output
+        @param targetLang {string} Google translate language code for the translated baseText string
+        @return list of strings - Inline code
+        """
+        translatedText = self._translateString(baseLanguage, baseText, targetLang)
+        return self._parseTranlateString(translatedText)
+
+    def _writeTranslateMethods(self, hFile, langName = None, googleTransCode = None):
         """!
         @brief Write the property method definitions
 
-        @param jsonStringsDef {dictionary} JSON function definitions
         @param hFile {File} File to write the data to
         @param langName {string} Language name or None this is for the base file
         @param googleTransCode {string} Google translate generation
@@ -189,25 +299,27 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             prefix = None
             noDoxyGeneration = True
 
-        for stringMethod, methodData in jsonStringsDef["translateFunctions"].items():
-            if len(methodData['params']) == 0:
+        tranlateMethodList = self.jsonStringsData.getTranlateMethodList()
+        for translateMethodName in tranlateMethodList:
+            transDesc, transParams, transReturn = self.jsonStringsData.getTranlateMethodFunctionData(translateMethodName)
+            if len(transParams) == 0:
                 postfix = "const "+postfixFinal
             else:
                 postfix = postfixFinal
 
             # Get the language generation string
             if langName is not None:
-                baseText = methodData['translateDesc']['text']
-                baseLanguage = methodData['translateDesc']['']
-                inlineText = jsonLangData.generateInlinePropertyCode(langName, propertyData['name'])
+                targetLang = self.jsonLangData.getLanguageGoogleCodeData(langName)
+                baseLanguage, baseText = self.jsonStringsData.getTranlateMethodTextData(translateMethodName)
+                inlineText = self._generateTranslateInlineCode(baseLanguage, baseText, targetLang)
             else:
                 inlineText = None
 
             # Determine if we need
-            hFile.writelines(self.declareFunctionWithDecorations(stringMethod,
-                                                                 methodData['briefDesc'],
-                                                                 methodData['params'],
-                                                                 methodData['return'],
+            hFile.writelines(self.declareFunctionWithDecorations(translateMethodName,
+                                                                 transDesc,
+                                                                 transParams,
+                                                                 transReturn,
                                                                  self.declareIndent,
                                                                  noDoxyGeneration,
                                                                  prefix,

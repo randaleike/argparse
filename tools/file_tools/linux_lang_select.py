@@ -28,14 +28,16 @@ for the argparse libraries
 from .common.param_return_tools import ParamRetDict
 from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
+from .jsonLanguageDescriptionList import LanguageDescriptionList
 
 class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
     """!
     Methods for Linux language select function generation
     """
-    def __init__(self, functionName = "getParserStringListInterface_Linux"):
+    def __init__(self, langData, functionName = "getParserStringListInterface_Linux"):
         """!
         @brief LinuxLangSelectFunctionGenerator constructor
+        @param langData {string} JSON language description list file name
         @param functionName {string} Function name to be used for generation
         """
         super().__init__()
@@ -43,6 +45,7 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         self.selectFunctionName = functionName
         self.defOsString = "(defined(__linux__) || defined(__unix__))"
         self.defDynamicOsString = "("+self.defOsString+" && defined("+StringClassNameGen.getDynamicCompileswitch()+"))"
+        self.langData = LanguageDescriptionList(langData)
 
     def getFunctionName(self):
         return self.selectFunctionName

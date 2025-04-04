@@ -43,7 +43,7 @@ class OsLangSelectFunctionHelper(GenCFunctionHelper):
         self.stdPtrType = "std::shared_ptr"
         self.returnType = self.stdPtrType+"<"+StringClassNameGen.getBaseClassName()+">"
         self.retPtrDict = ParamRetDict.buildReturnDict(self.returnType,
-                                                        "Pointer to "+StringClassNameGen.getBaseClassName()+"<lang> based on OS local language")
+                                                       "Pointer to "+StringClassNameGen.getBaseClassName()+"<lang> based on OS local language")
 
     def _genFunctionDeclare(self, name, briefDesc, paramDictList):
         """!

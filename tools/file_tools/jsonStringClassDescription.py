@@ -32,14 +32,14 @@ from file_tools.common.param_return_tools import ParamRetDict
 from file_tools.common.file_gen_tools import GenCFunctionHelper
 
 from file_tools.string_name_generator import StringClassNameGen
-from jsonLanguageDescriptionList import LanguageDescriptionList
+from tools.file_tools.jsonLanguageDescriptionList import LanguageDescriptionList
 
 class StringClassDescription(object):
     """!
     String object class definitions
     """
 
-    def __init__(self, stringDefFileName = "argparse-string-def.json", codeGenerator = None):
+    def __init__(self, stringDefFileName = "argparse-string-def.json"):
         """!
         @brief StringClassDescription constructor
 
@@ -47,11 +47,6 @@ class StringClassDescription(object):
                                            the language description data
         """
         self.filename = stringDefFileName
-        if codeGenerator is None:
-            self.codeGen = GenCFunctionHelper
-        else:
-            self.codeGen = codeGenerator
-
         try:
             langJsonFile = open(stringDefFileName, 'r', encoding='utf-8')
         except FileNotFoundError:
@@ -60,7 +55,7 @@ class StringClassDescription(object):
             self.stringJasonData = json.load(langJsonFile)
             langJsonFile.close()
 
-    def _definePropertyFunctionEntry(self, propertyName = "", briefDesc = "", retType = "", retDesc = ""):
+    def _definePropertyFunctionEntry(self, propertyName = "", briefDesc = "", retType = "", retDesc = "", isList = False):
         """!
         @brief Define a property string return function dictionary and
                return the entry to the caller
@@ -70,17 +65,16 @@ class StringClassDescription(object):
                                   doxygen comment block generation
         @param retType {string} Return type string
         @param retDesc {string} Description of the return parserstr value
-        @param inlineCode {string} Inline code definition for the language specific classes
-        @param isConst {boolean} True = add const decoration to function, False = no const decoration
+        @param islist {boolean} True = data is a list, False = single value
 
         @return {'name':<string>, 'briefDesc':<string>, 'params':[],
-                 'return':ParamRetDict.buildReturnDict("parserstr", <retDesc>),
+                 'return':ParamRetDict.buildReturnDict(retType, retDesc, isList),
                  'inline':<string>} property function dictionary
         """
         functionDict = {'name': propertyName,
                         'briefDesc': briefDesc,
                         'params': [],
-                        'return': ParamRetDict.buildReturnDict(retType, retDesc)
+                        'return': ParamRetDict.buildReturnDict(retType, retDesc, isList)
                         }
         return functionDict
 
@@ -133,12 +127,12 @@ class StringClassDescription(object):
         @param translateText {string} Text of the message
 
         @return {'name':<string>, 'briefDesc':<string>, 'params':[],
-                 'return':ParamRetDict.buildReturnDict(StringClassNameGen.getParserStringType(), <retDesc>),
+                 'return':ParamRetDict.buildReturnDict('text', retDesc, False),
                  'translateDesc': {'base':<string> 'text':<string>}} Translate function dictionary
         """
         functionDict = {'briefDesc': briefDesc,
                         'params': paramsList,
-                        'return': ParamRetDict.buildReturnDict(StringClassNameGen.getParserStringType(), retDesc),
+                        'return': ParamRetDict.buildReturnDict("text", retDesc, False),
                         'translateDesc': self._defineTranslationDict(translateBaseLang, translateText)}
         return functionDict
 
@@ -204,17 +198,15 @@ class StringClassDescription(object):
     def _inputCType(self):
         varType = ""
         while(varType == ""):
-            inputType = input("Enter parameter type [s(tring)|i(nt)|u(nsigned)|t(size_t)|c(ustom)] : ").lower()
+            inputType = input("Enter parameter type [s(tring)|t(ext)|n(umber)|c(ustom)] : ").lower()
 
             # Check validity
             if (inputType == "s") or (inputType=="string"):
-                varType = StringClassNameGen.getParserStringType()
-            elif (inputType == "i") or (inputType=="int"):
-                varType = "int"
-            elif (inputType == "u") or (inputType=="unsigned"):
-                varType = "unsigned"
-            elif (inputType == "t") or (inputType=="size_t"):
-                varType = "size_t"
+                varType = "string"
+            elif (inputType == "t") or (inputType=="text"):
+                varType = "text"
+            elif (inputType == "n") or (inputType=="number"):
+                varType = "number"
             elif (inputType == "c") or (inputType=="custom"):
                 print ("Note: Custom type must have an operator<< defined.")
                 customType = input("Enter custom parameter type: ")
@@ -380,6 +372,7 @@ class StringClassDescription(object):
                                                  Method name,
                                                  Method return type,
                                                  Return type description for Doxygen comment
+                                                 True if return is a list, else False
         """
         propertyOptions = LanguageDescriptionList.getLanguagePropertyList()
 
@@ -403,10 +396,9 @@ class StringClassDescription(object):
             else:
                 print ("Valid input values are 0 to "+str(maxIndex-1)+", try again")
 
-        returnType = LanguageDescriptionList.getLanguagePropertyReturnType(propertyId, self.codeGen)
-        returnDesc = LanguageDescriptionList.getLanguagePropertyReturnDesc(propertyId)
+        returnType, returnDesc, isList = LanguageDescriptionList.getLanguagePropertyReturnData(propertyId)
         methodName = LanguageDescriptionList.getLanguagePropertyMethodName(propertyId)
-        return propertyId, methodName, returnType, returnDesc
+        return propertyId, methodName, returnType, returnDesc, isList
 
     def newPropertyMethodEntry(self):
         """!
@@ -417,10 +409,10 @@ class StringClassDescription(object):
         entryCorrect = False
 
         while not entryCorrect:
-            propertyName, methodName, returnType, returnDesc = self._getPropertyReturnData()
+            propertyName, methodName, returnType, returnDesc, isList = self._getPropertyReturnData()
             functionDesc = "Get the "+returnDesc+" for this object"
 
-            newEntry = self._definePropertyFunctionEntry(propertyName, functionDesc, returnType, returnDesc)
+            newEntry = self._definePropertyFunctionEntry(propertyName, functionDesc, returnType, returnDesc, isList)
 
             # Print entry for user to inspect
             print(methodName+":")
@@ -457,8 +449,7 @@ class StringClassDescription(object):
 
         # Property exists, generate the new entry
         if propertyName in propertyList:
-            returnType = LanguageDescriptionList.getLanguagePropertyReturnType(propertyName, self.codeGen)
-            returnDesc = LanguageDescriptionList.getLanguagePropertyReturnDesc(propertyName)
+            returnType, returnDesc, isList = LanguageDescriptionList.getLanguagePropertyReturnData(propertyName)
             functionDesc = "Get the "+returnDesc+" for this object"
             functionName = LanguageDescriptionList.getLanguagePropertyMethodName(propertyName)
 
@@ -489,54 +480,54 @@ def CreateDefaultStringFile():
                                            "Only list type arguments can have an argument count of @nargs@")
 
     classStrings.addTranslateMethodEntry("getUnknownArgumentMessage", "Return unknown parser key error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Unknown key")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Unknown key")],
                                            "Unknown parser key error message",
                                            "en",
                                            "Unknown argument @keyString@")
 
     classStrings.addTranslateMethodEntry("getInvalidAssignmentMessage", "Return varg invalid assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
                                            "Varg key invalid assignment error message",
                                            "en",
-                                           "\"@keyString@\" invalid assignment")
+                                           "\\\"@keyString@\\\" invalid assignment")
 
     classStrings.addTranslateMethodEntry("getAssignmentFailedMessage", "Return varg assignment failed error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key"),
-                                            ParamRetDict.buildParamDict("valueString", StringClassNameGen.getParserStringType(), "Assignment value")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
+                                            ParamRetDict.buildParamDict("valueString", "string", "Assignment value")],
                                            "Varg key assignment failed error message",
                                            "en",
-                                           "\"@keyString@\", \"@valueString@\" assignment failed")
+                                           "\\\"@keyString@\\\", \\\"@valueString@\\\" assignment failed")
 
     classStrings.addTranslateMethodEntry("getMissingAssignmentMessage", "Return varg missing assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
                                            "Varg key missing value assignment error message",
                                            "en",
-                                           "\"@keyString@\" missing assignment value")
+                                           "\\\"@keyString@\\\" missing assignment value")
 
     classStrings.addTranslateMethodEntry("getMissingListAssignmentMessage", "Return varg missing list value assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key"),
-                                            ParamRetDict.buildParamDict("expected", "size_t", "Expected assignment list length"),
-                                            ParamRetDict.buildParamDict("found", "size_t", "Input assignment list length")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
+                                            ParamRetDict.buildParamDict("nargsExpected", "size_t", "Expected assignment list length"),
+                                            ParamRetDict.buildParamDict("nargsFound", "size_t", "Input assignment list length")],
                                            "Varg key input value list too short error message",
                                            "en",
-                                           "\"@keyString@\" missing assignment value(s). Expected: @expected@ found: @found@ arguments")
+                                           "\\\"@keyString@\\\" missing assignment value(s). Expected: @nargsExpected@ found: @nargsFound@ arguments")
 
     classStrings.addTranslateMethodEntry("getTooManyAssignmentMessage", "Return varg missing list value assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key"),
-                                            ParamRetDict.buildParamDict("expected", "size_t", "Expected assignment list length"),
-                                            ParamRetDict.buildParamDict("found", "size_t", "Input assignment list length")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
+                                            ParamRetDict.buildParamDict("nargsExpected", "size_t", "Expected assignment list length"),
+                                            ParamRetDict.buildParamDict("nargsFound", "size_t", "Input assignment list length")],
                                            "Varg key input value list too long error message",
                                            "en",
-                                           "\"@keyString@\" too many assignment values. Expected: @expected@ found: @found@ arguments")
+                                           "\\\"@keyString@\\\" too many assignment values. Expected: @nargsExpected@ found: @nargsFound@ arguments")
 
     classStrings.addTranslateMethodEntry("getMissingArgumentMessage", "Return required varg missing error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
                                            "Required varg key missing error message",
                                            "en",
-                                           "\"@keyString@\" required argument missing")
+                                           "\\\"@keyString@\\\" required argument missing")
 
     classStrings.addTranslateMethodEntry("getArgumentCreationError", "Return parser add varg failure error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Error key")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
                                            "Parser varg add failure message",
                                            "en",
                                            "Argument add failed: @keyString@")
@@ -574,13 +565,13 @@ def CreateDefaultStringFile():
                                            "Defined Environment values:")
 
     classStrings.addTranslateMethodEntry("getEnvironmentNoFlags", "Return environment parser add flag varg failure error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Flag key")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Flag key")],
                                            "Environment parser add flag varg failure message",
                                            "en",
                                            "Environment value @keyString@ narg must be > 0")
 
     classStrings.addTranslateMethodEntry("getRequiredEnvironmentArgMissing", "Return environment parser required varg missing error message",
-                                           [ParamRetDict.buildParamDict("keyString", StringClassNameGen.getParserStringType(), "Flag key")],
+                                           [ParamRetDict.buildParamDict("keyString", "string", "Flag key")],
                                            "Environment parser required varg missing error message",
                                            "en",
                                            "Environment value @keyString@ must be defined")

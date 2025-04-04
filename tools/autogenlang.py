@@ -25,19 +25,45 @@ for the argparse libraries
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #==========================================================================
 
-
-from file_tools.file_gen_tools import StringClassNameGen
-#from .oslang_file_generator import GenerateOSLanguageDetectFiles
-
-from .jsonLanguageDescriptionList import LanguageDescriptionList
-from .jsonStringClassDescription import StringClassDescription
-
-
-
+import re
 def GenerateLanguageSelectFiles():
     """!
     @brief Generate the default JSON files
     """
 
+def parseTranlateString(baseString):
+    matchList = re.finditer(r'@[a-zA-Z_][a-zA-Z0-9_]*@', baseString)
+    streamString = "parser_str_stream parserstr;  parserstr"
+    previousEnd = 0
+
+    for matchData in matchList:
+        print(matchData)
+        print("Text : "+matchData.group())
+        print("Start: "+str(matchData.start()))
+        print("End  : "+str(matchData.end()))
+
+        # Add text data prior to first match if any
+        if matchData.start() > previousEnd:
+            streamString += " << \""
+            streamString += r'{}'.format(baseString[previousEnd:matchData.start()])
+            streamString += "\""
+
+        # Add the matched parameter
+        streamString += " << "
+        streamString += matchData.group()[1:-1]
+        previousEnd = matchData.end()
+
+    # Add the trailing string
+    if previousEnd < len(baseString):
+        streamString += " << \""
+        streamString += baseString[previousEnd:]
+        streamString += "\""
+
+    streamString += "; return parserstr.str();"
+    return streamString
+
+
 if __name__ == '__main__':
-    GenerateLanguageSelectFiles()
+    print(parseTranlateString("Unknown argument @keyString@"))
+    print(parseTranlateString("\\\"@keyString@\\\" missing assignment value(s). Expected: @nargsExpected@ found: @nargsFound@ arguments"))
+    print(parseTranlateString("Argument add failed: @keyString@"))

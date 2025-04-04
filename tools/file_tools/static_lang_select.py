@@ -27,19 +27,22 @@ for the argparse libraries
 
 from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
+from .jsonLanguageDescriptionList import LanguageDescriptionList
 
 class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
     """!
     Methods for compile switch determined language select function generation
     """
-    def __init__(self, functionName = "getParserStringListInterface_Static"):
+    def __init__(self, langData, functionName = "getParserStringListInterface_Static"):
         """!
         @brief StaticLangSelectFunctionGenerator constructor
+        @param langData {string} JSON language description list file name
         @param functionName {string} Function name to be used for generation
         """
         super().__init__()
         self.selectFunctionName = functionName
         self.defStaticString = "!defined("+StringClassNameGen.getDynamicCompileswitch()+")"
+        self.langData = LanguageDescriptionList(langData)
 
     def getFunctionName(self):
         return self.selectFunctionName
@@ -138,7 +141,7 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         blockStart.append(externDef)
         outfile.writelines(blockStart)
 
-        # Generate the test
+        # Generate the testgenDoxyMethodComment
         testBlockName = "StaticSelectFunction"
         bodyIndent = "".rjust(4, " ")
         breifDesc = "Test "+self.selectFunctionName+" selection case"

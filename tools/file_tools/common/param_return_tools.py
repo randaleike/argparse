@@ -33,22 +33,25 @@ class ParamRetDict(object):
         pass
 
     @staticmethod
-    def buildReturnDict(retType, retDesc=""):
+    def buildReturnDict(retType, retDesc = "", isList = False):
         """!
         @brief Build a return data dictionary
         @param retType {string} Code type definition
         @param retDesc {string} Brief description of the return value for @return doxygen generation
+        @param isList {boolean} True if return is list, false if not
         """
-        return {'type':retType, 'desc':retDesc}
+        return {'type':retType, 'desc':retDesc, 'isList': isList}
 
     @staticmethod
     def getReturnData(returnDict):
         """!
         @brief Build a return data dictionary
         @param returnDict {dictionary} Return dictionary entry
-        @return tuple - Return type string, Return description string
+        @return tuple - Return type string
+                        Return description string,
+                        True if list type or False if single value
         """
-        return returnDict['type'], returnDict['desc']
+        return returnDict['type'], returnDict['desc'], returnDict['isList']
 
     @staticmethod
     def getReturnType(returnDict):
@@ -60,23 +63,36 @@ class ParamRetDict(object):
         return returnDict['type']
 
     @staticmethod
-    def buildParamDict(paramName, paramType, paramDesc=""):
+    def isReturnList(returnDict):
+        """!
+        @brief Build a return data dictionary is list
+        @param returnDict {dictionary} Return dictionary entry
+        @return boolean - Return is list data
+        """
+        return returnDict['isList']
+
+    @staticmethod
+    def buildParamDict(paramName, paramType, paramDesc = "", isList = False):
         """!
         @brief Build a return data dictionary
         @param paramName {string} Code param name
         @param paramType {string} Code param type
         @param paramDesc {string} Brief description of the param value for @param doxygen generation
+        @param isList {boolean} True if return is list, false if not
         """
-        return {'name':paramName, 'type':paramType, 'desc':paramDesc}
+        return {'name':paramName, 'type':paramType, 'desc':paramDesc, 'isList':isList}
 
     @staticmethod
     def getParamData(paramDict):
         """!
         @brief Build a return data dictionary
         @param paramDict {dictionary} Parameter dictionary entry
-        @return tuple - Parameter name string, parameter type string, parameter description string
+        @return tuple - Parameter name string,
+                        parameter type string (text|number),
+                        parameter description string
+                        True if list type or False if single value
         """
-        return paramDict['name'], paramDict['type'], paramDict['desc']
+        return paramDict['name'], paramDict['type'], paramDict['desc'], paramDict['isList']
 
     @staticmethod
     def getParamType(paramDict):
