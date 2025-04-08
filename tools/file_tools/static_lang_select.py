@@ -26,23 +26,24 @@ for the argparse libraries
 #==========================================================================
 
 from .string_name_generator import StringClassNameGen
+from .common.doxygen_gen_tools import CDoxyCommentGenerator
 from .os_lang_select_tools import OsLangSelectFunctionHelper
-from .jsonLanguageDescriptionList import LanguageDescriptionList
 
 class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
     """!
     Methods for compile switch determined language select function generation
     """
-    def __init__(self, langData, functionName = "getParserStringListInterface_Static"):
+    def __init__(self, jsonLangData, functionName = "getParserStringListInterface_Static"):
         """!
         @brief StaticLangSelectFunctionGenerator constructor
-        @param langData {string} JSON language description list file name
+        @param jsonLangData {string} JSON language description list file name
         @param functionName {string} Function name to be used for generation
         """
         super().__init__()
         self.selectFunctionName = functionName
         self.defStaticString = "!defined("+StringClassNameGen.getDynamicCompileswitch()+")"
-        self.langData = LanguageDescriptionList(langData)
+        self.langJsonData = jsonLangData
+        self.doxyCommentGen = CDoxyCommentGenerator()
 
     def getFunctionName(self):
         return self.selectFunctionName
@@ -69,47 +70,44 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         """
         return self.endFunction(self.selectFunctionName)
 
-    def genFunction(self, langJsonData, outfile):
+    def genFunction(self, outfile):
         """!
         @brief Generate the function body text
 
-        @param langJsonData {dictionary} JSON file language dictionary data
         @param outfile {file} File to output the function to
         """
         # Generate the #if and includes
         functionBody = []
-        functionBody.append("#if "+self.defStaticString)
-        functionBody.append("")  # whitespace for readability
+        functionBody.append("#if "+self.defStaticString+"\n")
+        functionBody.append("\n")  # whitespace for readability
 
         # Generate function doxygen comment and start
         functionBody.extend(self.genFunctionDefine())
 
         # Start function body generation
         bodyIndent = "".rjust(4, " ")
-        staticClassName = StringClassNameGen.getBaseClassName()+"Static"
 
         # Generate #if #elf compile switch chain for each language in the dictionary
         firstLoop = True
-        for langName, langData in langJsonData['languages'].items():
+        for langName in self.langJsonData.getLanguageList():
+            ifline = "  "
             if firstLoop:
-                ifline = "  #if defined("+langData['compileSwitch']+")"
+                ifline += "#if "
                 firstLoop = False
             else:
-                ifline = "  #elif defined("+langData['compileSwitch']+")"
-
+                ifline += "#elif "
+            ifline += "defined("+self.langJsonData.getLanguageCompileSwitchData(langName)+")\n"
             functionBody.append(ifline)
-            functionBody.append(bodyIndent+"using "+staticClassName+" = "+StringClassNameGen.getLangClassName(langName)+";")
-
+            functionBody.append(bodyIndent+"return std::make_shared<"+StringClassNameGen.getLangClassName(langName)+">();\n")
 
         # Add the final #else case
-        functionBody.append("  #else //undefined language compile switch, use default")
-        functionBody.append(bodyIndent+"using "+staticClassName+" = "+StringClassNameGen.getLangClassName(langJsonData['default']['name'])+";")
-        functionBody.append("  #endif //end of language #if/#elifcompile switch chain")
-        functionBody.append(bodyIndent+self.genMakePtrReturnStatement(staticClassName))
+        functionBody.append("  #else //undefined language compile switch, use default\n")
+        functionBody.append(bodyIndent+"#error one of the language compile switches must be defined\n")
+        functionBody.append("  #endif //end of language #if/#elifcompile switch chain\n")
 
         # Complete the function
         functionBody.append(self.genFunctionEnd())
-        functionBody.append("#endif // "+self.defStaticString)
+        functionBody.append("#endif // "+self.defStaticString+"\n")
         outfile.writelines(functionBody)
 
     def genReturnFunctionCall(self, indent = 4):
@@ -119,7 +117,7 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         @return list of strings Formatted code lines
         """
         indentText = "".rjust(indent, " ")
-        doCall = indentText+"return "+self.selectFunctionName+"();"
+        doCall = indentText+"return "+self.selectFunctionName+"();\n"
         return [doCall]
 
     def genUnitTest(self, langJsonData, getIsoMethod, outfile):
@@ -132,12 +130,12 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         """
         # Generate block start code
         blockStart = []
-        blockStart.append("#if "+self.defStaticString)
+        blockStart.append("#if "+self.defStaticString+"\n")
         externDef = "extern "
         externDef += self.returnType
         externDef += " "
         externDef += self.selectFunctionName
-        externDef += "();"
+        externDef += "();\n"
         blockStart.append(externDef)
         outfile.writelines(blockStart)
 
@@ -145,38 +143,38 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         testBlockName = "StaticSelectFunction"
         bodyIndent = "".rjust(4, " ")
         breifDesc = "Test "+self.selectFunctionName+" selection case"
-        testBody = self.genDoxyMethodComment(breifDesc, [])
+        testBody = self.doxyCommentGen.genDoxyMethodComment(breifDesc, [])
 
         testVar = "testVar"
         testVarDecl = self.returnType+" "+testVar
         testVarTest = testVar+"."+getIsoMethod+"().c_str()"
-        testBody.append("TEST("+testBlockName+", CompileSwitchedValue)")
-        testBody.append("{")
-        testBody.append(bodyIndent+"// Generate the test language string object")
-        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"();")
-        testBody.append("") # whitespace for readability
+        testBody.append("TEST("+testBlockName+", CompileSwitchedValue)\n")
+        testBody.append("{\n")
+        testBody.append(bodyIndent+"// Generate the test language string object\n")
+        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"();\n")
+        testBody.append("\n") # whitespace for readability
 
         firstLoop = True
-        for langName, langData in langJsonData['languages'].items():
+        for langName in self.langJsonData.getLanguageList():
             if firstLoop:
-                testBody.append("  #if defined("+langData['compileSwitch']+")")
+                testBody.append("  #if defined("+self.langJsonData.getLanguageCompileSwitchData(langName)+")\n")
                 firstLoop = False
             else:
-                testBody.append("  #elif defined("+langData['compileSwitch']+")")
+                testBody.append("  #elif defined("+self.langJsonData.getLanguageCompileSwitchData(langName)+")\n")
 
-            testBody.append(bodyIndent+"EXPECT_STREQ(\""+langData['isoCode']+"\", "+testVarTest+";")
+            testBody.append(bodyIndent+"EXPECT_STREQ(\""+self.langJsonData.getLanguageIsoCodeData(langName)+"\", "+testVarTest+";\n")
 
         # Add the final #else case
-        testBody.append("  #else //undefined language compile switch, use default")
-        testBody.append(bodyIndent+"EXPECT_STREQ(\""+langJsonData['default']['isoCode']+"\", "+testVarTest+";")
-        testBody.append("  #endif //end of language #if/#elifcompile switch chain")
+        testBody.append("  #else //undefined language compile switch, use default\n")
+        testBody.append(bodyIndent+"#error One compile switch language must be defined!\n")
+        testBody.append("  #endif //end of language #if/#elifcompile switch chain\n")
 
         # Complete the function
-        testBody.append("}")
+        testBody.append("}\n")
         outfile.writelines(testBody)
 
         # Generate block end code
-        outfile.writelines(["#endif // "+self.defStaticString])
+        outfile.writelines(["#endif // "+self.defStaticString+"\n"])
 
     def genUnitTestFunctionCall(self, checkVarName, indent = 4):
         """!
@@ -186,5 +184,5 @@ class StaticLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         @return list of strings Formatted code lines
         """
         indentText = "".rjust(indent, " ")
-        doCall = indentText+self.returnType+" "+checkVarName+" = "+self.selectFunctionName+"();"
+        doCall = indentText+self.returnType+" "+checkVarName+" = "+self.selectFunctionName+"();\n"
         return [doCall]

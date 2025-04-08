@@ -34,16 +34,20 @@ class LanguageDescriptionList(object):
     """!
     Language description list data
     """
-    def __init__(self, langListFileName = "argparse-lang-list.json"):
+    def __init__(self, langListFileName = None):
         """!
         @brief LanguageDescriptionList constructor
 
         @param langListFileName (string) - Name of the json file containing
                                            the language description data
         """
-        self.filename = langListFileName
+        if langListFileName is None:
+            self.filename = StringClassNameGen.getLanguageDescriptionFileName()
+        else:
+            self.filename = langListFileName
+
         try:
-            langJsonFile = open(langListFileName, 'r', encoding='utf-8')
+            langJsonFile = open(self.filename, 'r', encoding='utf-8')
         except FileNotFoundError:
             self.langJsonData = {'default':{'name':"english", 'isoCode':"en"}, 'languages':{}}
         else:
@@ -190,17 +194,17 @@ class LanguageDescriptionList(object):
                         True if data is a list else False
         """
         if propertyName == 'googleCode':
-            return "text", "Google translate language code", False
+            return "string", "Google translate language code", False
         elif propertyName == 'LANG':
-            return "text", "Linux environment language code", False
+            return "string", "Linux environment language code", False
         elif propertyName == 'LANG_regions':
-            return "text", "Linux environment region codes for this language code", True
+            return "string", "Linux environment region codes for this language code", True
         elif propertyName == 'LANGID':
-            return "number", "Windows LANGID & 0xFF language code(s)", True
+            return "LANGID", "Windows LANGID & 0xFF language code(s)", True
         elif propertyName == 'LANGID_regions':
-            return "number", "Windows full LANGID language code(s)", True
+            return "LANGID", "Windows full LANGID language code(s)", True
         elif propertyName == 'isoCode':
-            return "text", "ISO 639 set 3 language code", False
+            return "string", "ISO 639 set 3 language code", False
         else:
             return None, None, False
 
@@ -444,11 +448,10 @@ def AddSimplifiedChinese(languages):
     winLanIDList = [2052,3076,5124,4100,1028]
     languages.addLanguage("SimplifiedChinese", "zh", linuxEnv, linuxRegionList, winLanID, winLanIDList, "zh", "CHINESE_ERRORS")
 
-def CreateDefaultJson():
+def CreateDefaultJson(languages):
     """!
     @brief Create base default LanguageDescriptionList json file
     """
-    languages = LanguageDescriptionList()
     AddEnglish(languages)
     AddSpanish(languages)
     AddFrench(languages)
@@ -456,11 +459,10 @@ def CreateDefaultJson():
     languages.setDefault("english")
     languages.update()
 
-def PrintLanguages():
+def PrintLanguages(languages):
     """!
     @brief Print the current language data file
     """
-    jsonLangFile = LanguageDescriptionList()
     jsonLangData = jsonLangFile.langJsonData
     for langName, langData in jsonLangData['languages'].items():
         print (langName+": {")
@@ -469,11 +471,10 @@ def PrintLanguages():
 
     print ("Default = "+jsonLangData['default']['name'])
 
-def AddLanguage():
+def AddLanguage(languages):
     """!
     @brief Add a language to the LanguageDescriptionList file
     """
-    languages = LanguageDescriptionList()
     commit = languages.newLanguage()
     if commit:
         print ("Updating JSON file")
@@ -486,18 +487,17 @@ def CommandMain():
     @param subcommand {string} JSON Language command
     """
     parser = argparse.ArgumentParser(prog="jsonLanguageDescriptionList",
-                                     description="Update argpasre library language description JSON file")
+                                     description="Update argpaser library language description JSON file")
     parser.add_argument('subcommand', choices=['add', 'print', 'createnew', 'setdefaultlang'])
     args = parser.parse_args()
-
+    jsonLangFile = LanguageDescriptionList()
     if args.subcommand.lower() == "add":
-        AddLanguage()
+        AddLanguage(jsonLangFile)
     elif args.subcommand.lower() == "print":
-        PrintLanguages()
+        PrintLanguages(jsonLangFile)
     elif args.subcommand.lower() == "createnew":
-        CreateDefaultJson()
+        CreateDefaultJson(jsonLangFile)
     elif args.subcommand.lower() == "setdefaultlang":
-        jsonLangFile = LanguageDescriptionList()
         defaultLang = jsonLangFile._inputLanguageName()
         jsonLangFile.setDefault(defaultLang)
     else:

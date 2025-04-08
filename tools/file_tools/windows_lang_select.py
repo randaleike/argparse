@@ -28,16 +28,16 @@ for the argparse libraries
 from .common.file_gen_tools import ParamRetDict
 from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
-from .jsonLanguageDescriptionList import LanguageDescriptionList
+from .common.doxygen_gen_tools import CDoxyCommentGenerator
 
 class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
     """!
     Methods for Windows language select function generation
     """
-    def __init__(self, langData, functionName = "getParserStringListInterface_Windows"):
+    def __init__(self, jsonLangData, functionName = "getParserStringListInterface_Windows"):
         """!
         @brief WindowsLangSelectFunctionGenerator constructor
-        @param langData {string} JSON language description list file name
+        @param jsonLangData {string} JSON language description list file name
         @param functionName {string} Function name to be used for generation
         """
         super().__init__()
@@ -45,7 +45,8 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         self.selectFunctionName = functionName
         self.defOsString = "(defined(_WIN64) || defined(_WIN32))"
         self.defDynamicOsString = "("+self.defOsString+" && defined("+StringClassNameGen.getDynamicCompileswitch()+"))"
-        self.langData = LanguageDescriptionList(langData)
+        self.langJsonData = jsonLangData
+        self.doxyCommentGen = CDoxyCommentGenerator()
 
     def getFunctionName(self):
         return self.selectFunctionName
@@ -78,47 +79,46 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
     def genFunction(self, outfile):
         """!
         @brief Generate the function body text
-
-        @param langJsonData {dictionary} JSON file language dictionary data
         @param outfile {file} File to output the function to
         """
         # Generate the #if and includes
+        paramName = ParamRetDict.getParamName(self.paramDictList[0])
         functionBody = []
-        functionBody.append("#if "+self.defDynamicOsString)
-        functionBody.append("  #include <Windows.h>")
-        functionBody.append("")  # whitespace for readability
+        functionBody.append("#if "+self.defDynamicOsString+"\n")
+        functionBody.append(self._genInclude("<Windows.h>"))
+        functionBody.append("\n")  # whitespace for readability
 
         # Generate function doxygen comment and start
         functionBody.extend(self.genFunctionDefine())
 
         # Start function body generation
         bodyIndent = "    "
-        functionBody.append(bodyIndent+"switch("+self.paramDictList[0]['name']+" & 0x0FF)")
-        functionBody.append(bodyIndent+"{")
+        functionBody.append(bodyIndent+"switch("+paramName+" & 0x0FF)\n")
+        functionBody.append(bodyIndent+"{\n")
 
         # Generate case if chain for each language in the dictionary
-        caseIndent = bodyIndent+"    "
-        caseBodyIndent = caseIndent+"    "
-        langList = self.langData.getLanguageList()
-        for langName in langList:
-            langCodes, langRegionList = self.langData.getLanguageLANGIDData(langName)
+        caseIndent = bodyIndent+"".rjust(4, " ")
+        caseBodyIndent = caseIndent+"".rjust(4, " ")
+        for langName in self.langJsonData.getLanguageList():
+            langCodes, langRegionList = self.langJsonData.getLanguageLANGIDData(langName)
             for id in langCodes:
                 caseline =  caseIndent+"case"
                 caseline += hex(id)
-                caseline += ":"
+                caseline += ":\n"
                 functionBody.append(caseline)
             caseAssign = caseBodyIndent+self.genMakePtrReturnStatement(langName)
             functionBody.append(caseAssign)
-            functionBody.append(caseBodyIndent+"break;")
+            functionBody.append(caseBodyIndent+"break;\n")
 
         # Add the final default case
-        functionBody.append(caseIndent+"default:")
-        functionBody.append(caseBodyIndent+self.genMakePtrReturnStatement(self.langJsonData['default']['name']))
-        functionBody.append(bodyIndent+"}")
+        defaultLang, defaultIsoCode = self.langJsonData.getDefaultData()
+        functionBody.append(caseIndent+"default:\n")
+        functionBody.append(caseBodyIndent+self.genMakePtrReturnStatement(defaultLang))
+        functionBody.append(bodyIndent+"}\n")
 
         # Complete the function
         functionBody.append(self.genFunctionEnd())
-        functionBody.append("#endif // "+self.defDynamicOsString)
+        functionBody.append("#endif // "+self.defDynamicOsString+"\n")
         outfile.writelines(functionBody)
 
     def genReturnFunctionCall(self, indent = 4):
@@ -134,14 +134,14 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         getParam += ParamRetDict.getParamType(self.paramDictList[0])
         getParam += " "
         getParam += localVarName
-        getParam += "= GetUserDefaultUILanguage();"
+        getParam += "= GetUserDefaultUILanguage();\n"
 
         doCall = indentText
         doCall += "return "
         doCall += self.selectFunctionName
         doCall += "("
         doCall += localVarName
-        doCall += ");"
+        doCall += ");\n"
 
         return [getParam, doCall]
 
@@ -159,32 +159,31 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         testBlockName = "WindowsSelectFunction"
         bodyIndent = "".rjust(4, " ")
         breifDesc = "Test "+self.selectFunctionName+" "+str(langid)+" selection case"
-        testBody = self.genDoxyMethodComment(breifDesc, [])
+        testBody = self.doxyCommentGen.genDoxyMethodComment(breifDesc, [])
 
         testVar = "testVar"
         testVarDecl = self.returnType+" "+testVar
         testVarTest = testVar+"."+getIsoMethod+"().c_str()"
-        testBody.append("TEST("+testBlockName+", "+testName+")")
-        testBody.append("{")
-        testBody.append(bodyIndent+"// Generate the test language string object")
+        testBody.append("TEST("+testBlockName+", "+testName+")\n")
+        testBody.append("{\n")
+        testBody.append(bodyIndent+"// Generate the test language string object\n")
 
-        testBody.append("") # whitespace for readability
-        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"("+str(langid)+");")
-        testBody.append(bodyIndent+"EXPECT_STREQ(\""+expectedIso+"\", "+testVarTest+";")
-        testBody.append("}")
+        testBody.append("\n") # whitespace for readability
+        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"("+str(langid)+");\n")
+        testBody.append(bodyIndent+"EXPECT_STREQ(\""+expectedIso+"\", "+testVarTest+";\n")
+        testBody.append("}\n")
         return testBody
 
-    def genUnitTest(self, langJsonData, getIsoMethod, outfile):
+    def genUnitTest(self, getIsoMethod, outfile):
         """!
         @brief Generate all unit tests for the selection function
 
-        @param langJsonData {dictionary} JSON file language dictionary data
         @param getIsoMethod {string} Name of the ParserStringListInterface return ISO code method
         @param outfile {file} File to output the function to
         """
         # Generate block start code
         blockStart = []
-        blockStart.append("#if "+self.defDynamicOsString)
+        blockStart.append("#if "+self.defDynamicOsString+"\n")
         externDef = "extern "
         externDef += self.returnType
         externDef += " "
@@ -193,42 +192,53 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         externDef += ParamRetDict.getParamType(self.paramDictList[0])
         externDef += " "
         externDef += ParamRetDict.getParamName(self.paramDictList[0])
-        externDef += ");"
+        externDef += ");\n"
         blockStart.append(externDef)
         outfile.writelines(blockStart)
 
         # Generate the tests
-        for langName, langData in langJsonData['languages'].items():
-            for langId in langData['LANGID_regions']:
+        for langName in self.langJsonData.getLanguageList():
+            langCodes, regionList = self.langJsonData.getLanguageLANGIDData(langName)
+            for langId in regionList:
                 # Generate test for each region of known language
-                testName = langName.capitalize()+"_"+str(langId)+"_Selection)"
-                testBody = self._genUnitTestTest(testName, langId, langData['isoCode'], getIsoMethod)
-                testBody.append("") # whitespace for readability
+                testName = langName.capitalize()+"_"+str(langId)+"_Selection"
+                testBody = self._genUnitTestTest(testName,
+                                                 langId,
+                                                 self.langJsonData.getLanguageIsoCodeData(langName),
+                                                 getIsoMethod)
+                testBody.append("\n") # whitespace for readability
                 outfile.writelines(testBody)
 
             # Generate test for unknown region of known language(s)
-            for langCode in langData['LANGID']:
-                unknownRegionTestName = langName.capitalize()+"_unknownRegion_00"+str(langCode)+"_Selection)"
-                unknownRegionBody = self._genUnitTestTest(unknownRegionTestName, langCode, langData['isoCode'], getIsoMethod)
-                unknownRegionBody.append("") # whitespace for readability
+            for langCode in langCodes:
+                unknownRegionTestName = langName.capitalize()+"_unknownRegion_00"+str(langCode)+"_Selection"
+                unknownRegionBody = self._genUnitTestTest(unknownRegionTestName,
+                                                          langCode,
+                                                          self.langJsonData.getLanguageIsoCodeData(langName),
+                                                          getIsoMethod)
+                unknownRegionBody.append("\n") # whitespace for readability
                 outfile.writelines(unknownRegionBody)
 
             # Generate test for unknown region of known language(s)
-            for langCode in langData['LANGID']:
-                unknownRegionTestName = langName.capitalize()+"_unknownRegion_FF"+str(langCode)+"_Selection)"
-                unknownRegionBody = self._genUnitTestTest(unknownRegionTestName, 0xFF00+langCode, langData['isoCode'], getIsoMethod)
-                unknownRegionBody.append("") # whitespace for readability
+            for langCode in langCodes:
+                unknownRegionTestName = langName.capitalize()+"_unknownRegion_FF"+str(langCode)+"_Selection"
+                unknownRegionBody = self._genUnitTestTest(unknownRegionTestName,
+                                                          0xFF00+langCode,
+                                                          self.langJsonData.getLanguageIsoCodeData(langName),
+                                                          getIsoMethod)
+                unknownRegionBody.append("\n") # whitespace for readability
                 outfile.writelines(unknownRegionBody)
 
         # Generate test for unknown region of unknown language and expect default
+        defaultLang, defaultIsoCode = self.langJsonData.getDefaultData()
         unknownLangBody = self._genUnitTestTest("UnknownLanguageDefaultSelection",
                                                 0,
-                                                langJsonData['default']['isoCode'],
+                                                defaultIsoCode,
                                                 getIsoMethod)
         outfile.writelines(unknownLangBody)
 
         # Generate block end code
-        outfile.writelines(["#endif // "+self.defDynamicOsString])
+        outfile.writelines(["#endif // "+self.defDynamicOsString+"\n"])
 
     def genUnitTestFunctionCall(self, checkVarName, indent = 4):
         """!
@@ -244,7 +254,7 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         getParam += ParamRetDict.getParamType(self.paramDictList[0])
         getParam += " "
         getParam += localVarName
-        getParam += "= GetUserDefaultUILanguage();"
+        getParam += "= GetUserDefaultUILanguage();\n"
 
         doCall = indentText
         doCall += self.returnType
@@ -254,6 +264,6 @@ class WindowsLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         doCall += self.selectFunctionName
         doCall += "("
         doCall += localVarName
-        doCall += ");"
+        doCall += ");\n"
 
         return [getParam, doCall]

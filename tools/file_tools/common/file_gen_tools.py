@@ -32,26 +32,35 @@ from .comment_block import CommentGenerator
 from .copyright_tools import CopyrightGenerator
 from .eula import EulaText
 
-from .doxygen_gen_tools import CDoxyCommentGenerator
+from .doxygen_gen_tools import DoxyCommentGenerator
 from .param_return_tools import ParamRetDict
 
 #============================================================================
 #============================================================================
-# C function generation helper class
+# File generation helper class
 #============================================================================
 #============================================================================
-class GenCFunctionHelper(CDoxyCommentGenerator):
+class GenerateCppFileHelper(object):
     """!
-    Helper functions for function generation
+    @brief File generation helper class.
+
+    This class implements boiler plate data and helper functions used by
+    the parent file specific generation class to generate the file
     """
-    def __init__(self):
+    def __init__(self, eulaName = None):
         """!
-        @brief GenFunctionHelper constructor
-        @param commentMarkers {CommentBlockDelim dictionary} Comment deliminter markers for the input file type.
-        @param addParamType {boolean} True add the parameter type to the doxygen param comment text
-                                      False do not add parameter type to the doxygen param comment text
+        @brief GenerateFileHelper constructor
+
+        @param eulaName {string} Name of the EULA from EulaText class to use.
         """
         super().__init__()
+
+        self.copyrightGenerator = CopyrightGenerator()
+        if eulaName is None:
+            self.eula = EulaText("MIT_open")
+        else:
+            self.eula = EulaText(eulaName)
+        self.doxyCommentGen = DoxyCommentGenerator(CommentParams.cCommentParms)
 
     def declareFunctionWithDecorations(self, name, briefdesc, paramDictList, retDict = None,
                                        indent = 0, noDoxygen = False,
@@ -77,10 +86,10 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
 
         # Add doxygen comment block
         if not noDoxygen:
-            funcDeclareText.extend(self.genDoxyMethodComment(briefdesc, paramDictList, retDict, longDesc, indent))
+            funcDeclareText.extend(self.doxyCommentGen.genDoxyMethodComment(briefdesc, paramDictList, retDict, longDesc, indent))
 
         # Create function definition line
-        funcLine = ""
+        funcLine = "".rjust(indent, ' ')
 
         # Add function prefix definitions if defined
         if prefixDecaration is not None:
@@ -109,18 +118,22 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
 
         # Add inline code if defined
         if inlinecode is None:
-            funcLine += ";"
+            funcLine += ";\n"
             funcDeclareText.append(funcLine)
         else:
+            funcLine += "\n"
             funcDeclareText.append(funcLine)
-            inlineStart = "{".rjust(indent, ' ')
+            inlineIndent = "".rjust(indent, ' ')
+            inlineStart = inlineIndent+"{"
             if len(inlinecode) == 1:
-                funcDeclareText.append(inlineStart+inlinecode[0]+"}")
+                funcDeclareText.append(inlineStart+inlinecode[0]+"}\n")
             else:
-                funcDeclareText.append(inlineStart)
+                funcDeclareText.append(inlineStart+"\n")
+                inlineBodyIndent = "".rjust(indent+4, ' ')
                 for codeLine in inlinecode:
-                    funcDeclareText.append(codeLine.rjust(indent+4, ' '))
-                funcDeclareText.append("}".rjust(indent, ' '))
+                    codeLine += "\n"
+                    funcDeclareText.append(inlineBodyIndent+codeLine)
+                funcDeclareText.append(inlineIndent+"}\n")
 
         return funcDeclareText
 
@@ -146,14 +159,15 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
 
         # Add doxygen comment block
         if not noDoxygen:
-            funcDefineText.extend(self.genDoxyMethodComment(briefdesc, paramDictList, retDict, longDesc))
+            funcDefineText.extend(self.doxyCommentGen.genDoxyMethodComment(briefdesc, paramDictList, retDict, longDesc))
 
         # Add function prefix definitions if defined
         if prefixDecaration is not None:
             funcLine += prefixDecaration
             funcLine += " "
 
-        # Create function definition line
+        # Create function definition line            inlineStart = "{".rjust(indent, ' ')
+
         funcLine = ParamRetDict.getParamType(retDict)+" "+name+"("
         paramPrefix = ""
         for paramDict in paramDictList:
@@ -168,10 +182,10 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
         if postfixDecaration is not None:
             funcLine += " "
             funcLine += postfixDecaration
-        funcDefineText.append(funcLine)
+        funcDefineText.append(funcLine+"\n")
 
         # Add function open text
-        funcDefineText.append("{")
+        funcDefineText.append("{\n")
         return funcDefineText
 
     def endFunction(self, name):
@@ -180,63 +194,7 @@ class GenCFunctionHelper(CDoxyCommentGenerator):
         @param name (string) - Function name
         @return string - Function close with comment
         """
-        return ("} // end of "+name+"()")
-
-    def genMakePtrReturnStatement(self, typeName):
-        retLine = "return "
-        retLine += "std::make_shared<"
-        retLine += typeName
-        retLine += ">();"
-        return retLine
-
-    def getStringType(self):
-        return "std::string"
-
-    def getStringListType(self):
-        return "std::list<std::string>"
-
-    def getLANGIDListType(self):
-        return "std::list<LANGID>"
-
-    def getVardeclStatment(self, varType, varName):
-        return varType+" "+varName+";"
-
-    def getAddStringListStatment(self, listName, valueName):
-        return listName+".emplace_back(\""+valueName+"\");"
-
-    def getStringReturnStatment(self, string):
-        return "return (\""+string+"\");"
-
-    def getValueReturnStatment(self, valueName):
-        return "return "+valueName+";"
-
-    def getAddValueListStatment(self, listName, valueName):
-        return listName+".emplace_back("+valueName+");"
-
-#============================================================================
-#============================================================================
-# File generation helper class
-#============================================================================
-#============================================================================
-class GenerateCppFileHelper(GenCFunctionHelper):
-    """!
-    @brief File generation helper class.
-
-    This class implements boiler plate data and helper functions used by
-    the parent file specific generation class to generate the file
-    """
-    def __init__(self, fileName, nameSpace = None, eulaName = "MIT_open"):
-        """!
-        @brief GenerateFileHelper constructor
-
-        @param fileName {string} Name to use for the .h and .cpp generated files
-        @param nameSpace {string} Name space wrapper
-        @param eulaName {string} Name of the EULA from EulaText class to use.
-        """
-        self.fileName = fileName
-        self.copyrightGenerator = CopyrightGenerator()
-        self.eula = EulaText(eulaName)
-        self.commentGenerator = CommentGenerator(CommentParams.cCommentParms)
+        return ("} // end of "+name+"()\n")
 
     def _generateFileHeader(self, autotoolname, startYear=2025, owner = None):
         """!
@@ -248,51 +206,88 @@ class GenerateCppFileHelper(GenCFunctionHelper):
         @return list of strings - Code to output
         """
         commentText = []
-
+        copyrightEulaText = []
         if owner is not None:
             # Generate copyright and EULA text
             currentYear = datetime.now().year
-            commentText.append(self.copyrightGenerator.createNewCopyright(owner, startYear, currentYear))
-            commentText.append("") # white space for readability
-            commentText.append(self.eula.formatEulaName())
-            commentText.append("") # white space for readability
-            commentText.extend(self.eula.formatEulaText())
-            commentText.append("") # white space for readability
+            copyrightEulaText.append(self.copyrightGenerator.createNewCopyright(owner, startYear, currentYear))
+            copyrightEulaText.append("") # white space for readability
+            copyrightEulaText.append(self.eula.formatEulaName())
+            copyrightEulaText.append("") # white space for readability
+            copyrightEulaText.extend(self.eula.formatEulaText())
+            copyrightEulaText.append("") # white space for readability
 
-        commentText.append("") # white space for readability
-        commentText.append("This file was autogenerated by "+autotoolname+" do not edit")
-        commentText.append("") # white space for readability
+        copyrightEulaText.append("This file was autogenerated by "+autotoolname+" do not edit")
+        copyrightEulaText.append("") # white space for readability
 
         # Special comment generator for header block
         headerGenCommentParam = CommentParams.cCommentParms
         headerGenCommentParam['blockLineStart'] = "* "
-        headerCommentGen = CommentGenerator(self.autoGenCommentParam, 80)
+        headerCommentGen = CommentGenerator(headerGenCommentParam, 80)
 
         # Generate comment header
-        commentText.extend(headerCommentGen.buildCommentBlockHeader())
+        for line in headerCommentGen.buildCommentBlockHeader():
+            commentText.append(line+"\n")
 
         # Wrap and output commentText lines
-        for line in commentText:
-            commentText.append(headerCommentGen.wrapCommentLine(line))
+        for line in copyrightEulaText:
+            commentText.append(headerCommentGen.wrapCommentLine(line)+"\n")
 
         # Generate comment footer
-        commentText.extend(headerCommentGen.buildCommentBlockFooter())
+        for line in headerCommentGen.buildCommentBlockFooter():
+            commentText.append(line+"\n")
         return commentText
 
     def _genInclude(self, includeName):
         """!
         @brief Add Include line to the output file
         @param includeName {string} Name of the include file to add
-        @return list of strings - Code to output
+        @return string - Include statement
         """
         if -1 == includeName.find("<"):
-            return ["#include \""+includeName+"\""]
+            return "#include \""+includeName+"\"\n"
         else:
-            return ["#include "+includeName]
+            return "#include "+includeName+"\n"
 
-    def genClassStart(self, className, classDesc, inheritence = None, classDecoration = None, noDoxyCommentConstructor = False):
+    def genIncludeBlock(self, includeNames):
         """!
-        @brief Generate default constructor(s)/destructor declarations for a class
+        @brief Generate a series if include line(s) for each name in the list
+        @param includeNames {list of strings} Name(s) of the include file to add
+        @return list of strings - Include code block to output
+        """
+        includeBlock = ["#pragma once\n"]
+        includeBlock.append("// Includes\n")
+        for includeName in includeNames:
+            includeBlock.append(self._genInclude(includeName))
+        return includeBlock
+
+    def genNamespaceOpen(self, namespaceName):
+        """!
+        @brief Generate namespace start code for include file
+        @param namespaceName {string} Name of the namespace
+        @return list of strings - Code to output
+        """
+        return ["namespace "+namespaceName, " {\n"]
+
+    def genNamespaceClose(self, namespaceName):
+        """!
+        @brief Generate namespace start code for include file
+        @param namespaceName {string} Name of the namespace
+        @return list of strings - Code to output
+        """
+        return ["}; // end of namespace "+namespaceName+"\n"]
+
+    def _genUsingNamespace(self, namespaceName):
+        """!
+        @brief Generate namespace start code for include file
+        @param namespaceName {string} Name of the namespace
+        @return list of strings - Code to output
+        """
+        return ["using namespace "+namespaceName+";\n"]
+
+    def genClassOpen(self, className, classDesc, inheritence = None, classDecoration = None, noDoxyCommentConstructor = False):
+        """!
+        @brief Generate the class open code
 
         @param className {string} Name of the class
         @param inheritence {sting} Parent class and visability or None
@@ -305,19 +300,28 @@ class GenerateCppFileHelper(GenCFunctionHelper):
 
         # Generate Doxygen class description
         if not noDoxyCommentConstructor:
-            codeText.extend(self.genDoxyClassComment(classDesc))
+            codeText.extend(self.doxyCommentGen.genDoxyClassComment(classDesc))
 
         # Generate class start
         if inheritence is not None:
             if classDecoration is not None:
-                codeText.append("class "+className+" "+classDecoration+" : "+inheritence)
+                codeText.append("class "+className+" "+classDecoration+" : "+inheritence+"\n")
             else:
-                codeText.append("class "+className+" : "+inheritence)
+                codeText.append("class "+className+" : "+inheritence+"\n")
         else:
-            codeText.append("class "+className)
-        codeText.append("{")
+            codeText.append("class "+className+"\n")
+        codeText.append("{\n")
 
         return codeText
+
+    def genClassClose(self, className):
+        """!
+        @brief Generate the class close code
+
+        @param className {string} Name of the class
+        @return list of strings - Code to output
+        """
+        return ["}; // end of "+className+" class\n"]
 
     def genClassDefaultConstructorDestructor(self, className, indent = 8, virtualDestructor = False, noDoxyCommentConstructor = False):
         """!
@@ -349,7 +353,7 @@ class GenerateCppFileHelper(GenCFunctionHelper):
                                                        None,
                                                        "= default")
         if not noDoxyCommentConstructor:
-            codeText.append("")      #whitespace for readability
+            codeText.append("\n")      #whitespace for readability
 
         # Declare default copy constructor
         codeText.extend(self.declareFunctionWithDecorations(className,
@@ -362,7 +366,7 @@ class GenerateCppFileHelper(GenCFunctionHelper):
                                                             "= default"))
 
         if not noDoxyCommentConstructor:
-            codeText.append("")      #whitespace for readability
+            codeText.append("\n")      #whitespace for readability
 
         # Declare default move constructor
         codeText.extend(self.declareFunctionWithDecorations(className,
@@ -375,7 +379,7 @@ class GenerateCppFileHelper(GenCFunctionHelper):
                                                             "= default"))
 
         if not noDoxyCommentConstructor:
-            codeText.append("")      #whitespace for readability
+            codeText.append("\n")      #whitespace for readability
 
         # Declare default equate constructor
         codeText.extend(self.declareFunctionWithDecorations("operator=",
@@ -388,7 +392,7 @@ class GenerateCppFileHelper(GenCFunctionHelper):
                                                             "= default"))
 
         if not noDoxyCommentConstructor:
-            codeText.append("")      #whitespace for readability
+            codeText.append("\n")      #whitespace for readability
 
         # Declare default equate move constructor
         codeText.extend(self.declareFunctionWithDecorations("operator=",
@@ -401,7 +405,7 @@ class GenerateCppFileHelper(GenCFunctionHelper):
                                                             "= default"))
 
         if not noDoxyCommentConstructor:
-            codeText.append("")      #whitespace for readability
+            codeText.append("\n")      #whitespace for readability
 
         # Declare default destructor
         codeText.extend(self.declareFunctionWithDecorations("~"+className,
@@ -412,5 +416,23 @@ class GenerateCppFileHelper(GenCFunctionHelper):
                                                             noDoxyCommentConstructor,
                                                             destructorPrefix,
                                                             "= default"))
-        codeText.append("")      #whitespace for readability
+        codeText.append("\n")      #whitespace for readability
         return codeText
+
+    def declareListType(self, typeName):
+        return "std::list<"+typeName+">"
+
+    def declareVarStatment(self, varType, varName):
+        return varType+" "+varName+";"
+
+    def getAddStringListStatment(self, listName, valueName):
+        return listName+".emplace_back(\""+valueName+"\");"
+
+    def getStringReturnStatment(self, string):
+        return "return (\""+string+"\");"
+
+    def getValueReturnStatment(self, valueName):
+        return "return "+valueName+";"
+
+    def getAddValueListStatment(self, listName, valueName):
+        return listName+".emplace_back("+valueName+");"

@@ -29,26 +29,27 @@ import re
 import json
 
 from file_tools.common.param_return_tools import ParamRetDict
-from file_tools.common.file_gen_tools import GenCFunctionHelper
-
 from file_tools.string_name_generator import StringClassNameGen
-from tools.file_tools.jsonLanguageDescriptionList import LanguageDescriptionList
+from jsonLanguageDescriptionList import LanguageDescriptionList
 
 class StringClassDescription(object):
     """!
     String object class definitions
     """
 
-    def __init__(self, stringDefFileName = "argparse-string-def.json"):
+    def __init__(self, stringDefFileName = None):
         """!
         @brief StringClassDescription constructor
 
         @param langListFileName (string) - Name of the json file containing
                                            the language description data
         """
-        self.filename = stringDefFileName
+        if stringDefFileName is None:
+            self.filename = StringClassNameGen.getStringClassDescriptionFileName()
+        else:
+            self.filename = stringDefFileName
         try:
-            langJsonFile = open(stringDefFileName, 'r', encoding='utf-8')
+            langJsonFile = open(self.filename, 'r', encoding='utf-8')
         except FileNotFoundError:
             self.stringJasonData = {'propertyMethods':{}, 'translateMethods':{}}
         else:
@@ -198,15 +199,17 @@ class StringClassDescription(object):
     def _inputCType(self):
         varType = ""
         while(varType == ""):
-            inputType = input("Enter parameter type [s(tring)|t(ext)|n(umber)|c(ustom)] : ").lower()
+            inputType = input("Enter parameter type [T(ext)|i(nteger)|u(nsigned)|s(ize)|c(ustom)] : ").lower()
 
             # Check validity
-            if (inputType == "s") or (inputType=="string"):
-                varType = "string"
+            if (inputType == "s") or (inputType=="size"):
+                varType = "size"
             elif (inputType == "t") or (inputType=="text"):
-                varType = "text"
-            elif (inputType == "n") or (inputType=="number"):
-                varType = "number"
+                varType = "string"
+            elif (inputType == "i") or (inputType=="integer"):
+                varType = "integer"
+            elif (inputType == "u") or (inputType=="unsigned"):
+                varType = "unsigned"
             elif (inputType == "c") or (inputType=="custom"):
                 print ("Note: Custom type must have an operator<< defined.")
                 customType = input("Enter custom parameter type: ")
@@ -344,7 +347,9 @@ class StringClassDescription(object):
 
         return commitFlag
 
-    def addTranslateMethodEntry(self, functionName, functionDesc, paramList, returnDescription, googleLangCode, translateString):
+    def addTranslateMethodEntry(self, functionName, functionDesc, paramList,
+                                returnDescription, googleLangCode, translateString,
+                                override = False):
         """!
         @brief Add a new translate string return function dictionary
                to the list of translate functions
@@ -354,14 +359,18 @@ class StringClassDescription(object):
         @param returnDescription {string} Brief description of the return value for doxygen comment generation
         @param googleLangCode {string} Google translate language ID code of the input translateString
         @param translateString {string} String to generate translations for
+        @param override {boolean} True = Override existing without asking
         """
         newEntry = self._defineTranslateFunctionEntry(functionDesc, paramList, returnDescription, googleLangCode, translateString)
 
         if functionName in self.stringJasonData['translateMethods'].keys():
             # Determine if we should overwrite existing
-            commit = input("Overwrite existing "+functionName+" entry? [Y/N]").upper()
-            if ((commit == 'Y') or (commit == "YES")):
-                self.stringJasonData['translateMethods'][functionName] = newEntry
+            if override:
+                    self.stringJasonData['translateMethods'][functionName] = newEntry
+            else:
+                commit = input("Overwrite existing "+functionName+" entry? [Y/N]").upper()
+                if ((commit == 'Y') or (commit == "YES")):
+                    self.stringJasonData['translateMethods'][functionName] = newEntry
         else:
             self.stringJasonData['translateMethods'][functionName] = newEntry
 
@@ -438,11 +447,12 @@ class StringClassDescription(object):
 
         return commitFlag
 
-    def addPropertyMethodEntry(self, propertyName):
+    def addPropertyMethodEntry(self, propertyName, override = False):
         """!
         @brief Add a new translate string return function dictionary
                to the list of translate functions
         @param propertyName {string} LanguageDescriptionList.getLanguagePropertyList() property key
+        @param override {boolean} True = Override existing without asking
         """
         # Make sure property exists in the language data
         propertyList = LanguageDescriptionList.getLanguagePropertyList()
@@ -457,139 +467,162 @@ class StringClassDescription(object):
 
             if functionName in self.stringJasonData['propertyMethods'].keys():
                 # Verify the overwrite
-                commit = input("Overwrite existing "+functionName+" entry? [Y/N]").upper()
-                if ((commit == 'Y') or (commit == "YES")):
+                if override:
                     self.stringJasonData['propertyMethods'][functionName] = newEntry
+                else:
+                    commit = input("Overwrite existing "+functionName+" entry? [Y/N]").upper()
+                    if ((commit == 'Y') or (commit == "YES")):
+                        self.stringJasonData['propertyMethods'][functionName] = newEntry
             else:
                 # Add the entry
                 self.stringJasonData['propertyMethods'][functionName] = newEntry
 
 
-def CreateDefaultStringFile():
+def CreateDefaultStringFile(forceUpdate):
     """!
     @brief Add a function to the self.langJsonData data
+    @param forceUpdate {boolean} True force the update without user intervention,
+                                 False request update confermation on all methods
     """
     classStrings = StringClassDescription()
-    classStrings.addPropertyMethodEntry("isoCode")
+    classStrings.addPropertyMethodEntry("isoCode", override = forceUpdate)
 
     # General argument parsing messages
     classStrings.addTranslateMethodEntry("getNotListTypeMessage", "Return non-list varg error message",
-                                           [ParamRetDict.buildParamDict("nargs", "int", "input nargs value")],
-                                           "Non-list varg error message",
-                                           "en",
-                                           "Only list type arguments can have an argument count of @nargs@")
+                                         [ParamRetDict.buildParamDict("nargs", "integer", "input nargs value")],
+                                         "Non-list varg error message",
+                                         "en",
+                                         "Only list type arguments can have an argument count of @nargs@",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getUnknownArgumentMessage", "Return unknown parser key error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Unknown key")],
-                                           "Unknown parser key error message",
-                                           "en",
-                                           "Unknown argument @keyString@")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Unknown key")],
+                                         "Unknown parser key error message",
+                                         "en",
+                                         "Unknown argument @keyString@",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getInvalidAssignmentMessage", "Return varg invalid assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
-                                           "Varg key invalid assignment error message",
-                                           "en",
-                                           "\\\"@keyString@\\\" invalid assignment")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
+                                         "Varg key invalid assignment error message",
+                                         "en",
+                                         "\\\"@keyString@\\\" invalid assignment",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getAssignmentFailedMessage", "Return varg assignment failed error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
-                                            ParamRetDict.buildParamDict("valueString", "string", "Assignment value")],
-                                           "Varg key assignment failed error message",
-                                           "en",
-                                           "\\\"@keyString@\\\", \\\"@valueString@\\\" assignment failed")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
+                                          ParamRetDict.buildParamDict("valueString", "string", "Assignment value")],
+                                         "Varg key assignment failed error message",
+                                         "en",
+                                         "\\\"@keyString@\\\", \\\"@valueString@\\\" assignment failed",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getMissingAssignmentMessage", "Return varg missing assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
-                                           "Varg key missing value assignment error message",
-                                           "en",
-                                           "\\\"@keyString@\\\" missing assignment value")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
+                                         "Varg key missing value assignment error message",
+                                         "en",
+                                         "\\\"@keyString@\\\" missing assignment value",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getMissingListAssignmentMessage", "Return varg missing list value assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
-                                            ParamRetDict.buildParamDict("nargsExpected", "size_t", "Expected assignment list length"),
-                                            ParamRetDict.buildParamDict("nargsFound", "size_t", "Input assignment list length")],
-                                           "Varg key input value list too short error message",
-                                           "en",
-                                           "\\\"@keyString@\\\" missing assignment value(s). Expected: @nargsExpected@ found: @nargsFound@ arguments")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
+                                          ParamRetDict.buildParamDict("nargsExpected", "size", "Expected assignment list length"),
+                                          ParamRetDict.buildParamDict("nargsFound", "size", "Input assignment list length")],
+                                         "Varg key input value list too short error message",
+                                         "en",
+                                         "\\\"@keyString@\\\" missing assignment value(s). Expected: @nargsExpected@ found: @nargsFound@ arguments",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getTooManyAssignmentMessage", "Return varg missing list value assignment error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
-                                            ParamRetDict.buildParamDict("nargsExpected", "size_t", "Expected assignment list length"),
-                                            ParamRetDict.buildParamDict("nargsFound", "size_t", "Input assignment list length")],
-                                           "Varg key input value list too long error message",
-                                           "en",
-                                           "\\\"@keyString@\\\" too many assignment values. Expected: @nargsExpected@ found: @nargsFound@ arguments")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Error key"),
+                                          ParamRetDict.buildParamDict("nargsExpected", "size", "Expected assignment list length"),
+                                          ParamRetDict.buildParamDict("nargsFound", "size", "Input assignment list length")],
+                                         "Varg key input value list too long error message",
+                                         "en",
+                                         "\\\"@keyString@\\\" too many assignment values. Expected: @nargsExpected@ found: @nargsFound@ arguments",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getMissingArgumentMessage", "Return required varg missing error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
-                                           "Required varg key missing error message",
-                                           "en",
-                                           "\\\"@keyString@\\\" required argument missing")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
+                                         "Required varg key missing error message",
+                                         "en",
+                                         "\\\"@keyString@\\\" required argument missing",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getArgumentCreationError", "Return parser add varg failure error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
-                                           "Parser varg add failure message",
-                                           "en",
-                                           "Argument add failed: @keyString@")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Error key")],
+                                         "Parser varg add failure message",
+                                         "en",
+                                         "Argument add failed: @keyString@",
+                                         override = forceUpdate)
 
     # Command Line parser messages
     classStrings.addTranslateMethodEntry("getUsageMessage", "Return usage help message",
-                                           [],
-                                           "Usage help message",
-                                           "en",
-                                           "Usage:")
+                                         [],
+                                         "Usage help message",
+                                         "en",
+                                         "Usage:",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getPositionalArgumentsMessage", "Return positional argument help message",
-                                           [],
-                                           "Positional argument help message",
-                                           "en",
-                                           "Positional Arguments:")
+                                         [],
+                                         "Positional argument help message",
+                                         "en",
+                                         "Positional Arguments:",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getSwitchArgumentsMessage", "Return optional argument help message",
-                                           [],
-                                           "Optional argument help message",
-                                           "en",
-                                           "Optional Arguments:")
+                                         [],
+                                         "Optional argument help message",
+                                         "en",
+                                         "Optional Arguments:",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getHelpString", "Return default help switch help message",
-                                           [],
-                                           "Default help argument help message",
-                                           "en",
-                                           "show this help message and exit")
+                                         [],
+                                         "Default help argument help message",
+                                         "en",
+                                         "show this help message and exit",
+                                         override = forceUpdate)
 
     # Environment parser messages
     classStrings.addTranslateMethodEntry("getEnvArgumentsMessage", "Return environment parser argument help header",
-                                           [],
-                                           "Environment parser argument help header message",
-                                           "en",
-                                           "Defined Environment values:")
+                                         [],
+                                         "Environment parser argument help header message",
+                                         "en",
+                                         "Defined Environment values:",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getEnvironmentNoFlags", "Return environment parser add flag varg failure error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Flag key")],
-                                           "Environment parser add flag varg failure message",
-                                           "en",
-                                           "Environment value @keyString@ narg must be > 0")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Flag key")],
+                                         "Environment parser add flag varg failure message",
+                                         "en",
+                                         "Environment value @keyString@ narg must be > 0",
+                                         override = forceUpdate)
 
     classStrings.addTranslateMethodEntry("getRequiredEnvironmentArgMissing", "Return environment parser required varg missing error message",
-                                           [ParamRetDict.buildParamDict("keyString", "string", "Flag key")],
-                                           "Environment parser required varg missing error message",
-                                           "en",
-                                           "Environment value @keyString@ must be defined")
+                                         [ParamRetDict.buildParamDict("keyString", "string", "Flag key")],
+                                         "Environment parser required varg missing error message",
+                                         "en",
+                                         "Environment value @keyString@ must be defined",
+                                         override = forceUpdate)
 
 
     # JSON file parser messages
     classStrings.addTranslateMethodEntry("getJsonArgumentsMessage", "Return json parser argument help header",
-                                           [],
-                                           "JSON parser argument help header message",
-                                           "en",
-                                           "Available JSON argument values:")
+                                         [],
+                                         "JSON parser argument help header message",
+                                         "en",
+                                         "Available JSON argument values:",
+                                         override = forceUpdate)
 
     # XML file parser messages
     classStrings.addTranslateMethodEntry("getXmlArgumentsMessage", "Return xml parser argument help header",
-                                           [],
-                                           "XML parser argument help header message",
-                                           "en",
-                                           "Available XML argument values:")
+                                         [],
+                                         "XML parser argument help header message",
+                                         "en",
+                                         "Available XML argument values:",
+                                         override = forceUpdate)
 
     classStrings.update()
 
@@ -624,8 +657,9 @@ def CommandMain():
     @param subcommand {string} JSON string file command
     """
     parser = argparse.ArgumentParser(prog="jsonStringClassDescription",
-                                     description="Update argpasre library language description JSON file")
+                                     description="Update argpaser library language description JSON file")
     parser.add_argument('subcommand', choices=['addproperty', 'addtranslate', 'print', 'createnew'])
+    parser.add_argument('-f', dest='force', action='store_true', default=False)
     args = parser.parse_args()
 
     if args.subcommand.lower() == "addproperty":
@@ -635,7 +669,7 @@ def CommandMain():
     elif args.subcommand.lower() == "print":
         PrintMethods()
     elif args.subcommand.lower() == "createnew":
-        CreateDefaultStringFile()
+        CreateDefaultStringFile(args.force)
     else:
         print ("Error: Unknown JSON string method definition file command: "+args.subcommand)
         SystemExit(1)

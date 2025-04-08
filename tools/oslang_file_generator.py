@@ -27,16 +27,18 @@ for the argparse libraries
 
 import os
 import re
-import asyncio
+#import asyncio
 
-from googletrans import Translator
+#from googletrans import Translator
 
-from file_tools.jsonLanguageDescriptionList import LanguageDescriptionList
-from file_tools.jsonStringClassDescription import StringClassDescription
+from jsonLanguageDescriptionList import LanguageDescriptionList
+from jsonStringClassDescription import StringClassDescription
 
-from file_tools.common.file_gen_tools import GenerateCppFileHelper
 from file_tools.common.param_return_tools import ParamRetDict
+from file_tools.common.doxygen_gen_tools import CDoxyCommentGenerator
+
 from file_tools.string_name_generator import StringClassNameGen
+from file_tools.os_lang_select_tools import OsLangSelectFunctionHelper
 
 from file_tools.linux_lang_select import LinuxLangSelectFunctionGenerator
 from file_tools.windows_lang_select import WindowsLangSelectFunctionGenerator
@@ -46,38 +48,40 @@ from file_tools.static_lang_select import StaticLangSelectFunctionGenerator
 from file_tools.master_lang_select import MasterSelectFunctionGenerator
 
 
-class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
-    def __init__(self, filePath, owner = None):
+class GenerateOSLanguageFiles(OsLangSelectFunctionHelper):
+    def __init__(self, filePath, owner = None, eulaName = None):
         """!
         @brief GenerateOSLanguageDetectFiles constructor
 
         @param filePath {string} path to put the .h and .cpp generated files in
         """
-        super().__init__(StringClassNameGen.getBaseClassName())
+        super().__init__(eulaName, StringClassNameGen.getBaseClassName())
         self.filePath = filePath
         self.owner = owner
         self.versionMajor = 0
         self.versionMinor = 5
         self.autoToolName = self.__class__.__name__+str(self.versionMajor)+"."+str(self.versionMinor)
 
+        self.doxyCommentGen = CDoxyCommentGenerator()
         self.groupName = "OsLanguageSelection"
         self.groupDesc = "OS laguage detection and selection utility"
 
-        self.jsonLangData = LanguageDescriptionList("argparser-lang-list.json")
-        self.jsonStringsData = StringClassDescription("argparser-string-def.json")
+        self.jsonLangData = LanguageDescriptionList()
+        self.jsonStringsData = StringClassDescription()
 
-        self.osLangSelectList = [LinuxLangSelectFunctionGenerator("argparser-lang-list.json"),
-                                 WindowsLangSelectFunctionGenerator("argparser-lang-list.json")
+        self.osLangSelectList = [LinuxLangSelectFunctionGenerator(self.jsonLangData),
+                                 WindowsLangSelectFunctionGenerator(self.jsonLangData)
                                  # Add additional OS lang select classes here
                                  ]
-        self.staticSelect = StaticLangSelectFunctionGenerator("argparser-lang-list.json")
+        self.staticSelect = StaticLangSelectFunctionGenerator(self.jsonLangData)
 
         self.masterFunctionName = "getLocalParserStringListInterface"
-        self.nameSpaceName = "argparser"
+        self.nameSpaceName = StringClassNameGen.getNamespaceName()
         self.masterFunction = MasterSelectFunctionGenerator(self.masterFunctionName,
                                                             StringClassNameGen.getBaseClassName())
-        self.declareIndent = 8
         self.ifDynamicDefined = "defined("+StringClassNameGen.getDynamicCompileswitch()+")"
+        self.declareIndent = 8
+        self.functionIndent = 4
 
     def _generateFileHeader(self):
         """!
@@ -87,57 +91,63 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
 
     def _generateHFileName(self, langName = None):
         if langName is not None:
-            return StringClassNameGen.getBaseClassName()+langName.capitalize()+".h"
+            return StringClassNameGen.getLangClassName(langName)+".h"
         else:
             return StringClassNameGen.getBaseClassName()+".h"
 
-    def _writeCppFile(self, jsonLangData, cppFile):
+    def _generateCppFileName(self, langName = None):
+        if langName is not None:
+            return StringClassNameGen.getLangClassName(langName)+".cpp"
+        else:
+            return StringClassNameGen.getBaseClassName()+".cpp"
+
+    def _writeCppFile(self, cppFile):
         """!
         @brief Write the OS language selection CPP file
-        @param jsonLangData {dictionary} JSON file language dictionary data
         @param cppFile {File} File to write the data to
         """
         # Write the common header data
-        cppFile.writelines(self._generateFileHeader(cppFile))
-        cppFile.writelines([""]) # whitespace for readability
+        cppFile.writelines(self._generateFileHeader())
+        cppFile.writelines(["\n"]) # whitespace for readability
 
-        # Add the common includess
-        cppFile.writelines(["// Includes"])
-        self._genInclude("<memory>", cppFile)
-        self._genInclude("<cstring>", cppFile)
-        self._genInclude("<string>", cppFile)
-        self._genInclude(self._generateHFileName(), cppFile)
+        # Add the common includes
+        includeFileList = ["<memory>", "<cstring>", "<string>", self._generateHFileName()]
+        cppFile.writelines(self.genIncludeBlock(includeFileList))
 
         # Add the parser string files
         languageList = self.jsonLangData.getLanguageList()
         for langName in languageList:
             langCompileSwitch = self.jsonLangData.getLanguageCompileSwitchData(langName)
-            ifdef = "#if (defined("+langCompileSwitch+") || "+self.ifDynamicDefined+")"
+            ifdef = "(defined("+langCompileSwitch+") || "+self.ifDynamicDefined+")\n"
             cppFile.writelines(["#if "+ifdef])
-            self._genInclude(self._generateHFileName(langName), cppFile)
+            cppFile.writelines(self._genInclude(self._generateHFileName(langName)))
             cppFile.writelines(["#endif // "+ifdef])
 
         # Add doxygen group start
-        cppFile.writelines([""]) # whitespace for readability
-        cppFile.writelines(self.genDoxyDefgroup(self.groupName, self.groupDesc, self.fileName+".cpp"))
+        cppFile.writelines(["\n"]) # whitespace for readability
+        cppFile.writelines(self.doxyCommentGen.genDoxyDefgroup(self.groupName, self.groupDesc, self._generateCppFileName()))
+
+        cppFile.writelines(["\n"]) # whitespace for readability
+        cppFile.writelines(self._genUsingNamespace(self.nameSpaceName))
 
         # Add the language dependent selection functions
         for langSelectFunction in self.osLangSelectList:
-            cppFile.writelines([""]) # whitespace for readability
-            langSelectFunction.genFunction(jsonLangData, cppFile)
+            cppFile.writelines(["\n"]) # whitespace for readability
+            langSelectFunction.genFunction(cppFile)
 
         # Add the static selection function
-        cppFile.writelines([""]) # whitespace for readability
-        self.staticSelect(jsonLangData, cppFile)
+        cppFile.writelines(["\n"]) # whitespace for readability
+        self.staticSelect.genFunction(cppFile)
 
         # Add the master selection function
-        cppFile.writelines([""]) # whitespace for readability
-        self.masterFunction(jsonLangData, cppFile)
+        cppFile.writelines(["\n"]) # whitespace for readability
+        self.masterFunction.genFunction(cppFile, self.osLangSelectList, self.staticSelect)
 
         # Complete the doxygen group
-        cppFile.writelines(self.genDoxyGroupEnd())
+        cppFile.writelines(["\n"]) # whitespace for readability
+        cppFile.writelines(self.doxyCommentGen.genDoxyGroupEnd())
 
-    def _genPropertyInlineCode(self, langName, propertyName, propertyReturn):
+    def _genPropertyInlineCode(self, langName, propertyName, propertyReturn, isText):
         """!
         @brief Generate property function inline code
         @param langName {string} Language name
@@ -150,41 +160,31 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         if ParamRetDict.isReturnList(propertyReturn):
             # List case
             dataList = self.jsonLangData.getLanguagePropertyData(langName, propertyName)
-            codeTxt.append("{")
+            codeTxt.append(returnType+" returnData;")
 
             # Determine data type
-            if returnType == "text":
-                codeTxt.append("std::list<"+StringClassNameGen.getParserStringType()+"> returnData;")
-                for dataItem in dataList:
-                    codeTxt.append("returnData.emplace_back(\""+dataItem+"\");")
-            elif returnType == "number":
-                codeTxt.append("std::list<LANGID> returnData;")
-                for dataItem in dataList:
-                    codeTxt.append("returnData.emplace_back("+dataItem+");")
-            else:
-                codeTxt.append("std::list<"+returnType+"> returnData;")
-                for dataItem in dataList:
-                    codeTxt.append("returnData.emplace_back("+dataItem+");")
-
+            for dataItem in dataList:
+                if isText:
+                    codeTxt.append(self.getAddStringListStatment("returnData", dataItem))
+                else:
+                    codeTxt.append(self.getAddValueListStatment("returnData", dataItem))
             codeTxt.append("return returnData;")
-            codeTxt.append("}")
         else:
             # Single item case
             dataItem = self.jsonLangData.getLanguagePropertyData(langName, propertyName)
+
             # Determine data type
-            if returnType == "text":
-                codeTxt.append("{return (\""+dataItem+"\");}")
+            if isText:
+                codeTxt.append("return (\""+dataItem+"\");")
             else:
-                codeTxt.append("{return ("+dataItem+");}")
+                codeTxt.append("return ("+dataItem+");")
 
         return codeTxt
 
-    def _writePropertyMethods(self, jsonStringsDef, jsonLangData, hFile, langName = None):
+    def _writePropertyMethods(self, hFile, langName = None):
         """!
         @brief Write the property method definitions
 
-        @param jsonStringsDef {dictionary} JSON function definitions
-        @param jsonLangData {dictionary} JSON file language dictionary data
         @param hFile {File} File to write the data to
         @param langName {string} Language name or None this is for the base file
         """
@@ -206,9 +206,12 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             else:
                 postfix = postfixFinal
 
+            # Translate the return type
+            xlatedRetDict, isText = self.xlateReturnDict(propertyReturn)
+
             # Get the language data replacements
             if langName is not None:
-                inlineText = self._genPropertyInlineCode(langName, propertyName, propertyReturn)
+                inlineText = self._genPropertyInlineCode(langName, propertyName, xlatedRetDict, isText)
             else:
                 inlineText = None
 
@@ -216,7 +219,7 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             hFile.writelines(self.declareFunctionWithDecorations(propertyMethod,
                                                                  propertyDesc,
                                                                  propertyParams,
-                                                                 propertyReturn,
+                                                                 xlatedRetDict,
                                                                  self.declareIndent,
                                                                  noDoxyGeneration,
                                                                  prefix,
@@ -224,7 +227,7 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
                                                                  inlineText))
 
             if not noDoxyGeneration:
-                hFile.writelines([""]) # whitespace for readability
+                hFile.writelines(["\n"]) # whitespace for readability
 
     def _translateString(self, baseLanguage, baseText, targetLang):
         """!
@@ -240,13 +243,13 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             # @todo add google translate call
             return baseText
 
-    def _parseTranlateString(baseString):
+    def _parseTranlateString(self, baseString):
         """!
         @brief Convert the input string to an output string stream
         @param baseString {string} String to convert
         """
         matchList = re.finditer(r'@[a-zA-Z_][a-zA-Z0-9_]*@', baseString)
-        streamString = "{"+StringClassNameGen.getParserStrStreamType+" parserstr;  parserstr"
+        streamString = StringClassNameGen.getParserStrStreamType()+" parserstr;  parserstr"
         previousEnd = 0
 
         for matchData in matchList:
@@ -267,8 +270,8 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             streamString += baseString[previousEnd:]
             streamString += "\""
 
-        streamString += "; return parserstr.str();}"
-        return streamString
+        streamString += "; return parserstr.str();"
+        return [streamString]
 
     def _generateTranslateInlineCode(self, baseLanguage, baseText, targetLang):
         """!
@@ -281,13 +284,12 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         translatedText = self._translateString(baseLanguage, baseText, targetLang)
         return self._parseTranlateString(translatedText)
 
-    def _writeTranslateMethods(self, hFile, langName = None, googleTransCode = None):
+    def _writeTranslateMethods(self, hFile, langName = None):
         """!
         @brief Write the property method definitions
 
         @param hFile {File} File to write the data to
         @param langName {string} Language name or None this is for the base file
-        @param googleTransCode {string} Google translate generation
         """
         # Add the property fetch methods
         if langName is None:
@@ -302,10 +304,17 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         tranlateMethodList = self.jsonStringsData.getTranlateMethodList()
         for translateMethodName in tranlateMethodList:
             transDesc, transParams, transReturn = self.jsonStringsData.getTranlateMethodFunctionData(translateMethodName)
+
+            # Xlate the return data
+            xlatedReturn, isText = self.xlateReturnDict(transReturn)
+
+            # Xlate the param data
+            xlatedParams = []
             if len(transParams) == 0:
                 postfix = "const "+postfixFinal
             else:
                 postfix = postfixFinal
+                xlatedParams = self.xlateParamList(transParams)
 
             # Get the language generation string
             if langName is not None:
@@ -318,50 +327,43 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
             # Determine if we need
             hFile.writelines(self.declareFunctionWithDecorations(translateMethodName,
                                                                  transDesc,
-                                                                 transParams,
-                                                                 transReturn,
+                                                                 xlatedParams,
+                                                                 xlatedReturn,
                                                                  self.declareIndent,
                                                                  noDoxyGeneration,
                                                                  prefix,
                                                                  postfix,
                                                                  inlineText))
             if not noDoxyGeneration:
-                hFile.writelines([""]) # whitespace for readability
+                hFile.writelines(["\n"]) # whitespace for readability
 
-    def _writeBaseHFile(self, jsonStringsDef, jsonLangData, hFile):
+    def _writeBaseHFile(self, hFile):
         """!
         @brief Write the OS language selection CPP file
-
-        @param jsonStringsDef {dictionary} JSON function definitions
-        @param jsonLangData {dictionary} JSON file language dictionary data
         @param hFile {File} File to write the data to
         """
         # Write the common header datajsonStringsDef
-        hFile.writelines(self._generateFileHeader(hFile))
-        hFile.writelines([""]) # whitespace for readability
-        hFile.writelines(self._genDoxyDefgroup(self.groupName, self.groupDesc, self.fileName+".h"))
+        hFile.writelines(self._generateFileHeader())
+        hFile.writelines(["\n"]) # whitespace for readability
 
-        hFile.writelines(["", "#pragma once"])
-        hFile.writelines(["", "// Includes"])
+        includeList = ["<cstddef>", "<cstdlib>", "<memory>", "<string>"]
+        hFile.writelines(self.genIncludeBlock(includeList))
 
-        self._genInclude("<cstddef>", hFile)
-        self._genInclude("<cstdlib>", hFile)
-        self._genInclude("<memory>", hFile)
-        self._genInclude("<string>", hFile)
+        hFile.writelines(["\n"]) # whitespace for readability
+        hFile.writelines(self.doxyCommentGen.genDoxyDefgroup(self.groupName, self.groupDesc, StringClassNameGen.getBaseClassName()+".h"))
 
-        hFile.writelines(["",
-                        "using "+StringClassNameGen.getParserStringType()+" = std::string;          ///< Standard parser string definition",
-                        "using "+StringClassNameGen.getParserCharType()+" = char;                ///< Standard parser character definition",
-                        "",
-                        "namespace "+self.nameSpaceName,
-                        "{",
-                        ""])
+        hFile.writelines(["\n",
+                        "using "+StringClassNameGen.getParserStringType()+" = std::string;          ///< Standard parser string definition\n",
+                        "using "+StringClassNameGen.getParserCharType()+" = char;                ///< Standard parser character definition\n",
+                        "\n"]),
+        hFile.writelines(self.genNamespaceOpen(self.nameSpaceName))
+        hFile.writelines(["\n"]) # whitespace for readability
 
         # Start class definition
         className = StringClassNameGen.getBaseClassName()
-        hFile.writelines(self.genClassStart(className,
-                                            "Parser error/help string generation interface"))
-        hFile.writelines(["    public:"])
+        hFile.writelines(self.genClassOpen(className,
+                                           "Parser error/help string generation interface"))
+        hFile.writelines(["    public:\n"])
 
         # Add default Constructor/destructor definitions
         hFile.writelines(self.genClassDefaultConstructorDestructor(className,
@@ -369,30 +371,23 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
                                                                    True,
                                                                    False))
 
-        # Add the string generation functions
-        self._writePropertyMethods(jsonStringsDef, jsonLangData, hFile, None)
+        # Generate the property fetch methods
+        self._writePropertyMethods(hFile, None)
 
-        for stringFunction in jsonStringsDef["translateFunctions"]:
-            if stringFunction['isConst']:
-                postfix = "const = 0"
-            else:
-                postfix = "= 0"
-            hFile.writelines(self.declareFunctionWithDecorations(stringFunction['name'],
-                                                                 stringFunction['briefDesc'],
-                                                                 stringFunction['params'],
-                                                                 stringFunction['return'],
-                                                                 self.declareIndent,
-                                                                 False,
-                                                                 "[[nodiscard]] virtual",
-                                                                 postfix))
+        # Generate the translated string generation methods
+        self._writeTranslateMethods(hFile, None)
 
         # Add the documented function declareation
-        hFile.writelines(self.masterFunction.declareFunction())
+        hFile.writelines(self.masterFunction.declareFunction(self.declareIndent))
+
+        # Close the class and namespace
+        hFile.writelines(self.genClassClose(className))
+        hFile.writelines(self.genNamespaceClose(self.nameSpaceName))
 
         # Complete the doxygen group
-        hFile.writelines(self.genDoxyGroupEnd())
+        hFile.writelines(self.doxyCommentGen.genDoxyGroupEnd())
 
-    def _writeLangHFile(self, jsonStringsDef, jsonLangData, hFile, langName):
+    def _writeLangHFile(self, hFile, langName):
         """!
         @brief Write the OS language selection CPP file
 
@@ -402,84 +397,111 @@ class GenerateOSLanguageDetectFiles(GenerateCppFileHelper):
         @param langName {string} - Language name
         """
         # Write the common header datajsonStringsDef
-        hFile.writelines(self._generateFileHeader(hFile))
-        hFile.writelines([""]) # whitespace for readability
-        hFile.writelines(self._genDoxyDefgroup(self.groupName, self.groupDesc, self.fileName+".h"))
+        hFile.writelines(self._generateFileHeader())
+        hFile.writelines(["\n"]) # whitespace for readability
 
-        hFile.writelines(["", "#pragma once"])
-        hFile.writelines(["", "// Includes"])
+        includeList = ["<cstdio>",
+                       "<cstring>",
+                       "<sstream>",
+                       StringClassNameGen.getBaseClassName()+".h"]
+        hFile.writelines(self.genIncludeBlock(includeList))
+        hFile.writelines(["\n"]) # whitespace for readability
 
         # Set the class name
         className = StringClassNameGen.getLangClassName(langName)
-        self._genInclude("<cstdio>", hFile)
-        self._genInclude("<cstring>", hFile)
-        self._genInclude("<sstream>", hFile)
-        self._genInclude(StringClassNameGen.getBaseClassName()+".h", hFile)
-        hFile.writelines(["",
-                        "using namespace "+self.nameSpaceName+";",
-                        "using "+StringClassNameGen.getParserStrStreamType()+" = std::stringstream;",
-                        ""])
+        hFile.writelines(["using namespace "+self.nameSpaceName+";\n"])
+        hFile.writelines(["using "+StringClassNameGen.getParserStrStreamType()+" = std::stringstream;\n", "\n"])
 
         # Start class definition
-        hFile.writelines(self.genClassStart(className,
+        hFile.writelines(self.genClassOpen(className,
                                             "Language specific parser error/help string generation interface",
                                             "public "+StringClassNameGen.getBaseClassName(),
                                             "final"))
-        hFile.writelines(["    public:"])
+        hFile.writelines(["    public:\n"])
 
         # Add default Constructor/destructor definitions
         hFile.writelines(self.genClassDefaultConstructorDestructor(className, self.declareIndent, False, True))
 
         # Add the property fetch methods
-        self._writePropertyMethods(jsonStringsDef, jsonLangData, hFile, langName)
-        hFile.writelines([""]) # whitespace for readability
+        self._writePropertyMethods(hFile, langName)
+        hFile.writelines(["\n"]) # whitespace for readability
 
         # Add the string generation methods
-        self._writePropertyMethods(jsonStringsDef, hFile, langName)
-        for stringMethod, methodData in jsonStringsDef["translateFunctions"].items():
-            if len(methodData['params']) == 0:
-                postfix = "const final"
-            else:
-                postfix = "final"
+        self._writeTranslateMethods(hFile, langName)
 
-            # Get the language data replacements
-            inlineText = []
+        # Close the class
+        hFile.writelines(self.genClassClose(className))
 
-            # Determine if we need
-            hFile.writelines(self.declareFunctionWithDecorations(stringMethod,
-                                                                 methodData['briefDesc'],
-                                                                 methodData['params'],
-                                                                 methodData['return'],
-                                                                 self.declareIndent,
-                                                                 True,
-                                                                 None,
-                                                                 postfix,
-                                                                 inlineText))
-
-        # Complete the doxygen group
-        hFile.writelines(self.genDoxyGroupEnd())
-
-
-    def generateCppFile(self, jsonLangData):
+    def generateCppFile(self):
         """!
         @brief Generate the OS language selection CPP file
-        @param jsonLangData {dictionary} JSON file language dictionary data
         """
-        cppFileName = os.path.join(self.filePath, self.fileName+".cpp")
+        returnStatus = False
+        cppFileName = os.path.join(self.filePath, self._generateCppFileName())
         try:
             # open the file
-            cppFile = open(cppFileName, "w", encoding="utf-8")
-            self._writeCppFile(jsonLangData, cppFile)
+            cppFile = open(cppFileName, 'w', encoding='utf-8')
+            self._writeCppFile(cppFile)
             cppFile.close()
+            returnStatus = True
         except:
-            print("ERROR: Unable to open "+cppFileName+".cpp for writing!")
+            print("ERROR: Unable to open "+cppFileName+" for writing!")
+        return returnStatus
 
-    def generateHFile(self):
-        hFileName = os.path.join(self.filePath, self.fileName+".h")
+    def generateBaseHFile(self):
+        returnStatus = False
+        hFileName = os.path.join(self.filePath, self._generateHFileName())
         try:
             # open the file
-            hFile = open(hFileName, "w", encoding="utf-8")
-            self._writeCppFile(hFile)
+            hFile = open(hFileName, 'w', encoding='utf-8')
+            self._writeBaseHFile(hFile)
             hFile.close()
+            returnStatus = True
         except:
-            print("ERROR: Unable to open "+hFileName+".h for writing!")
+            print("ERROR: Unable to open "+hFileName+" for writing!")
+        return returnStatus
+
+    def generateLangHFiles(self):
+        returnStatus = True
+        languageList = self.jsonLangData.getLanguageList()
+        for languageName in languageList:
+            hFileName = os.path.join(self.filePath, self._generateHFileName(languageName))
+            try:
+                # open the file
+                hFile = open(hFileName, 'w', encoding='utf-8')
+                self._writeLangHFile(hFile, languageName)
+                hFile.close()
+            except:
+                print("ERROR: Unable to open "+hFileName+" for writing!")
+                returnStatus = False
+
+        return returnStatus
+
+    def genMainFiles(self):
+        status = self.generateCppFile()
+        status = status and self.generateBaseHFile()
+        status = status and self.generateLangHFiles()
+        return status
+
+import argparse
+def CommandMain():
+    """!
+    Utility command interface
+    @param subcommand {string} JSON string file command
+    """
+    parser = argparse.ArgumentParser(prog="oslang_file_generator",
+                                     description="Update argpaser library language string h/cpp files")
+    parser.add_argument('subcommand', choices=['build'])
+    args = parser.parse_args()
+
+    fileGen = GenerateOSLanguageFiles("./test/inc", "Randal Eike")
+
+    if args.subcommand.lower() == "build":
+        fileGen.genMainFiles()
+    else:
+        print ("Error: Unknown file generation command: "+args.subcommand)
+        SystemExit(1)
+
+
+if __name__ == '__main__':
+    CommandMain()

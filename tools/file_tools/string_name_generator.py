@@ -25,7 +25,13 @@ for the argparse libraries
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #==========================================================================
 
+import os
+
 class StringClassNameGen(object):
+    jsonFileDir = "./test/json"
+    outputFileDir = "./test/inc"
+    projectNameSpace = "argparser"
+
     """!
     @brief Helper static class for generating consistent ParserStringInterface names across multiple files
     """
@@ -33,12 +39,43 @@ class StringClassNameGen(object):
         pass
 
     @staticmethod
+    def getLanguageDescriptionFileName():
+        """!
+        @brief Get the default language description file name
+        @return string Default file name and path of the language description JSON file
+        """
+        return os.path.join(StringClassNameGen.jsonFileDir, StringClassNameGen.projectNameSpace+"-lang-list.json")
+
+    @staticmethod
+    def getStringClassDescriptionFileName():
+        """!
+        @brief Get the default string class description file name
+        @return string Default file name and path of the string class description JSON file
+        """
+        return os.path.join(StringClassNameGen.jsonFileDir, StringClassNameGen.projectNameSpace+"-strclass-def.json")
+
+    @staticmethod
+    def buildOutputFileName(baseName, ext, subdir = None):
+        """!
+        @brief Build the output filename
+        @param baseName {string} Base file name to build
+        @param ext {string} File name extention to build
+        @param subdir {string} Subdirectory path
+        @return string File name and path/subdir
+        """
+        fileName = baseName+"."+ext
+        if subdir is not None:
+            return os.path.join(StringClassNameGen.outputFileDir, subdir, fileName)
+        else:
+            return os.path.join(StringClassNameGen.outputFileDir, fileName)
+
+    @staticmethod
     def getNamespaceName():
         """!
         @brief Return the base class name
         @return string Base sting class name
         """
-        return "argparser"
+        return StringClassNameGen.projectNameSpace
 
     @staticmethod
     def getBaseClassName():

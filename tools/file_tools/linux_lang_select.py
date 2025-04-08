@@ -26,18 +26,18 @@ for the argparse libraries
 #==========================================================================
 
 from .common.param_return_tools import ParamRetDict
+from .common.doxygen_gen_tools import CDoxyCommentGenerator
 from .string_name_generator import StringClassNameGen
 from .os_lang_select_tools import OsLangSelectFunctionHelper
-from .jsonLanguageDescriptionList import LanguageDescriptionList
 
 class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
     """!
     Methods for Linux language select function generation
     """
-    def __init__(self, langData, functionName = "getParserStringListInterface_Linux"):
+    def __init__(self, jsonLangData, functionName = "getParserStringListInterface_Linux"):
         """!
         @brief LinuxLangSelectFunctionGenerator constructor
-        @param langData {string} JSON language description list file name
+        @param jsonLangData {string} JSON language description list file name
         @param functionName {string} Function name to be used for generation
         """
         super().__init__()
@@ -45,7 +45,8 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         self.selectFunctionName = functionName
         self.defOsString = "(defined(__linux__) || defined(__unix__))"
         self.defDynamicOsString = "("+self.defOsString+" && defined("+StringClassNameGen.getDynamicCompileswitch()+"))"
-        self.langData = LanguageDescriptionList(langData)
+        self.langJsonData = jsonLangData
+        self.doxyCommentGen = CDoxyCommentGenerator()
 
     def getFunctionName(self):
         return self.selectFunctionName
@@ -72,72 +73,72 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         """
         return self.endFunction(self.selectFunctionName)
 
-    def genFunction(self, langJsonData, outfile):
+    def genFunction(self, outfile):
         """!
         @brief Generate the function body text
-
-        @param langJsonData {dictionary} JSON file language dictionary data
         @param outfile {file} File to output the function to
         """
         # Generate the #if and includes
         functionBody = []
-        functionBody.append("#if "+self.defDynamicOsString)
-        functionBody.append("  #include <cstdlib>")
-        functionBody.append("  #include <regex>")
-        functionBody.append("")  # whitespace for readability
+        functionBody.append("#if "+self.defDynamicOsString+"\n")
+        functionBody.append(self._genInclude("<cstdlib>"))
+        functionBody.append(self._genInclude("<regex>"))
+        functionBody.append("\n")  # whitespace for readability
 
         # Generate function doxygen comment and start
         functionBody.extend(self.genFunctionDefine())
 
         # Start function body generation
+        paramName = ParamRetDict.getParamName(self.paramDictList[0])
         bodyIndent = "    "
-        functionBody.append(bodyIndent+"// Check for valid input")
-        functionBody.append(bodyIndent+"if (nullptr != "+self.paramDictList[0]['name']+")")
-        functionBody.append(bodyIndent+"{")
+        functionBody.append(bodyIndent+"// Check for valid input\n")
+        functionBody.append(bodyIndent+"if (nullptr != "+paramName+")\n")
+        functionBody.append(bodyIndent+"{\n")
 
         # Generate if/else if chain for each language in the dictionary
-        if1BodyIndent = bodyIndent+"    "
-        functionBody.append(if1BodyIndent+"// Break the string into its components")
-        functionBody.append(if1BodyIndent+"std::cmatch langMatch;")
-        functionBody.append(if1BodyIndent+"std::regex searchRegex(\"(^[a-z]{2})_([A-Z]{2})\\.(UTF[0-9]{1,2})\");")
-        functionBody.append(if1BodyIndent+"std::regex_match("+self.paramDictList[0]['name']+", searchMatch, searchRegex);")
-        functionBody.append("")  #white space for readability
-        functionBody.append(if1BodyIndent+"// Determine the language")
+        if1BodyIndent = bodyIndent+"".rjust(4, " ")
+        functionBody.append(if1BodyIndent+"// Break the string into its components\n")
+        functionBody.append(if1BodyIndent+"std::cmatch searchMatch;\n")
+        functionBody.append(if1BodyIndent+"std::regex searchRegex(\"(^[a-z]{2})_([A-Z]{2})\\\\.(UTF[0-9]{1,2})\");\n")
+        functionBody.append(if1BodyIndent+"bool matched = std::regex_match("+paramName+", searchMatch, searchRegex);\n")
+        functionBody.append(if1BodyIndent+"// Determine the language\n")
 
+        if2BodyIndent = if1BodyIndent+"".rjust(4, " ")
         firstCheck = True
-        if2BodyIndent = if1BodyIndent+"    "
-        for langName, langData in langJsonData['languages'].items():
-            ifline = if1BodyIndent
+        for langName in self.langJsonData.getLanguageList():
+            langCode, regionList = self.langJsonData.getLanguageLANGData(langName)
+            ifline = ""
             if firstCheck:
-                ifline += "if "
+                ifline += "if (matched && "
                 firstCheck = False
             else:
-                ifline += "else if "
+                ifline += "else if (matched && "
 
-            ifline += "(langMatch[1].str() == \""
-            ifline += langData['LANG']
-            ifline += "\")"
+            ifline += "(searchMatch[1].str() == \""
+            ifline += langCode
+            ifline += "\"))\n"
 
-            functionBody.append(ifline)
-            functionBody.append(if1BodyIndent+"{")
+            functionBody.append(if1BodyIndent+ifline)
+            functionBody.append(if1BodyIndent+"{\n")
             functionBody.append(if2BodyIndent+self.genMakePtrReturnStatement(langName))
-            functionBody.append(if1BodyIndent+"}")
+            functionBody.append(if1BodyIndent+"}\n")
 
         # Add the final else (unknown language) case
-        functionBody.append(if1BodyIndent+"else //unknown language, use default language")
-        functionBody.append(if1BodyIndent+"{")
-        functionBody.append(if2BodyIndent+self.genMakePtrReturnStatement(langJsonData['default']['name']))
-        functionBody.append(if1BodyIndent+"}")
+        defaultLang, defaultIsoCode = self.langJsonData.getDefaultData()
+        functionBody.append(if1BodyIndent+"else //unknown language, use default language\n")
+        functionBody.append(if1BodyIndent+"{\n")
+        functionBody.append(if2BodyIndent+self.genMakePtrReturnStatement(defaultLang))
+        functionBody.append(if1BodyIndent+"}\n")
 
         # Add the else if nullptr case
-        functionBody.append(bodyIndent+"else // null pointer input, use default language")
-        functionBody.append(bodyIndent+"{")
-        functionBody.append(if1BodyIndent+self.genMakePtrReturnStatement(langJsonData['default']['name']))
-        functionBody.append(bodyIndent+"} // end of if(nullptr != "+self.paramDictList[0]['name']+")")
+        functionBody.append(bodyIndent+"else // null pointer input, use default language\n")
+        functionBody.append(bodyIndent+"{\n")
+        functionBody.append(if1BodyIndent+self.genMakePtrReturnStatement(defaultLang))
+        functionBody.append(bodyIndent+"} // end of if(nullptr != "+paramName+")\n")
 
         # Complete the function
         functionBody.append(self.genFunctionEnd())
-        functionBody.append("#endif // "+self.defDynamicOsString)
+        functionBody.append("#endif // "+self.defDynamicOsString+"\n")
         outfile.writelines(functionBody)
 
     def genReturnFunctionCall(self, indent = 4):
@@ -153,14 +154,14 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         getParam += ParamRetDict.getParamType(self.paramDictList[0])
         getParam += " "
         getParam += localVarName
-        getParam += "= getenv(\"LANG\");"
+        getParam += "= getenv(\"LANG\");\n"
 
         doCall = indentText
         doCall += "return "
         doCall += self.selectFunctionName
         doCall += "("
         doCall += localVarName
-        doCall += ");"
+        doCall += ");\n"
 
         return [getParam, doCall]
 
@@ -178,36 +179,35 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         testBlockName = "LinuxSelectFunction"
         bodyIndent = "".rjust(4, " ")
         breifDesc = "Test "+self.selectFunctionName+" "+linuxEnvString+" selection case"
-        testBody = self.genDoxyMethodComment(breifDesc, [])
+        testBody = self.doxyCommentGen.genDoxyMethodComment(breifDesc, [])
 
         testVar = "testVar"
         testVarDecl = self.returnType+" "+testVar
         testVarTest = testVar+"."+getIsoMethod+"().c_str()"
-        testBody.append("TEST("+testBlockName+", "+testName+")")
-        testBody.append("{")
-        testBody.append(bodyIndent+"std::string testLangCode;")
+        testBody.append("TEST("+testBlockName+", "+testName+")\n")
+        testBody.append("{\n")
+        testBody.append(bodyIndent+"std::string testLangCode;\n")
 
-        testBody.append("") # whitespace for readability
-        testBody.append(bodyIndent+"// Generate the test language string object")
-        testBody.append(bodyIndent+"testLangCode = \""+linuxEnvString+"\";")
+        testBody.append("\n") # whitespace for readability
+        testBody.append(bodyIndent+"// Generate the test language string object\n")
+        testBody.append(bodyIndent+"testLangCode = \""+linuxEnvString+"\";\n")
 
-        testBody.append("") # whitespace for readability
-        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"(testLangCode.c_str());")
-        testBody.append(bodyIndent+"EXPECT_STREQ(\""+expectedIso+"\", "+testVarTest+";")
-        testBody.append("}")
+        testBody.append("\n") # whitespace for readability
+        testBody.append(bodyIndent+testVarDecl+" = "+self.selectFunctionName+"(testLangCode.c_str());\n")
+        testBody.append(bodyIndent+"EXPECT_STREQ(\""+expectedIso+"\", "+testVarTest+";\n")
+        testBody.append("}\n")
         return testBody
 
-    def genUnitTest(self, langJsonData, getIsoMethod, outfile):
+    def genUnitTest(self, getIsoMethod, outfile):
         """!
         @brief Generate all unit tests for the selection function
 
-        @param langJsonData {dictionary} JSON file language dictionary data
         @param getIsoMethod {string} Name of the ParserStringListInterface return ISO code method
         @param outfile {file} File to output the function to
         """
         # Generate block start code
         blockStart = []
-        blockStart.append("#if "+self.defDynamicOsString)
+        blockStart.append("#if "+self.defDynamicOsString+"\n")
         externDef = "extern "
         externDef += self.returnType
         externDef += " "
@@ -216,36 +216,44 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         externDef += ParamRetDict.getParamType(self.paramDictList[0])
         externDef += " "
         externDef += ParamRetDict.getParamName(self.paramDictList[0])
-        externDef += ");"
+        externDef += ");\n"
         blockStart.append(externDef)
         outfile.writelines(blockStart)
 
         # Generate the tests
-        for langName, langData in langJsonData['languages'].items():
-            for region in langData['LANG_regions']:
+        for langName in self.langJsonData.getLanguageList():
+            langCode, regionList = self.langJsonData.getLanguageLANGData(langName)
+            for region in regionList:
                 # Generate test for each region of known language
-                linuxEnvString = langData['LANG']+"_"+region+".UTF-8"
-                testName = langName.capitalize()+"_"+region+"_Selection)"
-                testBody = self._genUnitTestTest(testName, linuxEnvString, langData['isoCode'], getIsoMethod)
-                testBody.append("") # whitespace for readability
+                linuxEnvString = langCode+"_"+region+".UTF-8"
+                testName = langName.capitalize()+"_"+region+"_Selection"
+                testBody = self._genUnitTestTest(testName,
+                                                 linuxEnvString,
+                                                 self.langJsonData.getLanguageIsoCodeData(langName),
+                                                 getIsoMethod)
+                testBody.append("\n") # whitespace for readability
                 outfile.writelines(testBody)
 
             # Generate test for unknown region of known language
-            unknownRegionTestName =langName.capitalize()+"_unknownRegion_Selection)"
-            unknownRegionEnv = langData['LANG']+"_XX.UTF-8"
-            unknownRegionBody = self._genUnitTestTest(unknownRegionTestName, unknownRegionEnv, langData['isoCode'], getIsoMethod)
-            unknownRegionBody.append("") # whitespace for readability
+            unknownRegionTestName =langName.capitalize()+"_unknownRegion_Selection"
+            unknownRegionEnv = langCode+"_XX.UTF-8"
+            unknownRegionBody = self._genUnitTestTest(unknownRegionTestName,
+                                                      unknownRegionEnv,
+                                                      self.langJsonData.getLanguageIsoCodeData(langName),
+                                                      getIsoMethod)
+            unknownRegionBody.append("\n") # whitespace for readability
             outfile.writelines(unknownRegionBody)
 
         # Generate test for unknown region of unknown language and expect default
+        defaultLang, defaultIsoCode = self.langJsonData.getDefaultData()
         unknownLangBody = self._genUnitTestTest("UnknownLanguageDefaultSelection",
                                                 "xx_XX.UTF-8",
-                                                langJsonData['default']['isoCode'],
+                                                defaultIsoCode,
                                                 getIsoMethod)
         outfile.writelines(unknownLangBody)
 
         # Generate block end code
-        outfile.writelines(["#endif // "+self.defDynamicOsString])
+        outfile.writelines(["#endif // "+self.defDynamicOsString+"\n"])
 
     def genUnitTestFunctionCall(self, checkVarName, indent = 4):
         """!
@@ -261,7 +269,7 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         getParam += ParamRetDict.getParamType(self.paramDictList[0])
         getParam += " "
         getParam += localVarName
-        getParam += "= getenv(\"LANG\");"
+        getParam += "= getenv(\"LANG\");\n"
 
         doCall = indentText
         doCall += self.returnType
@@ -271,6 +279,6 @@ class LinuxLangSelectFunctionGenerator(OsLangSelectFunctionHelper):
         doCall += self.selectFunctionName
         doCall += "("
         doCall += localVarName
-        doCall += ");"
+        doCall += ");\n"
 
         return [getParam, doCall]
