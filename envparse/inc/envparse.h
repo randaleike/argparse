@@ -70,7 +70,7 @@ class envparser : public parser_base
 #elif defined(_WIN64) || defined(_WIN32)
         bool getEnvironmentVar(parserstr searchName, parserstr& envValue);
 #else
-    #error "Define getEnvironmentVar() method for this OS!"
+        #error "Define getEnvironmentVar() method for this OS!"
 #endif
 
     public:

@@ -33,6 +33,7 @@
 #include "parser_string_list.h"
 #include "config_xml_parse.h"
 #include "test_config_xml.h"
+#include "mock_ParserStringListInterface.h"
 
 using ::testing::StrictMock;
 using ::testing::Return;

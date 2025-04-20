@@ -37,9 +37,7 @@
 #include <iostream>
 #include "varg_intf.h"
 #include "parser_string_list.h"
-
-//#define DYNAMIC_INTERNATIONALIZATION
-#define ENGLISH_ERRORS
+#include "ParserStringListInterface.h"
 
 namespace argparser
 {
@@ -116,7 +114,7 @@ class parser_base
         BaseParserStringList    parserStringList;               ///< Parser string list
 
     protected:
-        BaseParserStringList& getParserStringList()                 {return parserStringList;}
+        std::shared_ptr<ParserStringListInterface> msgGeneration;   ///< Language specific message generation object.
 
         [[nodiscard]] parserchar getKeyListDelimeter() const        {return keyListDelimeter;}
 

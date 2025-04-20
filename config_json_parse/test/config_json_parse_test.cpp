@@ -34,6 +34,7 @@
 #include "parser_string_list.h"
 #include "config_json_parse.h"
 #include "test_config_json.h"
+#include "mock_ParserStringListInterface.h"
 
 using ::testing::StrictMock;
 using ::testing::Return;

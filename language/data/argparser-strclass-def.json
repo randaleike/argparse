@@ -1,0 +1,1285 @@
+{
+  "propertyMethods": {
+    "getLangIsoCode": {
+      "name": "isoCode",
+      "briefDesc": "Get the ISO 639 set 1 language code for this object",
+      "params": [],
+      "return": {
+        "type": "string",
+        "desc": "ISO 639 set 1 language code",
+        "isList": false
+      }
+    }
+  },
+  "translateMethods": {
+    "getNotListTypeMessage": {
+      "briefDesc": "Return non-list varg error message",
+      "params": [
+        {
+          "name": "nargs",
+          "type": "integer",
+          "desc": "input nargs value",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Non-list varg error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Only list type arguments can have an argument count of "
+          ],
+          [
+            "param",
+            "nargs"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "S\u00f3lo los argumentos de tipo lista pueden tener un recuento de argumentos de "
+          ],
+          [
+            "param",
+            "nargs"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Seuls les arguments de type liste peuvent avoir un nombre d'arguments de "
+          ],
+          [
+            "param",
+            "nargs"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u53ea\u6709\u5217\u8868\u7c7b\u578b\u53c2\u6570\u53ef\u4ee5\u5177\u6709"
+          ],
+          [
+            "param",
+            "nargs"
+          ],
+          [
+            "text",
+            "\u7684\u53c2\u6570\u6570\u91cf"
+          ]
+        ]
+      }
+    },
+    "getUnknownArgumentMessage": {
+      "briefDesc": "Return unknown parser key error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Unknown key",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Unknown parser key error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Unknown argument: "
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Argumento desconocido: "
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Argument inconnu\u00a0: "
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u672a\u77e5\u53c2\u6570\uff1a"
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ]
+      }
+    },
+    "getInvalidAssignmentMessage": {
+      "briefDesc": "Return varg invalid assignment error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Varg key invalid assignment error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " invalid assignment"
+          ]
+        ],
+        "es": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " asignaci\u00f3n no v\u00e1lida"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Affectation non valide \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u8d4b\u503c\u65e0\u6548"
+          ]
+        ]
+      }
+    },
+    "getAssignmentFailedMessage": {
+      "briefDesc": "Return varg assignment failed error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "isList": false
+        },
+        {
+          "name": "valueString",
+          "type": "string",
+          "desc": "Assignment value",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Varg key assignment failed error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " assignment failed"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Fall\u00f3 la asignaci\u00f3n de "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "special",
+            "\""
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "\u00c9chec de l'affectation de \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb, \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u3001\u201c"
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "text",
+            "\u201d\u8d4b\u503c\u5931\u8d25"
+          ]
+        ]
+      }
+    },
+    "getMissingAssignmentMessage": {
+      "briefDesc": "Return varg missing assignment error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Varg key missing value assignment error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " missing assignment value"
+          ]
+        ],
+        "es": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " valor de asignaci\u00f3n faltante"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Valeur d'affectation manquante "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u7f3a\u5c11\u8d4b\u503c"
+          ]
+        ]
+      }
+    },
+    "getMissingListAssignmentMessage": {
+      "briefDesc": "Return varg missing list value assignment error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "isList": false
+        },
+        {
+          "name": "nargsExpected",
+          "type": "size",
+          "desc": "Expected assignment list length",
+          "isList": false
+        },
+        {
+          "name": "nargsFound",
+          "type": "size",
+          "desc": "Input assignment list length",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Varg key input value list too short error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " missing assignment value(s). Expected: "
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            " found: "
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            " arguments"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Faltan valores de asignaci\u00f3n en "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            ". Se esperaba: "
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            ". Se encontraron: "
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            ". Argumentos."
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Valeur(s) d'affectation manquante(s) pour \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb. Arguments attendus\u00a0: "
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            ". Arguments trouv\u00e9s\u00a0: "
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            "."
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u7f3a\u5c11\u8d4b\u503c\u3002\u9884\u671f\uff1a"
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            "\uff0c\u627e\u5230\uff1a"
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            " \u53c2\u6570"
+          ]
+        ]
+      }
+    },
+    "getTooManyAssignmentMessage": {
+      "briefDesc": "Return varg missing list value assignment error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "isList": false
+        },
+        {
+          "name": "nargsExpected",
+          "type": "size",
+          "desc": "Expected assignment list length",
+          "isList": false
+        },
+        {
+          "name": "nargsFound",
+          "type": "size",
+          "desc": "Input assignment list length",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Varg key input value list too long error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " too many assignment values. Expected: "
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            " found: "
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            " arguments"
+          ]
+        ],
+        "es": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " demasiados valores de asignaci\u00f3n. Se esperaba: "
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            ". Se encontr\u00f3: "
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            ". Argumentos."
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "\u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb\u00a0: trop de valeurs d'affectation. Arguments attendus\u00a0: "
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            ". Arguments trouv\u00e9s\u00a0: "
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            "."
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u8d4b\u503c\u8fc7\u591a\u3002\u9884\u671f\uff1a"
+          ],
+          [
+            "param",
+            "nargsExpected"
+          ],
+          [
+            "text",
+            "\uff0c\u627e\u5230\uff1a"
+          ],
+          [
+            "param",
+            "nargsFound"
+          ],
+          [
+            "text",
+            " \u53c2\u6570"
+          ]
+        ]
+      }
+    },
+    "getMissingArgumentMessage": {
+      "briefDesc": "Return required varg missing error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Required varg key missing error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " required argument missing"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Falta el argumento obligatorio "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "L'argument requis \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb est manquant"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u7f3a\u5c11\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u5fc5\u9700\u53c2\u6570"
+          ]
+        ]
+      }
+    },
+    "getArgumentCreationError": {
+      "briefDesc": "Return parser add varg failure error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Parser varg add failure message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Argument add failed: "
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Error al agregar argumento: "
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "\u00c9chec de l'ajout d'argument\u00a0: "
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u53c2\u6570\u6dfb\u52a0\u5931\u8d25\uff1a"
+          ],
+          [
+            "param",
+            "keyString"
+          ]
+        ]
+      }
+    },
+    "getUsageMessage": {
+      "briefDesc": "Return usage help message",
+      "params": [],
+      "return": {
+        "type": "text",
+        "desc": "Usage help message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Usage:"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Uso:"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Usage:"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u7528\u6cd5\uff1a"
+          ]
+        ]
+      }
+    },
+    "getPositionalArgumentsMessage": {
+      "briefDesc": "Return positional argument help message",
+      "params": [],
+      "return": {
+        "type": "text",
+        "desc": "Positional argument help message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Positional Arguments:"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Argumentos posicionales:"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Arguments positionnels :"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u4f4d\u7f6e\u53c2\u6570\uff1a"
+          ]
+        ]
+      }
+    },
+    "getSwitchArgumentsMessage": {
+      "briefDesc": "Return optional argument help message",
+      "params": [],
+      "return": {
+        "type": "text",
+        "desc": "Optional argument help message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Optional Arguments:"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Argumentos opcionales:"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Arguments facultatifs\u00a0:"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u53ef\u9009\u53c2\u6570\uff1a"
+          ]
+        ]
+      }
+    },
+    "getHelpString": {
+      "briefDesc": "Return default help switch help message",
+      "params": [],
+      "return": {
+        "type": "text",
+        "desc": "Default help argument help message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "show this help message and exit"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Mostrar este mensaje de ayuda y salir"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "afficher ce message d'aide et quitter"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u663e\u793a\u6b64\u5e2e\u52a9\u6d88\u606f\u5e76\u9000\u51fa"
+          ]
+        ]
+      }
+    },
+    "getEnvArgumentsMessage": {
+      "briefDesc": "Return environment parser argument help header",
+      "params": [],
+      "return": {
+        "type": "text",
+        "desc": "Environment parser argument help header message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Defined Environment values:"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Valores de entorno definidos:"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Valeurs environnementales d\u00e9finies :"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u5b9a\u4e49\u7684\u73af\u5883\u503c\uff1a"
+          ]
+        ]
+      }
+    },
+    "getEnvironmentNoFlags": {
+      "briefDesc": "Return environment parser add flag varg failure error message",
+      "params": [
+        {
+          "name": "envKeyString",
+          "type": "string",
+          "desc": "Flag key",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Environment parser add flag varg failure message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Environment value "
+          ],
+          [
+            "param",
+            "envKeyString"
+          ],
+          [
+            "text",
+            " narg must be > 0"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "El valor del entorno "
+          ],
+          [
+            "param",
+            "envKeyString"
+          ],
+          [
+            "text",
+            " narg debe ser > 0"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "La valeur d'environnement "
+          ],
+          [
+            "param",
+            "envKeyString"
+          ],
+          [
+            "text",
+            " narg doit \u00eatre > 0"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u73af\u5883\u503c"
+          ],
+          [
+            "param",
+            "envKeyString"
+          ],
+          [
+            "text",
+            " narg \u5fc5\u987b> 0"
+          ]
+        ]
+      }
+    },
+    "getRequiredEnvironmentArgMissing": {
+      "briefDesc": "Return environment parser required varg missing error message",
+      "params": [
+        {
+          "name": "envKeyString",
+          "type": "string",
+          "desc": "Flag key",
+          "isList": false
+        }
+      ],
+      "return": {
+        "type": "text",
+        "desc": "Environment parser required varg missing error message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Environment value "
+          ],
+          [
+            "param",
+            "envKeyString"
+          ],
+          [
+            "text",
+            " must be defined"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Se debe definir el valor de entorno "
+          ],
+          [
+            "param",
+            "envKeyString"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "La valeur d'environnement "
+          ],
+          [
+            "param",
+            "envKeyString"
+          ],
+          [
+            "text",
+            " doit \u00eatre d\u00e9finie"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u5fc5\u987b\u5b9a\u4e49\u73af\u5883\u503c"
+          ],
+          [
+            "param",
+            "envKeyString"
+          ]
+        ]
+      }
+    },
+    "getJsonArgumentsMessage": {
+      "briefDesc": "Return json parser argument help header",
+      "params": [],
+      "return": {
+        "type": "text",
+        "desc": "JSON parser argument help header message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Available JSON argument values:"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Valores de argumentos JSON disponibles:"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Valeurs d'argument JSON disponibles\u00a0:"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u53ef\u7528\u7684 JSON \u53c2\u6570\u503c\uff1a"
+          ]
+        ]
+      }
+    },
+    "getXmlArgumentsMessage": {
+      "briefDesc": "Return xml parser argument help header",
+      "params": [],
+      "return": {
+        "type": "text",
+        "desc": "XML parser argument help header message",
+        "isList": false
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "text",
+            "Available XML argument values:"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "Valores de argumentos XML disponibles:"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Valeurs d'argument XML disponibles\u00a0:"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u53ef\u7528\u7684 XML \u53c2\u6570\u503c\uff1a"
+          ]
+        ]
+      }
+    }
+  }
+}

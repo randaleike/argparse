@@ -38,7 +38,6 @@
 #include <list>
 #include <iostream>
 
-#define DYNAMIC_INTERNATIONALIZATION    1
 using parserstr = std::string;          ///< Standard parser string definition
 using parserchar = char;                ///< Standard parser character definition
 
@@ -58,96 +57,13 @@ namespace argparser
 {
 
 /**
- * @brief Parser error/help string generation interface
- */
-class ParserStringListInterface
-{
-    public:
-        /**
-         * @brief Construct a new Parser String List Interface object
-         */
-        ParserStringListInterface() = default;
-
-        /**
-         * @brief Copy constructor of a new Parser String List Interface object
-         *
-         * @param other - Reference of object to copy
-         */
-        ParserStringListInterface(const ParserStringListInterface& other) = default;
-
-        /**
-         * @brief Copy constructor of a new Parser String List Interface object
-         *
-         * @param other - Reference of reference of object to copy
-         */
-        ParserStringListInterface(ParserStringListInterface&& other) = default;
-
-        /**
-         * @brief Equate constructor of a new Parser String List Interface object
-         *
-         * @param other - Reference of object to copy
-         */
-        ParserStringListInterface& operator=(const ParserStringListInterface& other) = default;
-
-        /**
-         * @brief Equate constructor of a new Parser String List Interface object
-         *
-         * @param other - Reference of of reference of object to copy
-         */
-        ParserStringListInterface& operator=(ParserStringListInterface&& other) = default;
-
-        /**
-         * @brief Destroy the Parser String List Interface object
-         */
-        virtual ~ParserStringListInterface() = default;
-
-        [[nodiscard]] virtual parserstr getLangIsoCode() = 0;
-
-        // General argument parsing messages
-        [[nodiscard]] virtual parserstr getNotListTypeMessage(int nargs) = 0;
-        [[nodiscard]] virtual parserstr getUnknownArgumentMessage(parserstr keyString)  = 0;
-        [[nodiscard]] virtual parserstr getInvalidAssignmentMessage(parserstr keyString)  = 0;
-        [[nodiscard]] virtual parserstr getAssignmentFailedMessage(parserstr keyString, parserstr valueString)  = 0;
-        [[nodiscard]] virtual parserstr getMissingAssignmentMessage(parserstr keyString)  = 0;
-        [[nodiscard]] virtual parserstr getMissingListAssignmentMessage(parserstr keyString, size_t expected, size_t found)  = 0;
-        [[nodiscard]] virtual parserstr getTooManyAssignmentMessage(parserstr keyString, size_t expected, size_t found)  = 0;
-        [[nodiscard]] virtual parserstr getMissingArgumentMessage(parserstr keyString)  = 0;
-        [[nodiscard]] virtual parserstr getArgumentCreationError(parserstr keyString)  = 0;
-        [[nodiscard]] virtual parserstr getUsageMessage() const  = 0;
-
-        // Command Line parser messages
-        [[nodiscard]] virtual parserstr getPositionalArgumentsMessage() const  = 0;
-        [[nodiscard]] virtual parserstr getSwitchArgumentsMessage() const  = 0;
-        [[nodiscard]] virtual parserstr getHelpString() const  = 0;
-
-        // Environment parser messages
-        [[nodiscard]] virtual parserstr getEnvArgumentsMessage()  = 0;
-        [[nodiscard]] virtual parserstr getEnvironmentNoFlags(parserstr argKey)  = 0;
-        [[nodiscard]] virtual parserstr getRequiredEnvironmentArgMissing(parserstr argKey) = 0;
-
-        // JSON file parser messages
-        [[nodiscard]] virtual parserstr getJsonArgumentsMessage()  = 0;
-
-        // XML file parser messages
-        [[nodiscard]] virtual parserstr getXmlArgumentsMessage()  = 0;
-};
-
-/**
  * @brief Internationalized string class for the parser
  */
 class BaseParserStringList
-{    parserstr baseString = "This is a test string that; will be broken into two strings";
-
+{
     private:
         int                     debugMsgLevel;      ///< Debug message level
         std::list<parserchar>   defaultBreakList;   ///< Default list of break characters based on language.
-        std::shared_ptr<ParserStringListInterface> msgGeneration;   ///< Language specific message generation object.
-
-        /**
-         * @brief Determine the message generator language and
-         *        initialize msgGeneration.
-         */
-        void intializeMessageGenerator();
 
     protected:
         /**
@@ -167,10 +83,7 @@ class BaseParserStringList
         BaseParserStringList(BaseParserStringList&& other) noexcept;
         BaseParserStringList& operator=(const BaseParserStringList& other);
         BaseParserStringList& operator=(BaseParserStringList&& other) noexcept;
-        ~BaseParserStringList();
-
-        // Generic utility
-        parserstr getLangIsoCode();
+        ~BaseParserStringList() = default;
 
         /**
          * @brief Set the Debug Msg Level
@@ -199,35 +112,7 @@ class BaseParserStringList
          *
          * @return std::list<parserchar> - Language specific default break character list.
          */
-        std::list<parserchar> getDefaultBreakCharList()     {return defaultBreakList;}
-
-        // Generic error messages
-        parserstr getNotListTypeMessage(int nargs);
-        parserstr getUnknownArgumentMessage(parserstr keyString);
-        parserstr getInvalidAssignmentMessage(parserstr keyString);
-        parserstr getAssignmentFailedMessage(parserstr keyString, parserstr valueString);
-        parserstr getMissingAssignmentMessage(parserstr keyString);
-        parserstr getMissingListAssignmentMessage(parserstr keyString, size_t expected, size_t found);
-        parserstr getTooManyAssignmentMessage(parserstr keyString, size_t expected, size_t found);
-        parserstr getMissingArgumentMessage(parserstr keyString);
-        parserstr getArgumentCreationError(parserstr keyString);
-
-        // Command line parser specific strings
-        [[nodiscard]] parserstr getUsageMessage() const;
-        [[nodiscard]] parserstr getPositionalArgumentsMessage() const;
-        [[nodiscard]] parserstr getSwitchArgumentsMessage() const;
-        [[nodiscard]] parserstr getHelpString() const;
-
-        // Environment parser specific strings and messages
-        parserstr getEnvArgumentsMessage();
-        parserstr getEnvironmentNoFlags(parserstr argKey);
-        parserstr getRequiredEnvironmentArgMissing(parserstr argKey);
-
-        // JSON parser specific strings and messages
-        parserstr getJsonArgumentsMessage();
-
-        // XML parser specific strings and messages
-        parserstr getXmlArgumentsMessage();
+        std::list<parserchar> getDefaultBreakCharList()                     {return defaultBreakList;}
 };
 
 }; // end of namespace argparser

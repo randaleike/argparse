@@ -29,19 +29,10 @@
 
 // Includes
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "mock_ParserStringListInterface.h"
 #include "parser_base.h"
 #include "parser_string_list.h"
-
-#if ((_WIN32) || (_WIN64))
-    #include <Windows.h>
-    #define SETENV(name, value, overwrite)  SetEnvironmentVariable(name, value)
-    #define UNSETENV(name)                  SetEnvironmentVariable(name, "")
-#elif defined(__linux__) || defined(__unix__)
-    int SETENV(const char* name, const char* value, int overwrite) {return setenv(name, value, overwrite);}
-    int UNSETENV(const char* name)                                 {return unsetenv(name);}
-#else
-    #error "Define setenv/unsetenv for this OS!"
-#endif
 
 class langsetup
 {
@@ -69,146 +60,6 @@ class langsetup
             }
         #endif
 };
-
-//======================================================================================
-// Public Interface testing, English list
-//======================================================================================
-
-TEST(BaseParserStringList, printNotListTypeMessage)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getNotListTypeMessage(3);
-    EXPECT_STREQ("Only list type arguments can have an argument count of 3", output.c_str());
-}
-
-TEST(BaseParserStringList, printUnknownArgumentMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr output = testvar.getUnknownArgumentMessage(parserstr("--foo"));
-    EXPECT_STREQ("Unknown argument --foo", output.c_str());
-}
-
-TEST(BaseParserStringList, printInvalidAssignmentMessage)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getInvalidAssignmentMessage("--foo");
-    EXPECT_STREQ("\"--foo\" invalid assignment", output.c_str());
-}
-
-TEST(BaseParserStringList, printAssignmentFailedMessage)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getAssignmentFailedMessage("--var", "13");
-    EXPECT_STREQ("\"--var 13\" assignment failed", output.c_str());
-}
-
-TEST(BaseParserStringList, printMissingAssignmentMessage)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getMissingAssignmentMessage("--mytest");
-    EXPECT_STREQ("\"--mytest\" missing assignment value", output.c_str());
-}
-
-TEST(BaseParserStringList, printMissingListAssignmentMessage)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getMissingListAssignmentMessage("/goo", 4, 3);
-    EXPECT_STREQ("\"/goo\" missing assignment. Expected: 4 found: 3 arguments", output.c_str());
-}
-
-TEST(BaseParserStringList, printTooManyAssignmentMessage)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getTooManyAssignmentMessage("--test", 2, 3);
-    EXPECT_STREQ("\"--test\" too many assignment values. Expected: 2 found: 3 arguments", output.c_str());
-}
-
-TEST(BaseParserStringList, printMissingArgumentMessage)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getMissingArgumentMessage("-t");
-    EXPECT_STREQ("\"-t\" required argument missing", output.c_str());
-}
-
-TEST(BaseParserStringList, printArgumentCreationError)
-{
-    argparser::BaseParserStringList testvar;
-
-    parserstr output = testvar.getArgumentCreationError("--test,-t");
-    EXPECT_STREQ("Argument add failed: --test,-t", output.c_str());
-}
-
-TEST(BaseParserStringList, getUsageMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr testString = testvar.getUsageMessage();
-    EXPECT_STREQ("Usage:", testString.c_str());
-}
-
-TEST(BaseParserStringList, getPositionalArgumentsMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr testString = testvar.getPositionalArgumentsMessage();
-    EXPECT_STREQ("Positional Arguments:", testString.c_str());
-}
-
-TEST(BaseParserStringList, getSwitchArgumentsMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr testString = testvar.getSwitchArgumentsMessage();
-    EXPECT_STREQ("Optional Arguments:", testString.c_str());
-}
-
-TEST(BaseParserStringList, getHelpString)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr testString = testvar.getHelpString();
-    EXPECT_STREQ("show this help message and exit", testString.c_str());
-}
-
-TEST(BaseParserStringList, getEnvArgumentsMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr testString = testvar.getEnvArgumentsMessage();
-    EXPECT_STREQ("Environment values:", testString.c_str());
-}
-
-TEST(BaseParserStringList, printEnvironmentNoFlags)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr output = testvar.getEnvironmentNoFlags("testenvvar");
-    EXPECT_STREQ("Environment value testenvvar narg must be > 0", output.c_str());
-}
-
-TEST(BaseParserStringList, getMissingEnvArgumentsMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr output = testvar.getRequiredEnvironmentArgMissing("testenvvar");
-    EXPECT_STREQ("Environment value testenvvar must be defined", output.c_str());
-}
-
-TEST(BaseParserStringList, getJsonArgumentsMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr output = testvar.getJsonArgumentsMessage();
-    EXPECT_STREQ("Available JSON argument values:", output.c_str());
-}
-
-TEST(BaseParserStringList, getXmlArgumentsMessage)
-{
-    argparser::BaseParserStringList testvar;
-    parserstr output = testvar.getXmlArgumentsMessage();
-    EXPECT_STREQ("Available XML argument values:", output.c_str());
-}
-
-/// @todo add non-english tests
 
 //======================================================================================
 // Public Interface testing, english
@@ -302,33 +153,4 @@ TEST(BaseParserStringList, formatToLengthDoubleBreak)
     EXPECT_STREQ("will be broken into two strings", strList.front().c_str());
 }
 
-TEST(BaseParserStringList, testLanguages)
-{
-    #if defined(__linux__) || defined(__unix__)
-    const size_t langCount = 6;
-    std::array<langsetup, langCount> langlist{langsetup("en_US.utf-8", "en"),
-                                              langsetup("en_UK.UTF-8", "en"),
-                                              langsetup("es_ES.UTF-8", "es"),
-                                              langsetup("fr_FR.UTF-8", "fr-FR"),
-                                              langsetup("zh_cn_utf8.UTF-8", "zh"),
-                                              langsetup("zh_tw_utf8.UTF-8", "zh")
-                                            };
-
-    // Save the original language for later
-    parserstr originalLang = langsetup::getOriginalLang();
-
-    for(const auto& lang : langlist)
-    {
-        // Set new language
-        EXPECT_EQ(0, lang.setLang(1));
-
-        // Test the other language
-        argparser::BaseParserStringList testvar;
-        EXPECT_STREQ(lang.getIsoCode(), testvar.getLangIsoCode().c_str());
-    }
-
-    // Restore the original language
-    langsetup::restoreOriginalLang(originalLang);
-  #endif
-}
 /** @} */

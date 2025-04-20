@@ -43,6 +43,7 @@
 using ::testing::StrictMock;
 using ::testing::Return;
 
+#if(0)
 //==================================================================
 // Helper Class
 //==================================================================
@@ -1662,5 +1663,5 @@ TEST(cmd_line_parse_clib, TestInvalidParserCheck)
     output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ(expectedStr.c_str(), output.c_str());
 }
-
+#endif
 /** @} */

@@ -33,6 +33,7 @@
 #include "varg_intf_mock.h"
 #include "parser_string_list.h"
 #include "cmd_line_parse.h"
+#include "mock_ParserStringListInterface.h"
 
 const size_t defaultArgWidth = 14;
 const size_t defaultColWidth = 80;

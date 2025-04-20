@@ -36,6 +36,7 @@
 #include "varg_intf_mock.h"
 #include "parser_base.h"
 #include "parser_string_list.h"
+#include "mock_ParserStringListInterface.h"
 
 using ::testing::Return;
 
@@ -122,8 +123,7 @@ class test_parser_base : public argparser::parser_base
         size_t getOptionKeyWidth()                      {return argparser::parser_base::getOptionKeyWidth();}
         size_t getHelpKeyWidth()                        {return argparser::parser_base::getHelpKeyWidth(getOptionKeyWidth());}
 
-        void   addArgument(argparser::ArgEntry& arg)        {argparser::parser_base::addKeyArgListEntry(arg);}
-        argparser::BaseParserStringList& getStringList()    {return argparser::parser_base::getParserStringList();}
+        void addArgument(argparser::ArgEntry& arg)          {argparser::parser_base::addKeyArgListEntry(arg);}
         void addKeyArgListEntry(argparser::ArgEntry entry)  {argparser::parser_base::addKeyArgListEntry(entry);}
         bool isKeyArgListEmpty()                            {return argparser::parser_base::isKeyArgListEmpty();}
 
@@ -892,13 +892,6 @@ TEST(parser_base, displayArgHelpBlockBothWrap1)
                                    defaultOptionWidth, defaultHelpWidth);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());
-}
-
-TEST(parser_base, getStringList)
-{
-    test_parser_base testparser;
-    argparser::BaseParserStringList& stringList = testparser.getStringList();
-    EXPECT_NO_THROW(stringList.getDefaultBreakCharList());
 }
 
 TEST(parser_base, ParseErrorSetAbortTrue)

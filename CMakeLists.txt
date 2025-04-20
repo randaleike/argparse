@@ -17,9 +17,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/parser_base/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/varg/inc_clib
+    ${CMAKE_CURRENT_SOURCE_DIR}/language/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/parser_base/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/cmd_line_parse/inc_clib
     ${CMAKE_CURRENT_SOURCE_DIR}/envparse/inc
@@ -35,6 +36,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include(GNUInstallDirs)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif()
+
 
 ####
 # Gtest setup
@@ -71,8 +73,9 @@ set (GTEST_LIBRARIES GTest::gmock_main GTest::gtest_main)
 add_subdirectory (varg)
 
 ####
-# parser Files
+# Parser Base base Files
 ####
+add_subdirectory (language)
 add_subdirectory (parser_base)
 add_subdirectory (cmd_line_parse)
 add_subdirectory (envparse)
@@ -92,7 +95,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     find_program(LIB_EXE NAMES lib.exe)
     set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.lib)
     add_custom_target(${PROJECT_NAME}
-                    COMMAND ${LIB_EXE} /out:${C_LIB} $<TARGET_FILE:varg> $<TARGET_FILE:parser_base> $<TARGET_FILE:cmd_line_parse> $<TARGET_FILE:envparse>
+                    COMMAND ${LIB_EXE} /out:${C_LIB} $<TARGET_FILE:varg> $<TARGET_FILE:cmd_line_parse> $<TARGET_FILE:envparse>
                     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                     DEPENDS ${argparse_libs}
                     )
@@ -101,7 +104,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(C_LIB ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.a)
     add_custom_target(${PROJECT_NAME}
                       COMMAND ${LIB_EXE} -x $<TARGET_FILE:varg>
-                      COMMAND ${LIB_EXE} -x $<TARGET_FILE:parser_base>
                       COMMAND ${LIB_EXE} -x $<TARGET_FILE:cmd_line_parse>
                       COMMAND ${LIB_EXE} -x $<TARGET_FILE:envparse>
                       COMMAND ${LIB_EXE} rcs ${C_LIB} *.o
