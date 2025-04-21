@@ -55,7 +55,7 @@ class mock_ParserStringListInterface : public ParserStringListInterface
         mock_ParserStringListInterface(ParserStringListInterface&& other) = delete;
         mock_ParserStringListInterface& operator=(const ParserStringListInterface& other) = delete;
         mock_ParserStringListInterface& operator=(ParserStringListInterface&& other) = delete;
-        virtual ~mock_ParserStringListInterface() = default;
+        ~mock_ParserStringListInterface() override = default;
 
         MOCK_METHOD(parserstr, getLangIsoCode, (), (const, override));
         MOCK_METHOD(parserstr, getNotListTypeMessage, (int nargs), (override));

@@ -58,7 +58,9 @@ set (envparseUnitTestSrc
 
 set (envparseUnittestIncude
     ${envparseInclude}
+    ${MASTER_PROJECT_BASE_DIR}/varg/inc
     ${MASTER_PROJECT_BASE_DIR}/varg/mock
+    ${MASTER_PROJECT_BASE_DIR}/language/inc
     ${MASTER_PROJECT_BASE_DIR}/language/mock
     )
 
@@ -66,7 +68,7 @@ set (envparseMockSrc
     ${MASTER_PROJECT_BASE_DIR}/language/mock/mock_ParserStringListInterface.cpp
     )
 
-set (envparseExternalLibenvparseUnitTestSrc
+set (envparseExternalLib
     varg
     )
 
