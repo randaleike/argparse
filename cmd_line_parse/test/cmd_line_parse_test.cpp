@@ -31,51 +31,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "varg_intf_mock.h"
-#include "parser_string_list.h"
-#include "cmd_line_parse.h"
-#include "mock_ParserStringListInterface.h"
-
-const size_t defaultArgWidth = 14;
-const size_t defaultColWidth = 80;
-const size_t testArgWidth    = 17;
-const int    testValue       = 10;
-
-using ::testing::StrictMock;
-using ::testing::Mock;
-using ::testing::Return;
-using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
-
-class parser_test : public argparser::cmd_line_parse
-{
-    public:
-        parser_test(parserstr& usage, parserstr& description, bool abortOnError = false,
-                    bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg) :
-            argparser::cmd_line_parse(usage, description, abortOnError, disableDefaultHelp, debugLevel) {}
-
-        parser_test(const char* usage, const char* description, bool abortOnError = false, bool disableDefaultHelp = false,
-                    int debugLevel = debugVerbosityLevel_e::noDebugMsg) :
-            argparser::cmd_line_parse(usage, description, abortOnError, disableDefaultHelp, debugLevel) {}
-
-        parser_test(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError = false,
-                    bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg) :
-            argparser::cmd_line_parse(usage, description, keyPrefix, abortOnError, disableDefaultHelp, debugLevel) {}
-
-        parser_test(const char* usage, const char* description, const char* keyPrefix, bool abortOnError = false,
-                    bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg) :
-            argparser::cmd_line_parse(usage, description, keyPrefix, abortOnError, disableDefaultHelp, debugLevel) {}
-
-        parser_test(const parser_test& other) noexcept = default;
-        parser_test(parser_test&& other) noexcept = default;
-        parser_test& operator=(const parser_test& other) noexcept = default;
-        parser_test& operator=(parser_test&& other) noexcept = default;
-        ~parser_test() = default;
-
-        stringMockptr getStringsMock()
-        {
-            argparser::ParserStringListInterface* mock = msgGeneration.get();
-            return reinterpret_cast<stringMockptr> (mock);   // NOLINT
-        }
-};
+#include "cmd_line_parse_test.h"
 
 //======================================================================================
 // Public Interface testing
@@ -501,7 +457,7 @@ TEST(cmd_line_parse, parseTestAddListArgTooMany)
     parser_test testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = testvar.getStringsMock();
     EXPECT_CALL(*stringMock, getTooManyAssignmentMessage("-i", 3, 4))
-        .WillOnce(Return("mock \"-i\" too many assignment values. Expected: 3 found: 4 arguments"));
+        .WillOnce(Return("Mock \"-i\" too many assignment values. Expected: 3 found: 4 arguments"));
 
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
@@ -520,7 +476,7 @@ TEST(cmd_line_parse, parseTestAddListArgTooMany)
     testvar.disableHelpDisplayOnError();
     EXPECT_EQ(-1, testvar.parse(3, argv));     // NOLINT
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_STREQ("mock \"-i\" too many assignment values. Expected: 3 found: 4 arguments", output.c_str());
+    EXPECT_STREQ("Mock \"-i\" too many assignment values. Expected: 3 found: 4 arguments\n", output.c_str());
 }
 
 TEST(cmd_line_parse, parseTestAddDynamicListArg)

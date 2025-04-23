@@ -37,50 +37,71 @@
 #include "mock_ParserStringListInterface.h"
 
 using ::testing::StrictMock;
+using ::testing::Mock;
 using ::testing::Return;
+using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
+
+class jsonparser_test : public argparser::config_json_parse
+{
+    public:
+        jsonparser_test(const char* xmlFileName="", bool abortOnError = false, int debugLevel = 0) :
+            argparser::config_json_parse(xmlFileName, abortOnError, debugLevel) {}
+
+        jsonparser_test(const jsonparser_test& other) = default;
+        jsonparser_test(jsonparser_test&& other) = default;
+        jsonparser_test& operator=(const jsonparser_test& other) = default;
+        jsonparser_test& operator=(jsonparser_test&& other) noexcept = default;
+        ~jsonparser_test() = default;
+
+        stringMockptr getStringsMock()
+        {
+            argparser::ParserStringListInterface* mock = msgGeneration.get();
+            return reinterpret_cast<stringMockptr> (mock);   // NOLINT
+        }
+};
 
 //======================================================================================
 // Public Interface testing, English
 //======================================================================================
 TEST(config_json_parse, defaultConstructor)
 {
-    argparser::config_json_parse testvar(testFileName);
+    jsonparser_test testvar(testFileName);
     EXPECT_STREQ(testFileName, testvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, copyConstructor)
 {
-    argparser::config_json_parse testvar(testFileName);
-    argparser::config_json_parse copiedvar(testvar);
+    jsonparser_test testvar(testFileName);
+    jsonparser_test copiedvar(testvar);
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, moveConstructor)
 {
-    argparser::config_json_parse testvar(testFileName);
-    argparser::config_json_parse copiedvar(std::move(testvar));
+    jsonparser_test testvar(testFileName);
+    jsonparser_test copiedvar(std::move(testvar));
     EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, equateConstructor)
 {
-    argparser::config_json_parse testvar(testFileName);
-    argparser::config_json_parse copiedvar;
+    jsonparser_test testvar(testFileName);
+    jsonparser_test copiedvar;
     copiedvar = testvar;
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, equateMoveConstructor)
 {
-    argparser::config_json_parse testvar(testFileName);
-    argparser::config_json_parse copiedvar;
+    jsonparser_test testvar(testFileName);
+    jsonparser_test copiedvar;
     copiedvar = std::move(testvar);
     EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_json_parse, defaultHelp)
 {
-    argparser::config_json_parse testvar(testFileName);
+    jsonparser_test testvar(testFileName);
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
@@ -89,13 +110,13 @@ TEST(config_json_parse, defaultHelp)
 
 TEST(config_json_parse, parseTest)
 {
-    argparser::config_json_parse testvar(testFileName);
+    jsonparser_test testvar(testFileName);
     EXPECT_TRUE(testvar.parse());
 }
 
 TEST(config_json_parse, parseTestFail)
 {
-    argparser::config_json_parse testvar("./foo-config.json");
+    jsonparser_test testvar("./foo-config.json");
     testing::internal::CaptureStderr();
     EXPECT_FALSE(testvar.parse());
     parserstr output = testing::internal::GetCapturedStderr();
@@ -104,7 +125,7 @@ TEST(config_json_parse, parseTestFail)
 
 TEST(config_json_parse, addArgument)
 {
-    argparser::config_json_parse testvar(testFileName);
+    jsonparser_test testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
     testvar.addArgument(&testarg, "testarg1");
@@ -112,7 +133,7 @@ TEST(config_json_parse, addArgument)
 
 TEST(config_json_parse, addListArgument)
 {
-    argparser::config_json_parse testvar(testFileName);
+    jsonparser_test testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
@@ -121,19 +142,26 @@ TEST(config_json_parse, addListArgument)
 
 TEST(config_json_parse, addListArgumentFail)
 {
-    argparser::config_json_parse testvar(testFileName);
+    jsonparser_test testvar(testFileName);
+    stringMockptr stringMock = testvar.getStringsMock();
+    EXPECT_CALL(*stringMock, getNotListTypeMessage(2)).WillOnce(Return("Mock only list type arguments can have an argument count of 2"));
+
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(false));
 
     testing::internal::CaptureStderr();
     testvar.addArgument(&testarg, "testarg1", 2);
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_STREQ("Only list type arguments can have an argument count of 2\n", output.c_str());
+    EXPECT_STREQ("Mock only list type arguments can have an argument count of 2\n", output.c_str());
 }
 
 TEST(config_json_parse, helpWithArgument)
 {
-    argparser::config_json_parse testvar(testFileName);
+    jsonparser_test testvar(testFileName);
+    stringMockptr stringMock = testvar.getStringsMock();
+    EXPECT_CALL(*stringMock, getJsonArgumentsMessage()).WillOnce(Return("Mock Available JSON argument values:"));
+
+
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
@@ -143,7 +171,7 @@ TEST(config_json_parse, helpWithArgument)
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expected = "Available JSON argument values:\n";
+    parserstr expected = "Mock Available JSON argument values:\n";
     expected += R"("testarg1":"<numeric>,...")";
     expected += "                                                      \n";
     EXPECT_STREQ(expected.c_str(), output.c_str());

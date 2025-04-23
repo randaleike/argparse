@@ -823,7 +823,7 @@ TEST(sample5, example6)
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
-    std::string expectedStr = "\"subcommand copy\" assignment failed\n";
+    std::string expectedStr = "\"subcommand\", \"copy\" assignment failed\n";
 
     // help display
     expectedStr += "Usage:\n";

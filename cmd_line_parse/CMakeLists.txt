@@ -53,6 +53,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set (cmd_line_parseUnitTestSrc
     ${parserBaseSrc}
     ${cmd_line_baseSrc}
+    ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_test_class.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_misc_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_api_test.cpp
@@ -79,6 +80,7 @@ add_executable(${PROJECT_NAME}_test  ${cmd_line_parseUnitTestSrc} ${cmd_line_par
 target_include_directories(${PROJECT_NAME}_test PRIVATE ${cmd_line_parseUnittestIncude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_test PUBLIC ${cmd_line_parseExternalLib} ${GTEST_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_test PRIVATE -DGTEST_LINKED_AS_SHARED_LIBRARY=1)
+target_compile_options(${PROJECT_NAME}_test PRIVATE -DCONSTRUCTOR_GET_HELP_STRING=1)
 if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]ebug"))
     target_compile_options(${PROJECT_NAME}_test PRIVATE --coverage)
     target_link_options(${PROJECT_NAME}_test PRIVATE --coverage)

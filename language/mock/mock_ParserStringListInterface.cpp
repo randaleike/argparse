@@ -43,19 +43,9 @@
  */
 
 using namespace argparser;
-
-//static std::shared_ptr<mock_ParserStringListInterface> currentMock;  // NOLINT
-
-/**
- * @brief Set the currentMock return variable to the input test mock object
- */
-//mock_ParserStringListInterface::mock_ParserStringListInterface()
-//{
-//    if (currentMock.get() == nullptr)   // NOLINT
-//    {
-//        currentMock = std::shared_ptr<mock_ParserStringListInterface>(this);
-//    }
-//}
+using ::testing::StrictMock;
+using ::testing::Return;
+using stringMockptr = StrictMock<mock_ParserStringListInterface>*;
 
 /**
  * @brief Mock version of ParserStringListInterface::getLocalParserStringListInterface()
@@ -64,7 +54,16 @@ using namespace argparser;
  */
 std::shared_ptr<ParserStringListInterface> ParserStringListInterface::getLocalParserStringListInterface()
 {
-    return std::make_shared< ::testing::StrictMock<mock_ParserStringListInterface> >();
+#if defined(CONSTRUCTOR_GET_HELP_STRING)
+    std::shared_ptr<ParserStringListInterface> retPtr = std::make_shared< StrictMock<mock_ParserStringListInterface> >();
+
+    stringMockptr stringMock = reinterpret_cast<stringMockptr> (retPtr.get());   // NOLINT
+    EXPECT_CALL(*stringMock, getHelpString()).WillOnce(Return("mock getHelpString"));
+
+    return retPtr;
+#else //defined(CONSTRUCTOR_GET_HELP_STRING)
+    return std::make_shared< StrictMock<mock_ParserStringListInterface> >();
+#endif //defined(CONSTRUCTOR_GET_HELP_STRING)
 }
 
 /**@}*/
