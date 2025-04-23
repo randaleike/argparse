@@ -44,18 +44,18 @@
 
 using namespace argparser;
 
-static std::shared_ptr<mock_ParserStringListInterface> currentMock;  // NOLINT
+//static std::shared_ptr<mock_ParserStringListInterface> currentMock;  // NOLINT
 
 /**
  * @brief Set the currentMock return variable to the input test mock object
  */
-mock_ParserStringListInterface::mock_ParserStringListInterface()
-{
-    if (currentMock.get() == nullptr)   // NOLINT
-    {
-        currentMock = std::shared_ptr<mock_ParserStringListInterface>(this);
-    }
-}
+//mock_ParserStringListInterface::mock_ParserStringListInterface()
+//{
+//    if (currentMock.get() == nullptr)   // NOLINT
+//    {
+//        currentMock = std::shared_ptr<mock_ParserStringListInterface>(this);
+//    }
+//}
 
 /**
  * @brief Mock version of ParserStringListInterface::getLocalParserStringListInterface()
@@ -64,7 +64,7 @@ mock_ParserStringListInterface::mock_ParserStringListInterface()
  */
 std::shared_ptr<ParserStringListInterface> ParserStringListInterface::getLocalParserStringListInterface()
 {
-    return currentMock;
+    return std::make_shared< ::testing::StrictMock<mock_ParserStringListInterface> >();
 }
 
 /**@}*/
