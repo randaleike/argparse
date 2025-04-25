@@ -34,37 +34,36 @@
 #include "varg_intf_mock.h"
 #include "cmd_line_parse_test.h"
 
-
 TEST(cmd_line_parse, SetPrognameTestStr)
 {
-    parser_test testvar;
+    argparser::cmd_line_parse testvar;
     parserstr progname = "clprogname";
     EXPECT_TRUE(testvar.setProgramName(progname));
 }
 
 TEST(cmd_line_parse, SetPrognameTestCharPtr)
 {
-    parser_test testvar;
+    argparser::cmd_line_parse testvar;
     EXPECT_TRUE(testvar.setProgramName("clprogchar"));
 }
 
 TEST(cmd_line_parse, SetPrognameFailTestStr)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     parserstr progname = "clprogname";
     EXPECT_FALSE(testvar.setProgramName(progname));
 }
 
 TEST(cmd_line_parse, SetPrognameFailTestCharPtr)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     EXPECT_FALSE(testvar.setProgramName("clprogchar"));
 }
 
 TEST(cmd_line_parse, enableUnknownArgIgnore)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getUnknownArgumentMessage("--test")).WillOnce(Return("Mock unknown argument --test"));
 
     StrictMock<argparser::mock_varg_intf> flagArg;
@@ -104,10 +103,10 @@ TEST(cmd_line_parse, enableUnknownArgIgnore)
 TEST(cmd_line_parse, AssignKeyFlagValue_testDebugStr)
 {
 
-    parser_test testvar("testprog [options]", "Description of the test program",
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program",
                         false, false,
                         debugVerbosityLevel_e::veryVerboseDebug);
-    stringMockptr stringMock = testvar.getStringsMock();
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-f", "")).WillOnce(Return("Mock \"-f\", \"\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> keyarg;
@@ -144,7 +143,7 @@ TEST(cmd_line_parse, AssignKeyFlagValue_testDebugStr)
 
 TEST(cmd_line_parse, AssignKeyListValue_testDebugStr)
 {
-    parser_test testvar("testprog [options]", "Description of the test program",
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program",
                                       false, false,
                                       debugVerbosityLevel_e::veryVerboseDebug);
 
@@ -195,7 +194,7 @@ TEST(cmd_line_parse, AssignKeyListValue_testDebugStr)
 
 TEST(cmd_line_parse, AssignKeyValue_testDebugStr)
 {
-    parser_test testvar("testprog [options]", "Description of the test program",
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program",
                                       false, false,
                                       debugVerbosityLevel_e::veryVerboseDebug);
 
@@ -235,7 +234,7 @@ TEST(cmd_line_parse, AssignKeyValue_testDebugStr)
 
 TEST(cmd_line_parse, AssignPositionalValue_testDebugStr)
 {
-    parser_test testvar("testprog [options]", "Description of the test program",
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program",
                                       false, false,
                                       debugVerbosityLevel_e::veryVerboseDebug);
 

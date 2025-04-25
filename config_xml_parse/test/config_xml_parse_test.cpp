@@ -40,67 +40,54 @@ using ::testing::Mock;
 using ::testing::Return;
 using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
 
-class xmlparser_test : public argparser::config_xml_parse
+stringMockptr getStringsMock(argparser::config_xml_parse* parser)
 {
-    public:
-        xmlparser_test(const char* xmlFileName="", bool abortOnError = false, int debugLevel = 0) :
-            argparser::config_xml_parse(xmlFileName, abortOnError, debugLevel) {}
-
-        xmlparser_test(const xmlparser_test& other) = default;
-        xmlparser_test(xmlparser_test&& other) = default;
-        xmlparser_test& operator=(const xmlparser_test& other) = default;
-        xmlparser_test& operator=(xmlparser_test&& other) noexcept = default;
-        ~xmlparser_test() = default;
-
-        stringMockptr getStringsMock()
-        {
-            argparser::ParserStringListInterface* mock = msgGeneration.get();
-            return reinterpret_cast<stringMockptr> (mock);   // NOLINT
-        }
-};
+    argparser::ParserStringListInterface* mock = parser->getmsgGenerator().get();
+    return reinterpret_cast<stringMockptr> (mock);   // NOLINT
+}
 
 //======================================================================================
 // Public Interface testing, English
 //======================================================================================
 TEST(config_xml_parse, defaultConstructor)
 {
-    xmlparser_test  testvar(testFileName);
+    argparser::config_xml_parse  testvar(testFileName);
     EXPECT_STREQ(testFileName, testvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, copyConstructor)
 {
-    xmlparser_test testvar(testFileName);
-    xmlparser_test copiedvar(testvar);
+    argparser::config_xml_parse testvar(testFileName);
+    argparser::config_xml_parse copiedvar(testvar);
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, moveConstructor)
 {
-    xmlparser_test testvar(testFileName);
-    xmlparser_test copiedvar(std::move(testvar));
+    argparser::config_xml_parse testvar(testFileName);
+    argparser::config_xml_parse copiedvar(std::move(testvar));
     EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, equateConstructor)
 {
-    xmlparser_test testvar(testFileName);
-    xmlparser_test copiedvar;
+    argparser::config_xml_parse testvar(testFileName);
+    argparser::config_xml_parse copiedvar;
     copiedvar = testvar;
     EXPECT_STREQ(testvar.getFileName().c_str(), copiedvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, equateMoveConstructor)
 {
-    xmlparser_test testvar(testFileName);
-    xmlparser_test copiedvar;
+    argparser::config_xml_parse testvar(testFileName);
+    argparser::config_xml_parse copiedvar;
     copiedvar = std::move(testvar);
     EXPECT_STREQ(testFileName, copiedvar.getFileName().c_str());
 }
 
 TEST(config_xml_parse, defaultHelp)
 {
-    xmlparser_test testvar(testFileName);
+    argparser::config_xml_parse testvar(testFileName);
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
@@ -109,13 +96,13 @@ TEST(config_xml_parse, defaultHelp)
 
 TEST(config_xml_parse, parseTest)
 {
-    xmlparser_test  testvar(testFileName);
+    argparser::config_xml_parse  testvar(testFileName);
     EXPECT_TRUE(testvar.parse());
 }
 
 TEST(config_xml_parse, parseTestFail)
 {
-    xmlparser_test testvar("./foo-config.xml");
+    argparser::config_xml_parse testvar("./foo-config.xml");
     testing::internal::CaptureStderr();
     EXPECT_FALSE(testvar.parse());
     parserstr output = testing::internal::GetCapturedStderr();
@@ -125,7 +112,7 @@ TEST(config_xml_parse, parseTestFail)
 
 TEST(config_xml_parse, addArgument)
 {
-    xmlparser_test testvar(testFileName);
+    argparser::config_xml_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
 
@@ -134,7 +121,7 @@ TEST(config_xml_parse, addArgument)
 
 TEST(config_xml_parse, addListArgument)
 {
-    xmlparser_test testvar(testFileName);
+    argparser::config_xml_parse testvar(testFileName);
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
@@ -144,8 +131,8 @@ TEST(config_xml_parse, addListArgument)
 
 TEST(config_xml_parse, addListArgumentFail)
 {
-    xmlparser_test testvar(testFileName);
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::config_xml_parse testvar(testFileName);
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getNotListTypeMessage(2)).WillOnce(Return("Mock only list type arguments can have an argument count of 2"));
 
     StrictMock<argparser::mock_varg_intf> testarg;
@@ -159,8 +146,8 @@ TEST(config_xml_parse, addListArgumentFail)
 
 TEST(config_xml_parse, helpWithArgument)
 {
-    xmlparser_test testvar(testFileName);
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::config_xml_parse testvar(testFileName);
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getXmlArgumentsMessage()).WillOnce(Return("Mock Available XML argument values:"));
 
     StrictMock<argparser::mock_varg_intf> testarg;

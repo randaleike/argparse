@@ -39,7 +39,7 @@
 
 TEST(cmd_line_parse, parseTestFlag)
 {
-    parser_test testvar("testprog [options]", "Description of the test program", false, false);
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program", false, false);
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     EXPECT_CALL(testflgvarg, setValue())
@@ -59,8 +59,8 @@ TEST(cmd_line_parse, parseTestFlag)
 
 TEST(cmd_line_parse, parseTestFlagFailure)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getInvalidAssignmentMessage("-f")).WillOnce(Return("mock \"-f\" invalid assignment"));
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
@@ -83,7 +83,7 @@ TEST(cmd_line_parse, parseTestFlagFailure)
 
 TEST(cmd_line_parse, parseTestKeyWithAssign)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testkeyvarg;
     EXPECT_CALL(testkeyvarg, setValue(::testing::StrEq("5")))
@@ -103,8 +103,8 @@ TEST(cmd_line_parse, parseTestKeyWithAssign)
 
 TEST(cmd_line_parse, parseTestKeyAssignMissing)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getMissingAssignmentMessage("-i")).WillOnce(Return("mock \"-i\" missing assignment value"));
 
     StrictMock<argparser::mock_varg_intf> testkeyvarg;
@@ -126,8 +126,8 @@ TEST(cmd_line_parse, parseTestKeyAssignMissing)
 
 TEST(cmd_line_parse, parseTestKeyAssignFail)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "foo"))
         .WillOnce(Return("mock \"-i\", \"foo\" assignment failed")); //NOLINT
 
@@ -154,8 +154,8 @@ TEST(cmd_line_parse, parseTestKeyAssignFail)
 
 TEST(cmd_line_parse, parseTestKeyRangeFail)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "1"))
         .WillOnce(Return("mock \"-i\", \"1\" assignment failed")); //NOLINT
 
@@ -182,8 +182,8 @@ TEST(cmd_line_parse, parseTestKeyRangeFail)
 
 TEST(cmd_line_parse, parseTestKeyNullPtrFail)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "1"))
         .WillOnce(Return("mock \"-i\", \"1\" assignment failed")); //NOLINT
 
@@ -210,7 +210,7 @@ TEST(cmd_line_parse, parseTestKeyNullPtrFail)
 
 TEST(cmd_line_parse, parseTestKeyAssignNextArg)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testkeyvarg;
     EXPECT_CALL(testkeyvarg, setValue(::testing::StrEq("18")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
@@ -229,7 +229,7 @@ TEST(cmd_line_parse, parseTestKeyAssignNextArg)
 
 TEST(cmd_line_parse, parsePositional)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testposvarg;
     EXPECT_CALL(testposvarg, setValue(::testing::StrEq("42")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
@@ -247,8 +247,8 @@ TEST(cmd_line_parse, parsePositional)
 
 TEST(cmd_line_parse, parsePositionalFailed)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("postst", "goo"))
         .WillOnce(Return("mock \"postst\", \"goo\" assignment failed")); //NOLINT
 
@@ -275,8 +275,8 @@ TEST(cmd_line_parse, parsePositionalFailed)
 
 TEST(cmd_line_parse, parsePositionalRangeFailed)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("postst", "3"))
         .WillOnce(Return("mock \"postst\", \"3\" assignment failed")); //NOLINT
 
@@ -303,8 +303,8 @@ TEST(cmd_line_parse, parsePositionalRangeFailed)
 
 TEST(cmd_line_parse, parsePositionalNullPtrFailed)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("postst", "3"))
         .WillOnce(Return("mock \"postst\", \"3\" assignment failed")); //NOLINT
 
@@ -331,7 +331,7 @@ TEST(cmd_line_parse, parsePositionalNullPtrFailed)
 
 TEST(cmd_line_parse, parseTestMultiple)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     EXPECT_CALL(testflgvarg, setValue())
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
@@ -362,8 +362,8 @@ TEST(cmd_line_parse, parseTestMultiple)
 
 TEST(cmd_line_parse, addKeyArgInvalidNargs)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getNotListTypeMessage(2)).WillOnce(Return("mock only list type arguments can have an argument count of 2"));
 
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -377,7 +377,7 @@ TEST(cmd_line_parse, addKeyArgInvalidNargs)
 
 TEST(cmd_line_parse, parseTestAddListArg)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -401,7 +401,7 @@ TEST(cmd_line_parse, parseTestAddListArg)
 
 TEST(cmd_line_parse, parseTestAddListArgMultipleArgv)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("19")))
@@ -427,8 +427,8 @@ TEST(cmd_line_parse, parseTestAddListArgMultipleArgv)
 
 TEST(cmd_line_parse, parseTestAddListArgTooFew)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getMissingListAssignmentMessage("-i", 3, 2))
         .WillOnce(Return("mock \"-i\" missing assignment. Expected: 3 found: 2 arguments"));
 
@@ -454,8 +454,8 @@ TEST(cmd_line_parse, parseTestAddListArgTooFew)
 
 TEST(cmd_line_parse, parseTestAddListArgTooMany)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getTooManyAssignmentMessage("-i", 3, 4))
         .WillOnce(Return("Mock \"-i\" too many assignment values. Expected: 3 found: 4 arguments"));
 
@@ -481,7 +481,7 @@ TEST(cmd_line_parse, parseTestAddListArgTooMany)
 
 TEST(cmd_line_parse, parseTestAddDynamicListArg)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -505,7 +505,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListArg)
 
 TEST(cmd_line_parse, parseTestAddDynamicListArg2Vals)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -527,7 +527,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListArg2Vals)
 
 TEST(cmd_line_parse, parseTestAddDynamicListArg2ValsMultiArgv)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("81")))
@@ -550,7 +550,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListArg2ValsMultiArgv)
 
 TEST(cmd_line_parse, parseTestAddDynamicListArgMultiArgvSwitchTermination)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
@@ -580,7 +580,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListArgMultiArgvSwitchTermination)
 
 TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1ArgcTermination)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("81")))
@@ -603,7 +603,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1ArgcTermination)
 
 TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1SwitchTermination)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
@@ -633,7 +633,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1SwitchTermination)
 
 TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1LongSwitchTermination)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
@@ -671,8 +671,8 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1LongSwitchTermination)
 
 TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailAssignment)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "foo"))
         .WillOnce(Return("mock \"-i\", \"foo\" assignment failed"));    //NOLINT
 
@@ -708,8 +708,8 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailAssignment)
 
 TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailNullPtrAssignment)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "81"))
         .WillOnce(Return("mock \"-i\", \"81\" assignment failed")); //NOLINT
 
@@ -743,8 +743,8 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailNullPtrAssignment)
 
 TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailRangeAssignment)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "10"))
         .WillOnce(Return("mock \"-i\", \"10\" assignment failed")); //NOLINT
 
@@ -780,7 +780,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailRangeAssignment)
 
 TEST(cmd_line_parse, parseTestDualSingleCharFlag)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     testvar.disableHelpDisplayOnError();
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
@@ -806,7 +806,7 @@ TEST(cmd_line_parse, parseTestDualSingleCharFlag)
 
 TEST(cmd_line_parse, parseTestTripleSingleCharFlag)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     EXPECT_CALL(testflgvarg, setValue())
@@ -834,7 +834,7 @@ TEST(cmd_line_parse, parseTestTripleSingleCharFlag)
 
 TEST(cmd_line_parse, parseTestDualSingleCharFlagVal)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     EXPECT_CALL(testflgvarg, setValue())
@@ -862,7 +862,7 @@ TEST(cmd_line_parse, parseTestDualSingleCharFlagVal)
 
 TEST(cmd_line_parse, parseTestDualSingleCharFlagValNextargv)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     EXPECT_CALL(testflgvarg, setValue())
@@ -891,8 +891,8 @@ TEST(cmd_line_parse, parseTestDualSingleCharFlagValNextargv)
 
 TEST(cmd_line_parse, parseTestMissingRequired)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getMissingArgumentMessage("-i|--val"))
         .WillOnce(Return("mock \"-i|--val\" required argument missing"));
 
@@ -925,7 +925,7 @@ TEST(cmd_line_parse, parseTestMissingRequired)
 
 TEST(cmd_line_parse, parseTestMultiplePositionalArgs)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testsubarg;
     EXPECT_CALL(testsubarg, setValue(::testing::StrEq("foo")))
@@ -971,7 +971,7 @@ TEST(cmd_line_parse, parseTestMultiplePositionalArgs)
 
 TEST(cmd_line_parse, parseTestTwoPhasedParse)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testsubarg;
     StrictMock<argparser::mock_varg_intf> testflgvarg;
@@ -1019,7 +1019,7 @@ TEST(cmd_line_parse, parseTestTwoPhasedParse)
 
 TEST(cmd_line_parse, parseTestThreePhasedParse)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testsubarg;
     StrictMock<argparser::mock_varg_intf> testflgvarg;
@@ -1077,7 +1077,7 @@ TEST(cmd_line_parse, parseTestThreePhasedParse)
 
 TEST(cmd_line_parse, parseTestTwoPhasedTwoParserPositionalStop)
 {
-    parser_test testvar("testprog [global options] subcommand [subcommand options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [global options] subcommand [subcommand options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     StrictMock<argparser::mock_varg_intf> testflgvarg1;
@@ -1150,8 +1150,8 @@ TEST(cmd_line_parse, parseTestTwoPhasedTwoParserPositionalStop)
 
 TEST(cmd_line_parse, parseTestMissingRequiredSubcommand)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getMissingArgumentMessage("subcommand"))
         .WillOnce(Return("mock \"subcommand\" required argument missing"));
 
@@ -1178,7 +1178,7 @@ TEST(cmd_line_parse, parseTestMissingRequiredSubcommand)
 
 TEST(cmd_line_parse, ArgumentsWithKeyDash)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> flagArg;
     EXPECT_CALL(flagArg, setValue())
@@ -1221,8 +1221,9 @@ TEST(cmd_line_parse, ArgumentsWithKeySlash)
 {
     parserstr usage = "winutil [options]";
     parserstr description = "test slash keymarker";
-    parserstr keyPrefix = "/";
-    parser_test testvar(usage, description, keyPrefix);
+    argparser::cmd_line_parse testvar(usage, description);
+    testvar.setKeyPrefixCharacter('/');
+    testvar.disableSingleCharListArgs();
 
     StrictMock<argparser::mock_varg_intf> flagArg;
     EXPECT_CALL(flagArg, setValue())
@@ -1264,7 +1265,7 @@ TEST(cmd_line_parse, ArgumentsWithKeySlash)
 
 TEST(cmd_line_parse, AssignPositionalListValue)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> posarg;
     EXPECT_CALL(posarg, isList())
@@ -1294,7 +1295,7 @@ TEST(cmd_line_parse, AssignPositionalListValue)
 
 TEST(cmd_line_parse, AssignPositionalListValueNeg)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
 
     StrictMock<argparser::mock_varg_intf> posarg;
     EXPECT_CALL(posarg, isList())
@@ -1322,8 +1323,8 @@ TEST(cmd_line_parse, AssignPositionalListValueNeg)
 
 TEST(cmd_line_parse, AssignPositionalNotListNargsNot1)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getNotListTypeMessage(-4))
         .WillOnce(Return("mock only list type arguments can have an argument count of -4"));
 
@@ -1340,8 +1341,8 @@ TEST(cmd_line_parse, AssignPositionalNotListNargsNot1)
 
 TEST(cmd_line_parse, parsePositionArgWithEmptyList)
 {
-    parser_test testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getUnknownArgumentMessage("posValue"))
         .WillOnce(Return("mock unknown argument: posValue"));
 
@@ -1359,4 +1360,5 @@ TEST(cmd_line_parse, parsePositionArgWithEmptyList)
     parserstr output = testing::internal::GetCapturedStderr();
     EXPECT_STREQ("mock unknown argument: posValue\n", output.c_str());
 }
+
 /** @} */

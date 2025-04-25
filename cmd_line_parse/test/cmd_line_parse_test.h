@@ -44,28 +44,4 @@ using ::testing::Mock;
 using ::testing::Return;
 using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
 
-class parser_test : public argparser::cmd_line_parse
-{
-    public:
-        parser_test() = default;
-
-        parser_test(parserstr& usage, parserstr& description, bool abortOnError = false,
-                    bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg);
-
-        parser_test(const char* usage, const char* description, bool abortOnError = false, bool disableDefaultHelp = false,
-                    int debugLevel = debugVerbosityLevel_e::noDebugMsg);
-
-        parser_test(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError = false,
-                    bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg);
-
-        parser_test(const char* usage, const char* description, const char* keyPrefix, bool abortOnError = false,
-                    bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg);
-
-        parser_test(const parser_test& other) noexcept = default;
-        parser_test(parser_test&& other) noexcept = default;
-        parser_test& operator=(const parser_test& other) noexcept = default;
-        parser_test& operator=(parser_test&& other) noexcept = default;
-        ~parser_test() = default;
-
-        stringMockptr getStringsMock();
-};
+extern stringMockptr getStringsMock(argparser::cmd_line_parse* parser);

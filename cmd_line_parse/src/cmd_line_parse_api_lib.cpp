@@ -56,13 +56,11 @@ cmdLineParserHandle getParser(parsercstr usage, parsercstr description, char key
 {
     parserstr newParserUsage = ((nullptr != usage) ? usage : "");
     parserstr newParserDesc = ((nullptr != description) ? description : "");
-    parserstr newKeyPrefix;
-    newKeyPrefix.push_back(keyPrefix);
 
     // NOLINTBEGIN
     struct cmdLineParser* wrapper = new (struct cmdLineParser);
-    wrapper->object = new argparser::cmd_line_parse(newParserUsage, newParserDesc, newKeyPrefix,
-                                                    abortOnError, disableDefaultHelp, debugLevel);
+    wrapper->object = new argparser::cmd_line_parse(newParserUsage, newParserDesc, abortOnError, disableDefaultHelp, debugLevel);
+    wrapper->object->setKeyPrefixCharacter(keyPrefix);
     // NOLINTEND
     return wrapper;
 }

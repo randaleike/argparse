@@ -465,62 +465,6 @@ cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool 
     }
 }
 
-cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    parser_base(abortOnError, debugLevel), keyPrefix(keyPrefix),
-    displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
-    ignoreUnknownKey(false), singleCharArgListAllowed(true),
-    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
-    debugMsgLevel(debugLevel), positionalStopArgumentFound(false), helpFlag(nullptr)
-{
-    positionalArgList.clear();
-    argvArray.clear();
-
-    usageText = ((!usage.empty()) ? usage : "%(prog) [options]");
-    descriptionText = ((!description.empty()) ? description : "");
-
-    if (keyPrefix == "/")
-    {
-        singleCharArgListAllowed = false;
-    }
-
-    if (!disableDefaultHelp)
-    {
-        addDefaultHelpArgument();
-    }
-}
-
-cmd_line_parse::cmd_line_parse(const char* usage, const char* description, const char* keyPrefix, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    parser_base(abortOnError, debugLevel), usageText(((nullptr != usage) ? usage : "%(prog) [options]")),
-    descriptionText((nullptr != description) ? description : ""), keyPrefix(keyPrefix),
-    displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
-    ignoreUnknownKey(false), singleCharArgListAllowed(true),
-    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
-    debugMsgLevel(debugLevel), positionalStopArgumentFound(false), helpFlag(nullptr)
-{
-    positionalArgList.clear();
-    argvArray.clear();
-
-    if (nullptr != usage)
-    {
-        usageText = usage;
-    }
-
-    if (nullptr != description)
-    {
-        descriptionText = description;
-    }
-
-    if (nullptr != keyPrefix)
-    {
-        singleCharArgListAllowed = ((keyPrefix[0] == '/') ? false : true);  // NOLINT
-    }
-
-    if (!disableDefaultHelp)
-    {
-        addDefaultHelpArgument();
-    }
-}
-
 cmd_line_parse::cmd_line_parse(const cmd_line_parse& other) :
     parser_base(other), programName(other.programName),
     usageText(other.usageText), descriptionText(other.descriptionText), keyPrefix(other.keyPrefix),

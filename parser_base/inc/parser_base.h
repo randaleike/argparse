@@ -158,9 +158,16 @@ class parser_base
         ~parser_base();
 
         /**
+         * @brief Return the protected local language string generator
+         *
+         * @return std::shared_ptr<ParserStringListInterface>
+         */
+        std::shared_ptr<ParserStringListInterface> getmsgGenerator()    {return msgGeneration;}
+
+        /**
          * @brief Set the argument key list delimiter.
          *
-         * The argument key list delimeter is the parsercharacter or string
+         * The argument key list delimeter is the parser character or string
          * the seperates the key values in the argKeys input for the
          * add argument functions.
          *

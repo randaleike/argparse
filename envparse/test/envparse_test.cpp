@@ -52,22 +52,11 @@ using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
 
 const int    testValue = 10;
 
-class envparser_test : public argparser::envparser
+stringMockptr getStringsMock(argparser::envparser* parser)
 {
-    public:
-        envparser_test(bool abortOnError = false, int debugLevel = 0) : argparser::envparser(abortOnError, debugLevel) {}
-        envparser_test(const envparser_test& other) noexcept = default;
-        envparser_test(envparser_test&& other) noexcept = default;
-        envparser_test& operator=(const envparser_test& other) noexcept = default;
-        envparser_test& operator=(envparser_test&& other) noexcept = default;
-        ~envparser_test() = default;
-
-        stringMockptr getStringsMock()
-        {
-            argparser::ParserStringListInterface* mock = msgGeneration.get();
-            return reinterpret_cast<stringMockptr> (mock);   // NOLINT
-        }
-};
+    argparser::ParserStringListInterface* mock = parser->getmsgGenerator().get();
+    return reinterpret_cast<stringMockptr> (mock);   // NOLINT
+}
 
 //======================================================================================
 // Test functions constructor and help
@@ -75,7 +64,7 @@ class envparser_test : public argparser::envparser
 TEST(envTestParser, ConstructorBasic)
 {
     ::testing::internal::CaptureStdout();
-    envparser_test testvar;
+    argparser::envparser testvar;
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
     EXPECT_STREQ("", output.c_str());
@@ -84,8 +73,8 @@ TEST(envTestParser, ConstructorBasic)
 TEST(envTestParser, addArgument)
 {
     StrictMock<argparser::mock_varg_intf> testvalvarg;
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getEnvArgumentsMessage()).WillOnce(Return("Mock EnvHelp Args:"));
 
     testvar.addArgument(&testvalvarg, "MYENVTEST", "My environment test var");
@@ -100,8 +89,8 @@ TEST(envTestParser, addArgument)
 
 TEST(envTestParser, addArgument2)
 {
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getEnvArgumentsMessage()).WillOnce(Return("Mock EnvHelp Args2:"));
 
     StrictMock<argparser::mock_varg_intf> testvalvarg;
@@ -121,8 +110,8 @@ TEST(envTestParser, addArgument2)
 
 TEST(envTestParser, addArgumentNargZero)
 {
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getEnvironmentNoFlags("MYENVTEST")).WillOnce(Return("Mock environment value MYENVTEST narg must be > 0"));
 
     StrictMock<argparser::mock_varg_intf> testvalvarg;
@@ -135,8 +124,8 @@ TEST(envTestParser, addArgumentNargZero)
 
 TEST(envTestParser, addArgumentInvalidNargs)
 {
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getNotListTypeMessage(2)).WillOnce(Return("Mock only list type arguments can have an argument count of 2"));
 
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -150,7 +139,7 @@ TEST(envTestParser, addArgumentInvalidNargs)
 
 TEST(envTestParser, parsetest)
 {
-    envparser_test testvar;
+    argparser::envparser testvar;
     StrictMock<argparser::mock_varg_intf> testvalvarg;
     StrictMock<argparser::mock_varg_intf> testvalvarg1;
     EXPECT_CALL(testvalvarg, setValue(::testing::StrEq("10")))
@@ -168,7 +157,7 @@ TEST(envTestParser, parsetest)
 
 TEST(envTestParser, parsetestDual)
 {
-    envparser_test testvar;
+    argparser::envparser testvar;
     StrictMock<argparser::mock_varg_intf> testvalvarg;
     StrictMock<argparser::mock_varg_intf> testvalvarg1;
     EXPECT_CALL(testvalvarg, setValue(::testing::StrEq("10")))
@@ -188,7 +177,7 @@ TEST(envTestParser, parsetestDual)
 
 TEST(envTestParser, parsetestlist)
 {
-    envparser_test testvar;
+    argparser::envparser testvar;
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("10")))
@@ -205,8 +194,8 @@ TEST(envTestParser, parsetestlist)
 
 TEST(envTestParser, parsetestlistTooFew)
 {
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getMissingListAssignmentMessage("MYENVTEST", 3, 2))
         .WillOnce(Return("Mock \"MYENVTEST\" missing assignment. Expected: 3 found: 2 arguments"));
 
@@ -225,8 +214,8 @@ TEST(envTestParser, parsetestlistTooFew)
 
 TEST(envTestParser, parsetestlistTooMany)
 {
-    envparser_test testvar(false);
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar(false);
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getTooManyAssignmentMessage("MYENVTEST", 3, 4))
         .WillOnce(Return("Mock \"MYENVTEST\" too many assignment values. Expected: 3 found: 4 arguments"));
 
@@ -245,7 +234,7 @@ TEST(envTestParser, parsetestlistTooMany)
 
 TEST(envTestParser, parseTestAddDynamicListArg)
 {
-    envparser_test testvar(false);
+    argparser::envparser testvar(false);
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -263,7 +252,7 @@ TEST(envTestParser, parseTestAddDynamicListArg)
 
 TEST(envTestParser, parseTestAddDynamicList2Arg)
 {
-    envparser_test testvar(false);
+    argparser::envparser testvar(false);
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -279,7 +268,7 @@ TEST(envTestParser, parseTestAddDynamicList2Arg)
 
 TEST(envTestParser, parseTestAddDynamicListIndefinite2Arg)
 {
-    envparser_test testvar(false);
+    argparser::envparser testvar(false);
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -295,7 +284,7 @@ TEST(envTestParser, parseTestAddDynamicListIndefinite2Arg)
 
 TEST(envTestParser, parseTestAddDynamicListIndefinite6Arg)
 {
-    envparser_test testvar(false);
+    argparser::envparser testvar(false);
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -319,7 +308,7 @@ TEST(envTestParser, parseTestAddDynamicListIndefinite6Arg)
 
 TEST(envTestParser, parseTestDebugCompleteness)
 {
-    envparser_test testvar(false, veryVerboseDebug);
+    argparser::envparser testvar(false, veryVerboseDebug);
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("18")))
@@ -353,8 +342,8 @@ TEST(envTestParser, parseTestDebugCompleteness)
 #if defined(__linux__)
 TEST(envTestParser, NoValueTest)
 {
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getMissingAssignmentMessage("MYENVTEST"))
         .WillOnce(Return("Mock \"MYENVTEST\" missing assignment value"));
 
@@ -375,8 +364,8 @@ TEST(envTestParser, NoValueTest)
 
 TEST(envTestParser, AssignmentFailedTest)
 {
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getAssignmentFailedMessage("MYENVTEST", "moo"))
         .WillOnce(Return("Mock \"MYENVTEST\", \"moo\" assignment failed"));     // NOLINT
 
@@ -397,8 +386,8 @@ TEST(envTestParser, AssignmentFailedTest)
 
 TEST(envTestParser, RequiredArgumentTest)
 {
-    envparser_test testvar;
-    stringMockptr stringMock = testvar.getStringsMock();
+    argparser::envparser testvar;
+    stringMockptr stringMock = getStringsMock(&testvar);
     EXPECT_CALL(*stringMock, getRequiredEnvironmentArgMissing("MYENVTEST"))
         .WillOnce(Return("Mock environment value \"MYENVTEST\" must be defined"));
 

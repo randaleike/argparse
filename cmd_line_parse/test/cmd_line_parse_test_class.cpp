@@ -35,20 +35,8 @@
 #include "mock_ParserStringListInterface.h"
 #include "cmd_line_parse_test.h"
 
-
-parser_test::parser_test(parserstr& usage, parserstr& description, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    argparser::cmd_line_parse(usage, description, abortOnError, disableDefaultHelp, debugLevel) {}
-parser_test::parser_test(const char* usage, const char* description, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    argparser::cmd_line_parse(usage, description, abortOnError, disableDefaultHelp, debugLevel) {}
-parser_test::parser_test(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError,
-                         bool disableDefaultHelp, int debugLevel) :
-    argparser::cmd_line_parse(usage, description, keyPrefix, abortOnError, disableDefaultHelp, debugLevel)  {}
-parser_test::parser_test(const char* usage, const char* description, const char* keyPrefix, bool abortOnError,
-                         bool disableDefaultHelp, int debugLevel) :
-    argparser::cmd_line_parse(usage, description, keyPrefix, abortOnError, disableDefaultHelp, debugLevel)  {}
-
-stringMockptr parser_test::getStringsMock()
+stringMockptr getStringsMock(argparser::cmd_line_parse* parser)
 {
-    argparser::ParserStringListInterface* mock = msgGeneration.get();
+    argparser::ParserStringListInterface* mock = parser->getmsgGenerator().get();
     return reinterpret_cast<stringMockptr> (mock);   // NOLINT
 }
