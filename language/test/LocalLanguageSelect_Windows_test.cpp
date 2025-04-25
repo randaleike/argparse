@@ -27,6 +27,7 @@
 * ----------------------------------------------------------------------------*/
 
 // Includes
+#include <windows.h>
 #include <gtest/gtest.h>
 #include "ParserStringListInterface.h"
 
@@ -38,7 +39,7 @@
  */
 
 using namespace argparser;
-#if ((defined(_WIN64) || defined(_WIN32)))
+#if (defined(_WIN64) || defined(_WIN32))
 extern std::shared_ptr<ParserStringListInterface> getParserStringListInterface_Windows(LANGID langId);
 /**
  * @brief Test getParserStringListInterface_Windows 3081 selection case
