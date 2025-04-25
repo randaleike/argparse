@@ -27,12 +27,6 @@
 * ----------------------------------------------------------------------------*/
 
 // Includes
-#include <cstddef>
-#include <cstdlib>
-#include <memory>
-#include <string>
-#include <gmock/gmock.h>
-#include "ParserStringListInterface.h"
 #include "mock_ParserStringListInterface.h"
 
 /**
@@ -54,16 +48,14 @@ using stringMockptr = StrictMock<mock_ParserStringListInterface>*;
  */
 std::shared_ptr<ParserStringListInterface> ParserStringListInterface::getLocalParserStringListInterface()
 {
-#if defined(CONSTRUCTOR_GET_HELP_STRING)
     std::shared_ptr<ParserStringListInterface> retPtr = std::make_shared< StrictMock<mock_ParserStringListInterface> >();
 
+#if defined(CONSTRUCTOR_GET_HELP_STRING)
     stringMockptr stringMock = reinterpret_cast<stringMockptr> (retPtr.get());   // NOLINT
     EXPECT_CALL(*stringMock, getHelpString()).WillOnce(Return("mock getHelpString"));
+#endif //defined(CONSTRUCTOR_GET_HELP_STRING)
 
     return retPtr;
-#else //defined(CONSTRUCTOR_GET_HELP_STRING)
-    return std::make_shared< StrictMock<mock_ParserStringListInterface> >();
-#endif //defined(CONSTRUCTOR_GET_HELP_STRING)
 }
 
 /**@}*/
