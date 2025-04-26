@@ -1,34 +1,30 @@
 REM Check the input
-if [%1] == [Debug] goto startBuild
-if [%1] == [Release] goto startBuild
+if [%1] == [Debug] goto checkBuild
+if [%1] == [Release] goto checkBuild
 
 echo "Invalid input!"
 echo "Usage: make-all.bat <Debug|Release>"
 goto end
 
+:checkBuild
+SET BUILD_DIR=build
+if NOT [%2] == [] SET BUILD_DIR=%2
+
 :startBuild
 REM Make libraries
-cmake --build build --config %1
+cmake --build %BUILD_DIR% --config %1
 
-REM Make library unittests
-cmake --build build --config %1 --target build-unittest
+REM Make the samples
+cmake --build %BUILD_DIR% --config %1 --target samples
+
+REM Make the samples unittest
+cmake --build %BUILD_DIR% --config %1 --target samples-unittest
 
 REM Run the library unittests
 do (
-    cd .\build\
-    ctest --build-config %1 --exclude-regex samples
-)
-
-REM Make the samples
-cmake --build build --config %1 --target samples
-
-REM Make the samples unittest
-cmake --build build --config %1 --target samples-unittest
-
-REM Run the samples unittests
-do(
-    cd .\build\
-    ctest --build-config %1 --tests-regex samples
+    cd .\%BUILD_DIR%\
+    copy .\bin\%1\*.* .\%1
+    ctest --build-config %1 --exclude-regex sample
 )
 
 :end

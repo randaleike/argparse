@@ -184,36 +184,6 @@ class cmd_line_parse : public parser_base
                        int debugLevel = debugVerbosityLevel_e::noDebugMsg);
 
         /**
-         * @brief Constructor with input
-         *
-         * @param usage - Usage string for the help display
-         * @param description - Description string for the help display
-         * @param keyPrefix - Argument prefix value
-         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
-         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
-         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
-         *                                                       4 - Error and informational messages
-         *                                                       5+ - Error, informational and flow tracking messages
-         */
-         cmd_line_parse(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError = false,
-                       bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg);
-
-        /**
-         * @brief Constructor with input
-         *
-         * @param usage - Usage string for the help display
-         * @param description - Description string for the help display
-         * @param keyPrefix - Argument prefix value
-         * @param abortOnError - True = abort parsing on first error, False (default) = Log error and continue parsing command line data
-         * @param disableDefaultHelp - False (default) = Display help screen if a parsing error occured, True = Disable help display screen
-         * @param debugLevel - Verbosity level of debug messages 0 (default) - Only error messages
-         *                                                       4 - Error and informational messages
-         *                                                       5+ - Error, informational and flow tracking messages
-         */
-         cmd_line_parse(const char* usage, const char* description, const char* keyPrefix, bool abortOnError = false,
-            bool disableDefaultHelp = false, int debugLevel = debugVerbosityLevel_e::noDebugMsg);
-
-        /**
          * @brief Copy Constructor
          *
          * @param other - Source object for the copy
@@ -287,6 +257,22 @@ class cmd_line_parse : public parser_base
          *        is found
          */
         void enableUnknowArgumentIgnore()                               {ignoreUnknownKey = true;}
+
+        /**
+         * @brief Disable single character list arguments.  Normal function is
+         *        to allow a single argument key character followed by a series
+         *        of single character flag arguments.  Calling this function will
+         *        disable this feature and require each key/flag input argument
+         *        be preceeded by the key prefix value
+         */
+        void disableSingleCharListArgs()                                {singleCharArgListAllowed = false;}
+
+        /**
+         * @brief Set the Key Prefix Character identifier character
+         *
+         * @param prefix - New key argument prefix identifier
+         */
+        void setKeyPrefixCharacter(parserchar prefix)                   {keyPrefix = prefix;}
 
         //=================================================================================================
         //======================= Argument add interface methods ==========================================

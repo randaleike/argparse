@@ -71,7 +71,7 @@ void cmd_line_parse::checkRequiredArgsFound()
     {
         if ((positionalArg.isRequired) && !(positionalArg.isFound))
         {
-            std::cerr << parser_base::getParserStringList().getMissingArgumentMessage(positionalArg.name) << std::endl;
+            std::cerr << msgGeneration->getMissingArgumentMessage(positionalArg.name) << std::endl;
             parser_base::setParsingError(true);
         }
     }
@@ -89,7 +89,7 @@ void cmd_line_parse::checkRequiredArgsFound()
             }
             optionString.resize(optionString.size() - 1);
 
-            std::cerr << parser_base::getParserStringList().getMissingArgumentMessage(optionString) << std::endl;
+            std::cerr << msgGeneration->getMissingArgumentMessage(optionString) << std::endl;
             parser_base::setParsingError(true);
         }
     }
@@ -134,7 +134,7 @@ void cmd_line_parse::addDefaultHelpArgument()
     // Add the argument to the key argument list
     helpFlag = std::make_shared< varg<bool> >(false, true);
     addKeyArgument(helpFlag.get(), "help", keyList,
-                   parser_base::getParserStringList().getHelpString(),
+                   msgGeneration->getHelpString(),
                    0, false);
 }
 
@@ -166,12 +166,12 @@ bool cmd_line_parse::assignKeyFlagValue(ArgEntry& currentArg, const char* keyStr
     bool status = false;
     if (!valueString.empty())
     {
-        std::cerr << parser_base::getParserStringList().getInvalidAssignmentMessage(keyString) << std::endl;
+        std::cerr << msgGeneration->getInvalidAssignmentMessage(keyString) << std::endl;
         status = true;
     }
     else if (eAssignSuccess != parser_base::assignKeyFlagValue(currentArg))
     {
-        std::cerr << parser_base::getParserStringList().getAssignmentFailedMessage(keyString, valueString) << std::endl;
+        std::cerr << msgGeneration->getAssignmentFailedMessage(keyString, valueString) << std::endl;
         status = true;
     }
 
@@ -247,23 +247,23 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
 
         case eAssignTooMany:
             // Not enough values to meet the minimum required
-            std::cerr << parser_base::getParserStringList().getTooManyAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
+            std::cerr << msgGeneration->getTooManyAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
             return true;
 
         case eAssignNoValue:
             // Need at least one value
-            std::cerr << parser_base::getParserStringList().getMissingAssignmentMessage(keyString) << std::endl;
+            std::cerr << msgGeneration->getMissingAssignmentMessage(keyString) << std::endl;
             return true;
 
         case eAssignTooFew:
             // More values than required
-            std::cerr << parser_base::getParserStringList().getMissingListAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
+            std::cerr << msgGeneration->getMissingListAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
             return true;
 
         case eAssignFailed:
         default:
             // Failed an assignment
-            std::cerr << parser_base::getParserStringList().getAssignmentFailedMessage(keyString, failedValue) << std::endl;
+            std::cerr << msgGeneration->getAssignmentFailedMessage(keyString, failedValue) << std::endl;
             return true;
     }
 }
@@ -309,7 +309,7 @@ void cmd_line_parse::parseSingleKeyArg(const char* searchString, parserstr value
     else if (!ignoreUnknownKey)
     {
         parser_base::setParsingError(true);
-        std::cerr << parser_base::getParserStringList().getUnknownArgumentMessage(searchString) << std::endl;
+        std::cerr << msgGeneration->getUnknownArgumentMessage(searchString) << std::endl;
     }
 
     if (debugMsgLevel >= debugVerbosityLevel_e::veryVerboseDebug)
@@ -410,7 +410,7 @@ void cmd_line_parse::parsePositionalArg()
     else
     {
         parser_base::setParsingError(true);
-        std::cerr << parser_base::getParserStringList().getUnknownArgumentMessage(argvArray[currentArgumentIndex++]) << std::endl;
+        std::cerr << msgGeneration->getUnknownArgumentMessage(argvArray[currentArgumentIndex++]) << std::endl;
     }
 }
 
@@ -458,62 +458,6 @@ cmd_line_parse::cmd_line_parse(const char* usage, const char* description, bool 
 {
     positionalArgList.clear();
     argvArray.clear();
-
-    if (!disableDefaultHelp)
-    {
-        addDefaultHelpArgument();
-    }
-}
-
-cmd_line_parse::cmd_line_parse(parserstr& usage, parserstr& description, parserstr& keyPrefix, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    parser_base(abortOnError, debugLevel), keyPrefix(keyPrefix),
-    displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
-    ignoreUnknownKey(false), singleCharArgListAllowed(true),
-    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
-    debugMsgLevel(debugLevel), positionalStopArgumentFound(false), helpFlag(nullptr)
-{
-    positionalArgList.clear();
-    argvArray.clear();
-
-    usageText = ((!usage.empty()) ? usage : "%(prog) [options]");
-    descriptionText = ((!description.empty()) ? description : "");
-
-    if (keyPrefix == "/")
-    {
-        singleCharArgListAllowed = false;
-    }
-
-    if (!disableDefaultHelp)
-    {
-        addDefaultHelpArgument();
-    }
-}
-
-cmd_line_parse::cmd_line_parse(const char* usage, const char* description, const char* keyPrefix, bool abortOnError, bool disableDefaultHelp, int debugLevel) :
-    parser_base(abortOnError, debugLevel), usageText(((nullptr != usage) ? usage : "%(prog) [options]")),
-    descriptionText((nullptr != description) ? description : ""), keyPrefix(keyPrefix),
-    displayHelpOnError(true), enableDefaultHelp(!disableDefaultHelp),
-    ignoreUnknownKey(false), singleCharArgListAllowed(true),
-    positionNumber(1), parseingPositionNumber(1), currentArgumentIndex(0), argcount(0),
-    debugMsgLevel(debugLevel), positionalStopArgumentFound(false), helpFlag(nullptr)
-{
-    positionalArgList.clear();
-    argvArray.clear();
-
-    if (nullptr != usage)
-    {
-        usageText = usage;
-    }
-
-    if (nullptr != description)
-    {
-        descriptionText = description;
-    }
-
-    if (nullptr != keyPrefix)
-    {
-        singleCharArgListAllowed = ((keyPrefix[0] == '/') ? false : true);  // NOLINT
-    }
 
     if (!disableDefaultHelp)
     {
@@ -636,7 +580,7 @@ void cmd_line_parse::addKeyArgument(varg_intf* arg, parserstr name, parserstr ar
     // Only list type varg_intf are allowed more than 1 value
     if ((nargs != 0) && (nargs != 1) && !arg->isList())
     {
-        std::cerr << parser_base::getParserStringList().getNotListTypeMessage(nargs) << std::endl;
+        std::cerr << msgGeneration->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -724,7 +668,7 @@ void cmd_line_parse::addPositionalArgument(varg_intf* arg, parserstr name, parse
     // Only list type varg_intf are allowed more than 1 value
     if ((nargs != 0) && (nargs != 1) && !arg->isList())
     {
-        std::cerr << parser_base::getParserStringList().getNotListTypeMessage(nargs) << std::endl;
+        std::cerr << msgGeneration->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -864,7 +808,7 @@ void cmd_line_parse::displayOptionHelp(std::ostream &outStream)
     if (!parser_base::isKeyArgListEmpty())
     {
         // Display the key arguments help
-        outStream << parser_base::getParserStringList().getSwitchArgumentsMessage() << std::endl;
+        outStream << msgGeneration->getSwitchArgumentsMessage() << std::endl;
         for (auto const& keyArg : parser_base::getKeyArgList())
         {
             // Display the arg block
@@ -887,7 +831,7 @@ void cmd_line_parse::displayPositionHelp(std::ostream &outStream)
     if (!positionalArgList.empty())
     {
         // Display the position arguments list
-        outStream << parser_base::getParserStringList().getPositionalArgumentsMessage() << std::endl;
+        outStream << msgGeneration->getPositionalArgumentsMessage() << std::endl;
         for (auto const& positionalArg : positionalArgList)
         {
             // Display the arg block
@@ -905,7 +849,7 @@ void cmd_line_parse::displayPositionHelp(std::ostream &outStream)
 void cmd_line_parse::displayHelp(std::ostream &outStream)
 {
     // Display the help header
-    outStream << parser_base::getParserStringList().getUsageMessage() << std::endl << usageText << std::endl;
+    outStream << msgGeneration->getUsageMessage() << std::endl << usageText << std::endl;
     if (!descriptionText.empty())
     {
         outStream << std::endl << descriptionText << std::endl;

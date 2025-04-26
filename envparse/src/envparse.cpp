@@ -122,11 +122,11 @@ void envparser::addArgument(varg_intf* arg, const char* argKey, const char* help
     // Only list type varg_intf are allowed more than 1 value
     if (nargs == 0)
     {
-        std::cerr << parser_base::getParserStringList().getEnvironmentNoFlags(argKey) << std::endl;
+        std::cerr << msgGeneration->getEnvironmentNoFlags(argKey) << std::endl;
     }
     else if ((nargs != 1) && !arg->isList())
     {
-        std::cerr << parser_base::getParserStringList().getNotListTypeMessage(nargs) << std::endl;
+        std::cerr << msgGeneration->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -210,26 +210,26 @@ bool envparser::parse()
 
                 case eAssignTooMany:
                     // Not enough values to meet the minimum required
-                    std::cerr << parser_base::getParserStringList().getTooManyAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
+                    std::cerr << msgGeneration->getTooManyAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
                     parser_base::setParsingError(true);
                     break;
 
                 case eAssignNoValue:
                     // Need at least one value
-                    std::cerr << parser_base::getParserStringList().getMissingAssignmentMessage(currentArg.name) << std::endl;
+                    std::cerr << msgGeneration->getMissingAssignmentMessage(currentArg.name) << std::endl;
                     parser_base::setParsingError(true);
                     break;
 
                 case eAssignTooFew:
                     // More values than required
-                    std::cerr << parser_base::getParserStringList().getMissingListAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
+                    std::cerr << msgGeneration->getMissingListAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
                     parser_base::setParsingError(true);
                     break;
 
                 case eAssignFailed:
                 default:
                     // Failed an assignment
-                    std::cerr << parser_base::getParserStringList().getAssignmentFailedMessage(currentArg.name, failedAssignment) << std::endl;
+                    std::cerr << msgGeneration->getAssignmentFailedMessage(currentArg.name, failedAssignment) << std::endl;
                     parser_base::setParsingError(true);
                     break;
             } // end of switch status
@@ -244,7 +244,7 @@ bool envparser::parse()
         {
             if ((keyArg.isRequired) && !(keyArg.isFound))
             {
-                std::cerr << parser_base::getParserStringList().getRequiredEnvironmentArgMissing(keyArg.name) << std::endl;
+                std::cerr << msgGeneration->getRequiredEnvironmentArgMissing(keyArg.name) << std::endl;
                 parser_base::setParsingError(true);
             }
         }
@@ -267,7 +267,7 @@ void envparser::displayHelp(std::ostream &outStream)
     if (!parser_base::isKeyArgListEmpty())
     {
         // Display the key arguments help
-        outStream << parser_base::getParserStringList().getEnvArgumentsMessage() << std::endl;
+        outStream << msgGeneration->getEnvArgumentsMessage() << std::endl;
         for (auto const& keyArg : parser_base::getKeyArgList())
         {
             // Display the arg block

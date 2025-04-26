@@ -93,7 +93,7 @@ void config_json_parse::addArgument(varg_intf* arg, const char* argKey, int narg
     // Only list type varg_intf are allowed more than 1 value
     if ((nargs != 1) && !arg->isList())
     {
-        std::cerr << parser_base::getParserStringList().getNotListTypeMessage(nargs) << std::endl;
+        std::cerr << msgGeneration->getNotListTypeMessage(nargs) << std::endl;
     }
     else
     {
@@ -168,7 +168,7 @@ void config_json_parse::displayHelp(std::ostream &outStream)
     if (!parser_base::isKeyArgListEmpty())
     {
         // Display the key arguments help
-        outStream << parser_base::getParserStringList().getJsonArgumentsMessage() << std::endl;
+        outStream << msgGeneration->getJsonArgumentsMessage() << std::endl;
         for (auto const& keyArg : parser_base::getKeyArgList())
         {
             // Display the arg block
@@ -178,4 +178,3 @@ void config_json_parse::displayHelp(std::ostream &outStream)
 }
 
 /** @} */
-

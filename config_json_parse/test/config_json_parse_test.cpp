@@ -34,9 +34,19 @@
 #include "parser_string_list.h"
 #include "config_json_parse.h"
 #include "test_config_json.h"
+#include "mock_ParserStringListInterface.h"
 
 using ::testing::StrictMock;
+using ::testing::Mock;
 using ::testing::Return;
+using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
+
+
+stringMockptr getStringsMock(argparser::config_json_parse* parser)
+{
+    argparser::ParserStringListInterface* mock = parser->getmsgGenerator().get();
+    return reinterpret_cast<stringMockptr> (mock);   // NOLINT
+}
 
 //======================================================================================
 // Public Interface testing, English
@@ -121,18 +131,25 @@ TEST(config_json_parse, addListArgument)
 TEST(config_json_parse, addListArgumentFail)
 {
     argparser::config_json_parse testvar(testFileName);
+    stringMockptr stringMock = getStringsMock(&testvar);
+    EXPECT_CALL(*stringMock, getNotListTypeMessage(2)).WillOnce(Return("Mock only list type arguments can have an argument count of 2"));
+
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(false));
 
     testing::internal::CaptureStderr();
     testvar.addArgument(&testarg, "testarg1", 2);
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_STREQ("Only list type arguments can have an argument count of 2\n", output.c_str());
+    EXPECT_STREQ("Mock only list type arguments can have an argument count of 2\n", output.c_str());
 }
 
 TEST(config_json_parse, helpWithArgument)
 {
     argparser::config_json_parse testvar(testFileName);
+    stringMockptr stringMock = getStringsMock(&testvar);
+    EXPECT_CALL(*stringMock, getJsonArgumentsMessage()).WillOnce(Return("Mock Available JSON argument values:"));
+
+
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
@@ -142,7 +159,7 @@ TEST(config_json_parse, helpWithArgument)
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expected = "Available JSON argument values:\n";
+    parserstr expected = "Mock Available JSON argument values:\n";
     expected += R"("testarg1":"<numeric>,...")";
     expected += "                                                      \n";
     EXPECT_STREQ(expected.c_str(), output.c_str());

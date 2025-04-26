@@ -33,16 +33,25 @@
 #include "parser_string_list.h"
 #include "config_xml_parse.h"
 #include "test_config_xml.h"
+#include "mock_ParserStringListInterface.h"
 
 using ::testing::StrictMock;
+using ::testing::Mock;
 using ::testing::Return;
+using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
+
+stringMockptr getStringsMock(argparser::config_xml_parse* parser)
+{
+    argparser::ParserStringListInterface* mock = parser->getmsgGenerator().get();
+    return reinterpret_cast<stringMockptr> (mock);   // NOLINT
+}
 
 //======================================================================================
 // Public Interface testing, English
 //======================================================================================
 TEST(config_xml_parse, defaultConstructor)
 {
-    argparser::config_xml_parse testvar(testFileName);
+    argparser::config_xml_parse  testvar(testFileName);
     EXPECT_STREQ(testFileName, testvar.getFileName().c_str());
 }
 
@@ -87,7 +96,7 @@ TEST(config_xml_parse, defaultHelp)
 
 TEST(config_xml_parse, parseTest)
 {
-    argparser::config_xml_parse testvar(testFileName);
+    argparser::config_xml_parse  testvar(testFileName);
     EXPECT_TRUE(testvar.parse());
 }
 
@@ -123,18 +132,24 @@ TEST(config_xml_parse, addListArgument)
 TEST(config_xml_parse, addListArgumentFail)
 {
     argparser::config_xml_parse testvar(testFileName);
+    stringMockptr stringMock = getStringsMock(&testvar);
+    EXPECT_CALL(*stringMock, getNotListTypeMessage(2)).WillOnce(Return("Mock only list type arguments can have an argument count of 2"));
+
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(false));
 
     testing::internal::CaptureStderr();
     testvar.addArgument(&testarg, "testarg1", 2);
     parserstr output = testing::internal::GetCapturedStderr();
-    EXPECT_STREQ("Only list type arguments can have an argument count of 2\n", output.c_str());
+    EXPECT_STREQ("Mock only list type arguments can have an argument count of 2\n", output.c_str());
 }
 
 TEST(config_xml_parse, helpWithArgument)
 {
     argparser::config_xml_parse testvar(testFileName);
+    stringMockptr stringMock = getStringsMock(&testvar);
+    EXPECT_CALL(*stringMock, getXmlArgumentsMessage()).WillOnce(Return("Mock Available XML argument values:"));
+
     StrictMock<argparser::mock_varg_intf> testarg;
     EXPECT_CALL(testarg, isList()).WillOnce(Return(true));
     EXPECT_CALL(testarg, getTypeString()).WillOnce(Return("<numeric>"));
@@ -144,7 +159,7 @@ TEST(config_xml_parse, helpWithArgument)
     testing::internal::CaptureStdout();
     testvar.displayHelp(std::cout);
     parserstr output = testing::internal::GetCapturedStdout();
-    parserstr expected = "Available XML argument values:\n";
+    parserstr expected = "Mock Available XML argument values:\n";
     expected += "<testarg1><numeric>,...</testarg1>                                              \n";
     EXPECT_STREQ(expected.c_str(), output.c_str());
 }

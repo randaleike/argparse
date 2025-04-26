@@ -16,3 +16,8 @@ MakeFile
 # Build files
 *.o
 *.lst
+tools/test
+
+# Cmake artifacts
+test_config_json.h
+test_config_xml.h

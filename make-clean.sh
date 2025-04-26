@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #check the input
-if [ "$1" != "Debug" && "$1" != "Release" ]
+if [[ "$1" != "Debug" && "$1" != "Release" ]]
 then
     echo "usage: make-clean.sh <Debug|Release> <gcc|clang>"
     exit 1
@@ -23,9 +23,10 @@ case "$2" in
         ;;
 esac
 
-if [ "$3" == "" ]
+BUILD_DIR="build"
+if [ "$3" != "" ]
 then
-    BUILD_DIR="build"
+    BUILD_DIR="$3"
 fi
 
 # Clean the old build files

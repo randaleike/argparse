@@ -54,7 +54,8 @@ constexpr size_t DefaultOptionWidth = 0;
 parser_base::parser_base(bool abortOnError, int debugLevel) :
     maxColumnWidth(DefaultColumnWidth), maxOptionLength(DefaultOptionWidth),
     keyListDelimeter(','), assignmentDelimeter('='), assignmentListDelimeter(','),
-    errorAbort(abortOnError), debugMsgLevel(debugLevel), parsingError(false)
+    errorAbort(abortOnError), debugMsgLevel(debugLevel), parsingError(false),
+    msgGeneration(ParserStringListInterface::getLocalParserStringListInterface())
 {
     keyArgList.clear();
     dummyEntry = {};
@@ -66,9 +67,8 @@ parser_base::parser_base(const parser_base& other) noexcept :
     assignmentListDelimeter(other.assignmentListDelimeter),
     errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
     keyArgList(other.keyArgList), dummyEntry(other.dummyEntry),
-    parserStringList(other.parserStringList)
-{
-}
+    parserStringList(other.parserStringList), msgGeneration(std::move(other.msgGeneration))
+{}
 
 
 parser_base::parser_base(parser_base&& other) noexcept :
@@ -77,7 +77,7 @@ parser_base::parser_base(parser_base&& other) noexcept :
     assignmentListDelimeter(other.assignmentListDelimeter),
     errorAbort(other.errorAbort), debugMsgLevel(other.debugMsgLevel), parsingError(false),
     keyArgList(std::move(other.keyArgList)), dummyEntry(other.dummyEntry),
-    parserStringList(std::move(other.parserStringList))
+    parserStringList(std::move(other.parserStringList)), msgGeneration(std::move(other.msgGeneration))
 {
     other.keyArgList.clear();
 }
@@ -100,6 +100,7 @@ parser_base& parser_base::operator=(const parser_base& other) noexcept
 
         dummyEntry              = {};
         parserStringList        = other.parserStringList;
+        msgGeneration           = other.msgGeneration;
     }
     return *this;
 }
@@ -124,6 +125,7 @@ parser_base& parser_base::operator=(parser_base&& other) noexcept
         parserStringList        = std::move(other.parserStringList);
 
         other.keyArgList.clear();
+        msgGeneration           = std::move(other.msgGeneration);
     }
     return *this;
 }
@@ -131,6 +133,10 @@ parser_base& parser_base::operator=(parser_base&& other) noexcept
 parser_base::~parser_base()
 {
     keyArgList.clear();
+    if (nullptr != msgGeneration)
+    {
+        msgGeneration.reset();
+    }
 }
 
 //============================================================================================================================
@@ -372,7 +378,7 @@ eAssignmentReturn parser_base::assignListKeyValue(ArgEntry& currentArg, std::lis
 
 //=================================================================================================
 //======================= Help display helper interface methods ===================================
-//=================================================================================================
+//===============================================================getDefaultBreakCharList==================================
 
 /**
  * @brief Ouput the next argument help block with the option

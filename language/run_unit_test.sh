@@ -1,0 +1,9 @@
+#!/bin/bash
+
+./LocalLanguageSelect_Linux_test
+./LocalLanguageSelect_Windows_test
+./ParserStringListInterfaceEnglish_test
+./ParserStringListInterfaceFrench_test
+./ParserStringListInterfaceSimplifiedchinese_test
+./ParserStringListInterfaceSpanish_test
+./ParserStringListInterface_test

@@ -34,120 +34,15 @@
 #include <sstream>
 #include <memory>
 #include "parser_string_list.h"
-#if defined(DYNAMIC_INTERNATIONALIZATION)
-  #if defined(__linux__) || defined(__unix__)
-    #include <cstdlib>
-  #elif defined(_WIN64) || defined(_WIN32)
-    #include <Windows.h>
-  #else
-    #error "Unknown OS type"
-  #endif
-#endif
+#include "ParserStringListInterface.h"
 
 using namespace argparser;
-
-#if defined(ENGLISH_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "lang/english_strings.h"
-#endif
-#if defined(SPANISH_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "lang/spanish_strings.h"
-#endif
-#if defined(FRENCH_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "lang/french_strings.h"
-#endif
-#if defined(CHINESE_ERRORS) || defined(DYNAMIC_INTERNATIONALIZATION)
-    #include "lang/simplified_chinese_strings.h"
-#endif
 
 //============================================================================================================================
 //============================================================================================================================
 //  Protected functions
 //============================================================================================================================
 //============================================================================================================================
-/**
- * @brief Determine the message generator language and
- *        initialize msgGeneration.
- */
-void BaseParserStringList::intializeMessageGenerator()
-{
-
-#if defined(DYNAMIC_INTERNATIONALIZATION)
- #if defined(__linux__) || defined(__unix__)
-    const parserchar* langSetting = getenv("LANG");
-    if (nullptr != langSetting)
-    {
-        parserstr langString = langSetting;
-        if (langString == "en_US.UTF-8")
-        {
-            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
-        }
-        else if (langString == "en_UK.UTF-8")
-        {
-            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
-        }
-        else if (langString == "es_ES.UTF-8")
-        {
-            msgGeneration = std::make_shared<ParserStringListInterfaceSpanish>();
-        }
-        else if (langString == "fr_FR.UTF-8")
-        {
-            msgGeneration = std::make_shared<ParserStringListInterfaceFrench>();
-        }
-        else if (langString == "zh_cn_utf8.UTF-8")
-        {
-            msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
-        }
-        else if (langString == "zh_tw_utf8.UTF-8")
-        {
-            msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
-        }
-        /// @todo add additional else if language support above here
-        else
-        {
-            // default to US english
-            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
-        }
-    }
-    else
-    {
-        // default to US english
-        msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
-    }
-  #elif defined(_WIN64) || defined(_WIN32)
-    LANGID langId = GetUserDefaultUILanguage();
-    switch(langId & 0x0FF)
-    {
-        case 0x04:
-            msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
-            break;
-        case 0x09:
-            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
-            break;
-        case 0x0A:
-            msgGeneration = std::make_shared<ParserStringListInterfaceSpanish>();
-            break;
-        case 0x0C:
-            msgGeneration = std::make_shared<ParserStringListInterfaceFrench>();
-            break;
-            /// @todo add additional cases as needed
-        default:
-            msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
-    }
-  #endif
-#else
-  #if defined(ENGLISH_ERRORS)
-    msgGeneration = std::make_shared<ParserStringListInterfaceEnglish>();
-  #elif defined(SPANISH_ERRORS)
-    msgGeneration = std::make_shared<ParserStringListInterfaceSpanish>();
-  #elif defined(FRENCH_ERRORS)
-    msgGeneration = std::make_shared<ParserStringListInterfaceFrench>();
-  #elif defined(CHINESE_ERRORS)
-    msgGeneration = std::make_shared<ParserStringListInterfaceChineseSimplified>();
-  /// @todo add additional #elif language support above here
-  #endif
-#endif
-}
-
 /**
  * @brief Find the best position to break the sting given the input list of break characters to choose from
  *
@@ -210,24 +105,18 @@ size_t BaseParserStringList::findBestBreakPos(parserstr workingString, std::list
 //============================================================================================================================
 //============================================================================================================================
 BaseParserStringList::BaseParserStringList() :
-    defaultBreakList({' '}), debugMsgLevel(0), msgGeneration(nullptr)
-{
-    intializeMessageGenerator();
-}
+    defaultBreakList({' '}), debugMsgLevel(0)
+{}
 
 BaseParserStringList::BaseParserStringList(const BaseParserStringList& other) :
     defaultBreakList(std::move(other.defaultBreakList)),
-    debugMsgLevel(other.debugMsgLevel),
-    msgGeneration(std::move(other.msgGeneration))
-{
-}
+    debugMsgLevel(other.debugMsgLevel)
+{}
 
 BaseParserStringList::BaseParserStringList(BaseParserStringList&& other) noexcept :
     defaultBreakList(std::move(other.defaultBreakList)),
-    debugMsgLevel(other.debugMsgLevel),
-    msgGeneration(std::move(other.msgGeneration))
-{
-}
+    debugMsgLevel(other.debugMsgLevel)
+{}
 
 
 BaseParserStringList& BaseParserStringList::operator=(const BaseParserStringList& other)
@@ -236,7 +125,6 @@ BaseParserStringList& BaseParserStringList::operator=(const BaseParserStringList
     {
         defaultBreakList = other.defaultBreakList;
         debugMsgLevel = other.debugMsgLevel;
-        msgGeneration = other.msgGeneration;
     }
     return *this;
 }
@@ -247,31 +135,16 @@ BaseParserStringList& BaseParserStringList::operator=(BaseParserStringList&& oth
     {
         defaultBreakList = other.defaultBreakList;
         debugMsgLevel = other.debugMsgLevel;
-        msgGeneration = other.msgGeneration;
     }
     return *this;
 }
 
-BaseParserStringList::~BaseParserStringList()
-{
-    if (nullptr != msgGeneration)
-    {
-        msgGeneration.reset();
-    }
-}
 
 //============================================================================================================================
 //============================================================================================================================
 //  Public Functions
 //============================================================================================================================
 //============================================================================================================================
-/**
- * @brief Get the ISO language identifier
- *
- * @return parserstr - ISO-639 code
- */
-parserstr BaseParserStringList::getLangIsoCode() {return msgGeneration->getLangIsoCode();}
-
 /**
  * @brief Format the input string to the required width.  Break the string
  *        if longer than maxWidth at the nearest break charater.  Pad any
@@ -328,100 +201,6 @@ std::list<parserstr> BaseParserStringList::formatStringToLength(parserstr baseSt
     }
 
     return returnList;
-}
-
-parserstr BaseParserStringList::getNotListTypeMessage(int nargs)
-{
-    return msgGeneration->getNotListTypeMessage(nargs);
-}
-
-parserstr BaseParserStringList::getUnknownArgumentMessage(parserstr keyString)
-{
-    return msgGeneration->getUnknownArgumentMessage(keyString);
-}
-
-parserstr BaseParserStringList::getInvalidAssignmentMessage(parserstr keyString)
-{
-    return msgGeneration->getInvalidAssignmentMessage(keyString);
-}
-
-parserstr BaseParserStringList::getAssignmentFailedMessage(parserstr keyString, parserstr valueString)
-{
-    return msgGeneration->getAssignmentFailedMessage(keyString, valueString);
-}
-
-parserstr BaseParserStringList::getMissingAssignmentMessage(parserstr keyString)
-{
-    return msgGeneration->getMissingAssignmentMessage(keyString);
-}
-
-parserstr BaseParserStringList::getMissingListAssignmentMessage(parserstr keyString, size_t expected, size_t found)
-{
-    return msgGeneration->getMissingListAssignmentMessage(keyString, expected, found);
-}
-
-parserstr BaseParserStringList::getTooManyAssignmentMessage(parserstr keyString, size_t expected, size_t found)
-{
-    return msgGeneration->getTooManyAssignmentMessage(keyString, expected, found);
-}
-
-parserstr BaseParserStringList::getMissingArgumentMessage(parserstr keyString)
-{
-    return msgGeneration->getMissingArgumentMessage(keyString);
-}
-
-parserstr BaseParserStringList::getArgumentCreationError(parserstr keyString)
-{
-    return msgGeneration->getArgumentCreationError(keyString);
-}
-
-// Command line parser specific strings
-parserstr BaseParserStringList::getUsageMessage() const
-{
-    return msgGeneration->getUsageMessage();
-}
-
-parserstr BaseParserStringList::getPositionalArgumentsMessage() const
-{
-    return msgGeneration->getPositionalArgumentsMessage();
-}
-
-parserstr BaseParserStringList::getSwitchArgumentsMessage() const
-{
-    return msgGeneration->getSwitchArgumentsMessage();
-}
-
-parserstr BaseParserStringList::getHelpString() const
-{
-    return msgGeneration->getHelpString();
-}
-
-// Environment parser specific strings and messages
-parserstr BaseParserStringList::getEnvArgumentsMessage()
-{
-    return msgGeneration->getEnvArgumentsMessage();
-}
-
-parserstr BaseParserStringList::getEnvironmentNoFlags(parserstr argKey)
-{
-    return msgGeneration->getEnvironmentNoFlags(argKey);
-}
-
-parserstr BaseParserStringList::getRequiredEnvironmentArgMissing(parserstr argKey)
-{
-    return msgGeneration->getRequiredEnvironmentArgMissing(argKey);
-}
-
-// JSON parser specific strings and messages
-parserstr BaseParserStringList::getJsonArgumentsMessage()
-{
-    return msgGeneration->getJsonArgumentsMessage();
-}
-
-// XML parser specific strings and messages
-parserstr BaseParserStringList::getXmlArgumentsMessage()
-{
-    return msgGeneration->getXmlArgumentsMessage();
 }
 
 /** @} */

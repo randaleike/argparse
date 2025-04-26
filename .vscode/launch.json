@@ -6,6 +6,18 @@
     "configurations": [
         {
             //========================================================
+            // Python tools debug launch
+            //========================================================
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "${command:pickArgs}",
+            "cwd": "${workspaceFolder}/tools",
+        },
+        {
+            //========================================================
             // Unittest debug launch
             //========================================================
             "name": "varg_test unittest (gdb) Launch",
@@ -175,7 +187,6 @@
                 }
             ]
         },
-
         //========================================================
         // Sample1 debug launch examples
         //========================================================
@@ -208,7 +219,15 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample1",
-            "args": ["-f", "-c", "-i", "8", "-o", "bar", "foo"],
+            "args": [
+                "-f",
+                "-c",
+                "-i",
+                "8",
+                "-o",
+                "bar",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -232,7 +251,13 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample1",
-            "args": ["-fci", "7", "-o", "bar", "foo"],
+            "args": [
+                "-fci",
+                "7",
+                "-o",
+                "bar",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -256,7 +281,17 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample1",
-            "args": ["--flag", "-c", "-c", "--count", "--input", "6", "--output", "bar", "foo"],
+            "args": [
+                "--flag",
+                "-c",
+                "-c",
+                "--count",
+                "--input",
+                "6",
+                "--output",
+                "bar",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -280,7 +315,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample1",
-            "args": ["-fcccc", "-o", "bar", "foo"],
+            "args": [
+                "-fcccc",
+                "-o",
+                "bar",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -299,7 +339,6 @@
                 }
             ]
         },
-
         //========================================================
         // Sample2 debug launch examples
         //========================================================
@@ -332,7 +371,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample2",
-            "args": ["-o", "bar"],
+            "args": [
+                "-o",
+                "bar"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -356,7 +398,15 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample2",
-            "args": ["-f", "-c", "-i", "8", "-o", "bar", "foo"],
+            "args": [
+                "-f",
+                "-c",
+                "-i",
+                "8",
+                "-o",
+                "bar",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -375,7 +425,6 @@
                 }
             ]
         },
-
         //========================================================
         // Sample3 debug launch examples
         //========================================================
@@ -408,7 +457,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["one"],
+            "args": [
+                "one"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -432,7 +483,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["one", "-c"],
+            "args": [
+                "one",
+                "-c"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -456,7 +510,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["two"],
+            "args": [
+                "two"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -480,7 +536,11 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["two", "-i", "7"],
+            "args": [
+                "two",
+                "-i",
+                "7"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -504,7 +564,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["three"],
+            "args": [
+                "three"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -528,7 +590,11 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["three", "-o", "foo"],
+            "args": [
+                "three",
+                "-o",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -552,7 +618,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["three", "-V", "-o", "foo"],
+            "args": [
+                "three",
+                "-V",
+                "-o",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -576,7 +647,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample3",
-            "args": ["four"],
+            "args": [
+                "four"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -595,7 +668,6 @@
                 }
             ]
         },
-
         //========================================================
         // Sample4 debug launch examples
         //========================================================
@@ -628,7 +700,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["one"],
+            "args": [
+                "one"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -652,7 +726,11 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["-Ui", "4", "one"],
+            "args": [
+                "-Ui",
+                "4",
+                "one"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -676,7 +754,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["-Ui", "4", "one", "-c"],
+            "args": [
+                "-Ui",
+                "4",
+                "one",
+                "-c"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -700,7 +783,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["one", "-ccc"],
+            "args": [
+                "one",
+                "-ccc"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -724,7 +810,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["two"],
+            "args": [
+                "two"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -748,7 +836,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["-Ui=3","two"],
+            "args": [
+                "-Ui=3",
+                "two"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -772,7 +863,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["-Ui=3","two", "-i", "8"],
+            "args": [
+                "-Ui=3",
+                "two",
+                "-i",
+                "8"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -796,7 +892,11 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["two", "-i", "10"],
+            "args": [
+                "two",
+                "-i",
+                "10"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -820,7 +920,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["three"],
+            "args": [
+                "three"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -844,7 +946,11 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["three", "-o", "foo"],
+            "args": [
+                "three",
+                "-o",
+                "foo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -868,7 +974,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["-U", "three", "-o", "goo"],
+            "args": [
+                "-U",
+                "three",
+                "-o",
+                "goo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -892,7 +1003,14 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample4",
-            "args": ["-U", "-i", "6", "three", "-o", "moo"],
+            "args": [
+                "-U",
+                "-i",
+                "6",
+                "three",
+                "-o",
+                "moo"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -911,7 +1029,6 @@
                 }
             ]
         },
-
         //========================================================
         // Sample5 debug launch examples
         //========================================================
@@ -944,7 +1061,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample5",
-            "args": ["read"],
+            "args": [
+                "read"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -968,7 +1087,13 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample5",
-            "args": ["read", "-l", "4", "-f", "foo.c"],
+            "args": [
+                "read",
+                "-l",
+                "4",
+                "-f",
+                "foo.c"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -992,7 +1117,13 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample5",
-            "args": ["write", "-l", "4", "-f", "foo.c"],
+            "args": [
+                "write",
+                "-l",
+                "4",
+                "-f",
+                "foo.c"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -1016,7 +1147,13 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample5",
-            "args": ["append", "-l", "4", "-f", "foo.c"],
+            "args": [
+                "append",
+                "-l",
+                "4",
+                "-f",
+                "foo.c"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -1040,7 +1177,13 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/sample5",
-            "args": ["copy", "-l", "4", "-f", "foo.c"],
+            "args": [
+                "copy",
+                "-l",
+                "4",
+                "-f",
+                "foo.c"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
