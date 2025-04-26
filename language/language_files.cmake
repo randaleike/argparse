@@ -1,4 +1,3 @@
-
 ####
 # Language files include path
 ####
@@ -7,7 +6,7 @@ set (languageStringsIncDir
      )
 
 ####
-# Language file mock include path
+# Language files mock include path
 ####
 set (languageStringsMockIncDir
      ${languageStringsIncDir}
@@ -29,5 +28,6 @@ set (languageStringsSrc
 # Language mock file list
 ####
 set (languageStringsMockSrc
-     ${MASTER_PROJECT_BASE_DIR}/language/mock/mock_ParserStringListInterface.cpp
+     ${MASTER_PROJECT_BASE_DIR}/language/mock_ParserStringListInterface.cpp
      )
+

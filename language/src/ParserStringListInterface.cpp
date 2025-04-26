@@ -46,7 +46,7 @@
 
 using namespace argparser;
 
-#if ((defined(__linux__) || defined(__unix__)))
+#if (defined(__linux__) || defined(__unix__))
 #include <cstdlib>
 #include <regex>
 
@@ -95,9 +95,9 @@ std::shared_ptr<ParserStringListInterface> getParserStringListInterface_Linux(co
         return std::make_shared<ParserStringListInterfaceEnglish>();
     } // end of if(nullptr != langId)
 } // end of getParserStringListInterface_Linux()
-#endif // ((defined(__linux__) || defined(__unix__)))
+#endif // (defined(__linux__) || defined(__unix__))
 
-#if ((defined(_WIN64) || defined(_WIN32)))
+#if (defined(_WIN64) || defined(_WIN32))
 #include <windows.h>
 
 /**
@@ -128,7 +128,7 @@ std::shared_ptr<ParserStringListInterface> getParserStringListInterface_Windows(
             return std::make_shared<ParserStringListInterfaceEnglish>();
     }
 } // end of getParserStringListInterface_Windows()
-#endif // ((defined(_WIN64) || defined(_WIN32)))
+#endif // (defined(_WIN64) || defined(_WIN32))
 
 /**
  * @brief Determine the OS use OS specific functions to determine the correct local languagebased on the OS specific
@@ -139,10 +139,10 @@ std::shared_ptr<ParserStringListInterface> getParserStringListInterface_Windows(
  */
 std::shared_ptr<ParserStringListInterface> ParserStringListInterface::getLocalParserStringListInterface()
 {
-#if ((defined(__linux__) || defined(__unix__)))
+#if (defined(__linux__) || defined(__unix__))
     const char* langId= getenv("LANG");
     return getParserStringListInterface_Linux(langId);
-#elif ((defined(_WIN64) || defined(_WIN32)))
+#elif (defined(_WIN64) || defined(_WIN32))
     LANGID langId= GetUserDefaultUILanguage();
     return getParserStringListInterface_Windows(langId);
 #else // not defined os

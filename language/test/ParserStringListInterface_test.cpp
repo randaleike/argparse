@@ -39,14 +39,14 @@
 
 using namespace argparser;
 
-#if ((defined(__linux__) || defined(__unix__)))
+#if (defined(__linux__) || defined(__unix__))
 #include <cstdlib>
 extern std::shared_ptr<ParserStringListInterface> getParserStringListInterface_Linux(const char* langId);
-#endif // ((defined(__linux__) || defined(__unix__)))
-#if ((defined(_WIN64) || defined(_WIN32)))
+#endif // (defined(__linux__) || defined(__unix__))
+#if (defined(_WIN64) || defined(_WIN32))
 #include "windows.h"
 extern std::shared_ptr<ParserStringListInterface> getParserStringListInterface_Windows(LANGID langId);
-#endif // ((defined(_WIN64) || defined(_WIN32)))
+#endif // (defined(_WIN64) || defined(_WIN32))
 
 /**
  * @brief Test ParserStringListInterface::getLocalParserStringListInterface selection case
@@ -54,11 +54,11 @@ extern std::shared_ptr<ParserStringListInterface> getParserStringListInterface_W
  */
 TEST(SelectFunction, TestLocalSelectMethod)
 {
-#if ((defined(__linux__) || defined(__unix__)))
+#if (defined(__linux__) || defined(__unix__))
     // Get the expected value
     const char* langId = getenv("LANG");
     std::shared_ptr<ParserStringListInterface> localStringParser = getParserStringListInterface_Linux(langId);
-#elif ((defined(_WIN64) || defined(_WIN32)))
+#elif (defined(_WIN64) || defined(_WIN32))
     // Get the expected value
     LANGID langId = GetUserDefaultUILanguage();
     std::shared_ptr<ParserStringListInterface> localStringParser = getParserStringListInterface_Windows(langId);

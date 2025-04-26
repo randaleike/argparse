@@ -1,6 +1,6 @@
 # ParserStringListInterface Library CMake file
 cmake_minimum_required(VERSION 3.14)
-project(ParserStringListInterface VERSION 1.0.1.0 LANGUAGES C CXX DESCRIPTION "ParserStringListInterface Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
+project(ParserStringListInterface VERSION 1.0.0.3 LANGUAGES C CXX DESCRIPTION "ParserStringListInterface Library" HOMEPAGE_URL "https://github.com/randaleike/argparse")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -19,6 +19,13 @@ set (ParserStringListInterface_baseSrc
      ${CMAKE_CURRENT_LIST_DIR}/src/ParserStringListInterfaceFrench.cpp
      ${CMAKE_CURRENT_LIST_DIR}/src/ParserStringListInterfaceSimplifiedchinese.cpp
      )
+
+####
+# ParserStringListInterface library
+####
+add_library(${PROJECT_NAME} OBJECT ${ParserStringListInterface_baseSrc})
+target_include_directories(${PROJECT_NAME} PRIVATE ${ParserStringListInterface_baseInclude})
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 ####
 # ParserStringListInterface Unit tests
@@ -151,3 +158,4 @@ gtest_add_tests (TARGET ParserStringListInterface_test TEST_LIST ParserStringLis
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set_tests_properties(${ParserStringListInterface_testAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
+
