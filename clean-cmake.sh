@@ -46,3 +46,7 @@ if [ -d ".cache" ]
 then
     rm -rf .cache
 fi
+
+# Clean __pycache__ files and directory
+find . -name "__pycache__" -exec rm -r "{}" \;
+echo "Clean __pycache__ done"

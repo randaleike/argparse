@@ -28,7 +28,7 @@
 
  #pragma once
 
- const char* testFileName = "/media/raid5/github/argparse-autolang/build/test-config.xml";   // NOLINT
+ const char* testFileName = "/media/raid5/github/argparse-tools/build/test-config.xml";   // NOLINT
 
  /** @} */
 

@@ -5,7 +5,6 @@
   },
   "languages": {
     "english": {
-      "googleCode": "en",
       "LANG": "en",
       "LANG_regions": [
         "AU",
@@ -45,7 +44,6 @@
       "compileSwitch": "ENGLISH_ERRORS"
     },
     "spanish": {
-      "googleCode": "es",
       "LANG": "es",
       "LANG_regions": [
         "AR",
@@ -96,7 +94,6 @@
       "compileSwitch": "SPANISH_ERRORS"
     },
     "french": {
-      "googleCode": "fr",
       "LANG": "fr",
       "LANG_regions": [
         "BE",
@@ -128,7 +125,6 @@
       "compileSwitch": "FRENCH_ERRORS"
     },
     "SimplifiedChinese": {
-      "googleCode": "zh",
       "LANG": "zh",
       "LANG_regions": [
         "CN",
