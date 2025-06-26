@@ -1,4 +1,7 @@
 {
+  "baseClassName": "ParserStringListInterface",
+  "namespace": "argparser",
+  "dynamicCompileSwitch": "DYNAMIC_INTERNATIONALIZATION",
   "propertyMethods": {
     "getLangIsoCode": {
       "name": "isoCode",
@@ -7,7 +10,7 @@
       "return": {
         "type": "string",
         "desc": "ISO 639 set 1 language code",
-        "isList": false
+        "typeMod": 0
       }
     }
   },
@@ -19,13 +22,13 @@
           "name": "nargs",
           "type": "integer",
           "desc": "input nargs value",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Non-list varg error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -81,13 +84,13 @@
           "name": "keyString",
           "type": "string",
           "desc": "Unknown key",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Unknown parser key error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -139,13 +142,13 @@
           "name": "keyString",
           "type": "string",
           "desc": "Error key",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Varg key invalid assignment error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -221,19 +224,19 @@
           "name": "keyString",
           "type": "string",
           "desc": "Error key",
-          "isList": false
+          "typeMod": 0
         },
         {
           "name": "valueString",
           "type": "string",
           "desc": "Assignment value",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Varg key assignment failed error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -357,13 +360,13 @@
           "name": "keyString",
           "type": "string",
           "desc": "Error key",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Varg key missing value assignment error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -443,25 +446,25 @@
           "name": "keyString",
           "type": "string",
           "desc": "Error key",
-          "isList": false
+          "typeMod": 0
         },
         {
           "name": "nargsExpected",
           "type": "size",
           "desc": "Expected assignment list length",
-          "isList": false
+          "typeMod": 0
         },
         {
           "name": "nargsFound",
           "type": "size",
           "desc": "Input assignment list length",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Varg key input value list too short error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -605,25 +608,25 @@
           "name": "keyString",
           "type": "string",
           "desc": "Error key",
-          "isList": false
+          "typeMod": 0
         },
         {
           "name": "nargsExpected",
           "type": "size",
           "desc": "Expected assignment list length",
-          "isList": false
+          "typeMod": 0
         },
         {
           "name": "nargsFound",
           "type": "size",
           "desc": "Input assignment list length",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Varg key input value list too long error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -763,13 +766,13 @@
           "name": "keyString",
           "type": "string",
           "desc": "Error key",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Required varg key missing error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -811,7 +814,7 @@
         "fr": [
           [
             "text",
-            "L'argument requis \u00ab\u00a0"
+            "Argument requis \u00ab\u00a0"
           ],
           [
             "param",
@@ -819,7 +822,7 @@
           ],
           [
             "text",
-            "\u00a0\u00bb est manquant"
+            "\u00a0\u00bb manquant"
           ]
         ],
         "zh": [
@@ -845,13 +848,13 @@
           "name": "keyString",
           "type": "string",
           "desc": "Error key",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Parser varg add failure message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -900,9 +903,9 @@
       "briefDesc": "Return usage help message",
       "params": [],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Usage help message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -935,9 +938,9 @@
       "briefDesc": "Return positional argument help message",
       "params": [],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Positional argument help message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -970,9 +973,9 @@
       "briefDesc": "Return optional argument help message",
       "params": [],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Optional argument help message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -1005,9 +1008,9 @@
       "briefDesc": "Return default help switch help message",
       "params": [],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Default help argument help message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -1019,7 +1022,7 @@
         "es": [
           [
             "text",
-            "Mostrar este mensaje de ayuda y salir"
+            "Muestra este mensaje de ayuda y sale"
           ]
         ],
         "fr": [
@@ -1040,9 +1043,9 @@
       "briefDesc": "Return environment parser argument help header",
       "params": [],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Environment parser argument help header message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -1078,13 +1081,13 @@
           "name": "envKeyString",
           "type": "string",
           "desc": "Flag key",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Environment parser add flag varg failure message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -1152,13 +1155,13 @@
           "name": "envKeyString",
           "type": "string",
           "desc": "Flag key",
-          "isList": false
+          "typeMod": 0
         }
       ],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "Environment parser required varg missing error message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -1215,9 +1218,9 @@
       "briefDesc": "Return json parser argument help header",
       "params": [],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "JSON parser argument help header message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
@@ -1250,9 +1253,9 @@
       "briefDesc": "Return xml parser argument help header",
       "params": [],
       "return": {
-        "type": "text",
+        "type": "string",
         "desc": "XML parser argument help header message",
-        "isList": false
+        "typeMod": 0
       },
       "translateDesc": {
         "en": [
