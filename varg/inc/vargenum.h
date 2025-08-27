@@ -32,6 +32,7 @@
 #include <cstdlib>
 #include <map>
 #include <string>
+#include <sstream>
 #include "varg_intf.h"
 
 namespace argparser
@@ -98,6 +99,25 @@ template <typename T> class vargenum : public varg_intf
         const char* getTypeString() override           {return ((enumName.empty()) ? "enum value" : enumName.c_str());}
 
         /**
+        * @brief Get the base argument range as a string
+        *
+        * @return const char* - Base type string
+        */
+        const char* getRangeString() override
+        {
+            if (rangeString.empty())
+            {
+                rangeString = "<>";
+            }
+            else if (rangeString.back() == '|')
+            {
+                rangeString.pop_back();
+                rangeString = "<" + rangeString + ">";
+            }
+            return rangeString.c_str();
+        }
+
+        /**
          * @brief Return if vargenum is a list of elements or a single element type
          *
          * @return true - List type variable, multiple arguement values are allowed
@@ -153,6 +173,7 @@ template <typename T> class vargenum : public varg_intf
         {
             std::string entryNameStr = entryName;
             enumNameMap.emplace(entryNameStr, enumValue);
+            rangeString.append(entryNameStr + "|");
         }
 
         /**

@@ -56,7 +56,7 @@ template <typename T> class IntegerPtrUnitTest : public testing::Test
         long long int getMaxValue();
         long long int getMinValue();
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
@@ -236,19 +236,27 @@ TYPED_TEST_P(IntegerPtrUnitTest, IsEmptyTest)
     EXPECT_TRUE(testvar.isEmpty());
 }
 
+TYPED_TEST_P(IntegerPtrUnitTest, GetRangeString)
+{
+    const TypeParam initValue = 12;
+    TypeParam testValue = initValue;
+    argparser::vargptr< TypeParam > testvar(&testValue);
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedString.c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(IntegerPtrUnitTest, GetTypeString)
 {
     const TypeParam initValue = 12;
     TypeParam testValue = initValue;
     argparser::vargptr< TypeParam > testvar(&testValue);
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+    EXPECT_STREQ("integer", testvar.getTypeString());
 }
 
 REGISTER_TYPED_TEST_SUITE_P(IntegerPtrUnitTest, ConstructorValueSignedPos, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                              ValueSetPassSignedPos, ValueSetFail,
                                              ValueSetMaxPass, ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail,
-                                             IsListTest, IsNotEmptyTest, IsEmptyTest, GetTypeString);
+                                             IsListTest, IsNotEmptyTest, IsEmptyTest, GetRangeString, GetTypeString);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(vargptr_int, IntegerPtrUnitTest, intTypes);
@@ -275,7 +283,7 @@ template <typename T> class UIntegerPtrUnitTest : public testing::Test
         long long unsigned getMaxValue();
         long long unsigned getMinValue()     {return 0ULL;}
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
@@ -423,18 +431,26 @@ TYPED_TEST_P(UIntegerPtrUnitTest, IsEmptyTest)
     EXPECT_TRUE(testvar.isEmpty());
 }
 
+TYPED_TEST_P(UIntegerPtrUnitTest, GetRangeString)
+{
+    const TypeParam initValue = 32;
+    TypeParam testValue = initValue;
+    argparser::vargptr< TypeParam > testvar(&testValue);
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedString.c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(UIntegerPtrUnitTest, GetTypeString)
 {
     const TypeParam initValue = 32;
     TypeParam testValue = initValue;
     argparser::vargptr< TypeParam > testvar(&testValue);
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+    EXPECT_STREQ("unsigned integer", testvar.getTypeString());
 }
 
 REGISTER_TYPED_TEST_SUITE_P(UIntegerPtrUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                               ValueSetPass, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
-                                              IsListTest, IsNotEmptyTest, IsEmptyTest, GetTypeString);
+                                              IsListTest, IsNotEmptyTest, IsEmptyTest, GetRangeString, GetTypeString);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;  // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(vargptr_uint, UIntegerPtrUnitTest, uintTypes);
@@ -457,10 +473,10 @@ template <typename T> class FloatPtrUnitTest : public testing::Test
         FloatPtrUnitTest& operator=(FloatPtrUnitTest&& other) = default;
         ~FloatPtrUnitTest() override = default;
 
-        std::string getExpectedTypeString();
+        std::string getExpectedRangeString();
 };
 
-template <> std::string FloatPtrUnitTest<double>::getExpectedTypeString()
+template <> std::string FloatPtrUnitTest<double>::getExpectedRangeString()
 {
     std::stringstream typeString;
     typeString << "<" << std::numeric_limits<double>::min() << ":" << std::numeric_limits<double>::max() << ">";
@@ -586,18 +602,25 @@ TYPED_TEST_P(FloatPtrUnitTest, IsEmptyTest)
     EXPECT_TRUE(testvar.isEmpty());
 }
 
+TYPED_TEST_P(FloatPtrUnitTest, GetRangeString)
+{
+    TypeParam testValue = 0.0;
+    argparser::vargptr< TypeParam > testvar(&testValue);
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedString.c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(FloatPtrUnitTest, GetTypeString)
 {
     TypeParam testValue = 0.0;
     argparser::vargptr< TypeParam > testvar(&testValue);
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+    EXPECT_STREQ("real number", testvar.getTypeString());
 }
 
 REGISTER_TYPED_TEST_SUITE_P(FloatPtrUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                            ValueSetPass, ValueSetFail, ValueSetPass_integer,
                                            ValueSetMaxPass, ValueSetMinPass, IsListTest, IsNotEmptyTest,
-                                           IsEmptyTest, GetTypeString);
+                                           IsEmptyTest, GetTypeString, GetRangeString);
 
 typedef testing::Types<double> floatTypes;                                      // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(vargptr_float, FloatPtrUnitTest, floatTypes);
@@ -736,7 +759,14 @@ TEST(vargptr_bool, GetTypeString)
 {
     bool testValue = false;
     argparser::vargptr<bool> testvar(&testValue);
-    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
+    EXPECT_STREQ("boolean", testvar.getTypeString());
+}
+
+TEST(vargptr_bool, GetRangeString)
+{
+    bool testValue = false;
+    argparser::vargptr<bool> testvar(&testValue);
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getRangeString());
 }
 
 /*
@@ -799,7 +829,14 @@ TEST(vargptr_char, GetTypeString)
 {
     char testValue = 'e';
     argparser::vargptr<char> testvar(&testValue);
-    EXPECT_STREQ("<char>", testvar.getTypeString());
+    EXPECT_STREQ("character", testvar.getTypeString());
+}
+
+TEST(vargptr_char, GetRangeString)
+{
+    char testValue = 'e';
+    argparser::vargptr<char> testvar(&testValue);
+    EXPECT_STREQ("<char>", testvar.getRangeString());
 }
 
 /** @} */

@@ -80,6 +80,9 @@ class varg_intf
         std::string         typeString;             ///< Type description string with min/max values
 
     protected:
+        // NOLINTNEXTLINE
+        std::string         rangeString;            ///< Range description string with min/max values NOLINT
+
         /**
          * @brief Set the Min Max Signed object
          *
@@ -186,6 +189,13 @@ class varg_intf
          * @return char* - Base type string
          */
         virtual const char* getTypeString()                     {return typeString.c_str();}
+
+        /**
+         * @brief Get the base argument range as a string
+         *
+         * @return char* - Base type string
+         */
+        virtual const char* getRangeString()                    {return rangeString.c_str();}
 
         /**
          * @brief Return if varg is a list of elements or a single element type

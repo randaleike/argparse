@@ -287,33 +287,40 @@ valueParseStatus_e varg_intf::getDoubleValue(const char* newValue, double &parse
  */
 void varg_intf::setTypeString(typeStringFormat_e fmtType)
 {
-    std::stringstream myTypeStr;
+    std::stringstream myRange;
 
     switch(fmtType)
     {
         case typeStringFormat_e::TYPE_FMT_SIGNED:
-            myTypeStr << "<" << minSignedValue << ":" << maxSignedValue << ">";
+            typeString = "integer";
+            myRange << "<" << minSignedValue << ":" << maxSignedValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_UNSIGNED:
-            myTypeStr << "<[+]" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";
+            typeString = "unsigned integer";
+            myRange << "<[+]" << minUnsignedValue << ":[+]" << maxUnsignedValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_DOUBLE:
-            myTypeStr << "<" << minDoubleValue << ":" << maxDoubleValue << ">";
+            typeString = "real number";
+            myRange << "<" << minDoubleValue << ":" << maxDoubleValue << ">";
             break;
         case typeStringFormat_e::TYPE_FMT_CHAR:
-            myTypeStr << "<char>";
+            typeString = "character";
+            myRange << "<char>";
             break;
         case typeStringFormat_e::TYPE_FMT_BOOL:
-            myTypeStr << "<t|T|1|f|F|0>";
+            typeString = "boolean";
+            myRange << "<t|T|1|f|F|0>";
             break;
         case typeStringFormat_e::TYPE_FMT_STRING:
-            myTypeStr << "<string>";
+            typeString = "string";
+            myRange << "<string>";
             break;
         default:
-            myTypeStr << "<unknown>";
+            typeString = "unknown";
+            myRange << "<unknown>";
             break;
     }
-    typeString = myTypeStr.str();
+    rangeString = myRange.str();
 }
 
 //============================================================================================================================

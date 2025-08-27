@@ -53,6 +53,7 @@ class mock_varg_intf : public varg_intf
         ~mock_varg_intf() override = default;
 
         MOCK_METHOD(const char*, getTypeString, (), (override));
+        MOCK_METHOD(const char*, getRangeString, (), (override));
         MOCK_METHOD(bool, isList, (), (const, override));
         MOCK_METHOD(valueParseStatus_e, setValue, (const char* newValue), (override));
         MOCK_METHOD(valueParseStatus_e, setValue, (), (override));

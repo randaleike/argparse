@@ -229,7 +229,7 @@ template <typename T> class IntegerListUnitTest : public testing::Test
         long long int getMaxValue();
         long long int getMinValue();
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
@@ -351,10 +351,16 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetMinFail)
     }
 }
 
+TYPED_TEST_P(IntegerListUnitTest, GetRangeString)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_STREQ(this->getExpectedRangeString().c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(IntegerListUnitTest, GetTypeString)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
+    EXPECT_STREQ("integer", testvar.getTypeString());
 }
 
 TYPED_TEST_P(IntegerListUnitTest, ValueSetPassDoubleEntry)
@@ -395,8 +401,8 @@ TYPED_TEST_P(IntegerListUnitTest, ValueSetNoInput)
 }
 
 REGISTER_TYPED_TEST_SUITE_P(IntegerListUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetFail,
-                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry, ValueSetMaxPass,
-                            ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail, ValueSetNoInput);
+                            GetRangeString, GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
+                            ValueSetMaxPass, ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail, ValueSetNoInput);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_int, IntegerListUnitTest, intTypes);
@@ -419,7 +425,7 @@ template <typename T> class UIntegerListUnitTest : public testing::Test
         long long unsigned getMaxValue();
         long long unsigned getMinValue()     {return 0ULL;}
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
@@ -508,10 +514,16 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetMaxFail)
     }
 }
 
+TYPED_TEST_P(UIntegerListUnitTest, GetRangeString)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_STREQ(this->getExpectedRangeString().c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(UIntegerListUnitTest, GetTypeString)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
+    EXPECT_STREQ("unsigned integer", testvar.getTypeString());
 }
 
 TYPED_TEST_P(UIntegerListUnitTest, ValueSetPassDoubleEntry)
@@ -552,7 +564,7 @@ TYPED_TEST_P(UIntegerListUnitTest, ValueSetNoInput)
 }
 
 REGISTER_TYPED_TEST_SUITE_P(UIntegerListUnitTest, ValueSetPass, ValueSetFail, ValueSetFailNeg,
-                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
+                            GetRangeString, GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
                             ValueSetMaxPass, ValueSetMaxFail, ValueSetNoInput);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;      // NOLINT
@@ -574,10 +586,10 @@ template <typename T> class DoubleListUnitTest : public testing::Test
         DoubleListUnitTest& operator=(DoubleListUnitTest&& other) noexcept = default;
         ~DoubleListUnitTest() override = default;
 
-        std::string getExpectedTypeString();
+        std::string getExpectedRangeString();
 };
 
-template <> std::string DoubleListUnitTest<double>::getExpectedTypeString()
+template <> std::string DoubleListUnitTest<double>::getExpectedRangeString()
 {
     typeString << "<" << std::numeric_limits<double>::min() << ":" << std::numeric_limits<double>::max() << ">";
     return typeString.str();
@@ -668,10 +680,16 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetMinPass)
     EXPECT_EQ(std::numeric_limits<double>::min(), testvar.value.front());
 }
 
+TYPED_TEST_P(DoubleListUnitTest, GetRangeString)
+{
+    argparser::listvarg< TypeParam > testvar;
+    EXPECT_STREQ(this->getExpectedRangeString().c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(DoubleListUnitTest, GetTypeString)
 {
     argparser::listvarg< TypeParam > testvar;
-    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
+    EXPECT_STREQ("real number", testvar.getTypeString());
 }
 
 TYPED_TEST_P(DoubleListUnitTest, ValueSetPassDoubleEntry)
@@ -712,8 +730,9 @@ TYPED_TEST_P(DoubleListUnitTest, ValueSetNoInput)
 }
 
 REGISTER_TYPED_TEST_SUITE_P(DoubleListUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetPassExponent,
-                            ValueSetPassInteger, ValueSetFail, GetTypeString, ValueSetPassDoubleEntry,
-                            ValueSetPassTripleEntry, ValueSetMaxPass, ValueSetMinPass, ValueSetNoInput);
+                            ValueSetPassInteger, ValueSetFail, GetTypeString, GetRangeString,
+                            ValueSetPassDoubleEntry, ValueSetPassTripleEntry, ValueSetMaxPass,
+                            ValueSetMinPass, ValueSetNoInput);
 
 typedef testing::Types<double> doubleTypes;     //NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(listvarg_double, DoubleListUnitTest, doubleTypes);
@@ -779,7 +798,13 @@ INSTANTIATE_TEST_SUITE_P(listvarg_bool, BoolUnitTestWithBadParams, ::testing::Va
 TEST(listvarg_bool, GetTypeString)
 {
     argparser::listvarg<bool> testvar;
-    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
+    EXPECT_STREQ("boolean", testvar.getTypeString());
+}
+
+TEST(listvarg_bool, GetRangeString)
+{
+    argparser::listvarg<bool> testvar;
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getRangeString());
 }
 
 TEST(listvarg_bool, ValueSetPassDoubleEntry)
@@ -842,7 +867,13 @@ TEST(listvarg_char, ValueSetFail)
 TEST(listvarg_char, GetTypeString)
 {
     argparser::listvarg<char> testvar;
-    EXPECT_STREQ("<char>", testvar.getTypeString());
+    EXPECT_STREQ("character", testvar.getTypeString());
+}
+
+TEST(listvarg_char, GetRangeString)
+{
+    argparser::listvarg<char> testvar;
+    EXPECT_STREQ("<char>", testvar.getRangeString());
 }
 
 TEST(listvarg_char, ValueSetPassDoubleEntry)
@@ -896,9 +927,14 @@ TEST(listvarg_string, ValueSetPass)
 TEST(listvarg_string, GetTypeString)
 {
     argparser::listvarg<std::string> testvar;
-    EXPECT_STREQ("<string>", testvar.getTypeString());
+    EXPECT_STREQ("string", testvar.getTypeString());
 }
 
+TEST(listvarg_string, GetRangeString)
+{
+    argparser::listvarg<std::string> testvar;
+    EXPECT_STREQ("<string>", testvar.getRangeString());
+}
 
 TEST(listvarg_string, ValueSetPassDoubleEntry)
 {

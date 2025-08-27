@@ -100,6 +100,13 @@ class vargptrenum : public varg_intf
         const char* getTypeString() override           {return tempVar.getTypeString();}
 
         /**
+        * @brief Get the base argument type as a string
+        *
+        * @return const char* - Base type string
+        */
+        const char* getRangeString() override           {return tempVar.getRangeString();}
+
+        /**
         * @brief Return if vargptrenum is a list of elements or a single element type
         *
         * @return true - List type variable, multiple arguement values are allowed

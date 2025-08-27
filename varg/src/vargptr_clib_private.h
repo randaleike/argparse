@@ -116,6 +116,13 @@ template <typename T> class vargptr : public varg_intf
         const char* getTypeString() override    {return tempVar.getTypeString();}
 
         /**
+        * @brief Get the base argument range as a string
+        *
+        * @return char* - Base type string
+        */
+        const char* getRangeString() override    {return tempVar.getRangeString();}
+
+        /**
         * @brief Return if varg is a list of elements or a single element type
         *
         * @return true - List type variable, multiple arguement values are allowed

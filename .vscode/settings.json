@@ -12,5 +12,6 @@
     "python.analysis.typeCheckingMode": "basic",
     "editor.suggest.showStatusBar": false,
     "cmake.showSystemKits": true,
+    "C_Cpp.default.compilerPath": "/usr/bin/clang++-18",
 
 }
