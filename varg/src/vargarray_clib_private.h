@@ -150,6 +150,13 @@ template <typename T> class vargcarray : public varg_intf
         const char* getTypeString() override                        {return argValue.getTypeString();}
 
         /**
+        * @brief Get the base argument range as a string
+        *
+        * @return const char* - Base type string
+        */
+        const char* getRangeString() override                        {return argValue.getRangeString();}
+
+        /**
         * Virtual interface method implementation for the template variable implementation setValue function
         *
         * @return valueParseStatus_e::PARSE_SUCCESS_e

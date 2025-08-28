@@ -412,19 +412,22 @@ TEST_F(vargintfUnitTest, getAssignmentCount)
 TEST_F(vargintfUnitTest, setTypeString_String)
 {
     vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_STRING);
-    EXPECT_STREQ("<string>", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("string", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("<string>", vargintfUnitTest::getRangeString());
 }
 
 TEST_F(vargintfUnitTest, setTypeString_Char)
 {
     vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_CHAR);
-    EXPECT_STREQ("<char>", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("character", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("<char>", vargintfUnitTest::getRangeString());
 }
 
 TEST_F(vargintfUnitTest, setTypeString_Bool)
 {
     vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_BOOL);
-    EXPECT_STREQ("<t|T|1|f|F|0>", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("boolean", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("<t|T|1|f|F|0>", vargintfUnitTest::getRangeString());
 }
 
 TEST_F(vargintfUnitTest, setTypeString_Double)
@@ -436,7 +439,8 @@ TEST_F(vargintfUnitTest, setTypeString_Double)
 
     vargintfUnitTest::setMinMaxDouble(minvalue, maxvalue);
     vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_DOUBLE);
-    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("real number", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getRangeString());
 }
 
 TEST_F(vargintfUnitTest, setTypeString_Unsigned)
@@ -448,7 +452,8 @@ TEST_F(vargintfUnitTest, setTypeString_Unsigned)
 
     vargintfUnitTest::setMinMaxUnsigned (minvalue, maxvalue);
     vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_UNSIGNED);
-    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("unsigned integer", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getRangeString());
 }
 
 TEST_F(vargintfUnitTest, setTypeString_Signed)
@@ -460,13 +465,15 @@ TEST_F(vargintfUnitTest, setTypeString_Signed)
 
     vargintfUnitTest::setMinMaxSigned (minvalue, maxvalue);
     vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_SIGNED);
-    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("integer", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ(typeStr.str().c_str(), vargintfUnitTest::getRangeString());
 }
 
 TEST_F(vargintfUnitTest, setTypeString_Unknown)
 {
     vargintfUnitTest::setTypeString(typeStringFormat_e::TYPE_FMT_MAX);
-    EXPECT_STREQ("<unknown>", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("unknown", vargintfUnitTest::getTypeString());
+    EXPECT_STREQ("<unknown>", vargintfUnitTest::getRangeString());
 }
 
 /** @} */

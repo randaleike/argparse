@@ -50,7 +50,14 @@ TEST(cstringvarg, GetTypeString)
 {
     char testArray[20];                             // NOLINT
     argparser::vargcstring testvar(testArray, 20);  // NOLINT
-    EXPECT_STREQ("<string>", testvar.getTypeString());
+    EXPECT_STREQ("string", testvar.getTypeString());
+}
+
+TEST(cstringvarg, GetRangeString)
+{
+    char testArray[20];                             // NOLINT
+    argparser::vargcstring testvar(testArray, 20);  // NOLINT
+    EXPECT_STREQ("<string>", testvar.getRangeString());
 }
 
 TEST(cstringvarg, IsListTest)

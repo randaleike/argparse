@@ -81,7 +81,7 @@ template <typename T> class IntegerUnitTest : public testing::Test
         long long int getMaxValue();
         long long int getMinValue();
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
@@ -248,12 +248,19 @@ TYPED_TEST_P(IntegerUnitTest, GetAssignmentCount)
     EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
+TYPED_TEST_P(IntegerUnitTest, GetRangeString)
+{
+    const TypeParam testValue = 12;
+    argparser::varg< TypeParam > testvar(testValue);
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedString.c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(IntegerUnitTest, GetTypeString)
 {
     const TypeParam testValue = 12;
     argparser::varg< TypeParam > testvar(testValue);
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+    EXPECT_STREQ("integer", testvar.getTypeString());
 }
 
 TYPED_TEST_P(IntegerUnitTest, SetMinMax)
@@ -280,8 +287,8 @@ TYPED_TEST_P(IntegerUnitTest, SetMinMax)
     std::stringstream expectedTypeString;
     expectedTypeString << "<" << minValue << ":" << maxValue << ">";
 
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getRangeString());
 }
 
 TYPED_TEST_P(IntegerUnitTest, SetTestProtectedFail)
@@ -296,7 +303,8 @@ TYPED_TEST_P(IntegerUnitTest, SetTestProtectedFail)
 REGISTER_TYPED_TEST_SUITE_P(IntegerUnitTest, ConstructorValueSigned, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                              ValueSetPassSigned, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
                                              ValueSetMinPass, ValueSetMinFail, IsListTest, IsEmptyTest,
-                                             GetAssignmentCount, GetTypeString, SetMinMax, SetTestProtectedFail);
+                                             GetAssignmentCount, GetRangeString, GetTypeString, SetMinMax,
+                                             SetTestProtectedFail);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_int, IntegerUnitTest, intTypes);
@@ -324,7 +332,7 @@ template <typename T> class UIntegerUnitTest : public testing::Test
         long long unsigned getMaxValue();
         long long unsigned getMinValue()     {return 0ULL;}
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
@@ -464,12 +472,19 @@ TYPED_TEST_P(UIntegerUnitTest, GetAssignmentCount)
     EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
+TYPED_TEST_P(UIntegerUnitTest, GetRangeString)
+{
+    const TypeParam testValue = 32;
+    argparser::varg< TypeParam > testvar(testValue);
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedString.c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(UIntegerUnitTest, GetTypeString)
 {
     const TypeParam testValue = 32;
     argparser::varg< TypeParam > testvar(testValue);
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+    EXPECT_STREQ("unsigned integer", testvar.getTypeString());
 }
 
 TYPED_TEST_P(UIntegerUnitTest, SetMinMax)
@@ -496,8 +511,8 @@ TYPED_TEST_P(UIntegerUnitTest, SetMinMax)
     std::stringstream expectedTypeString;
     expectedTypeString << "<[+]" << minValue << ":[+]" << maxValue << ">";
 
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getRangeString());
 }
 
 TYPED_TEST_P(UIntegerUnitTest, SetTestProtectedFail)
@@ -511,8 +526,8 @@ TYPED_TEST_P(UIntegerUnitTest, SetTestProtectedFail)
 
 REGISTER_TYPED_TEST_SUITE_P(UIntegerUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                               ValueSetPass, ValueSetFail, ValueSetMaxPass, ValueSetMaxFail,
-                                              IsListTest, IsEmptyTest, GetAssignmentCount, GetTypeString,
-                                              SetMinMax, SetTestProtectedFail);
+                                              IsListTest, IsEmptyTest, GetAssignmentCount, GetRangeString,
+                                              GetTypeString, SetMinMax, SetTestProtectedFail);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;   // NOLINT
 INSTANTIATE_TYPED_TEST_SUITE_P(varg_uint, UIntegerUnitTest, uintTypes);
@@ -536,10 +551,10 @@ template <typename T> class FloatUnitTest : public testing::Test
 
         ~FloatUnitTest() override = default;
 
-        std::string getExpectedTypeString();
+        std::string getExpectedRangeString();
 };
 
-template <> std::string FloatUnitTest<double>::getExpectedTypeString()
+template <> std::string FloatUnitTest<double>::getExpectedRangeString()
 {
     std::stringstream typeString;
     typeString << "<" << std::numeric_limits<double>::min() << ":" << std::numeric_limits<double>::max() << ">";
@@ -662,13 +677,22 @@ TYPED_TEST_P(FloatUnitTest, GetAssignmentCount)
     EXPECT_EQ(0, testvar.getAssignmentCount());
 }
 
+TYPED_TEST_P(FloatUnitTest, GetRangeString)
+{
+    for (const TypeParam testValue : this->initValues)
+    {
+        argparser::varg< TypeParam > testvar(testValue);
+        std::string expectedString = this->getExpectedRangeString();
+        EXPECT_STREQ(expectedString.c_str(), testvar.getRangeString());
+    }
+}
+
 TYPED_TEST_P(FloatUnitTest, GetTypeString)
 {
     for (const TypeParam testValue : this->initValues)
     {
         argparser::varg< TypeParam > testvar(testValue);
-        std::string expectedString = this->getExpectedTypeString();
-        EXPECT_STREQ(expectedString.c_str(), testvar.getTypeString());
+        EXPECT_STREQ("real number", testvar.getTypeString());
     }
 }
 
@@ -697,8 +721,8 @@ TYPED_TEST_P(FloatUnitTest, SetMinMax)
     std::stringstream expectedTypeString;
     expectedTypeString << "<" << minValue << ":" << maxValue << ">";
 
-    std::string expectedString = this->getExpectedTypeString();
-    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getTypeString());
+    std::string expectedString = this->getExpectedRangeString();
+    EXPECT_STREQ(expectedTypeString.str().c_str(), testvar.getRangeString());
 }
 
 TYPED_TEST_P(FloatUnitTest, SetTestProtectedFail)
@@ -713,7 +737,8 @@ TYPED_TEST_P(FloatUnitTest, SetTestProtectedFail)
 REGISTER_TYPED_TEST_SUITE_P(FloatUnitTest, ConstructorValue, ConstructorValueFlag, ConstructorValueDefaultFlag,
                                            ValueSetPass, ValueSetFail, ValueSetPass_integer,
                                            ValueSetMaxPass, ValueSetMinPass, IsListTest, IsEmptyTest,
-                                           GetAssignmentCount, GetTypeString, SetMinMax, SetTestProtectedFail);
+                                           GetAssignmentCount, GetRangeString, GetTypeString, SetMinMax,
+                                           SetTestProtectedFail);
 
 //typedef testing::Types<double> floatTypes;
 using floatTypes = testing::Types<double>;
@@ -844,7 +869,13 @@ TEST(varg_bool, GetAssignmentCount)
 TEST(varg_bool, GetTypeString)
 {
     argparser::varg<bool> testvar(false);
-    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
+    EXPECT_STREQ("boolean", testvar.getTypeString());
+}
+
+TEST(varg_bool, GetRangeString)
+{
+    argparser::varg<bool> testvar(false);
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getRangeString());
 }
 
 TEST(varg_bool, SetTestProtectedFail)
@@ -916,7 +947,13 @@ TEST(varg_char, GetAssignmentCount)
 TEST(varg_char, GetTypeString)
 {
     argparser::varg<char> testvar('e');
-    EXPECT_STREQ("<char>", testvar.getTypeString());
+    EXPECT_STREQ("character", testvar.getTypeString());
+}
+
+TEST(varg_char, GetRangeString)
+{
+    argparser::varg<char> testvar('e');
+    EXPECT_STREQ("<char>", testvar.getRangeString());
 }
 
 TEST(varg_char, SetTestProtectedFail)

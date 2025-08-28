@@ -97,6 +97,13 @@ class vargptrincrement : public varg_intf
         const char* getTypeString() override                        {return "incrementing flag";}
 
         /**
+        * @brief Get the base argument range as a string
+        *
+        * @return const char* - Base type string
+        */
+        const char* getRangeString() override                       {return "<[+]0:[+]2147483647>";}
+
+        /**
         * @brief Return if vargptrincrement is a list of elements or a single element type
         *
         * @return true - List type variable, multiple arguement values are allowed

@@ -89,7 +89,13 @@ TEST(varg_string, GetAssignmentCount)
 TEST(varg_string, GetTypeString)
 {
     argparser::vargstring testvar("test string");
-    EXPECT_STREQ("<string>", testvar.getTypeString());
+    EXPECT_STREQ("string", testvar.getTypeString());
+}
+
+TEST(varg_string, GetRangeString)
+{
+    argparser::vargstring testvar("test string");
+    EXPECT_STREQ("<string>", testvar.getRangeString());
 }
 
 TEST(varg_string, MinMaxLengthTest)

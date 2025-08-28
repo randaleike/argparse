@@ -108,7 +108,7 @@ template <typename T> class IntegerCArrayUnitTest : public testing::Test
         long long int getMaxValue();
         long long int getMinValue();
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<" << getMinValue() << ":" << getMaxValue() << ">";
@@ -234,11 +234,18 @@ TYPED_TEST_P(IntegerCArrayUnitTest, ValueSetMinFail)
     }
 }
 
+TYPED_TEST_P(IntegerCArrayUnitTest, GetRangeString)
+{
+    TypeParam carray[3] = {-11,13,-17};    // NOLINT
+    argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
+    EXPECT_STREQ(this->getExpectedRangeString().c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(IntegerCArrayUnitTest, GetTypeString)
 {
     TypeParam carray[3] = {-11,13,-17};    // NOLINT
     argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
-    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
+    EXPECT_STREQ("integer", testvar.getTypeString());
 }
 
 TYPED_TEST_P(IntegerCArrayUnitTest, ValueSetPassDoubleEntry)
@@ -268,7 +275,7 @@ TYPED_TEST_P(IntegerCArrayUnitTest, ValueSetPassTripleEntry)
 }
 
 REGISTER_TYPED_TEST_SUITE_P(IntegerCArrayUnitTest, ValueSetPassSigned, ValueSetFail,
-                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
+                            GetTypeString, GetRangeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
                             ValueSetMaxPass, ValueSetMaxFail, ValueSetMinPass, ValueSetMinFail);
 
 typedef testing::Types<short int, int, long int, long long int> intTypes;   // NOLINT
@@ -292,7 +299,7 @@ template <typename T> class UIntegerCarrayUnitTest : public testing::Test
         long long unsigned getMaxValue();
         long long unsigned getMinValue()     {return 0ULL;}
 
-        std::string getExpectedTypeString()
+        std::string getExpectedRangeString()
         {
             std::stringstream typeString;
             typeString << "<[+]" << getMinValue() << ":[+]" << getMaxValue() << ">";
@@ -384,11 +391,18 @@ TYPED_TEST_P(UIntegerCarrayUnitTest, ValueSetMaxFail)
     }
 }
 
+TYPED_TEST_P(UIntegerCarrayUnitTest, GetRangeString)
+{
+    TypeParam carray[3] = {23,13,117};    // NOLINT
+    argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
+    EXPECT_STREQ(this->getExpectedRangeString().c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(UIntegerCarrayUnitTest, GetTypeString)
 {
     TypeParam carray[3] = {23,13,117};    // NOLINT
     argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
-    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
+    EXPECT_STREQ("unsigned integer", testvar.getTypeString());
 }
 
 TYPED_TEST_P(UIntegerCarrayUnitTest, ValueSetPassDoubleEntry)
@@ -420,7 +434,7 @@ TYPED_TEST_P(UIntegerCarrayUnitTest, ValueSetPassTripleEntry)
 
 
 REGISTER_TYPED_TEST_SUITE_P(UIntegerCarrayUnitTest, ValueSetPass, ValueSetFail, ValueSetFailNeg,
-                            GetTypeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
+                            GetTypeString, GetRangeString, ValueSetPassDoubleEntry, ValueSetPassTripleEntry,
                             ValueSetMaxPass, ValueSetMaxFail);
 
 typedef testing::Types<short unsigned, unsigned, long unsigned, long long unsigned> uintTypes;      // NOLINT
@@ -442,10 +456,10 @@ template <typename T> class DoubleCarrayUnitTest : public testing::Test
         DoubleCarrayUnitTest& operator=(DoubleCarrayUnitTest&& other) noexcept = default;
         ~DoubleCarrayUnitTest() override = default;
 
-        std::string getExpectedTypeString();
+        std::string getExpectedRangeString();
 };
 
-template <> std::string DoubleCarrayUnitTest<double>::getExpectedTypeString()
+template <> std::string DoubleCarrayUnitTest<double>::getExpectedRangeString()
 {
     typeString << "<" << std::numeric_limits<double>::min() << ":" << std::numeric_limits<double>::max() << ">";
     return typeString.str();
@@ -530,12 +544,20 @@ TYPED_TEST_P(DoubleCarrayUnitTest, ValueSetMinPass)
     EXPECT_EQ(std::numeric_limits<double>::min(), carray[0]);
 }
 
+TYPED_TEST_P(DoubleCarrayUnitTest, GetRangeString)
+{
+    TypeParam carray[3] = {23.7,1.13,11.7e6};    // NOLINT
+    argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
+
+    EXPECT_STREQ(this->getExpectedRangeString().c_str(), testvar.getRangeString());
+}
+
 TYPED_TEST_P(DoubleCarrayUnitTest, GetTypeString)
 {
     TypeParam carray[3] = {23.7,1.13,11.7e6};    // NOLINT
     argparser::vargcarray< TypeParam > testvar(carray, 3);    // NOLINT
 
-    EXPECT_STREQ(this->getExpectedTypeString().c_str(), testvar.getTypeString());
+    EXPECT_STREQ("real number", testvar.getTypeString());
 }
 
 TYPED_TEST_P(DoubleCarrayUnitTest, ValueSetPassDoubleEntry)
@@ -565,7 +587,7 @@ TYPED_TEST_P(DoubleCarrayUnitTest, ValueSetPassTripleEntry)
 }
 
 REGISTER_TYPED_TEST_SUITE_P(DoubleCarrayUnitTest, ValueSetPassSignedPos, ValueSetPassSignedNeg, ValueSetPassExponent,
-                            ValueSetPassInteger, ValueSetFail, GetTypeString, ValueSetPassDoubleEntry,
+                            ValueSetPassInteger, ValueSetFail, GetTypeString, GetRangeString, ValueSetPassDoubleEntry,
                             ValueSetPassTripleEntry, ValueSetMaxPass, ValueSetMinPass);
 
 typedef testing::Types<double> doubleTypes;     //NOLINT
@@ -649,7 +671,14 @@ TEST(carrayvarg_bool, GetTypeString)
 {
     bool testArray[3] = {false, false, false};          // NOLINT
     argparser::vargcarray<bool> testvar(testArray, 3);  // NOLINT
-    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getTypeString());
+    EXPECT_STREQ("boolean", testvar.getTypeString());
+}
+
+TEST(carrayvarg_bool, GetRangeString)
+{
+    bool testArray[3] = {false, false, false};          // NOLINT
+    argparser::vargcarray<bool> testvar(testArray, 3);  // NOLINT
+    EXPECT_STREQ("<t|T|1|f|F|0>", testvar.getRangeString());
 }
 
 TEST(carrayvarg_bool, ValueSetPassDoubleEntry)
@@ -702,7 +731,14 @@ TEST(carrayvarg_char, GetTypeString)
 {
     char testArray[3] = {'0', '1', '2'};                // NOLINT
     argparser::vargcarray<char> testvar(testArray, 3);  // NOLINT
-    EXPECT_STREQ("<char>", testvar.getTypeString());
+    EXPECT_STREQ("character", testvar.getTypeString());
+}
+
+TEST(carrayvarg_char, GetRangeString)
+{
+    char testArray[3] = {'0', '1', '2'};                // NOLINT
+    argparser::vargcarray<char> testvar(testArray, 3);  // NOLINT
+    EXPECT_STREQ("<char>", testvar.getRangeString());
 }
 
 TEST(carrayvarg_char, ValueSetPassDoubleEntry)
