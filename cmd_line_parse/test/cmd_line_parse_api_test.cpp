@@ -460,13 +460,20 @@ TEST_F(cmd_line_parse_clib_test, parseTestKeyAssignMissing)
 
 TEST_F(cmd_line_parse_clib_test, parseTestKeyAssignFail)
 {
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "foo"))
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq("-i"),
+                                                              ::testing::StrEq("foo"),
+                                                              ::testing::StrEq("string"),
+                                                              ::testing::StrEq("<string>")))
         .WillOnce(Return("Mock \"-i\", \"foo\" assignment failed"));    // NOLINT
 
     StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("foo")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+    EXPECT_CALL(testvarg, getRangeString())
+        .WillOnce(Return("<string>"));
+    EXPECT_CALL(testvarg, getTypeString())
+        .WillOnce(Return("string"));
 
     struct cvarptr cvarghandle;
     cvarghandle.vararg = &testvarg;
@@ -593,13 +600,20 @@ TEST_F(cmd_line_parse_clib_test, parsePositional)
 
 TEST_F(cmd_line_parse_clib_test, parsePositionalFailed)
 {
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("postst", "goo"))
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq("postst"),
+                                                              ::testing::StrEq("goo"),
+                                                              ::testing::StrEq("cabinet"),
+                                                              ::testing::StrEq("<empty|full>")))
         .WillOnce(Return("Mock \"postst\", \"goo\" assignment failed"));    // NOLINT
 
     StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, isList()).WillOnce(Return(false));
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("goo")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+    EXPECT_CALL(testvarg, getRangeString())
+        .WillOnce(Return("<empty|full>"));
+    EXPECT_CALL(testvarg, getTypeString())
+        .WillOnce(Return("cabinet"));
 
     struct cvarptr cvarghandle;
     cvarghandle.vararg = &testvarg;
@@ -784,7 +798,9 @@ TEST_F(cmd_line_parse_clib_test, parseTestAddListArgTooFew)
 
 TEST_F(cmd_line_parse_clib_test, parseTestAddListArgTooMany)
 {
-    EXPECT_CALL(*stringMock, getTooManyAssignmentMessage("-i", 3, 4))
+    EXPECT_CALL(*stringMock, getTooManyAssignmentMessage(::testing::StrEq("-i"),
+                                                         ::testing::Eq(3),
+                                                         ::testing::Eq(4)))
         .WillOnce(Return("Mock \"-i\" too many assignment values. Expected: 3 found: 4 arguments"));    // NOLINT
 
     StrictMock<argparser::mock_varg_intf> testvarg;

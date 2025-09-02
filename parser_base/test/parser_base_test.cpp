@@ -41,6 +41,7 @@
 using ::testing::StrictMock;
 using ::testing::Mock;
 using ::testing::Return;
+using stringMockptr = StrictMock<argparser::mock_ParserStringListInterface>*;
 
 const size_t defaultOptionWidth = 25;
 const size_t shortOptionWidth   = 20;
@@ -52,6 +53,12 @@ enum testDebugLevel {
     DEBUG_MINIMUM = 4,
     DEBUG_VERBOSE = 5,
 };
+
+stringMockptr getStringsMock(argparser::parser_base* parser)
+{
+    argparser::ParserStringListInterface* mock = parser->getmsgGenerator().get();
+    return reinterpret_cast<stringMockptr> (mock);   // NOLINT
+}
 
 class test_parser_base : public argparser::parser_base
 {
@@ -584,47 +591,112 @@ TEST(TestParserBase,  assignKeyValueWithInput)
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
     parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 1, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
     parserstr inputStr = "54";
-    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignKeyValue(testArg, inputStr));
+    parserstr keyStr = "--goo";
+    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignKeyValue(testArg, inputStr, keyStr));
 }
 
 TEST(TestParserBase,  assignKeyValueBadInput)
 {
+    parserstr keyStr = "--goo";
+    parserstr testkeys = keyStr+",-g";
+
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("34")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e))
-        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_STORAGE_NULLPTR_e))
-        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_STORAGE_TOO_MANY_e));
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_STORAGE_NULLPTR_e));
+    EXPECT_CALL(testvarg, getTypeString())
+        .WillOnce(Return("uinteger"));
+    EXPECT_CALL(testvarg, getRangeString())
+        .WillOnce(Return("<0:200>"))
+        .WillOnce(Return("<10:20>"));
 
-    parserstr testkeys = "--goo,-g";
-    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
+    stringMockptr stringMock = getStringsMock(&testparser);
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq(keyStr.c_str()),
+                                                          ::testing::StrEq("34"),
+                                                          ::testing::StrEq("uinteger"),
+                                                          ::testing::StrEq("<0:200>")))
+        .WillOnce(Return("mock invalid input value message"));
+    EXPECT_CALL(*stringMock, getOutOfRangeAssignmentMessage(::testing::StrEq(keyStr.c_str()),
+                                                        ::testing::StrEq("34"),
+                                                        ::testing::StrEq("<10:20>")))
+        .WillOnce(Return("mock invalid value range message"));
+    EXPECT_CALL(*stringMock, getStorageNullptrMessage(::testing::StrEq(keyStr.c_str())))
+        .WillOnce(Return("mock nullptr storage message"));
+
+    std::string expected = "mock invalid input value message\n" \
+                           "mock invalid value range message\n" \
+                           "mock nullptr storage message\n";
+
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 1, 0, true};
     //testparser.setDebugLevel(5);
 
     testparser.addArgKeyList(testArg, testkeys);
     parserstr inputStr = "34";
-    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr));
-    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr));
-    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr));
-    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr));
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr, keyStr));
+    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr, keyStr));
+    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr, keyStr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ(expected.c_str(), output.c_str());
+}
+
+TEST(TestParserBase,  assignKeyValueBadInputTooMany)
+{
+    test_parser_base testparser;
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq("34")))
+        .WillOnce(Return(argparser::valueParseStatus_e::PARSE_STORAGE_TOO_MANY_e));
+
+    parserstr keyStr = "--goo";
+    parserstr testkeys = "--goo,-g";
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 1, 0, true};
+    //testparser.setDebugLevel(5);
+
+    stringMockptr stringMock = getStringsMock(&testparser);
+    EXPECT_CALL(*stringMock, getTooManyAssignmentMessage(::testing::StrEq(keyStr.c_str()),
+                                                     ::testing::Eq(1),
+                                                     ::testing::Eq(2)))
+        .WillOnce(Return("mock too many value message"));
+
+    testparser.addArgKeyList(testArg, testkeys);
+    parserstr inputStr = "34";
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignTooMany, testparser.assignKeyValue(testArg, inputStr, keyStr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock too many value message\n", output.c_str());
 }
 
 TEST(TestParserBase,  assignKeyValueEmptyInputFail)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
+    parserstr keystr = "--goo";
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
     //testparser.setDebugLevel(5);
 
+    stringMockptr stringMock = getStringsMock(&testparser);
+    EXPECT_CALL(*stringMock, getMissingAssignmentMessage(::testing::StrEq(keystr.c_str())))
+        .WillOnce(Return("mock no value error message"));
+
     testparser.addArgKeyList(testArg, testkeys);
     parserstr inputStr;
-    EXPECT_EQ(argparser::eAssignNoValue, testparser.assignKeyValue(testArg, inputStr));
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignNoValue, testparser.assignKeyValue(testArg, inputStr, keystr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock no value error message\n", output.c_str());
 }
 
 TEST(TestParserBase,  assignListKeyValueWithInput)
@@ -638,6 +710,7 @@ TEST(TestParserBase,  assignListKeyValueWithInput)
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("13")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
+    parserstr keystr = "--goo";
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 3, 0, true};
     //testparser.setDebugLevel(5);
@@ -646,9 +719,7 @@ TEST(TestParserBase,  assignListKeyValueWithInput)
     parserstr valueTestString = "21,42,13";
     std::list<parserstr> returnList;     // NOLINT
     EXPECT_EQ(3, testparser.getValueList(valueTestString, returnList));
-
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, failValue));
+    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, keystr));
 }
 
 TEST(TestParserBase,  assignListKeyValueWithInputAnySize)
@@ -668,11 +739,10 @@ TEST(TestParserBase,  assignListKeyValueWithInputAnySize)
 
     testparser.addArgKeyList(testArg, testkeys);
     parserstr valueTestString = "21,42,13";
+    parserstr keyStr = "--goo";
     std::list<parserstr> returnList;     // NOLINT
     EXPECT_EQ(3, testparser.getValueList(valueTestString, returnList));
-
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, failValue));
+    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, keyStr));
 }
 
 TEST(TestParserBase,  assignListKeyValueTooMany)
@@ -684,13 +754,24 @@ TEST(TestParserBase,  assignListKeyValueTooMany)
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 2, 0, true};
     //testparser.setDebugLevel(5);
 
+    parserstr keyStr = "-g";
+    stringMockptr stringMock = getStringsMock(&testparser);
+    EXPECT_CALL(*stringMock, getTooManyAssignmentMessage(::testing::StrEq(keyStr.c_str()),
+                                                     ::testing::Eq(2),
+                                                     ::testing::Eq(3)))
+        .WillOnce(Return("mock too many value message"));
+
     testparser.addArgKeyList(testArg, testkeys);
     parserstr valueTestString = "21,42,13";
+
     std::list<parserstr> returnList;     // NOLINT
     EXPECT_EQ(3, testparser.getValueList(valueTestString, returnList));
 
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignTooMany, testparser.assignListKeyValue(testArg, returnList, failValue));
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignTooMany, testparser.assignListKeyValue(testArg, returnList, keyStr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock too many value message\n", output.c_str());
 }
 
 TEST(TestParserBase,  assignListKeyValueTooManyNegCnt)
@@ -702,13 +783,23 @@ TEST(TestParserBase,  assignListKeyValueTooManyNegCnt)
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -2, 0, true};
     //testparser.setDebugLevel(5);
 
+    parserstr keyStr = "-g";
+    stringMockptr stringMock = getStringsMock(&testparser);
+    EXPECT_CALL(*stringMock, getTooManyAssignmentMessage(::testing::StrEq(keyStr.c_str()),
+                                                     ::testing::Eq(2),
+                                                     ::testing::Eq(3)))
+        .WillOnce(Return("mock too many value message"));
+
     testparser.addArgKeyList(testArg, testkeys);
     parserstr valueTestString = "21,42,13";
     std::list<parserstr> returnList;     // NOLINT
     EXPECT_EQ(3, testparser.getValueList(valueTestString, returnList));
 
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignTooMany, testparser.assignListKeyValue(testArg, returnList, failValue));
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignTooMany, testparser.assignListKeyValue(testArg, returnList, keyStr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock too many value message\n", output.c_str());
 }
 
 TEST(TestParserBase,  assignListKeyValueNegCnt)
@@ -723,6 +814,7 @@ TEST(TestParserBase,  assignListKeyValueNegCnt)
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
 
     parserstr testkeys = "--goo,-g";
+    parserstr keyStr = "-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), -4, 0, true};
     //testparser.setDebugLevel(5);
 
@@ -730,9 +822,7 @@ TEST(TestParserBase,  assignListKeyValueNegCnt)
     parserstr valueTestString = "21,42,13";
     std::list<parserstr> returnList;     // NOLINT
     EXPECT_EQ(3, testparser.getValueList(valueTestString, returnList));
-
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, failValue));
+    EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, keyStr));
 }
 
 TEST(TestParserBase,  assignListKeyValueTooFew)
@@ -740,17 +830,28 @@ TEST(TestParserBase,  assignListKeyValueTooFew)
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
 
+    parserstr keyStr = "-g";
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true};
     //testparser.setDebugLevel(5);
+
+    stringMockptr stringMock = getStringsMock(&testparser);
+
+    EXPECT_CALL(*stringMock, getMissingListAssignmentMessage(::testing::StrEq(keyStr.c_str()),
+                                                         ::testing::Eq(4),
+                                                         ::testing::Eq(3)))
+        .WillOnce(Return("mock too few value message"));
 
     testparser.addArgKeyList(testArg, testkeys);
     parserstr valueTestString = "21,42,13";
     std::list<parserstr> returnList;     // NOLINT
     EXPECT_EQ(3, testparser.getValueList(valueTestString, returnList));
 
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignTooFew, testparser.assignListKeyValue(testArg, returnList, failValue));
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignTooFew, testparser.assignListKeyValue(testArg, returnList, keyStr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock too few value message\n", output.c_str());
 }
 
 TEST(TestParserBase,  assignListKeyValueEmpty)
@@ -758,13 +859,23 @@ TEST(TestParserBase,  assignListKeyValueEmpty)
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
 
+    parserstr keyStr = "-g";
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 4, 0, true};
     //testparser.setDebugLevel(5);
 
+    stringMockptr stringMock = getStringsMock(&testparser);
+
+    EXPECT_CALL(*stringMock, getMissingAssignmentMessage(::testing::StrEq(keyStr.c_str())))
+        .WillOnce(Return("mock missing value message"));
+
     std::list<parserstr> returnList;  // NOLINT
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignNoValue, testparser.assignListKeyValue(testArg, returnList, failValue));
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignNoValue, testparser.assignListKeyValue(testArg, returnList, keyStr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock missing value message\n", output.c_str());
 }
 
 TEST(TestParserBase,  assignListKeyValueBadInput)
@@ -775,7 +886,12 @@ TEST(TestParserBase,  assignListKeyValueBadInput)
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
     EXPECT_CALL(testvarg, setValue(::testing::StrEq("moo")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+    EXPECT_CALL(testvarg, getTypeString())
+        .WillOnce(Return("integer"));
+    EXPECT_CALL(testvarg, getRangeString())
+        .WillOnce(Return("<0:200>"));
 
+    parserstr keyStr = "--goo";
     parserstr testkeys = "--goo,-g";
     argparser::ArgEntry testArg = {"goo",
                                    "goo input value",
@@ -786,14 +902,24 @@ TEST(TestParserBase,  assignListKeyValueBadInput)
                                    true};
     //testparser.setDebugLevel(5);
 
+    stringMockptr stringMock = getStringsMock(&testparser);
+
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq(keyStr.c_str()),
+                                                          ::testing::StrEq("moo"),
+                                                          ::testing::StrEq("integer"),
+                                                          ::testing::StrEq("<0:200>")))
+        .WillOnce(Return("mock invalid value message"));
+
     testparser.addArgKeyList(testArg, testkeys);
     parserstr valueTestString = "21,moo,13";
     std::list<parserstr> returnList;  // NOLINT
     EXPECT_EQ(3, testparser.getValueList(valueTestString, returnList));
 
-    parserstr failValue;
-    EXPECT_EQ(argparser::eAssignFailed, testparser.assignListKeyValue(testArg, returnList, failValue));
-    EXPECT_STREQ("moo", failValue.c_str());
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignFailed, testparser.assignListKeyValue(testArg, returnList, keyStr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock invalid value message\n", output.c_str());
 }
 
 TEST(TestParserBase,  displayArgHelpBlockNoWrap)

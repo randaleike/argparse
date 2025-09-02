@@ -366,12 +366,19 @@ TEST(envTestParser, AssignmentFailedTest)
 {
     argparser::envparser testvar;
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("MYENVTEST", "moo"))
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq("MYENVTEST"),
+                                                              ::testing::StrEq("moo"),
+                                                              ::testing::StrEq("string"),
+                                                              ::testing::StrEq("<string>")))
         .WillOnce(Return("Mock \"MYENVTEST\", \"moo\" assignment failed"));     // NOLINT
 
     StrictMock<argparser::mock_varg_intf> testvalvarg;
     EXPECT_CALL(testvalvarg, setValue(::testing::StrEq("moo")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+    EXPECT_CALL(testvalvarg, getRangeString())
+        .WillOnce(Return("<string>"));
+    EXPECT_CALL(testvalvarg, getTypeString())
+        .WillOnce(Return("string"));
 
     testvar.addArgument(&testvalvarg, "MYENVTEST", "My environment test var");
     SETENV("MYENVTEST","moo", 1);

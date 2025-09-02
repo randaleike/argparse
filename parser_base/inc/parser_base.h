@@ -271,21 +271,22 @@ class parser_base
          *
          * @param currentArg - Pointer to the argument to set
          * @param assignmentValue - Reference to the embedded value string
+         * @param keyString - Key string that from input
          *
          * @return eAssignmentReturn - Assignment return status
          */
-        static eAssignmentReturn assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue);
+        eAssignmentReturn assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue, parserstr& keyString);
 
         /**
          * @brief Assign multiple values to a list argument storage object.
          *
          * @param currentArg - Pointer to the argument to set
          * @param assignmentValues - List of assignment value strings
-         * @param failedValue - Value string that failed assignment in the list
+         * @param keyString - Key string that from input
          *
          * @return eAssignmentReturn - Assignment return status
          */
-        static eAssignmentReturn assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& failedValue);
+        eAssignmentReturn assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& keyString);
 
         //=================================================================================================
         //======================= Help display helper interface methods ===================================
