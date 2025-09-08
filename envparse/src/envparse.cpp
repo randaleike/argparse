@@ -187,7 +187,7 @@ bool envparser::parse()
             std::list<std::string> assignmentValues;
             std::string valueString = envValue;
             size_t valueCount = parser_base::getValueList(valueString, assignmentValues);
-            auto requiredValueCount = static_cast<size_t>(abs(currentArg.nargs));
+
             if (debugMsgLevel >= debugVerbosityLevel_e::veryVerboseDebug)
             {
                 std::cout << "Environment value: " << envValue << std::endl;
@@ -197,42 +197,19 @@ bool envparser::parse()
 
             // Assign the values
             currentArg.isFound = true;
-            parserstr failedAssignment = valueString;
-            eAssignmentReturn status = ((valueCount > 1) ?
-                                            parser_base::assignListKeyValue(currentArg, assignmentValues, failedAssignment) :
-                                            parser_base::assignKeyValue(currentArg, valueString));
-
-            // Check the assignment error
-            switch(status)
+            eAssignmentReturn status = eAssignSuccess;
+            if (valueCount > 1)
             {
-                case eAssignSuccess:
-                    break;
-
-                case eAssignTooMany:
-                    // Not enough values to meet the minimum required
-                    std::cerr << msgGeneration->getTooManyAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
-                    parser_base::setParsingError(true);
-                    break;
-
-                case eAssignNoValue:
-                    // Need at least one value
-                    std::cerr << msgGeneration->getMissingAssignmentMessage(currentArg.name) << std::endl;
-                    parser_base::setParsingError(true);
-                    break;
-
-                case eAssignTooFew:
-                    // More values than required
-                    std::cerr << msgGeneration->getMissingListAssignmentMessage(currentArg.name, requiredValueCount, valueCount) << std::endl;
-                    parser_base::setParsingError(true);
-                    break;
-
-                case eAssignFailed:
-                default:
-                    // Failed an assignment
-                    std::cerr << msgGeneration->getAssignmentFailedMessage(currentArg.name, failedAssignment) << std::endl;
-                    parser_base::setParsingError(true);
-                    break;
-            } // end of switch status
+                status = parser_base::assignListKeyValue(currentArg, assignmentValues, currentArg.name);
+            }
+            else
+            {
+                status = parser_base::assignKeyValue(currentArg, valueString, currentArg.name);
+            }
+            if (status != eAssignSuccess)
+            {
+                parser_base::setParsingError(true);
+            }
         } // end of if found
     } // end of for keyArgList
 

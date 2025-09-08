@@ -174,13 +174,14 @@ def create_argparse_string_file(language_list:LanguageDescriptionList,
                                             language_list = language_list)
     class_strings.add_test_param_value('valueString', "23", True)
 
-    class_strings.add_translate_method_entry("getInvalidInputMessage", "Return varg invalid input error message",
+    class_strings.add_translate_method_entry("getInvalidValueAssignmentMessage", "Return varg invalid input error message",
                                             [ParamRetDict.build_param_dict_with_mod("keyString", "string", "Error key"),
                                              ParamRetDict.build_param_dict_with_mod("valueString", "string", "Assignment value"),
-                                             ParamRetDict.build_param_dict_with_mod("vargRange", "string", "Expected range")],
+                                             ParamRetDict.build_param_dict_with_mod("vargType", "const char", "Expected value type", ParamRetDict.type_mod_ptr),
+                                             ParamRetDict.build_param_dict_with_mod("vargRange", "const char", "Expected value range", ParamRetDict.type_mod_ptr)],
                                             ParamRetDict.build_return_dict_with_mod("string", "Varg key invalid assignment error message"),
                                             "en",
-                                            "\"@keyString@\", \"@valueString@\" invalid input. Expected: @vargRange@",
+                                            "\"@keyString@\", \"@valueString@\" invalid input. Expected: @vargType@, @vargRange@",
                                             override = force_update,
                                             language_list = language_list)
     class_strings.add_test_param_value('vargRange', "<-100:100>", True)
@@ -189,7 +190,7 @@ def create_argparse_string_file(language_list:LanguageDescriptionList,
     class_strings.add_translate_method_entry("getOutOfRangeAssignmentMessage", "Return varg out of range error message",
                                             [ParamRetDict.build_param_dict_with_mod("keyString", "string", "Error key"),
                                              ParamRetDict.build_param_dict_with_mod("valueString", "string", "Assignment value"),
-                                             ParamRetDict.build_param_dict_with_mod("vargRange", "string", "Expected range")],
+                                             ParamRetDict.build_param_dict_with_mod("vargRange", "const char", "Expected value range", ParamRetDict.type_mod_ptr)],
                                             ParamRetDict.build_return_dict_with_mod("string", "Varg key invalid assignment error message"),
                                             "en",
                                             "\"@keyString@\", \"@valueString@\" out of range. Valid range: @vargRange@",
@@ -231,6 +232,14 @@ def create_argparse_string_file(language_list:LanguageDescriptionList,
                                             ParamRetDict.build_return_dict_with_mod("string", "Required varg key missing error message"),
                                             "en",
                                             "\"@keyString@\" required argument missing",
+                                            override = force_update,
+                                            language_list = language_list)
+
+    class_strings.add_translate_method_entry("getStorageNullptrMessage", "Return varg pointer not assigned error message",
+                                            [ParamRetDict.build_param_dict_with_mod("keyString", "string", "Error key")],
+                                            ParamRetDict.build_return_dict_with_mod("string", "Varg value pointer null error message"),
+                                            "en",
+                                            "\"@keyString@\" variable storage is NULL",
                                             override = force_update,
                                             language_list = language_list)
 

@@ -311,25 +311,52 @@ eAssignmentReturn parser_base::assignKeyFlagValue(ArgEntry& currentArg)
  *
  * @param currentArg - Pointer to the argument to set
  * @param assignmentValue - Reference to the value string
+ * @param keyString - Key string that from input
  *
  * @return eAssignmentReturn - Assignment return status
  */
-eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue)
+eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& assignmentValue, parserstr& keyString)
 {
-    eAssignmentReturn status = eAssignSuccess;
+    size_t requiredValueCount = abs(currentArg.nargs);
+
     if (assignmentValue.empty())
     {
-        status = eAssignNoValue;
+        // Need at least one value
+        std::cerr << msgGeneration->getMissingAssignmentMessage(keyString) << std::endl;
+        return eAssignNoValue;
     }
-    else
+
+    valueParseStatus_e assignStatus = currentArg.argData->setValue(assignmentValue.c_str());
+    switch(assignStatus)
     {
-        valueParseStatus_e assignStatus = currentArg.argData->setValue(assignmentValue.c_str());
-        if (valueParseStatus_e::PARSE_SUCCESS_e != assignStatus)
-        {
-            status = eAssignFailed;
-        }
+        case valueParseStatus_e::PARSE_SUCCESS_e:
+            // All is well, continue
+            return eAssignSuccess;
+
+        case valueParseStatus_e::PARSE_INVALID_INPUT_e:
+            std::cerr << msgGeneration->getInvalidValueAssignmentMessage(keyString, assignmentValue,
+                                                                         currentArg.argData->getTypeString(),
+                                                                         currentArg.argData->getRangeString()) << std::endl;
+            return eAssignFailed;
+
+        case valueParseStatus_e::PARSE_OUT_OF_RANGE_e:
+            std::cerr << msgGeneration->getOutOfRangeAssignmentMessage(keyString, assignmentValue,
+                                                                       currentArg.argData->getRangeString()) << std::endl;
+            return eAssignFailed;
+
+        case valueParseStatus_e::PARSE_STORAGE_NULLPTR_e:
+            std::cerr << msgGeneration->getStorageNullptrMessage(keyString) << std::endl;
+            return eAssignFailed;
+
+        case valueParseStatus_e::PARSE_STORAGE_TOO_MANY_e:
+            std::cerr << msgGeneration->getTooManyAssignmentMessage(keyString, requiredValueCount,
+                                                                    assignmentValue.size()) << std::endl;
+            return eAssignTooMany;
+
+        default:
+            std::cerr << msgGeneration->getAssignmentFailedMessage(keyString, assignmentValue) << std::endl;
+            return eAssignFailed;
     }
-    return status;
 }
 
 /**
@@ -337,39 +364,42 @@ eAssignmentReturn parser_base::assignKeyValue(ArgEntry& currentArg, parserstr& a
  *
  * @param currentArg - Pointer to the argument to set
  * @param assignmentValues - List of assignment value strings
- * @param failedValue - Value string that failed assignment in the list
+ * @param keyString - Key string that from input
  *
  * @return eAssignmentReturn - Assignment return status
  */
-eAssignmentReturn parser_base::assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& failedValue)
+eAssignmentReturn parser_base::assignListKeyValue(ArgEntry& currentArg, std::list<parserstr>& assignmentValues, parserstr& keyString)
 {
     size_t requiredValueCount = abs(currentArg.nargs);
 
     if (assignmentValues.empty())
     {
         // Need at least one value
+        std::cerr << msgGeneration->getMissingAssignmentMessage(keyString) << std::endl;
         return eAssignNoValue;
     }
 
     // Check we got too many arguments
     if ((assignmentValues.size() > requiredValueCount) && (currentArg.nargs != -1))
     {
+        std::cerr << msgGeneration->getTooManyAssignmentMessage(keyString, requiredValueCount, assignmentValues.size()) << std::endl;
         return eAssignTooMany;
     }
 
     // Check we got too few arguments
     if (static_cast<int>(assignmentValues.size()) < currentArg.nargs)
     {
+        std::cerr << msgGeneration->getMissingListAssignmentMessage(keyString, requiredValueCount, assignmentValues.size()) << std::endl;
         return eAssignTooFew;
     }
 
     // Assign the values
-    for (auto const& valueStr : assignmentValues)
+    for (auto &valueStr : assignmentValues)
     {
-        if(valueParseStatus_e::PARSE_SUCCESS_e != currentArg.argData->setValue(valueStr.c_str()))
+        eAssignmentReturn assignStatus = assignKeyValue(currentArg, valueStr, keyString);
+        if (assignStatus != eAssignSuccess)
         {
-            failedValue = valueStr;
-            return eAssignFailed;
+            return assignStatus;
         }
     }
 

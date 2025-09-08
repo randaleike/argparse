@@ -105,7 +105,8 @@ TEST(cmd_line_parse, parseTestKeyAssignMissing)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getMissingAssignmentMessage("-i")).WillOnce(Return("mock \"-i\" missing assignment value"));
+    EXPECT_CALL(*stringMock, getMissingAssignmentMessage(::testing::StrEq("-i")))
+        .WillOnce(Return("mock \"-i\" missing assignment value"));
 
     StrictMock<argparser::mock_varg_intf> testkeyvarg;
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
@@ -128,12 +129,19 @@ TEST(cmd_line_parse, parseTestKeyAssignFail)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "foo"))
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq("-i"),
+                                                              ::testing::StrEq("foo"),
+                                                              ::testing::StrEq("integer"),
+                                                              ::testing::StrEq("<0:10>")))
         .WillOnce(Return("mock \"-i\", \"foo\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testkeyvarg;
     EXPECT_CALL(testkeyvarg, setValue(::testing::StrEq("foo")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+    EXPECT_CALL(testkeyvarg, getRangeString())
+        .WillOnce(Return("<0:10>"));
+    EXPECT_CALL(testkeyvarg, getTypeString())
+        .WillOnce(Return("integer"));
 
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -156,12 +164,16 @@ TEST(cmd_line_parse, parseTestKeyRangeFail)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "1"))
+    EXPECT_CALL(*stringMock, getOutOfRangeAssignmentMessage(::testing::StrEq("-i"),
+                                                            ::testing::StrEq("1"),
+                                                            ::testing::StrEq("<0:10>")))
         .WillOnce(Return("mock \"-i\", \"1\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testkeyvarg;
     EXPECT_CALL(testkeyvarg, setValue(::testing::StrEq("1")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e));
+    EXPECT_CALL(testkeyvarg, getRangeString())
+        .WillOnce(Return("<0:10>"));
 
     testvar.addKeyArgument(&testkeyvarg, "tstint", "-i,--val", "This is the test key argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -184,7 +196,7 @@ TEST(cmd_line_parse, parseTestKeyNullPtrFail)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "1"))
+    EXPECT_CALL(*stringMock, getStorageNullptrMessage(::testing::StrEq("-i")))
         .WillOnce(Return("mock \"-i\", \"1\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testkeyvarg;
@@ -249,12 +261,19 @@ TEST(cmd_line_parse, parsePositionalFailed)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("postst", "goo"))
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq("postst"),
+                                                              ::testing::StrEq("goo"),
+                                                              ::testing::StrEq("string"),
+                                                              ::testing::StrEq("<1:2>")))
         .WillOnce(Return("mock \"postst\", \"goo\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testposvarg;
     EXPECT_CALL(testposvarg, setValue(::testing::StrEq("goo")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+    EXPECT_CALL(testposvarg, getRangeString())
+        .WillOnce(Return("<1:2>"));
+    EXPECT_CALL(testposvarg, getTypeString())
+        .WillOnce(Return("string"));
 
     testvar.addPositionalArgument(&testposvarg, "postst", "This is a positional argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -277,12 +296,16 @@ TEST(cmd_line_parse, parsePositionalRangeFailed)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("postst", "3"))
+    EXPECT_CALL(*stringMock, getOutOfRangeAssignmentMessage(::testing::StrEq("postst"),
+                                                            ::testing::StrEq("3"),
+                                                            ::testing::StrEq("<1:5>")))
         .WillOnce(Return("mock \"postst\", \"3\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testposvarg;
     EXPECT_CALL(testposvarg, setValue(::testing::StrEq("3")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e));
+    EXPECT_CALL(testposvarg, getRangeString())
+        .WillOnce(Return("<1:5>"));
 
     testvar.addPositionalArgument(&testposvarg, "postst", "This is a positional argument", 1);
     testvar.disableHelpDisplayOnError();
@@ -305,7 +328,7 @@ TEST(cmd_line_parse, parsePositionalNullPtrFailed)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("postst", "3"))
+    EXPECT_CALL(*stringMock, getStorageNullptrMessage(::testing::StrEq("postst")))
         .WillOnce(Return("mock \"postst\", \"3\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testposvarg;
@@ -672,9 +695,6 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1LongSwitchTermination)
 TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailAssignment)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
-    stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "foo"))
-        .WillOnce(Return("mock \"-i\", \"foo\" assignment failed"));    //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testlistvarg;
     EXPECT_CALL(testlistvarg, isList()).WillOnce(Return(true));
@@ -682,10 +702,21 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailAssignment)
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("foo")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e));
+    EXPECT_CALL(testlistvarg, getTypeString())
+        .WillOnce(Return("uinteger"));
+    EXPECT_CALL(testlistvarg, getRangeString())
+        .WillOnce(Return("<0:200>"));
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     EXPECT_CALL(testflgvarg, setValue())
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
+
+    stringMockptr stringMock = getStringsMock(&testvar);
+    EXPECT_CALL(*stringMock, getInvalidValueAssignmentMessage(::testing::StrEq("-i"),
+                                                              ::testing::StrEq("foo"),
+                                                              ::testing::StrEq("uinteger"),
+                                                              ::testing::StrEq("<0:200>")))
+        .WillOnce(Return("mock \"-i\", \"foo\" assignment failed"));    //NOLINT
 
     testvar.addKeyArgument(&testlistvarg, "tstint", "-i,--val", "This is the test key argument", -1);
     testvar.addFlagArgument(&testflgvarg, "tstflg", "-f,--flag", "This is the test flag argument");
@@ -710,7 +741,7 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailNullPtrAssignment)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "81"))
+    EXPECT_CALL(*stringMock, getStorageNullptrMessage(::testing::StrEq("-i")))
         .WillOnce(Return("mock \"-i\", \"81\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testlistvarg;
@@ -745,7 +776,9 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailRangeAssignment)
 {
     argparser::cmd_line_parse testvar("testprog [options]", "Description of the test program");
     stringMockptr stringMock = getStringsMock(&testvar);
-    EXPECT_CALL(*stringMock, getAssignmentFailedMessage("-i", "10"))
+    EXPECT_CALL(*stringMock, getOutOfRangeAssignmentMessage(::testing::StrEq("-i"),
+                                                            ::testing::StrEq("10"),
+                                                            ::testing::StrEq("<0:5>")))
         .WillOnce(Return("mock \"-i\", \"10\" assignment failed")); //NOLINT
 
     StrictMock<argparser::mock_varg_intf> testlistvarg;
@@ -754,6 +787,8 @@ TEST(cmd_line_parse, parseTestAddDynamicListNargNeg1FailRangeAssignment)
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_SUCCESS_e));
     EXPECT_CALL(testlistvarg, setValue(::testing::StrEq("10")))
         .WillOnce(Return(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e));
+    EXPECT_CALL(testlistvarg, getRangeString())
+        .WillOnce(Return("<0:5>"));
 
     StrictMock<argparser::mock_varg_intf> testflgvarg;
     EXPECT_CALL(testflgvarg, setValue())

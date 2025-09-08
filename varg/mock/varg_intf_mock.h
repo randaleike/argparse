@@ -71,6 +71,10 @@ class mock_varg_intf : public varg_intf
         MOCK_METHOD(valueParseStatus_e, getSignedValue, (const char* newValue, long long int &parsedValue), (const));
         MOCK_METHOD(valueParseStatus_e, getUnsignedValue, (const char* newValue, long long unsigned &parsedValue), (const));
         MOCK_METHOD(valueParseStatus_e, getDoubleValue, (const char* newValue, double& parsedValue), (const));
+
+        MOCK_METHOD(const char*, getTypeString, (), (const));
+        MOCK_METHOD(const char*, getRangeString, (), (const));
+
 };
 
 }; // end of namespace argparser

@@ -238,34 +238,9 @@ bool cmd_line_parse::assignKeyValue(ArgEntry& currentArg, const char* keyString,
         std::cout << "Assignment string count: " << assignmentValues.size() << std::endl;
     }
 
-    parserstr failedValue;
+    parserstr failedValue = keyString;
     eAssignmentReturn status = parser_base::assignListKeyValue(currentArg, assignmentValues, failedValue);
-    switch(status)
-    {
-        case eAssignSuccess:
-            return false;  // return success
-
-        case eAssignTooMany:
-            // Not enough values to meet the minimum required
-            std::cerr << msgGeneration->getTooManyAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
-            return true;
-
-        case eAssignNoValue:
-            // Need at least one value
-            std::cerr << msgGeneration->getMissingAssignmentMessage(keyString) << std::endl;
-            return true;
-
-        case eAssignTooFew:
-            // More values than required
-            std::cerr << msgGeneration->getMissingListAssignmentMessage(keyString, requiredValueCount, valueCount) << std::endl;
-            return true;
-
-        case eAssignFailed:
-        default:
-            // Failed an assignment
-            std::cerr << msgGeneration->getAssignmentFailedMessage(keyString, failedValue) << std::endl;
-            return true;
-    }
+    return (status != eAssignSuccess);
 }
 
 /**

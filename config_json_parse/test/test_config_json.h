@@ -28,7 +28,7 @@
 
  #pragma once
 
- const char* testFileName = "/home/randy/github/argparse_splitvar/build/test-config.json";  // NOLINT
+ const char* testFileName = "/home/randy/github/argparse_working/build/test-config.json";  // NOLINT
 
  /** @} */
 

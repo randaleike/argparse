@@ -2,6 +2,7 @@
   "baseClassName": "ParserStringListInterface",
   "namespace": "argparser",
   "dynamicCompileSwitch": "DYNAMIC_INTERNATIONALIZATION",
+  "baseSelectionFunction": "getLocalParserStringListInterface",
   "propertyMethods": {
     "getLangIsoCode": {
       "name": "isoCode",
@@ -349,6 +350,364 @@
           [
             "text",
             "\u201d\u8d4b\u503c\u5931\u8d25"
+          ]
+        ]
+      }
+    },
+    "getInvalidValueAssignmentMessage": {
+      "briefDesc": "Return varg invalid input error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "typeMod": 0
+        },
+        {
+          "name": "valueString",
+          "type": "string",
+          "desc": "Assignment value",
+          "typeMod": 0
+        },
+        {
+          "name": "vargType",
+          "type": "const char",
+          "desc": "Expected value type",
+          "typeMod": 2
+        },
+        {
+          "name": "vargRange",
+          "type": "const char",
+          "desc": "Expected value range",
+          "typeMod": 2
+        }
+      ],
+      "return": {
+        "type": "string",
+        "desc": "Varg key invalid assignment error message",
+        "typeMod": 0
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " invalid input. Expected: "
+          ],
+          [
+            "param",
+            "vargType"
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "param",
+            "vargRange"
+          ]
+        ],
+        "es": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " entrada no v\u00e1lida. Se esperaban: "
+          ],
+          [
+            "param",
+            "vargType"
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "param",
+            "vargRange"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "Entr\u00e9es non valides\u00a0: \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb, \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb. Valeurs attendues\u00a0: "
+          ],
+          [
+            "param",
+            "vargType"
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "param",
+            "vargRange"
+          ],
+          [
+            "text",
+            "."
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u3001\u201c"
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "text",
+            "\u201d\u8f93\u5165\u65e0\u6548\u3002\u9884\u671f\uff1a"
+          ],
+          [
+            "param",
+            "vargType"
+          ],
+          [
+            "text",
+            "\u3001"
+          ],
+          [
+            "param",
+            "vargRange"
+          ]
+        ]
+      }
+    },
+    "getOutOfRangeAssignmentMessage": {
+      "briefDesc": "Return varg out of range error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "typeMod": 0
+        },
+        {
+          "name": "valueString",
+          "type": "string",
+          "desc": "Assignment value",
+          "typeMod": 0
+        },
+        {
+          "name": "vargRange",
+          "type": "const char",
+          "desc": "Expected value range",
+          "typeMod": 2
+        }
+      ],
+      "return": {
+        "type": "string",
+        "desc": "Varg key invalid assignment error message",
+        "typeMod": 0
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " out of range. Valid range: "
+          ],
+          [
+            "param",
+            "vargRange"
+          ]
+        ],
+        "es": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            ", "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " fuera de rango. Rango v\u00e1lido: "
+          ],
+          [
+            "param",
+            "vargRange"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "\u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb, \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb hors limites. Plage valide\u00a0: "
+          ],
+          [
+            "param",
+            "vargRange"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u3001\u201c"
+          ],
+          [
+            "param",
+            "valueString"
+          ],
+          [
+            "text",
+            "\u201d\u8d85\u51fa\u8303\u56f4\u3002\u6709\u6548\u8303\u56f4\uff1a"
+          ],
+          [
+            "param",
+            "vargRange"
           ]
         ]
       }
@@ -841,6 +1200,92 @@
         ]
       }
     },
+    "getStorageNullptrMessage": {
+      "briefDesc": "Return varg pointer not assigned error message",
+      "params": [
+        {
+          "name": "keyString",
+          "type": "string",
+          "desc": "Error key",
+          "typeMod": 0
+        }
+      ],
+      "return": {
+        "type": "string",
+        "desc": "Varg value pointer null error message",
+        "typeMod": 0
+      },
+      "translateDesc": {
+        "en": [
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " variable storage is NULL"
+          ]
+        ],
+        "es": [
+          [
+            "text",
+            "El almacenamiento de la variable "
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "special",
+            "\""
+          ],
+          [
+            "text",
+            " es NULL"
+          ]
+        ],
+        "fr": [
+          [
+            "text",
+            "La variable de stockage \u00ab\u00a0"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u00a0\u00bb est NULL"
+          ]
+        ],
+        "zh": [
+          [
+            "text",
+            "\u201c"
+          ],
+          [
+            "param",
+            "keyString"
+          ],
+          [
+            "text",
+            "\u201d\u53d8\u91cf\u5b58\u50a8\u4e3aNULL"
+          ]
+        ]
+      }
+    },
     "getArgumentCreationError": {
       "briefDesc": "Return parser add varg failure error message",
       "params": [
@@ -1284,5 +1729,55 @@
         ]
       }
     }
+  },
+  "extraMock": [
+    "#if defined(CONSTRUCTOR_GET_HELP_STRING)\n",
+    "    //Parent object constructor will call getHelpString, so setup the expected call\n",
+    "    //before returning the pointer\n",
+    "    stringMockptr stringMock = reinterpret_cast<stringMockptr> (retPtr.get());   // NOLINT\n",
+    "    EXPECT_CALL(*stringMock, getHelpString()).WillOnce(Return(\"mock getHelpString\"));\n",
+    "#endif //defined(CONSTRUCTOR_GET_HELP_STRING)\n"
+  ],
+  "testParamValues": {
+    "nargs": [
+      "3",
+      false
+    ],
+    "keyString": [
+      "--myKey",
+      true
+    ],
+    "valueString": [
+      "23",
+      true
+    ],
+    "vargRange": [
+      "<-100:100>",
+      true
+    ],
+    "vargType": [
+      "integer",
+      true
+    ],
+    "nargsExpected": [
+      "2",
+      false
+    ],
+    "nargsFound": [
+      "1",
+      false
+    ],
+    "envKeyString": [
+      "MY_ENV_KEY",
+      true
+    ],
+    "jsonKeyString": [
+      "jsonkey:",
+      true
+    ],
+    "xmlKeyString": [
+      "<xmlkey>",
+      true
+    ]
   }
 }
