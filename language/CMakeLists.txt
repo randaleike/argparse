@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # ParserStringListInterface include directories
 ####
 set (ParserStringListInterfaceInclude
-     ${CMAKE_CURRENT_LIST_DIR}//home/randy/github/argparse_working/language/inc
+     ${CMAKE_CURRENT_LIST_DIR}/inc
     )
 
 ####
@@ -50,7 +50,7 @@ endif()
 gtest_add_tests (TARGET ParserStringListInterfaceEnglish_test TEST_LIST ParserStringListInterfaceEnglish_testAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(ParserStringListInterfaceEnglish_testAllTests PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${ParserStringListInterfaceEnglish_testAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 
 ####
@@ -68,7 +68,7 @@ endif()
 gtest_add_tests (TARGET ParserStringListInterfaceSpanish_test TEST_LIST ParserStringListInterfaceSpanish_testAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(ParserStringListInterfaceSpanish_testAllTests PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${ParserStringListInterfaceSpanish_testAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 
 ####
@@ -86,7 +86,7 @@ endif()
 gtest_add_tests (TARGET ParserStringListInterfaceFrench_test TEST_LIST ParserStringListInterfaceFrench_testAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(ParserStringListInterfaceFrench_testAllTests PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${ParserStringListInterfaceFrench_testAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 
 ####
@@ -104,7 +104,7 @@ endif()
 gtest_add_tests (TARGET ParserStringListInterfaceSimplifiedchinese_test TEST_LIST ParserStringListInterfaceSimplifiedchinese_testAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(ParserStringListInterfaceSimplifiedchinese_testAllTests PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${ParserStringListInterfaceSimplifiedchinese_testAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 
 ####
@@ -122,7 +122,7 @@ endif()
 gtest_add_tests (TARGET LocalLanguageSelect_Linux TEST_LIST LocalLanguageSelect_LinuxAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(LocalLanguageSelect_LinuxAllTests PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${LocalLanguageSelect_LinuxAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 
 ####
@@ -140,7 +140,7 @@ endif()
 gtest_add_tests (TARGET LocalLanguageSelect_Windows TEST_LIST LocalLanguageSelect_WindowsAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(LocalLanguageSelect_WindowsAllTests PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${LocalLanguageSelect_WindowsAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 
 ####
@@ -158,6 +158,6 @@ endif()
 gtest_add_tests (TARGET ParserStringListInterface_test TEST_LIST ParserStringListInterface_testAllTests)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    set_tests_properties(ParserStringListInterface_testAllTests PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    set_tests_properties(${ParserStringListInterface_testAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()
 

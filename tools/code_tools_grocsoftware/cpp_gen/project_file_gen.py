@@ -99,6 +99,8 @@ class ProjectFileGenerator():
         @note If language_name is None, then the file is a base file
         @note If language_name is not None, then the file is a language specific file
         """
+        file_name = file_name.replace("\\","/")
+        
         if language_name is None:
             language_name = 'base'
 
@@ -114,7 +116,7 @@ class ProjectFileGenerator():
         @param file_name {str} Subdirectory/File name sof the select unittest
         @param target_name {str} Target name for the unittest
         """
-        self.select_files.append((file_name, target_name))
+        self.select_files.append((file_name, target_name.replace("\\", "/")))
 
     def get_select_unittest_set_names(self):
         """!
@@ -250,8 +252,10 @@ class ProjectFileGenerator():
         """
         return_val = True
 
-        incname = os.path.join(self.project_data.get_inc_subdir(),
+        incname = os.path.join(base_dir, 
+                               self.project_data.get_inc_subdir(),
                                self.class_gen.gen_h_fname(lang))
+        incname.replace("\\","/")
         baseinc = self.open_file(base_dir, incname)
         if baseinc is not None:
             self._add_file('include', incname, lang)
@@ -261,6 +265,7 @@ class ProjectFileGenerator():
 
         srcname = os.path.join(self.project_data.get_src_subdir(),
                                self.class_gen.gen_cpp_fname(lang))
+        srcname.replace("\\","/")
         basesrc = self.open_file(base_dir, srcname)
         if basesrc is not None:
             self._add_file('source', srcname, lang)
@@ -273,6 +278,7 @@ class ProjectFileGenerator():
 
         tstname = os.path.join(self.project_data.get_test_subdir(),
                                self.class_gen.gen_unittest_fname(lang))
+        tstname.replace("\\","/")
         utsrc = self.open_file(base_dir, tstname)
         if utsrc is not None:
             self._add_file('unittest', tstname, lang)
@@ -294,6 +300,7 @@ class ProjectFileGenerator():
         return_val = True
         mockhname = os.path.join(self.project_data.get_mock_subdir(),
                                  self.class_gen.gen_mock_h_fname())
+        mockhname.replace("\\","/")
         mock_h = self.open_file(base_dir, mockhname)
         if mock_h is not None:
             self._add_file('mockInclude', mockhname)
@@ -303,6 +310,7 @@ class ProjectFileGenerator():
 
         mocksrcname = os.path.join(self.project_data.get_mock_subdir(),
                                    self.class_gen.gen_mock_cpp_fname())
+        mocksrcname.replace("\\","/")
         mock_cpp = self.open_file(base_dir, mocksrcname)
         if mock_cpp is not None:
             self._add_file('mockSource', mocksrcname)
@@ -322,6 +330,7 @@ class ProjectFileGenerator():
         for os_sel in self.class_gen.get_os_lang_sel_list():
             fname, target_name = os_sel.get_unittest_file_name()
             selname = os.path.join(self.project_data.get_test_subdir(), fname)
+            selname = selname.replace("\\","/")
             select_ut = self.open_file(base_dir, selname)
             if select_ut is not None:
                 self._add_select_file(selname, target_name)
@@ -337,8 +346,7 @@ class ProjectFileGenerator():
         @return bool - True if all files were created else False
         """
         return_val = True
-        incdir = os.path.join(base_dir, self.project_data.get_inc_subdir())
-        self.add_include_dir(incdir)
+        self.add_include_dir(self.project_data.get_inc_subdir())
 
         # Generate the base files
         return_val &= self.generate_lang_files(base_dir)

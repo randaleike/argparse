@@ -115,7 +115,7 @@ def command_main():
     args = parser.parse_args()
 
     # Open the data files
-    data_file = os.path.abspath(args.json_proj_name)
+    data_file = args.json_proj_name
     proj_json_data = ProjectDescription(data_file)
 
     # Process the subcommand

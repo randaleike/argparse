@@ -1,8 +1,8 @@
 {
   "eula_name": "MIT_open",
   "custom_text": [],
-  "langDataFile": "/home/randy/github/argparse_working/language/data/argparse_language_list.json",
-  "stringDataFile": "/home/randy/github/argparse_working/language/data/argparse_strings.json",
+  "langDataFile": "../language/data/argparse_language_list.json",
+  "stringDataFile": "../language/data/argparse_strings.json",
   "inc_subdir": "inc",
   "src_subdir": "src",
   "test_subdir": "test",
