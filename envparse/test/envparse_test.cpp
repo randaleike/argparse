@@ -31,7 +31,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "envparse.h"
-#include "varg_intf_mock.h"
+#include "mock_varg_intf.h"
 #include "mock_ParserStringListInterface.h"
 
 #if ((_WIN32) || (_WIN64))

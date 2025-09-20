@@ -99,25 +99,6 @@ template <typename T> class vargenum : public varg_intf
         const char* getTypeString() override           {return ((enumName.empty()) ? "enum value" : enumName.c_str());}
 
         /**
-        * @brief Get the base argument range as a string
-        *
-        * @return const char* - Base type string
-        */
-        const char* getRangeString() override
-        {
-            if (rangeString.empty())
-            {
-                rangeString = "<>";
-            }
-            else if (rangeString.back() == '|')
-            {
-                rangeString.pop_back();
-                rangeString = "<" + rangeString + ">";
-            }
-            return rangeString.c_str();
-        }
-
-        /**
          * @brief Return if vargenum is a list of elements or a single element type
          *
          * @return true - List type variable, multiple arguement values are allowed
@@ -173,7 +154,18 @@ template <typename T> class vargenum : public varg_intf
         {
             std::string entryNameStr = entryName;
             enumNameMap.emplace(entryNameStr, enumValue);
-            rangeString.append(entryNameStr + "|");
+
+            std::string range;
+            std::string prepend = "<";
+            for (auto const & [key, enumval] : enumNameMap)
+            {
+                range.append(prepend);
+                range.append(key);
+                prepend = "|";
+            }
+
+            range.append(">");
+            varg_intf::setRangeString(range);
         }
 
         /**

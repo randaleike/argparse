@@ -113,4 +113,26 @@ TEST(varg_string, MinMaxLengthTest)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_OUT_OF_RANGE_e, testvar.setValue("value test really over limit"));
 }
 
+TEST(varg_string, RegexTest)
+{
+    argparser::vargstring testvar("", 0, 20);   // NOLINT
+    testvar.setRegex("^[a-zA-Z]+$"); // Include only letters, exclude anything else
+
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("value1"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("value test1"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("value_test"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("valuetest"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_SUCCESS_e, testvar.setValue("ValueTest"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("Value Test"));
+    EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue("Value.Test"));
+}
+
+TEST(varg_string, RegexTestRange)
+{
+    argparser::vargstring testvar("", 0, 20);   // NOLINT
+    testvar.setRegex("^[a-zA-Z]+$"); // Include only letters, exclude anything else
+
+    EXPECT_STREQ(testvar.getRangeString(), "Valid expression: ^[a-zA-Z]+$");
+}
+
 /** @} */

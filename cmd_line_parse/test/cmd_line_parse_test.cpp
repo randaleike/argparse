@@ -30,7 +30,7 @@
 #include <cstddef>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "varg_intf_mock.h"
+#include "mock_varg_intf.h"
 #include "cmd_line_parse_test.h"
 
 //======================================================================================

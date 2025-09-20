@@ -29,7 +29,7 @@
 // Includes
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "varg_intf_mock.h"
+#include "mock_varg_intf.h"
 #include "parser_string_list.h"
 #include "config_xml_parse.h"
 #include "test_config_xml.h"

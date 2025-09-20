@@ -6,21 +6,9 @@
     "configurations": [
         {
             //========================================================
-            // Python tools debug launch
-            //========================================================
-            "name": "Python Debugger: Current File with Arguments",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "args": "${command:pickArgs}",
-            "cwd": "${workspaceFolder}/tools",
-        },
-        {
-            //========================================================
             // Unittest debug launch
             //========================================================
-            "name": "varg_test unittest (gdb) Launch",
+            "name": "varg unittest (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/varg_test",
@@ -44,7 +32,7 @@
             ]
         },
         {
-            "name": "parser_base_test unittest (gdb) Launch",
+            "name": "parser_base unittest (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/parser_base_test",
@@ -68,7 +56,7 @@
             ]
         },
         {
-            "name": "cmd_line_parse_test unittest (gdb) Launch",
+            "name": "cmd_line_parse unittest (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/cmd_line_parse_test",
@@ -92,7 +80,55 @@
             ]
         },
         {
-            "name": "envparse_test unittest (gdb) Launch",
+            "name": "cmd_line_parse_constructor1 unittest (gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/cmd_line_parse_constructor1_test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "cmd_line_parse_constructor2 unittest (gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/cmd_line_parse_constructor2_test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "envparse unittest (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/envparse_test",
@@ -164,7 +200,7 @@
             ]
         },
         {
-            "name": "samples-unittest unittest (gdb) Launch",
+            "name": "samples unittest (gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/samples-unittest",
@@ -1201,6 +1237,18 @@
                     "ignoreFailures": true
                 }
             ]
-        }
-    ]
+        },
+        {
+            //========================================================
+            // Python tools debug launch
+            //========================================================
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "${command:pickArgs}",
+            "cwd": "${workspaceFolder}/tools",
+        },
+   ]
 }

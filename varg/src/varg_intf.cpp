@@ -323,6 +323,16 @@ void varg_intf::setTypeString(typeStringFormat_e fmtType)
     rangeString = myRange.str();
 }
 
+/**
+ * @brief Set the return range string
+ *
+ * @param range - Range string to use
+ */
+void varg_intf::setRangeString(std::string range)
+{
+    rangeString = range;
+}
+
 //============================================================================================================================
 //============================================================================================================================
 //  Constructor/Destructor functions

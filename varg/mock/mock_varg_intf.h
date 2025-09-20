@@ -21,7 +21,7 @@
 */
 
 /**
- * @file varg_intf_mock.h
+ * @file mock_varg_intf.h
  * @defgroup libvarg Argument value storage gtest mock implementation
  * @{
  */

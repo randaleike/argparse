@@ -44,6 +44,8 @@ class vargstring : public varg_intf
     private:
         size_t          maxStringLength;    ///< Maximum number of characters to assign
         size_t          minStringLength;    ///< Minimum number of characters to assign
+        std::string     includeRegex;       ///< Regex string for inclusion matching
+
     public:
         // NOLINTNEXTLINE
         std::string     value;              ///< Current assigned value
@@ -130,6 +132,12 @@ class vargstring : public varg_intf
         * @return true - Base variable is never empty
         */
         bool isEmpty() override                 {return false;}
+
+        /**
+        * @brief Set the inclusion and exclusion regex strings
+        * @param incStr - Regex inclusion string to be matched
+        */
+        void setRegex(std::string incStr="");
 
 }; // end of class vargstring definition
 

@@ -1,5 +1,7 @@
 {
     "pylint.args": [
+        "--init_hook",
+        "import sys; sys.path.append('./tools/code_tools_grocsoftware')",
         "--max-statements=74",
         "--max-branches=25",
         "--max-public-methods=60",
@@ -9,8 +11,14 @@
         "--max-args=12",
         "--max-line-length=120"
     ],
-    "python.analysis.typeCheckingMode": "basic",
-    "editor.suggest.showStatusBar": false,
+    "python.analysis.typeCheckingMode": "off",
+    "python.analysis.include": [
+        "**/tools/code_tools_grocsoftware/base/**",
+        "**/tools/code_tools_grocsoftware/cpp_gen/**"
+    ],
+    "python.analysis.extraPaths": [
+        "./tools/code_tools_grocsoftware"
+    ],
     "cmake.showSystemKits": true,
     "C_Cpp.default.compilerPath": "/usr/bin/clang++-18",
 
