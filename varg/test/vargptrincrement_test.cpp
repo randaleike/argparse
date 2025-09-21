@@ -107,4 +107,10 @@ TEST(vargptr_increment, GetTypeString)
     EXPECT_STREQ("incrementing flag", testvar.getTypeString());
 }
 
+TEST(vargptr_increment, GetRangeString)
+{
+    int value = 0;
+    argparser::vargptrincrement testvar(&value);
+    EXPECT_STREQ("<[+]0:[+]2147483647>", testvar.getRangeString());
+}
 /** @} */

@@ -8,5 +8,5 @@ fi
 
 mkdir -p ./build/coverage
 
-cmake --build build --config Debug --target run-unittest
-gcovr --html-details ./build/coverage/coverage.html
+./run-unittest.sh build
+gcovr --html-details ./build/coverage/coverage.html -e 'build/_deps/*' --gcov-exclude 'mock_*.*' -r ./

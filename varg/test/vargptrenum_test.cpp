@@ -128,4 +128,14 @@ TEST(vargptr_enum, SetValueNoParmTest)
     EXPECT_EQ(argparser::valueParseStatus_e::PARSE_INVALID_INPUT_e, testvar.setValue());
 }
 
+TEST(vargptr_enum, GetRangeString)
+{
+    argparser::vargptrenum testvar(nullptr, "test_enum_e");
+    testvar.setEnumValue("default", test_enum_e::defaultValue_e);
+    testvar.setEnumValue("first", test_enum_e::firstVal_e);
+    testvar.setEnumValue("second", test_enum_e::secondVal_e);
+    testvar.setEnumValue("third", test_enum_e::thirdVal_e);
+    EXPECT_STREQ("<default|first|second|third>", testvar.getRangeString());
+}
+
 /** @} */

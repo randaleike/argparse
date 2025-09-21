@@ -60,6 +60,12 @@ set (cmd_line_parseUnitTestSrc
     ${CMAKE_CURRENT_LIST_DIR}/test/cmd_line_parse_unittest.cpp
     )
 
+set (cmd_line_parseConsUnitTestSrc
+    ${parserBaseSrc}
+    ${cmd_line_baseSrc}
+    test/cmd_line_parser_constructor_test.cpp
+    )
+
 set (cmd_line_parseUnittestIncude
     ${cmd_line_includes}
     ${MASTER_PROJECT_BASE_DIR}/varg/mock
@@ -86,7 +92,7 @@ if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]eb
     target_link_options(${PROJECT_NAME}_test PRIVATE --coverage)
 endif()
 
-add_executable(${PROJECT_NAME}_constructor1_test  ${parserBaseSrc} ${cmd_line_baseSrc} ${cmd_line_parseMockSrc} test/cmd_line_parser_constructor_test.cpp)
+add_executable(${PROJECT_NAME}_constructor1_test  ${cmd_line_parseConsUnitTestSrc} ${cmd_line_parseMockSrc})
 target_include_directories(${PROJECT_NAME}_constructor1_test PRIVATE ${cmd_line_parseUnittestIncude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_constructor1_test PUBLIC ${cmd_line_parseExternalLib} ${GTEST_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_constructor1_test PRIVATE -DGTEST_LINKED_AS_SHARED_LIBRARY=1)
@@ -96,7 +102,7 @@ if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") AND (CMAKE_BUILD_TYPE MATCHES "^[Dd]eb
     target_link_options(${PROJECT_NAME}_constructor1_test PRIVATE --coverage)
 endif()
 
-add_executable(${PROJECT_NAME}_constructor2_test  ${parserBaseSrc} ${cmd_line_baseSrc} ${cmd_line_parseMockSrc} test/cmd_line_parser_constructor_test.cpp)
+add_executable(${PROJECT_NAME}_constructor2_test  ${cmd_line_parseConsUnitTestSrc} ${cmd_line_parseMockSrc})
 target_include_directories(${PROJECT_NAME}_constructor2_test PRIVATE ${cmd_line_parseUnittestIncude} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME}_constructor2_test PUBLIC ${cmd_line_parseExternalLib} ${GTEST_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_constructor2_test PRIVATE -DGTEST_LINKED_AS_SHARED_LIBRARY=1)
@@ -113,5 +119,5 @@ gtest_add_tests(TARGET ${PROJECT_NAME}_constructor1_test TEST_LIST cmdLineParseC
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set_tests_properties(${cmdLineParseAllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
     set_tests_properties(${cmdLineParseCon1AllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
-    set_tests_properties(${cmdLineParseCon2AllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
+    #set_tests_properties(${cmdLineParseCon2AllTests} PROPERTIES ENVIRONMENT "PATH=$<SHELL_PATH:$<TARGET_FILE_DIR:gtest>>$<SEMICOLON>$ENV{PATH}")
 endif()

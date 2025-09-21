@@ -823,7 +823,7 @@ TEST(sample5, example6)
     std::string output = testing::internal::GetCapturedStderr();
     std::string terminaloutput = testing::internal::GetCapturedStdout();
 
-    std::string expectedStr = "\"subcommand\", \"copy\" invalid input. Expected: subcmd, <read|write|append>\n";
+    std::string expectedStr = "\"subcommand\", \"copy\" invalid input. Expected: subcmd, <append|read|write>\n";
 
     // help display
     expectedStr += "Usage:\n";

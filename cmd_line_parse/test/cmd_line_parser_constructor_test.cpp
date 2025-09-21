@@ -31,18 +31,18 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <parser_base.h>
-#include "varg_intf_mock.h"
+#include "mock_varg_intf.h"
 #include "cmd_line_parse_test.h"
+
+#if defined(CONSTRUCTOR_GET_HELP_STRING)
+const bool disableDefaultHelp = false;      // NOLINT
+#else //defined(CONSTRUCTOR_GET_HELP_STRING)
+const bool disableDefaultHelp = true;       // NOLINT
+#endif //defined(CONSTRUCTOR_GET_HELP_STRING)
 
 class cmd_line_parser_constructor : public ::testing::Test
 {
     protected:
-#if defined(CONSTRUCTOR_GET_HELP_STRING)
-        const bool disableDefaultHelp = false;      // NOLINT
-#else //defined(CONSTRUCTOR_GET_HELP_STRING)
-        const bool disableDefaultHelp = true;       // NOLINT
-#endif //defined(CONSTRUCTOR_GET_HELP_STRING)
-
         /**
          * @brief Test the constructed parser
          *
@@ -170,13 +170,15 @@ TEST_F(cmd_line_parser_constructor, MoveConstructor)
     EXPECT_TRUE(parser_test(copiedVar));
 }
 
+#if defined(CONSTRUCTOR_GET_HELP_STRING)
 TEST_F(cmd_line_parser_constructor, EquateConstructor)
 {
     parserstr useage("testprog [options]");
     parserstr desc("Description of the test program");
     argparser::cmd_line_parse testvar(useage, desc, false, disableDefaultHelp);
 
-    argparser::cmd_line_parse copiedVar = testvar;
+    argparser::cmd_line_parse copiedVar;
+    copiedVar = testvar;
     EXPECT_TRUE(parser_test(copiedVar));
 }
 
@@ -186,9 +188,11 @@ TEST_F(cmd_line_parser_constructor, EquateMoveConstructor)
     parserstr desc("Description of the test program");
     argparser::cmd_line_parse testvar(useage, desc, false, disableDefaultHelp);
 
-    argparser::cmd_line_parse copiedVar = std::move(testvar);
+    argparser::cmd_line_parse copiedVar;
+    copiedVar = std::move(testvar);
     EXPECT_TRUE(parser_test(copiedVar));
 }
+#endif //defined(CONSTRUCTOR_GET_HELP_STRING)
 
 int main(int argc, char **argv)
 {

@@ -78,11 +78,9 @@ class varg_intf
         double              maxDoubleValue;         ///< Minimum allowed floating point value
 
         std::string         typeString;             ///< Type description string with min/max values
-
-    protected:
-        // NOLINTNEXTLINE
         std::string         rangeString;            ///< Range description string with min/max values NOLINT
 
+    protected:
         /**
          * @brief Set the Min Max Signed object
          *
@@ -109,8 +107,15 @@ class varg_intf
 
         /**
          * @brief Construct a type string
+         * @param fmtType - Type of format to use for the type string
          */
         void setTypeString(typeStringFormat_e fmtType);
+
+        /**
+         * @brief Construct a range string
+         * @param range - Range string to use
+         */
+        void setRangeString(std::string range);
 
         /**
          * @brief Convert input string into boolean value and return the parsing

@@ -33,6 +33,7 @@
 #include <sstream>
 #include <utility>
 #include <cstring>
+#include <regex>
 #include "vargstring.h"
 
 using namespace argparser;
@@ -48,15 +49,38 @@ using namespace argparser;
 */
 valueParseStatus_e vargstring::setValue(const char* newValue)
 {
-    valueParseStatus_e status = valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
     size_t inputStrLen = strlen(newValue);
-
-    if ((inputStrLen >= minStringLength) && (inputStrLen <= maxStringLength))
+    // Check input string length against min/max limits
+    if ((inputStrLen < minStringLength) || (inputStrLen > maxStringLength))
     {
-        value = newValue;
-        status = valueParseStatus_e::PARSE_SUCCESS_e;
+        return valueParseStatus_e::PARSE_OUT_OF_RANGE_e;
     }
-    return status;
+    // Check regex if specified
+    if (!includeRegex.empty())
+    {
+        // Must match include regex
+        if (!std::regex_match(newValue, std::regex(includeRegex)))
+        {
+            return valueParseStatus_e::PARSE_INVALID_INPUT_e;
+        }
+    }
+
+    // All checks passed, assign the value
+    value = newValue;
+    return valueParseStatus_e::PARSE_SUCCESS_e;
+}
+
+/**
+ * @brief Set the inclusion and exclusion regex strings
+ *
+ * @param incStr - Regex inclusion string to be matched
+ * @param excStr - Regex exclusion string to be matched
+ */
+void vargstring::setRegex(std::string incStr)
+{
+    includeRegex = std::move(incStr);
+    std::string range = (includeRegex.empty() ? "<string>" : ("Valid expression: " + includeRegex));
+    varg_intf::setRangeString(range);
 }
 
 /** @} */

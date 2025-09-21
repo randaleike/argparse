@@ -813,7 +813,7 @@ class GenerateLangFiles(BaseCppStringClassGenerator):
                                                                        decl_indent,
                                                                        virtual_destructor,
                                                                        not skipdoxy,
-                                                                       False))
+                                                                       True))
 
         # Add the property unittest methods
         method_list = self.json_str_data.get_property_method_list()

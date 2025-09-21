@@ -30,7 +30,7 @@
 #include <cmath>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "varg_intf_mock.h"
+#include "mock_varg_intf.h"
 #include "varg_clib_shared.h"
 #include "parser_string_list.h"
 #include "parser_base.h"

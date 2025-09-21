@@ -33,7 +33,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "varg_intf.h"
-#include "varg_intf_mock.h"
+#include "mock_varg_intf.h"
 #include "parser_base.h"
 #include "parser_string_list.h"
 #include "mock_ParserStringListInterface.h"
@@ -104,7 +104,7 @@ class test_parser_base : public argparser::parser_base
 // Public Interface testing
 //======================================================================================
 
-TEST(TestParserBase,  ConstructorBasic)
+TEST(TestParserBase, ConstructorBasic)
 {
     test_parser_base testvar;
     EXPECT_TRUE(testvar.isKeyArgListEmpty());
@@ -118,7 +118,7 @@ TEST(TestParserBase,  ConstructorBasic)
     EXPECT_EQ(',', testvar.getAssignmentListDelimiter());
 }
 
-TEST(TestParserBase,  ConstructorInput)
+TEST(TestParserBase, ConstructorInput)
 {
     test_parser_base testvar(true, 4);
     EXPECT_TRUE(testvar.isKeyArgListEmpty());
@@ -132,35 +132,35 @@ TEST(TestParserBase,  ConstructorInput)
     EXPECT_EQ(',', testvar.getAssignmentListDelimiter());
 }
 
-TEST(TestParserBase,  setKeyListDelimiter)
+TEST(TestParserBase, setKeyListDelimiter)
 {
     test_parser_base testvar;
     testvar.setKeyListDelimiter(';');
     EXPECT_EQ(';', testvar.getKeyListDelimiter());
 }
 
-TEST(TestParserBase,  setAssignmentDelimiter)
+TEST(TestParserBase, setAssignmentDelimiter)
 {
     test_parser_base testvar;
     testvar.setAssignmentDelimiter('#');
     EXPECT_EQ('#', testvar.getAssignmentDelimiter());
 }
 
-TEST(TestParserBase,  setAssignmentListDelimiter)
+TEST(TestParserBase, setAssignmentListDelimiter)
 {
     test_parser_base testvar;
     testvar.setAssignmentListDelimiter(':');
     EXPECT_EQ(':', testvar.getAssignmentListDelimiter());
 }
 
-TEST(TestParserBase,  setDebugLevel)
+TEST(TestParserBase, setDebugLevel)
 {
     test_parser_base testvar;
     testvar.setDebugLevel(3);
     EXPECT_EQ(3, testvar.getDebugLevel());
 }
 
-TEST(TestParserBase,  addArgKeyListSingleNospaces)
+TEST(TestParserBase, addArgKeyListSingleNospaces)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -171,7 +171,7 @@ TEST(TestParserBase,  addArgKeyListSingleNospaces)
     EXPECT_STREQ("--foo", testArg.keyList.front().c_str());
 }
 
-TEST(TestParserBase,  addArgKeyListSingleSpaces)
+TEST(TestParserBase, addArgKeyListSingleSpaces)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -182,7 +182,7 @@ TEST(TestParserBase,  addArgKeyListSingleSpaces)
     EXPECT_STREQ("--foo", testArg.keyList.front().c_str());
 }
 
-TEST(TestParserBase,  addArgKeyListDouble)
+TEST(TestParserBase, addArgKeyListDouble)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -195,7 +195,7 @@ TEST(TestParserBase,  addArgKeyListDouble)
     EXPECT_STREQ("--moo", testArg.keyList.front().c_str());
 }
 
-TEST(TestParserBase,  addArgKeyListDoubleWithSpace)
+TEST(TestParserBase, addArgKeyListDoubleWithSpace)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -208,7 +208,7 @@ TEST(TestParserBase,  addArgKeyListDoubleWithSpace)
     EXPECT_STREQ("--moo", testArg.keyList.front().c_str());
 }
 
-TEST(TestParserBase,  addArgKeyListTriple)
+TEST(TestParserBase, addArgKeyListTriple)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -223,7 +223,7 @@ TEST(TestParserBase,  addArgKeyListTriple)
     EXPECT_STREQ("--goo", testArg.keyList.front().c_str());
 }
 
-TEST(TestParserBase,  addArgKeyListTripleNewDelimeter)
+TEST(TestParserBase, addArgKeyListTripleNewDelimeter)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -239,7 +239,7 @@ TEST(TestParserBase,  addArgKeyListTripleNewDelimeter)
     EXPECT_STREQ("--goo", testArg.keyList.front().c_str());
 }
 
-TEST(TestParserBase,  addArgKeyListTripleNewDelimeterAndSpace)
+TEST(TestParserBase, addArgKeyListTripleNewDelimeterAndSpace)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -256,7 +256,7 @@ TEST(TestParserBase,  addArgKeyListTripleNewDelimeterAndSpace)
 }
 
 
-TEST(TestParserBase,  addArgKeyListEntry)
+TEST(TestParserBase, addArgKeyListEntry)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -273,7 +273,7 @@ TEST(TestParserBase,  addArgKeyListEntry)
 }
 
 
-TEST(TestParserBase,  CopyConstructorTest)
+TEST(TestParserBase, CopyConstructorTest)
 {
     const size_t maxCols = 100;
     const size_t maxOpt = 50;
@@ -308,7 +308,7 @@ TEST(TestParserBase,  CopyConstructorTest)
     EXPECT_STREQ("foo", copiedParser.getKeyArgList().front().name.c_str());
 }
 
-TEST(TestParserBase,  MoveConstructor)
+TEST(TestParserBase, MoveConstructor)
 {
     const size_t maxCols = 90;
     const size_t maxOpt = 45;
@@ -343,7 +343,7 @@ TEST(TestParserBase,  MoveConstructor)
     EXPECT_STREQ("moo", copiedParser.getKeyArgList().front().name.c_str());
 }
 
-TEST(TestParserBase,  EquateConstructor)
+TEST(TestParserBase, EquateConstructor)
 {
     const size_t maxCols = 70;
     const size_t maxOpt = 35;
@@ -379,7 +379,7 @@ TEST(TestParserBase,  EquateConstructor)
     EXPECT_STREQ("goo", copiedParser.getKeyArgList().front().name.c_str());
 }
 
-TEST(TestParserBase,  MoveEquateConstructor)
+TEST(TestParserBase, MoveEquateConstructor)
 {
     const size_t maxCols = 110;
     const size_t maxOpt = 55;
@@ -415,7 +415,7 @@ TEST(TestParserBase,  MoveEquateConstructor)
     EXPECT_STREQ("roo", copiedParser.getKeyArgList().front().name.c_str());
 }
 
-TEST(TestParserBase,  getValueList)
+TEST(TestParserBase, getValueList)
 {
     test_parser_base testparser;
     parserstr valueTestString = "1,2,3";
@@ -429,7 +429,7 @@ TEST(TestParserBase,  getValueList)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(TestParserBase,  getValueListNewDelimeter)
+TEST(TestParserBase, getValueListNewDelimeter)
 {
     test_parser_base testparser;
     parserstr valueTestString = "1;2;3";
@@ -444,7 +444,7 @@ TEST(TestParserBase,  getValueListNewDelimeter)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(TestParserBase,  getValueListPreceedingAssignment)
+TEST(TestParserBase, getValueListPreceedingAssignment)
 {
     test_parser_base testparser;
     parserstr valueTestString = "=1,2,3";
@@ -458,7 +458,7 @@ TEST(TestParserBase,  getValueListPreceedingAssignment)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(TestParserBase,  getValueListPreceedingAssignmentDelim)
+TEST(TestParserBase, getValueListPreceedingAssignmentDelim)
 {
     test_parser_base testparser;
     parserstr valueTestString = ":1;2;3";
@@ -474,7 +474,7 @@ TEST(TestParserBase,  getValueListPreceedingAssignmentDelim)
     EXPECT_STREQ("3", returnList.front().c_str());
 }
 
-TEST(TestParserBase,  findMatchingArg)
+TEST(TestParserBase, findMatchingArg)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg1;
@@ -510,7 +510,7 @@ TEST(TestParserBase,  findMatchingArg)
     EXPECT_FALSE(found);
 }
 
-TEST(TestParserBase,  debugMessages)
+TEST(TestParserBase, debugMessages)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg1;
@@ -568,7 +568,7 @@ TEST(TestParserBase,  debugMessages)
 #endif // if(ENABLE_DEBUG_STRING_CHECK)
 }
 
-TEST(TestParserBase,  assignKeyFlagValue)
+TEST(TestParserBase, assignKeyFlagValue)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -583,7 +583,7 @@ TEST(TestParserBase,  assignKeyFlagValue)
     EXPECT_EQ(argparser::eAssignSuccess, testparser.assignKeyFlagValue(testArg));
 }
 
-TEST(TestParserBase,  assignKeyValueWithInput)
+TEST(TestParserBase, assignKeyValueWithInput)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -600,7 +600,7 @@ TEST(TestParserBase,  assignKeyValueWithInput)
     EXPECT_EQ(argparser::eAssignSuccess, testparser.assignKeyValue(testArg, inputStr, keyStr));
 }
 
-TEST(TestParserBase,  assignKeyValueBadInput)
+TEST(TestParserBase, assignKeyValueBadInput)
 {
     parserstr keyStr = "--goo";
     parserstr testkeys = keyStr+",-g";
@@ -648,7 +648,7 @@ TEST(TestParserBase,  assignKeyValueBadInput)
     EXPECT_STREQ(expected.c_str(), output.c_str());
 }
 
-TEST(TestParserBase,  assignKeyValueBadInputTooMany)
+TEST(TestParserBase, assignKeyValueBadInputTooMany)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -676,7 +676,7 @@ TEST(TestParserBase,  assignKeyValueBadInputTooMany)
     EXPECT_STREQ("mock too many value message\n", output.c_str());
 }
 
-TEST(TestParserBase,  assignKeyValueEmptyInputFail)
+TEST(TestParserBase, assignKeyValueEmptyInputFail)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -699,7 +699,35 @@ TEST(TestParserBase,  assignKeyValueEmptyInputFail)
     EXPECT_STREQ("mock no value error message\n", output.c_str());
 }
 
-TEST(TestParserBase,  assignListKeyValueWithInput)
+TEST(TestParserBase, assignKeyValueDefaultErrorPath)
+{
+    parserstr inputStr = "111";
+
+    test_parser_base testparser;
+    StrictMock<argparser::mock_varg_intf> testvarg;
+    EXPECT_CALL(testvarg, setValue(::testing::StrEq(inputStr.c_str())))
+        .WillOnce(Return(static_cast<argparser::valueParseStatus_e>(100))); // Invalid return to trigger default error NOLINT
+
+    parserstr keystr = "--goo";
+    parserstr testkeys = "--goo,-g";
+    argparser::ArgEntry testArg = {"goo", "goo input value", "", (&testvarg), 0, 0, true};
+    //testparser.setDebugLevel(5);
+
+    stringMockptr stringMock = getStringsMock(&testparser);
+    EXPECT_CALL(*stringMock, getAssignmentFailedMessage(::testing::StrEq(keystr.c_str()),
+                                                        ::testing::StrEq(inputStr.c_str())))
+        .WillOnce(Return("mock default error message"));
+
+    testparser.addArgKeyList(testArg, testkeys);
+
+    testing::internal::CaptureStderr();
+    EXPECT_EQ(argparser::eAssignFailed, testparser.assignKeyValue(testArg, inputStr, keystr));
+
+    std::string output = testing::internal::GetCapturedStderr();
+    EXPECT_STREQ("mock default error message\n", output.c_str());
+}
+
+TEST(TestParserBase, assignListKeyValueWithInput)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -722,7 +750,7 @@ TEST(TestParserBase,  assignListKeyValueWithInput)
     EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, keystr));
 }
 
-TEST(TestParserBase,  assignListKeyValueWithInputAnySize)
+TEST(TestParserBase, assignListKeyValueWithInputAnySize)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -745,7 +773,7 @@ TEST(TestParserBase,  assignListKeyValueWithInputAnySize)
     EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, keyStr));
 }
 
-TEST(TestParserBase,  assignListKeyValueTooMany)
+TEST(TestParserBase, assignListKeyValueTooMany)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -774,7 +802,7 @@ TEST(TestParserBase,  assignListKeyValueTooMany)
     EXPECT_STREQ("mock too many value message\n", output.c_str());
 }
 
-TEST(TestParserBase,  assignListKeyValueTooManyNegCnt)
+TEST(TestParserBase, assignListKeyValueTooManyNegCnt)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -802,7 +830,7 @@ TEST(TestParserBase,  assignListKeyValueTooManyNegCnt)
     EXPECT_STREQ("mock too many value message\n", output.c_str());
 }
 
-TEST(TestParserBase,  assignListKeyValueNegCnt)
+TEST(TestParserBase, assignListKeyValueNegCnt)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -825,7 +853,7 @@ TEST(TestParserBase,  assignListKeyValueNegCnt)
     EXPECT_EQ(argparser::eAssignSuccess, testparser.assignListKeyValue(testArg, returnList, keyStr));
 }
 
-TEST(TestParserBase,  assignListKeyValueTooFew)
+TEST(TestParserBase, assignListKeyValueTooFew)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -854,7 +882,7 @@ TEST(TestParserBase,  assignListKeyValueTooFew)
     EXPECT_STREQ("mock too few value message\n", output.c_str());
 }
 
-TEST(TestParserBase,  assignListKeyValueEmpty)
+TEST(TestParserBase, assignListKeyValueEmpty)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -878,7 +906,7 @@ TEST(TestParserBase,  assignListKeyValueEmpty)
     EXPECT_STREQ("mock missing value message\n", output.c_str());
 }
 
-TEST(TestParserBase,  assignListKeyValueBadInput)
+TEST(TestParserBase, assignListKeyValueBadInput)
 {
     test_parser_base testparser;
     StrictMock<argparser::mock_varg_intf> testvarg;
@@ -922,7 +950,7 @@ TEST(TestParserBase,  assignListKeyValueBadInput)
     EXPECT_STREQ("mock invalid value message\n", output.c_str());
 }
 
-TEST(TestParserBase,  displayArgHelpBlockNoWrap)
+TEST(TestParserBase, displayArgHelpBlockNoWrap)
 {
     test_parser_base testparser;
     testing::internal::CaptureStdout();
@@ -932,7 +960,7 @@ TEST(TestParserBase,  displayArgHelpBlockNoWrap)
     EXPECT_STREQ("--goo,-g             goo input value     \n", output.c_str());
 }
 
-TEST(TestParserBase,  displayArgHelpBlockHelpWrap)
+TEST(TestParserBase, displayArgHelpBlockHelpWrap)
 {
     test_parser_base testparser;
 
@@ -944,7 +972,7 @@ TEST(TestParserBase,  displayArgHelpBlockHelpWrap)
     EXPECT_STREQ("--foo,-f             foo input value with a longer \n                     help string                   \n", output.c_str());
 }
 
-TEST(TestParserBase,  displayArgHelpBlockArgWrap)
+TEST(TestParserBase, displayArgHelpBlockArgWrap)
 {
     test_parser_base testparser;
 
@@ -956,7 +984,7 @@ TEST(TestParserBase,  displayArgHelpBlockArgWrap)
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value          \n<--extralongkeyvalue>    \n", output.c_str());
 }
 
-TEST(TestParserBase,  displayArgHelpBlockBothWrap)
+TEST(TestParserBase, displayArgHelpBlockBothWrap)
 {
     test_parser_base testparser;
 
@@ -968,7 +996,7 @@ TEST(TestParserBase,  displayArgHelpBlockBothWrap)
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());
 }
 
-TEST(TestParserBase,  displayArgHelpBlockBothWrap1)
+TEST(TestParserBase, displayArgHelpBlockBothWrap1)
 {
     test_parser_base testparser;
 
@@ -980,7 +1008,7 @@ TEST(TestParserBase,  displayArgHelpBlockBothWrap1)
     EXPECT_STREQ("<--longkeyvalue>          Extra long key value with an  \n<--extralongkeyvalue>     extra long help text string   \n                          just to be sure               \n", output.c_str());
 }
 
-TEST(TestParserBase,  ParseErrorSetAbortTrue)
+TEST(TestParserBase, ParseErrorSetAbortTrue)
 {
     test_parser_base testparser(true, 0);
     EXPECT_TRUE(testparser.getAbortOnError());
@@ -1007,7 +1035,7 @@ TEST(TestParserBase,  ParseErrorSetAbortTrue)
     EXPECT_TRUE(testparser.isParserAbort());
 }
 
-TEST(TestParserBase,  ParseErrorSetAbortFalse)
+TEST(TestParserBase, ParseErrorSetAbortFalse)
 {
     test_parser_base testparser;
     EXPECT_FALSE(testparser.getAbortOnError());
@@ -1034,7 +1062,7 @@ TEST(TestParserBase,  ParseErrorSetAbortFalse)
     EXPECT_TRUE(testparser.isParserAbort());
 }
 
-TEST(TestParserBase,  ResizeFormatParams)
+TEST(TestParserBase, ResizeFormatParams)
 {
     const size_t testSize1 = 10;
     const size_t testSize2 = 20;

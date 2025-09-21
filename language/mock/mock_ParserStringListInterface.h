@@ -47,10 +47,10 @@ class mock_ParserStringListInterface : public ParserStringListInterface
 {
     public:
         mock_ParserStringListInterface() = default;
-        mock_ParserStringListInterface(const mock_ParserStringListInterface& other) = default;
-        mock_ParserStringListInterface(mock_ParserStringListInterface&& other) = default;
-        mock_ParserStringListInterface& operator=(const mock_ParserStringListInterface& other) = default;
-        mock_ParserStringListInterface& operator=(mock_ParserStringListInterface&& other) = default;
+        mock_ParserStringListInterface(const mock_ParserStringListInterface& other) = delete;
+        mock_ParserStringListInterface(mock_ParserStringListInterface&& other) = delete;
+        mock_ParserStringListInterface& operator=(const mock_ParserStringListInterface& other) = delete;
+        mock_ParserStringListInterface& operator=(mock_ParserStringListInterface&& other) = delete;
         virtual ~mock_ParserStringListInterface() = default;
 
         MOCK_METHOD(parserstr, getLangIsoCode, (), (const, final));
