@@ -40,7 +40,7 @@ enum subcommand_e
     subcmd_invalid,
     subcmd_read,
     subcmd_write,
-    subcms_append
+    subcmd_append
 };
 
 //============================================================================================================================
@@ -104,7 +104,7 @@ int main(int argc, char * argv[])
     // Add command line key names for the enum value
     subcommand.setEnumValue("read", subcommand_e::subcmd_read);
     subcommand.setEnumValue("write", subcommand_e::subcmd_write);
-    subcommand.setEnumValue("append", subcommand_e::subcms_append);
+    subcommand.setEnumValue("append", subcommand_e::subcmd_append);
 
     argparser::varg<unsigned>   linecount(0);   // Default = 0
     argparser::vargstring       filename("default.txt");   // Default = default.txt
@@ -139,7 +139,7 @@ int main(int argc, char * argv[])
             case subcommand_e::subcmd_write:
                 sub_command_write(linecount.value, filename.value);
                 break;
-            case subcommand_e::subcms_append:
+            case subcommand_e::subcmd_append:
                 sub_command_append(linecount.value, filename.value);
                 break;
         }
